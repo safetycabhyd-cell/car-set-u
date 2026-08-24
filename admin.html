@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Car Set U - Admin Panel</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f7fc;
+  color:#172033;
+  padding-bottom:30px;
+}
+
+button,input,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.header{
+  background:#17477f;
+  color:white;
+  padding:18px;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.header-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:800;
+}
+
+.logo span{
+  color:#ef4040;
+}
+
+.refresh{
+  border:0;
+  background:white;
+  color:#17477f;
+  padding:11px 15px;
+  border-radius:12px;
+  font-weight:bold;
+}
+
+.container{
+  width:min(100%,900px);
+  margin:auto;
+  padding:16px;
+}
+
+.card{
+  background:white;
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 5px 20px #0000000d;
+}
+
+.card h2{
+  margin-bottom:12px;
+  font-size:22px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.stat{
+  background:white;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 5px 20px #0000000d;
+}
+
+.stat-title{
+  color:#667085;
+  font-size:14px;
+  margin-bottom:8px;
+}
+
+.stat-number{
+  color:#1769df;
+  font-size:28px;
+  font-weight:800;
+}
+
+.tabs{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  background:white;
+  padding:8px;
+  border-radius:18px;
+  margin-bottom:16px;
+}
+
+.tab{
+  border:0;
+  background:#edf3f9;
+  padding:13px 6px;
+  border-radius:12px;
+  font-weight:bold;
+}
+
+.tab.active{
+  background:#17477f;
+  color:white;
+}
+
+.booking{
+  border:1px solid #e0e5ec;
+  border-radius:17px;
+  padding:16px;
+  margin-top:12px;
+}
+
+.booking-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.booking-id{
+  font-size:13px;
+  color:#667085;
+  word-break:break-all;
+}
+
+.status{
+  display:inline-block;
+  padding:7px 11px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:bold;
+  background:#fff4d6;
+  color:#946200;
+}
+
+.status.accepted{
+  background:#e5f1ff;
+  color:#1769df;
+}
+
+.status.completed{
+  background:#e7f8ed;
+  color:#16833e;
+}
+
+.status.cancelled{
+  background:#ffe8e8;
+  color:#c62828;
+}
+
+.info-row{
+  padding:7px 0;
+  line-height:1.4;
+}
+
+.info-row strong{
+  display:inline-block;
+  min-width:120px;
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:12px;
+}
+
+.btn{
+  border:0;
+  color:white;
+  padding:12px;
+  border-radius:11px;
+  font-weight:bold;
+}
+
+.blue{
+  background:#1769df;
+}
+
+.green{
+  background:#159447;
+}
+
+.orange{
+  background:#e88a00;
+}
+
+.red{
+  background:#df3535;
+}
+
+.gray{
+  background:#687386;
+}
+
+select,
+input{
+  width:100%;
+  padding:12px;
+  border:1px solid #d8dee7;
+  border-radius:11px;
+  background:white;
+}
+
+.empty{
+  text-align:center;
+  padding:30px 15px;
+  color:#667085;
+}
+
+.loading{
+  text-align:center;
+  padding:20px;
+  color:#1769df;
+  font-weight:bold;
+}
+
+.driver{
+  border:1px solid #e0e5ec;
+  border-radius:15px;
+  padding:15px;
+  margin-top:10px;
+}
+
+.driver-name{
+  font-size:19px;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+.driver-status{
+  color:#16833e;
+  font-weight:bold;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.note{
+  color:#667085;
+  line-height:1.5;
+  font-size:14px;
+}
+
+.hidden{
+  display:none!important;
+}
+
+@media(max-width:600px){
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .tabs{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .actions{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+  <div class="header-top">
+
+    <div class="logo">
+      🚘 CAR <span>SET U</span>
+      <div style="font-size:13px;font-weight:normal;margin-top:4px;">
+        Admin Panel • Hyderabad, Telangana
+      </div>
+    </div>
+
+    <button
+      class="refresh"
+      onclick="loadAll()">
+      🔄 Refresh
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="container">
+
+  <!-- DASHBOARD -->
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-title">🚕 Total Bookings</div>
+      <div id="totalBookings" class="stat-number">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">⏳ Pending</div>
+      <div id="pendingBookings" class="stat-number">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">👨‍✈️ Drivers</div>
+      <div id="totalDrivers" class="stat-number">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">🚘 Cars</div>
+      <div id="totalCars" class="stat-number">0</div>
+    </div>
+
+  </div>
+
+
+  <div class="tabs">
+
+    <button
+      id="tabBookings"
+      class="tab active"
+      onclick="showAdminSection('bookings')">
+      🚕 Bookings
+    </button>
+
+    <button
+      id="tabDrivers"
+      class="tab"
+      onclick="showAdminSection('drivers')">
+      👨‍✈️ Drivers
+    </button>
+
+    <button
+      id="tabCars"
+      class="tab"
+      onclick="showAdminSection('cars')">
+      🚘 Cars
+    </button>
+
+    <button
+      id="tabCustomers"
+      class="tab"
+      onclick="showAdminSection('customers')">
+      👥 Customers
+    </button>
+
+  </div>
+
+
+  <!-- BOOKINGS -->
+
+  <section id="bookingsSection">
+
+    <div class="card">
+
+      <h2>🚕 Cab Bookings</h2>
+
+      <p class="note">
+        Customer की cab booking यहाँ दिखाई देगी।
+        Admin यहाँ driver assign और booking status बदल सकता है।
+      </p>
+
+      <div id="bookingsList">
+        <div class="loading">
+          Loading bookings...
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- DRIVERS -->
+
+  <section
+    id="driversSection"
+    class="hidden">
+
+    <div class="card">
+
+      <h2>👨‍✈️ Cab Drivers</h2>
+
+      <p class="note">
+        यहाँ उपलब्ध drivers दिखाई देंगे।
+      </p>
+
+      <div id="driversList">
+        <div class="loading">
+          Loading drivers...
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2>➕ Add Driver</h2>
+
+      <div class="form-grid">
+
+        <input
+          id="driverName"
+          placeholder="Driver Name">
+
+        <input
+          id="driverPhone"
+          placeholder="Driver Mobile">
+
+        <input
+          id="driverCar"
+          placeholder="Car / Vehicle">
+
+        <input
+          id="driverNumber"
+          placeholder="Vehicle Number">
+
+      </div>
+
+      <button
+        class="btn green"
+        style="width:100%;margin-top:12px;"
+        onclick="addDriver()">
+
+        Add Driver
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- CARS -->
+
+  <section
+    id="carsSection"
+    class="hidden">
+
+    <div class="card">
+
+      <h2>🚘 Cars</h2>
+
+      <p class="note">
+        Firebase में मौजूद cars यहाँ दिखाई जाएँगी।
+      </p>
+
+      <div id="carsList">
+        <div class="loading">
+          Loading cars...
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CUSTOMERS -->
+
+  <section
+    id="customersSection"
+    class="hidden">
+
+    <div class="card">
+
+      <h2>👥 Customers</h2>
+
+      <p class="note">
+        Firebase में registered customer records यहाँ दिखाई जाएँगे।
+      </p>
+
+      <div id="customersList">
+        <div class="loading">
+          Loading customers...
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<script type="module">
+
+import {
+  initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  updateDoc,
+  addDoc,
+  serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+  apiKey:
+  "AIzaSyDFCvXr8h-sZAxBUZNThtgNxEOwrOQWvrI",
+
+  authDomain:
+  "car-set-u.firebaseapp.com",
+
+  projectId:
+  "car-set-u",
+
+  storageBucket:
+  "car-set-u.firebasestorage.app",
+
+  messagingSenderId:
+  "270679615416",
+
+  appId:
+  "1:270679615416:web:f22a7a71a736b52ac1914d",
+
+  measurementId:
+  "G-R3H6ZC8NZ5"
+
+};
+
+
+const app =
+  initializeApp(firebaseConfig);
+
+
+const db =
+  getFirestore(app);
+
+
+let bookings = [];
+let drivers = [];
+let cars = [];
+let customers = [];
+
+
+/* =====================================================
+   SECTION SWITCH
+===================================================== */
+
+window.showAdminSection =
+function(section){
+
+  [
+    "bookings",
+    "drivers",
+    "cars",
+    "customers"
+  ]
+  .forEach(name => {
+
+    document
+      .getElementById(
+        name+"Section"
+      )
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById(
+        "tab"+
+        name.charAt(0).toUpperCase()+
+        name.slice(1)
+      )
+      .classList
+      .remove("active");
+
+  });
+
+
+  document
+    .getElementById(
+      section+"Section"
+    )
+    .classList
+    .remove("hidden");
+
+
+  document
+    .getElementById(
+      "tab"+
+      section.charAt(0).toUpperCase()+
+      section.slice(1)
+    )
+    .classList
+    .add("active");
+
+};
+
+
+/* =====================================================
+   LOAD BOOKINGS
+===================================================== */
+
+async function loadBookings(){
+
+  const box =
+    document.getElementById(
+      "bookingsList"
+    );
+
+
+  try{
+
+    const snapshot =
+      await getDocs(
+        collection(
+          db,
+          "cabBookings"
+        )
+      );
+
+
+    bookings =
+      snapshot.docs.map(item => ({
+
+        id:item.id,
+
+        ...item.data()
+
+      }));
+
+
+    renderBookings();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    box.innerHTML = `
+      <div class="empty">
+        ❌ Bookings load नहीं हुईं.<br><br>
+        ${error.message}
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* =====================================================
+   RENDER BOOKINGS
+===================================================== */
+
+function renderBookings(){
+
+  const box =
+    document.getElementById(
+      "bookingsList"
+    );
+
+
+  document
+    .getElementById(
+      "totalBookings"
+    )
+    .textContent =
+    bookings.length;
+
+
+  const pending =
+    bookings.filter(
+      x =>
+        String(x.status || "Pending")
+        .toLowerCase()
+        === "pending"
+    ).length;
+
+
+  document
+    .getElementById(
+      "pendingBookings"
+    )
+    .textContent =
+    pending;
+
+
+  if(!bookings.length){
+
+    box.innerHTML = `
+      <div class="empty">
+        🚕 अभी कोई cab booking नहीं मिली।
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML = "";
+
+
+  bookings.forEach(booking => {
+
+    const status =
+      booking.status ||
+      "Pending";
+
+
+    const statusClass =
+      String(status)
+      .toLowerCase()
+      .includes("accept")
+      ? "accepted"
+      : String(status)
+        .toLowerCase()
+        .includes("complete")
+      ? "completed"
+      : String(status)
+        .toLowerCase()
+        .includes("cancel")
+      ? "cancelled"
+      : "";
+
+
+    const div =
+      document.createElement("div");
+
+
+    div.className =
+      "booking";
+
+
+    div.innerHTML = `
+
+      <div class="booking-top">
+
+        <strong>
+          🚕 Cab Booking
+        </strong>
+
+        <span class="status ${statusClass}">
+          ${escapeHtml(status)}
+        </span>
+
+      </div>
+
+
+      <div class="booking-id">
+        ID: ${escapeHtml(booking.id)}
+      </div>
+
+
+      <div class="info-row">
+        <strong>📱 Customer:</strong>
+        ${escapeHtml(
+          booking.customerPhone ||
+          booking.phone ||
+          "Not provided"
+        )}
+      </div>
+
+
+      <div class="info-row">
+        <strong>📍 Pickup:</strong>
+        ${escapeHtml(
+          booking.pickup ||
+          "Not provided"
+        )}
+      </div>
+
+
+      <div class="info-row">
+        <strong>🏁 Destination:</strong>
+        ${escapeHtml(
+          booking.destination ||
+          "Not provided"
+        )}
+      </div>
+
+
+      <div class="info-row">
+        <strong>📏 Distance:</strong>
+        ${escapeHtml(
+          booking.distanceKm != null
+          ? booking.distanceKm+" KM"
+          : "Not available"
+        )}
+      </div>
+
+
+      <div class="info-row">
+        <strong>⏱️ Time:</strong>
+        ${escapeHtml(
+          booking.estimatedTime ||
+          "Not available"
+        )}
+      </div>
+
+
+      <div class="info-row">
+        <strong>🚕 Cab:</strong>
+        ${escapeHtml(
+          booking.cabId ||
+          booking.cab ||
+          "Not assigned"
+        )}
+      </div>
+
+
+      <div class="info-row">
+        <strong>👨‍✈️ Driver:</strong>
+        ${escapeHtml(
+          booking.driverName ||
+          "Not assigned"
+        )}
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="btn blue"
+          onclick="changeBookingStatus(
+            '${booking.id}',
+            'Accepted'
+          )">
+          ✅ Accept
+        </button>
+
+
+        <button
+          class="btn orange"
+          onclick="assignDriver(
+            '${booking.id}'
+          )">
+          👨‍✈️ Assign Driver
+        </button>
+
+
+        <button
+          class="btn green"
+          onclick="changeBookingStatus(
+            '${booking.id}',
+            'Completed'
+          )">
+          ✅ Complete
+        </button>
+
+
+        <button
+          class="btn red"
+          onclick="changeBookingStatus(
+            '${booking.id}',
+            'Cancelled'
+          )">
+          ❌ Cancel
+        </button>
+
+      </div>
+
+    `;
+
+
+    box.appendChild(div);
+
+  });
+
+}
+
+
+/* =====================================================
+   CHANGE BOOKING STATUS
+===================================================== */
+
+window.changeBookingStatus =
+async function(
+  bookingId,
+  newStatus
+){
+
+  try{
+
+    await updateDoc(
+
+      doc(
+        db,
+        "cabBookings",
+        bookingId
+      ),
+
+      {
+        status:newStatus
+      }
+
+    );
+
+
+    alert(
+      "Booking status updated: "+
+      newStatus
+    );
+
+
+    await loadBookings();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      "Status update failed.\n\n"+
+      error.message
+    );
+
+  }
+
+};
+
+
+/* =====================================================
+   ASSIGN DRIVER
+===================================================== */
+
+window.assignDriver =
+async function(
+  bookingId
+){
+
+  if(!drivers.length){
+
+    alert(
+      "पहले Drivers section में driver add करें."
+    );
+
+    return;
+
+  }
+
+
+  let message =
+    "Driver चुनें:\n\n";
+
+
+  drivers.forEach(
+    (driver,index)=>{
+
+      message +=
+        (index+1)+
+        ". "+
+        (driver.name || "Driver")+
+        " - "+
+        (driver.phone || "")+
+        "\n";
+
+    }
+  );
+
+
+  const answer =
+    prompt(
+      message+
+      "\nDriver number लिखें:"
+    );
+
+
+  if(!answer)
+    return;
+
+
+  const index =
+    Number(answer)-1;
+
+
+  if(
+    index < 0 ||
+    index >= drivers.length
+  ){
+
+    alert(
+      "Invalid driver number."
+    );
+
+    return;
+
+  }
+
+
+  const driver =
+    drivers[index];
+
+
+  try{
+
+    await updateDoc(
+
+      doc(
+        db,
+        "cabBookings",
+        bookingId
+      ),
+
+      {
+
+        driverId:
+          driver.id,
+
+        driverName:
+          driver.name || "",
+
+        driverPhone:
+          driver.phone || "",
+
+        driverVehicle:
+          driver.car || "",
+
+        driverVehicleNumber:
+          driver.vehicleNumber || "",
+
+        status:
+          "Accepted"
+
+      }
+
+    );
+
+
+    alert(
+      "Driver assigned successfully."
+    );
+
+
+    await loadBookings();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      "Driver assign नहीं हुआ.\n\n"+
+      error.message
+    );
+
+  }
+
+};
+
+
+/* =====================================================
+   LOAD DRIVERS
+===================================================== */
+
+async function loadDrivers(){
+
+  const box =
+    document.getElementById(
+      "driversList"
+    );
+
+
+  try{
+
+    const snapshot =
+      await getDocs(
+        collection(
+          db,
+          "cabDrivers"
+        )
+      );
+
+
+    drivers =
+      snapshot.docs.map(item => ({
+
+        id:item.id,
+
+        ...item.data()
+
+      }));
+
+
+    document
+      .getElementById(
+        "totalDrivers"
+      )
+      .textContent =
+      drivers.length;
+
+
+    renderDrivers();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    box.innerHTML = `
+      <div class="empty">
+        ❌ Drivers load नहीं हुए.<br><br>
+        ${error.message}
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* =====================================================
+   RENDER DRIVERS
+===================================================== */
+
+function renderDrivers(){
+
+  const box =
+    document.getElementById(
+      "driversList"
+    );
+
+
+  if(!drivers.length){
+
+    box.innerHTML = `
+      <div class="empty">
+        👨‍✈️ अभी कोई driver नहीं है।
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML = "";
+
+
+  drivers.forEach(driver => {
+
+    const div =
+      document.createElement("div");
+
+
+    div.className =
+      "driver";
+
+
+    div.innerHTML = `
+
+      <div class="driver-name">
+        👨‍✈️ ${escapeHtml(
+          driver.name ||
+          "Driver"
+        )}
+      </div>
+
+      <div>
+        📱 ${escapeHtml(
+          driver.phone ||
+          "No phone"
+        )}
+      </div>
+
+      <div>
+        🚘 ${escapeHtml(
+          driver.car ||
+          "Car not specified"
+        )}
+      </div>
+
+      <div>
+        🔢 ${escapeHtml(
+          driver.vehicleNumber ||
+          "Number not specified"
+        )}
+      </div>
+
+      <div class="driver-status">
+        ${escapeHtml(
+          driver.status ||
+          "Available"
+        )}
+      </div>
+
+    `;
+
+
+    box.appendChild(div);
+
+  });
+
+}
+
+
+/* =====================================================
+   ADD DRIVER
+===================================================== */
+
+window.addDriver =
+async function(){
+
+  const name =
+    document
+    .getElementById(
+      "driverName"
+    )
+    .value
+    .trim();
+
+
+  const phone =
+    document
+    .getElementById(
+      "driverPhone"
+    )
+    .value
+    .trim();
+
+
+  const car =
+    document
+    .getElementById(
+      "driverCar"
+    )
+    .value
+    .trim();
+
+
+  const vehicleNumber =
+    document
+    .getElementById(
+      "driverNumber"
+    )
+    .value
+    .trim();
+
+
+  if(!name || !phone){
+
+    alert(
+      "Driver Name और Mobile जरूरी है."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    await addDoc(
+
+      collection(
+        db,
+        "cabDrivers"
+      ),
+
+      {
+
+        name:name,
+
+        phone:phone,
+
+        car:car,
+
+        vehicleNumber:
+          vehicleNumber,
+
+        status:
+          "Available",
+
+        createdAt:
+          serverTimestamp()
+
+      }
+
+    );
+
+
+    document
+      .getElementById(
+        "driverName"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "driverPhone"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "driverCar"
+      )
+      .value = "";
+
+
+    document
+      .getElementById(
+        "driverNumber"
+      )
+      .value = "";
+
+
+    alert(
+      "Driver added successfully."
+    );
+
+
+    await loadDrivers();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      "Driver add नहीं हुआ.\n\n"+
+      error.message
+    );
+
+  }
+
+};
+
+
+/* =====================================================
+   LOAD CARS
+===================================================== */
+
+async function loadCars(){
+
+  const box =
+    document.getElementById(
+      "carsList"
+    );
+
+
+  try{
+
+    const snapshot =
+      await getDocs(
+        collection(
+          db,
+          "cars"
+        )
+      );
+
+
+    cars =
+      snapshot.docs.map(item => ({
+
+        id:item.id,
+
+        ...item.data()
+
+      }));
+
+
+    document
+      .getElementById(
+        "totalCars"
+      )
+      .textContent =
+      cars.length;
+
+
+    if(!cars.length){
+
+      box.innerHTML = `
+        <div class="empty">
+          🚘 अभी Firebase में कोई car नहीं मिली।
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    box.innerHTML = "";
+
+
+    cars.forEach(car => {
+
+      const div =
+        document.createElement("div");
+
+
+      div.className =
+        "booking";
+
+
+      div.innerHTML = `
+
+        <strong>
+          🚘 ${escapeHtml(
+            car.title ||
+            car.name ||
+            "Car"
+          )}
+        </strong>
+
+        <div class="info-row">
+          📍 ${escapeHtml(
+            car.location ||
+            "Hyderabad, Telangana"
+          )}
+        </div>
+
+        <div class="info-row">
+          Status:
+          ${escapeHtml(
+            car.status ||
+            "Available"
+          )}
+        </div>
+
+      `;
+
+
+      box.appendChild(div);
+
+    });
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    box.innerHTML = `
+      <div class="empty">
+        ❌ Cars load नहीं हुईं.<br><br>
+        ${error.message}
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* =====================================================
+   LOAD CUSTOMERS
+===================================================== */
+
+async function loadCustomers(){
+
+  const box =
+    document.getElementById(
+      "customersList"
+    );
+
+
+  try{
+
+    const snapshot =
+      await getDocs(
+        collection(
+          db,
+          "customers"
+        )
+      );
+
+
+    customers =
+      snapshot.docs.map(item => ({
+
+        id:item.id,
+
+        ...item.data()
+
+      }));
+
+
+    if(!customers.length){
+
+      box.innerHTML = `
+        <div class="empty">
+          👥 अभी कोई customer record नहीं मिली।
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    box.innerHTML = "";
+
+
+    customers.forEach(customer => {
+
+      const div =
+        document.createElement("div");
+
+
+      div.className =
+        "booking";
+
+
+      div.innerHTML = `
+
+        <strong>
+          👤 Customer
+        </strong>
+
+        <div class="info-row">
+          📱 ${escapeHtml(
+            customer.phone ||
+            customer.customerPhone ||
+            "Not provided"
+          )}
+        </div>
+
+      `;
+
+
+      box.appendChild(div);
+
+    });
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    box.innerHTML = `
+      <div class="empty">
+        ❌ Customers load नहीं हुए.<br><br>
+        ${error.message}
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =====================================================
+   LOAD EVERYTHING
+===================================================== */
+
+window.loadAll =
+async function(){
+
+  document
+    .getElementById(
+      "bookingsList"
+    )
+    .innerHTML =
+    '<div class="loading">🔄 Loading...</div>';
+
+
+  await Promise.all([
+
+    loadBookings(),
+
+    loadDrivers(),
+
+    loadCars(),
+
+    loadCustomers()
+
+  ]);
+
+};
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadAll();
+
+</script>
+
+</body>
+</html>
