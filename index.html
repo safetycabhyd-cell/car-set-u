@@ -6,7 +6,12 @@
 
 <title>Car Set U - Buy • Sell • Cab Booking</title>
 
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      crossorigin=""/>
+
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -20,7 +25,9 @@ body{
   padding-bottom:90px;
 }
 
-button,input,select{
+button,
+input,
+select{
   font:inherit;
 }
 
@@ -31,7 +38,7 @@ button{
 .header{
   background:#17477f;
   color:white;
-  padding:18px 18px 20px;
+  padding:18px;
 }
 
 .header-top{
@@ -144,7 +151,8 @@ button{
   gap:12px;
 }
 
-input,select{
+input,
+select{
   width:100%;
   padding:15px;
   border:1px solid #d8dee7;
@@ -306,24 +314,52 @@ input,select{
   margin-bottom:12px;
 }
 
+/* MAP */
+
 .map-box{
-  height:280px;
+  height:360px;
   border-radius:18px;
   background:#e7eef7;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  color:#5d6878;
   margin-top:14px;
   overflow:hidden;
+  position:relative;
 }
 
-.map-box iframe{
-  width:100%;
-  height:100%;
-  border:0;
+#routeMap{
+  min-height:360px;
 }
+
+.map-status{
+  padding:12px;
+  background:#f7f9fc;
+  color:#596273;
+  border-radius:12px;
+  margin-top:10px;
+  font-weight:bold;
+}
+
+.route-summary{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+.route-item{
+  background:#eef4ff;
+  border-radius:14px;
+  padding:14px;
+  text-align:center;
+}
+
+.route-item strong{
+  display:block;
+  color:#1769df;
+  font-size:20px;
+  margin-top:4px;
+}
+
+/* BOTTOM NAV */
 
 .bottom-nav{
   position:fixed;
@@ -462,30 +498,6 @@ input,select{
   object-fit:cover;
 }
 
-.notice{
-  background:#fff7df;
-  color:#795700;
-  padding:13px;
-  border-radius:12px;
-  line-height:1.45;
-  margin-top:12px;
-}
-
-.loading{
-  text-align:center;
-  padding:20px;
-  color:#667085;
-}
-
-.empty{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  text-align:center;
-  color:#667085;
-  margin-top:15px;
-}
-
 @media(max-width:560px){
 
   .logo{
@@ -504,14 +516,16 @@ input,select{
     grid-template-columns:1fr;
   }
 
-  .vehicle-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
   .property img{
     height:190px;
   }
+
+  .route-summary{
+    grid-template-columns:1fr 1fr;
+  }
+
 }
+
 </style>
 </head>
 
@@ -543,25 +557,37 @@ input,select{
 
 <main class="container">
 
+
 <section class="hero">
-  <h1 id="heroTitle">Buy, Sell & Cab Booking</h1>
+
+  <h1 id="heroTitle">
+    Buy, Sell & Cab Booking
+  </h1>
+
   <p id="heroText">
     Buy a car, sell your car or book an available cab.
   </p>
+
 </section>
 
 
 <div class="tabs">
 
-  <button class="tab active" onclick="showSection('buy',this)">
+  <button
+    class="tab active"
+    onclick="showSection('buy',this)">
     🚘 Buy
   </button>
 
-  <button class="tab" onclick="showSection('sell',this)">
+  <button
+    class="tab"
+    onclick="showSection('sell',this)">
     💰 Sell
   </button>
 
-  <button class="tab" onclick="showSection('cab',this)">
+  <button
+    class="tab"
+    onclick="showSection('cab',this)">
     🚕 Cab Booking
   </button>
 
@@ -574,7 +600,9 @@ input,select{
 
   <div class="card">
 
-    <h2>🚘 Buy a Car</h2>
+    <h2>
+      🚘 Buy a Car
+    </h2>
 
     <p class="info">
       Find a four-wheeler available for purchase.
@@ -582,39 +610,36 @@ input,select{
 
     <div class="vehicle-grid">
 
-      <button class="vehicle-btn active"
-              onclick="filterBuyType('')">
+      <button class="vehicle-btn active">
         🚘 All
       </button>
 
-      <button class="vehicle-btn"
-              onclick="filterBuyType('Hatchback')">
+      <button class="vehicle-btn">
         🚗 Hatchback
       </button>
 
-      <button class="vehicle-btn"
-              onclick="filterBuyType('Sedan')">
+      <button class="vehicle-btn">
         🚙 Sedan
       </button>
 
-      <button class="vehicle-btn"
-              onclick="filterBuyType('SUV')">
+      <button class="vehicle-btn">
         🚘 SUV
       </button>
 
-      <button class="vehicle-btn"
-              onclick="filterBuyType('MUV')">
+      <button class="vehicle-btn">
         🚐 MUV
       </button>
 
-      <button class="vehicle-btn"
-              onclick="filterBuyType('Luxury')">
+      <button class="vehicle-btn">
         👑 Luxury
       </button>
 
     </div>
 
-    <div class="form-group" style="margin-top:15px;">
+
+    <div
+      class="form-group"
+      style="margin-top:15px;">
 
       <input
         id="buySearch"
@@ -622,8 +647,13 @@ input,select{
 
     </div>
 
-    <button class="primary" onclick="searchBuy()">
+
+    <button
+      class="primary"
+      onclick="searchBuy()">
+
       Search Cars
+
     </button>
 
   </div>
@@ -631,7 +661,9 @@ input,select{
 
   <div class="card">
 
-    <h2>📍 Location</h2>
+    <h2>
+      📍 Location
+    </h2>
 
     <p class="info">
       Find cars near your location.
@@ -641,8 +673,7 @@ input,select{
       id="buyLocation"
       placeholder="Area, City or Location">
 
-    <button class="primary"
-            onclick="searchLocation()">
+    <button class="primary">
       Search by Location
     </button>
 
@@ -656,80 +687,141 @@ input,select{
 
 <!-- SELL -->
 
-<section id="sellSection" class="hidden">
+<section
+  id="sellSection"
+  class="hidden">
 
   <div class="card">
 
-    <h2>💰 Sell Your Car</h2>
+    <h2>
+      💰 Sell Your Car
+    </h2>
 
     <p class="info">
-      Add your car details and submit it for admin approval.
+      Add your car details and submit it for sale.
     </p>
 
-    <div class="form-group">
-      <label>Car Brand</label>
-      <input id="sellBrand" placeholder="Toyota">
-    </div>
 
     <div class="form-group">
-      <label>Car Model</label>
-      <input id="sellModel" placeholder="Innova Crysta">
+
+      <label>
+        Car Brand
+      </label>
+
+      <input
+        id="sellBrand"
+        placeholder="Toyota">
+
     </div>
 
-    <div class="form-group">
-      <label>Year</label>
-      <input id="sellYear" placeholder="2022">
-    </div>
 
     <div class="form-group">
-      <label>Fuel</label>
+
+      <label>
+        Car Model
+      </label>
+
+      <input
+        id="sellModel"
+        placeholder="Innova Crysta">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Year
+      </label>
+
+      <input
+        id="sellYear"
+        placeholder="2022">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Fuel
+      </label>
 
       <select id="sellFuel">
-        <option>Petrol</option>
-        <option>Diesel</option>
-        <option>CNG</option>
-        <option>Electric</option>
+
+        <option>
+          Petrol
+        </option>
+
+        <option>
+          Diesel
+        </option>
+
+        <option>
+          CNG
+        </option>
+
+        <option>
+          Electric
+        </option>
+
       </select>
 
     </div>
 
+
     <div class="form-group">
-      <label>Transmission</label>
+
+      <label>
+        Transmission
+      </label>
 
       <select id="sellTransmission">
-        <option>Manual</option>
-        <option>Automatic</option>
+
+        <option>
+          Manual
+        </option>
+
+        <option>
+          Automatic
+        </option>
+
       </select>
 
     </div>
 
-    <div class="form-group">
-      <label>Seats</label>
-      <input id="sellSeats" placeholder="7 Seater">
-    </div>
 
     <div class="form-group">
-      <label>Car Type</label>
 
-      <select id="sellType">
-        <option>Hatchback</option>
-        <option>Sedan</option>
-        <option>SUV</option>
-        <option>MUV</option>
-        <option>Luxury</option>
-      </select>
+      <label>
+        Seats
+      </label>
 
-    </div>
+      <input
+        id="sellSeats"
+        placeholder="7 Seater">
 
-    <div class="form-group">
-      <label>Price</label>
-      <input id="sellPrice" placeholder="₹12,50,000">
     </div>
 
 
     <div class="form-group">
 
-      <label>📸 Car Photos</label>
+      <label>
+        Price
+      </label>
+
+      <input
+        id="sellPrice"
+        placeholder="₹12,50,000">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        📸 Car Photos
+      </label>
 
       <div class="upload-box">
 
@@ -742,7 +834,7 @@ input,select{
           type="file"
           accept="image/*"
           multiple
-          onchange="previewPhotos()">
+          onchange="previewPhotos">
 
         <div
           id="photoPreview"
@@ -756,7 +848,9 @@ input,select{
 
     <div class="form-group">
 
-      <label>🎥 Car Video</label>
+      <label>
+        🎥 Car Video
+      </label>
 
       <div class="upload-box">
 
@@ -774,16 +868,12 @@ input,select{
     </div>
 
 
-    <div class="notice">
-      Photos and video are previewed on this device for now.
-      Firebase Storage is not enabled on the current Spark plan.
-    </div>
-
-
     <button
       class="primary green"
       onclick="submitSell()">
+
       Submit Car for Sale
+
     </button>
 
   </div>
@@ -796,80 +886,97 @@ input,select{
 
 <!-- CAB -->
 
-<section id="cabSection" class="hidden">
+<section
+  id="cabSection"
+  class="hidden">
+
 
   <div class="card">
 
-    <h2>🚕 Cab Booking</h2>
+    <h2>
+      🚕 Cab Booking
+    </h2>
 
     <p class="info">
       Book an available cab for Local or Intercity travel.
     </p>
 
-    <h3>Rental Type</h3>
+
+    <h3>
+      Rental Type
+    </h3>
+
 
     <div class="vehicle-grid">
 
       <button
         class="vehicle-btn active"
         onclick="selectCabType(this)">
+
         📍 Local
+
       </button>
+
 
       <button
         class="vehicle-btn"
         onclick="selectCabType(this)">
+
         🛣️ Intercity / Outstation
+
       </button>
 
     </div>
 
 
-    <h3>Vehicle Type</h3>
+    <h3>
+      Vehicle Type
+    </h3>
+
 
     <div class="vehicle-grid">
 
-      <button class="vehicle-btn active"
-              onclick="filterCabType('')">
+      <button class="vehicle-btn active">
         🚕 All
       </button>
 
-      <button class="vehicle-btn"
-              onclick="filterCabType('Hatchback')">
+      <button class="vehicle-btn">
         🚗 Hatchback
       </button>
 
-      <button class="vehicle-btn"
-              onclick="filterCabType('Sedan')">
+      <button class="vehicle-btn">
         🚙 Sedan
       </button>
 
-      <button class="vehicle-btn"
-              onclick="filterCabType('SUV')">
+      <button class="vehicle-btn">
         🚘 SUV
       </button>
 
-      <button class="vehicle-btn"
-              onclick="filterCabType('MUV')">
+      <button class="vehicle-btn">
         🚐 MUV
       </button>
 
-      <button class="vehicle-btn"
-              onclick="filterCabType('Luxury')">
+      <button class="vehicle-btn">
         👑 Luxury
       </button>
 
     </div>
 
 
-    <h3>Pickup Point</h3>
+    <h3>
+      Pickup Point
+    </h3>
+
 
     <input
       id="pickup"
       placeholder="Enter pickup point">
 
 
-    <h3>Destination</h3>
+    <h3>
+      Destination
+    </h3>
+
 
     <input
       id="destination"
@@ -879,27 +986,106 @@ input,select{
     <button
       class="primary"
       onclick="showRouteMap()">
+
       📍 Show Route on Map
+
     </button>
+
+
+    <div
+      id="mapStatus"
+      class="map-status">
+
+      Enter Pickup Point and Destination,
+      then tap Show Route on Map.
+
+    </div>
 
 
     <div
       id="routeMap"
       class="map-box">
-      Enter Pickup Point and Destination to see the map.
+    </div>
+
+
+    <div
+      id="routeSummary"
+      class="route-summary hidden">
+
+
+      <div class="route-item">
+
+        📏 Distance
+
+        <strong id="routeDistance">
+          —
+        </strong>
+
+      </div>
+
+
+      <div class="route-item">
+
+        ⏱️ Estimated Time
+
+        <strong id="routeDuration">
+          —
+        </strong>
+
+      </div>
+
+
     </div>
 
   </div>
 
 
+  <!-- AVAILABLE CAB -->
+
   <div class="card">
 
-    <h2>🚕 Available Cab</h2>
+    <h2>
+      🚕 Available Cab
+    </h2>
 
-    <div id="cabListings">
 
-      <div class="loading">
-        Loading available cabs...
+    <div class="property">
+
+      <img
+        src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=80"
+        alt="Available Cab">
+
+
+      <div class="property-body">
+
+        <div class="property-title">
+          🚕 Toyota Innova Crysta
+        </div>
+
+
+        <span class="badge">
+          Available
+        </span>
+
+
+        <div class="spec">
+          MUV • 2022 • Diesel • Automatic • 7 Seater
+        </div>
+
+
+        <div class="price">
+          ₹3,200 / 8 Hours
+        </div>
+
+
+        <button
+          class="primary green"
+          onclick="bookCab()">
+
+          🚕 Book Cab
+
+        </button>
+
       </div>
 
     </div>
@@ -911,16 +1097,23 @@ input,select{
 
 <!-- ACCOUNT -->
 
-<section id="accountSection" class="hidden">
+<section
+  id="accountSection"
+  class="hidden">
 
   <div class="card">
 
-    <h2>📱 Customer Login</h2>
+    <h2>
+      📱 Customer Login
+    </h2>
+
 
     <p class="account-note">
-      Login with your mobile number. Your number is used
-      for account verification and is not shown publicly
-      to other customers.
+
+      Login with your mobile number.
+      Your number is used for account verification
+      and is not shown publicly to other customers.
+
     </p>
 
 
@@ -937,15 +1130,19 @@ input,select{
         type="tel"
         placeholder="+91XXXXXXXXXX">
 
+
       <div
         id="recaptcha-container"
         style="margin-top:12px;">
       </div>
 
+
       <button
         class="primary"
         onclick="sendOTP()">
+
         Send OTP
+
       </button>
 
     </div>
@@ -961,10 +1158,13 @@ input,select{
         placeholder="Enter OTP"
         maxlength="6">
 
+
       <button
         class="primary green"
         onclick="verifyOTP()">
+
         Verify OTP
+
       </button>
 
     </div>
@@ -974,7 +1174,9 @@ input,select{
       id="logoutBtn"
       class="primary red hidden"
       onclick="logoutUser()">
+
       Logout
+
     </button>
 
   </div>
@@ -993,15 +1195,18 @@ input,select{
     Home
   </button>
 
+
   <button onclick="showSectionByName('buy')">
     <span>🚘</span>
     Buy
   </button>
 
+
   <button onclick="showSectionByName('cab')">
     <span>🚕</span>
     Cab
   </button>
+
 
   <button onclick="showAccount()">
     <span>👤</span>
@@ -1013,20 +1218,28 @@ input,select{
 
 <!-- PHOTO VIEWER -->
 
-<div id="viewer" class="viewer">
+<div
+  id="viewer"
+  class="viewer">
+
 
   <div class="viewer-top">
 
     <div
       id="viewerTitle"
       class="viewer-title">
+
       Car Photos
+
     </div>
+
 
     <button
       class="close-viewer"
       onclick="closeViewer()">
+
       ✕
+
     </button>
 
   </div>
@@ -1037,13 +1250,17 @@ input,select{
     <button
       class="viewer-arrow prev"
       onclick="previousMedia()">
+
       ‹
+
     </button>
+
 
     <img
       id="viewerImage"
       class="hidden"
       alt="Car">
+
 
     <video
       id="viewerVideo"
@@ -1051,10 +1268,13 @@ input,select{
       controls>
     </video>
 
+
     <button
       class="viewer-arrow next"
       onclick="nextMedia()">
+
       ›
+
     </button>
 
   </div>
@@ -1068,15 +1288,25 @@ input,select{
 </div>
 
 
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  crossorigin="">
+</script>
+
+
 <script type="module">
+
 
 /* =========================================================
    FIREBASE
 ========================================================= */
 
+
 import {
   initializeApp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
 
 import {
   getAuth,
@@ -1084,19 +1314,14 @@ import {
   signInWithPhoneNumber,
   onAuthStateChanged,
   signOut
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  doc,
-  setDoc,
-  getDocs,
-  query,
-  where,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+  getFirestore
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 const firebaseConfig = {
@@ -1121,78 +1346,167 @@ const firebaseConfig = {
 
   measurementId:
   "G-R3H6ZC8NZ5"
+
 };
 
 
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-const db = getFirestore(app);
+const app =
+  initializeApp(firebaseConfig);
 
 
-let confirmationResult = null;
-let recaptchaVerifier = null;
+const auth =
+  getAuth(app);
 
-let buyCars = [];
-let cabCars = [];
 
-let selectedBuyType = "";
-let selectedCabType = "";
+const db =
+  getFirestore(app);
+
+
+let confirmationResult =
+  null;
+
+
+let recaptchaVerifier =
+  null;
 
 
 /* =========================================================
-   SECTION CONTROL
+   DEMO CARS
 ========================================================= */
 
-window.showSection = function(section,button){
 
-  document.getElementById("buySection")
-    .classList.add("hidden");
+const buyCars = [
 
-  document.getElementById("sellSection")
-    .classList.add("hidden");
+  {
 
-  document.getElementById("cabSection")
-    .classList.add("hidden");
+    id:"buy1",
 
-  document.getElementById("accountSection")
-    .classList.add("hidden");
+    title:"Toyota Innova Crysta",
 
-  document.getElementById(section+"Section")
+    year:"2022",
+
+    fuel:"Diesel",
+
+    transmission:"Automatic",
+
+    seats:"7 Seater",
+
+    type:"MUV",
+
+    price:"₹12,50,000",
+
+    status:"Available",
+
+    photos:[
+
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=80"
+
+    ],
+
+    video:""
+
+  }
+
+];
+
+
+const sellCars = [];
+
+
+const cabCars = [
+
+  {
+
+    id:"cab1",
+
+    title:"Toyota Innova Crysta",
+
+    year:"2022",
+
+    fuel:"Diesel",
+
+    transmission:"Automatic",
+
+    seats:"7 Seater",
+
+    type:"MUV",
+
+    price:"₹3,200 / 8 Hours",
+
+    status:"Available"
+
+  }
+
+];
+
+
+/* =========================================================
+   MAIN SECTIONS
+========================================================= */
+
+
+window.showSection =
+function(section,button){
+
+  [
+    "buy",
+    "sell",
+    "cab",
+    "account"
+  ]
+  .forEach(x => {
+
+    document
+      .getElementById(x+"Section")
+      .classList.add("hidden");
+
+  });
+
+
+  document
+    .getElementById(section+"Section")
     .classList.remove("hidden");
 
-  document.querySelectorAll(".tab")
-    .forEach(b=>b.classList.remove("active"));
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(b =>
+      b.classList.remove("active")
+    );
+
 
   if(button){
+
     button.classList.add("active");
+
   }
 
-  if(section==="buy"){
-    loadCars();
-  }
-
-  if(section==="cab"){
-    loadCabDrivers();
-  }
 
   window.scrollTo({
+
     top:0,
+
     behavior:"smooth"
+
   });
 
 };
 
 
-window.showSectionByName = function(section){
+window.showSectionByName =
+function(section){
 
   const buttons =
     document.querySelectorAll(".tab");
 
-  let index =
-    section==="buy" ? 0 :
-    section==="sell" ? 1 : 2;
+
+  const index =
+    section==="buy"
+    ? 0
+    : section==="sell"
+    ? 1
+    : 2;
+
 
   showSection(
     section,
@@ -1202,8 +1516,11 @@ window.showSectionByName = function(section){
 };
 
 
-window.showHome = function(){
+window.showHome =
+function(){
+
   showSectionByName("buy");
+
 };
 
 
@@ -1211,98 +1528,134 @@ window.showHome = function(){
    ACCOUNT
 ========================================================= */
 
-window.showAccount = function(){
 
-  document.getElementById("buySection")
-    .classList.add("hidden");
+window.showAccount =
+function(){
 
-  document.getElementById("sellSection")
-    .classList.add("hidden");
+  [
+    "buy",
+    "sell",
+    "cab"
+  ]
+  .forEach(x =>
+    document
+      .getElementById(x+"Section")
+      .classList.add("hidden")
+  );
 
-  document.getElementById("cabSection")
-    .classList.add("hidden");
 
-  document.getElementById("accountSection")
+  document
+    .getElementById("accountSection")
     .classList.remove("hidden");
 
+
   window.scrollTo({
+
     top:0,
+
     behavior:"smooth"
+
   });
+
 
   setupRecaptcha();
 
 };
 
 
-/* =========================================================
-   RECAPTCHA
-========================================================= */
-
 function setupRecaptcha(){
 
-  if(recaptchaVerifier) return;
+  if(recaptchaVerifier)
+    return;
+
 
   recaptchaVerifier =
     new RecaptchaVerifier(
+
       auth,
+
       "recaptcha-container",
+
       {
         size:"normal"
       }
+
     );
+
 
   recaptchaVerifier.render();
 
 }
 
 
-/* =========================================================
-   PHONE OTP
-========================================================= */
-
-window.sendOTP = async function(){
+window.sendOTP =
+async function(){
 
   try{
 
     setupRecaptcha();
 
+
     let phone =
-      document.getElementById("phoneNumber")
+      document
+      .getElementById("phoneNumber")
       .value
       .trim();
 
+
     if(!phone){
 
-      alert("Please enter mobile number.");
+      alert(
+        "Please enter mobile number."
+      );
 
       return;
+
     }
 
+
     if(!phone.startsWith("+")){
-      phone = "+91" + phone;
+
+      phone =
+        "+91"+phone;
+
     }
+
 
     confirmationResult =
       await signInWithPhoneNumber(
+
         auth,
+
         phone,
+
         recaptchaVerifier
+
       );
+
 
     document
       .getElementById("otpBox")
-      .classList.remove("hidden");
+      .classList
+      .remove("hidden");
 
-    alert("OTP sent successfully.");
 
-  }catch(error){
+    alert(
+      "OTP sent successfully."
+    );
+
+
+  }
+  catch(error){
 
     console.error(error);
 
+
     alert(
+
       "OTP could not be sent.\n\n"+
       error.message
+
     );
 
   }
@@ -1310,45 +1663,60 @@ window.sendOTP = async function(){
 };
 
 
-window.verifyOTP = async function(){
+window.verifyOTP =
+async function(){
 
   try{
 
     const otp =
-      document.getElementById("otpCode")
+      document
+      .getElementById("otpCode")
       .value
       .trim();
 
+
+    if(otp.length!==6){
+
+      alert(
+        "Please enter 6 digit OTP."
+      );
+
+      return;
+
+    }
+
+
     if(!confirmationResult){
 
-      alert("Please request OTP first.");
+      alert(
+        "Please request OTP first."
+      );
 
       return;
+
     }
 
-    if(otp.length !== 6){
 
-      alert("Please enter 6 digit OTP.");
+    await confirmationResult.confirm(
+      otp
+    );
 
-      return;
-    }
 
-    const result =
-      await confirmationResult.confirm(otp);
+    alert(
+      "Login successful."
+    );
 
-    const user = result.user;
-
-    await saveCustomer(user);
-
-    alert("Login successful.");
-
-  }catch(error){
+  }
+  catch(error){
 
     console.error(error);
 
+
     alert(
+
       "Invalid OTP.\n\n"+
       error.message
+
     );
 
   }
@@ -1356,236 +1724,106 @@ window.verifyOTP = async function(){
 };
 
 
-/* =========================================================
-   CUSTOMER FIRESTORE
-========================================================= */
+window.logoutUser =
+async function(){
 
-async function saveCustomer(user){
-
-  const customerRef =
-    doc(db,"customers",user.uid);
-
-  await setDoc(
-    customerRef,
-    {
-      name:
-        user.displayName || "",
-
-      phoneNumber:
-        user.phoneNumber || "",
-
-      photoUrl:
-        user.photoURL || "",
-
-      role:
-        "customer",
-
-      status:
-        "active",
-
-      isBlocked:
-        false,
-
-      updatedAt:
-        serverTimestamp(),
-
-      createdAt:
-        serverTimestamp()
-    },
-    {
-      merge:true
-    }
-  );
-
-}
-
-
-window.logoutUser = async function(){
-
-  try{
-
-    await signOut(auth);
-
-    alert("Logged out.");
-
-  }catch(error){
-
-    console.error(error);
-
-  }
+  await signOut(auth);
 
 };
 
 
-onAuthStateChanged(auth,(user)=>{
+onAuthStateChanged(
+  auth,
+  (user)=>{
 
-  const loginBox =
-    document.getElementById("loginBox");
-
-  const otpBox =
-    document.getElementById("otpBox");
-
-  const status =
-    document.getElementById("loginStatus");
-
-  const logout =
-    document.getElementById("logoutBtn");
-
-
-  if(user){
-
-    loginBox.classList.add("hidden");
-
-    otpBox.classList.add("hidden");
-
-    status.classList.remove("hidden");
-
-    logout.classList.remove("hidden");
-
-    status.textContent =
-      "✅ Customer logged in: "+
-      (user.phoneNumber || "");
-
-  }else{
-
-    loginBox.classList.remove("hidden");
-
-    status.classList.add("hidden");
-
-    logout.classList.add("hidden");
-
-  }
-
-});
-
-
-/* =========================================================
-   LOAD CARS FROM FIRESTORE
-========================================================= */
-
-async function loadCars(){
-
-  const box =
-    document.getElementById("buyListings");
-
-  box.innerHTML =
-    `<div class="loading">
-       Loading cars...
-     </div>`;
-
-  try{
-
-    const snapshot =
-      await getDocs(
-        collection(db,"cars")
+    const loginBox =
+      document.getElementById(
+        "loginBox"
       );
 
-    buyCars=[];
 
-    snapshot.forEach(documentSnapshot=>{
+    const otpBox =
+      document.getElementById(
+        "otpBox"
+      );
 
-      const data =
-        documentSnapshot.data();
 
-      if(
-        data.status &&
-        data.status !== "Available"
-      ){
-        return;
-      }
+    const status =
+      document.getElementById(
+        "loginStatus"
+      );
 
-      buyCars.push({
 
-        id:
-          documentSnapshot.id,
+    const logout =
+      document.getElementById(
+        "logoutBtn"
+      );
 
-        title:
-          data.title || "Car",
 
-        year:
-          data.year || "",
+    if(user){
 
-        fuel:
-          data.fuel || "",
+      loginBox
+        .classList
+        .add("hidden");
 
-        transmission:
-          data.transmission || "",
 
-        seats:
-          data.seats || "",
+      otpBox
+        .classList
+        .add("hidden");
 
-        type:
-          data.type ||
-          data.carType ||
-          "Car",
 
-        price:
-          data.price || "",
+      status
+        .classList
+        .remove("hidden");
 
-        status:
-          data.status || "Available",
 
-        photos:
-          data.photos || [],
+      logout
+        .classList
+        .remove("hidden");
 
-        video:
-          data.video || "",
 
-        location:
-          data.location || ""
+      status.textContent =
+        "✅ Customer logged in: "+
+        (user.phoneNumber || "");
 
-      });
+    }
+    else{
 
-    });
+      loginBox
+        .classList
+        .remove("hidden");
 
-    renderBuyCars(buyCars);
 
-  }catch(error){
+      status
+        .classList
+        .add("hidden");
 
-    console.error(error);
 
-    box.innerHTML =
-      `<div class="empty">
-        Unable to load cars.<br><br>
-        ${error.message}
-       </div>`;
+      logout
+        .classList
+        .add("hidden");
+
+    }
 
   }
-
-}
+);
 
 
 /* =========================================================
-   RENDER BUY CARS
+   BUY
 ========================================================= */
+
 
 function renderBuyCars(list){
 
   const box =
-    document.getElementById("buyListings");
-
-  box.innerHTML="";
-
-  if(!list.length){
-
-    box.innerHTML =
-      `<div class="empty">
-        No cars available right now.
-       </div>`;
-
-    return;
-  }
+    document.getElementById(
+      "buyListings"
+    );
 
 
-  const heading =
-    document.createElement("div");
-
-  heading.className="card";
-
-  heading.innerHTML =
-    `<h2>🚘 Available Cars</h2>`;
-
-  box.appendChild(heading);
+  box.innerHTML =
+    "<div class='card'><h2>🚘 Available Cars</h2></div>";
 
 
   list.forEach(car=>{
@@ -1593,90 +1831,86 @@ function renderBuyCars(list){
     const card =
       document.createElement("div");
 
-    card.className="property";
 
-    const photo =
-      car.photos &&
-      car.photos.length
-      ?
-      car.photos[0]
-      :
-      "";
+    card.className =
+      "property";
+
+
+    const photos =
+      car.photos || [];
 
 
     card.innerHTML = `
 
-      ${
-        photo
-        ?
-        `<img
-           src="${photo}"
-           alt="${escapeHtml(car.title)}">`
-        :
-        `<div
-           style="
-           height:190px;
-           background:#e7eef7;
-           display:flex;
-           align-items:center;
-           justify-content:center;
-           font-size:60px;">
-           🚘
-         </div>`
-      }
+      <img
+        src="${photos[0] || ""}"
+        alt="${car.title}">
+
 
       <div class="property-body">
 
+
         ${
-          car.photos &&
-          car.photos.length
+          photos.length
           ?
-          `<div class="photo-count">
-             📸 ${car.photos.length}
-             Photo${car.photos.length>1?'s':''}
-           </div>`
+          `
+          <div class="photo-count">
+
+            📸 ${photos.length}
+            Photo${photos.length>1?"s":""}
+
+          </div>
+          `
           :
           ""
         }
+
 
         <div class="property-title">
-          🚘 ${escapeHtml(car.title)}
+
+          🚘 ${car.title}
+
         </div>
+
 
         <span class="badge">
-          ${escapeHtml(car.status)}
+
+          ${car.status}
+
         </span>
 
+
         <div class="spec">
-          ${escapeHtml(car.type)} •
-          ${escapeHtml(car.year)} •
-          ${escapeHtml(car.fuel)} •
-          ${escapeHtml(car.transmission)} •
-          ${escapeHtml(car.seats)}
+
+          ${car.type}
+          • ${car.year}
+          • ${car.fuel}
+          • ${car.transmission}
+          • ${car.seats}
+
         </div>
 
-        ${
-          car.location
-          ?
-          `<div class="spec">
-             📍 ${escapeHtml(car.location)}
-           </div>`
-          :
-          ""
-        }
 
         <div class="price">
-          ${escapeHtml(car.price)}
+
+          ${car.price}
+
         </div>
+
 
         <button
           class="primary"
           onclick="openCarViewer('${car.id}','buy')">
+
           View Car
+
         </button>
 
+
       </div>
+
     `;
+
 
     box.appendChild(card);
 
@@ -1685,89 +1919,32 @@ function renderBuyCars(list){
 }
 
 
-/* =========================================================
-   BUY SEARCH
-========================================================= */
-
-window.searchBuy = function(){
+window.searchBuy =
+function(){
 
   const search =
-    document.getElementById("buySearch")
+    document
+    .getElementById("buySearch")
     .value
     .toLowerCase()
     .trim();
 
-  let filtered =
-    buyCars.filter(car=>{
-
-      const text =
-        (
-          car.title+" "+
-          car.type+" "+
-          car.fuel+" "+
-          car.year
-        ).toLowerCase();
-
-      return text.includes(search);
-
-    });
-
-
-  if(selectedBuyType){
-
-    filtered =
-      filtered.filter(
-        car=>
-          car.type.toLowerCase() ===
-          selectedBuyType.toLowerCase()
-      );
-
-  }
-
-
-  renderBuyCars(filtered);
-
-};
-
-
-window.filterBuyType = function(type){
-
-  selectedBuyType=type;
-
-  document
-    .querySelectorAll("#buySection .vehicle-btn")
-    .forEach(b=>
-      b.classList.remove("active")
-    );
-
-  event.target.classList.add("active");
-
-  searchBuy();
-
-};
-
-
-window.searchLocation = function(){
-
-  const location =
-    document.getElementById("buyLocation")
-    .value
-    .toLowerCase()
-    .trim();
-
-  if(!location){
-
-    renderBuyCars(buyCars);
-
-    return;
-  }
 
   const filtered =
-    buyCars.filter(car=>
-      (car.location || "")
-      .toLowerCase()
-      .includes(location)
+    buyCars.filter(car =>
+
+      car.title
+        .toLowerCase()
+        .includes(search)
+
+      ||
+
+      car.type
+        .toLowerCase()
+        .includes(search)
+
     );
+
 
   renderBuyCars(filtered);
 
@@ -1775,21 +1952,31 @@ window.searchLocation = function(){
 
 
 /* =========================================================
-   SELL PHOTO PREVIEW
+   SELL
 ========================================================= */
 
-window.previewPhotos = function(){
+
+window.previewPhotos =
+function(){
 
   const input =
-    document.getElementById("carPhotos");
+    document.getElementById(
+      "carPhotos"
+    );
+
 
   const preview =
-    document.getElementById("photoPreview");
+    document.getElementById(
+      "photoPreview"
+    );
 
-  preview.innerHTML="";
+
+  preview.innerHTML = "";
+
 
   const files =
     Array.from(input.files);
+
 
   if(files.length > 6){
 
@@ -1797,18 +1984,26 @@ window.previewPhotos = function(){
       "Maximum 6 car photos allowed."
     );
 
-    input.value="";
+
+    input.value = "";
+
 
     return;
+
   }
+
 
   files.forEach(file=>{
 
-    if(!file.type.startsWith("image/"))
+    if(
+      !file.type.startsWith("image/")
+    )
       return;
+
 
     const reader =
       new FileReader();
+
 
     reader.onload =
       function(e){
@@ -1816,11 +2011,15 @@ window.previewPhotos = function(){
         const img =
           document.createElement("img");
 
-        img.src=e.target.result;
+
+        img.src =
+          e.target.result;
+
 
         preview.appendChild(img);
 
       };
+
 
     reader.readAsDataURL(file);
 
@@ -1829,380 +2028,212 @@ window.previewPhotos = function(){
 };
 
 
-/* =========================================================
-   SELL TO FIRESTORE
-========================================================= */
-
-window.submitSell = async function(){
-
-  try{
-
-    const user = auth.currentUser;
-
-    if(!user){
-
-      alert(
-        "Please login with your mobile number first."
-      );
-
-      showAccount();
-
-      return;
-    }
+document
+  .getElementById("carPhotos")
+  .addEventListener(
+    "change",
+    window.previewPhotos
+  );
 
 
-    const brand =
-      document
-      .getElementById("sellBrand")
-      .value
-      .trim();
+window.submitSell =
+async function(){
 
-    const model =
-      document
-      .getElementById("sellModel")
-      .value
-      .trim();
+  const brand =
+    document
+    .getElementById("sellBrand")
+    .value
+    .trim();
 
 
-    if(!brand || !model){
-
-      alert(
-        "Please enter Car Brand and Car Model."
-      );
-
-      return;
-    }
+  const model =
+    document
+    .getElementById("sellModel")
+    .value
+    .trim();
 
 
-    const photosInput =
-      document.getElementById("carPhotos");
-
-    const videoInput =
-      document.getElementById("carVideo");
-
-
-    const photos =
-      Array.from(photosInput.files);
-
-
-    if(photos.length > 6){
-
-      alert(
-        "Maximum 6 photos allowed."
-      );
-
-      return;
-    }
-
-
-    let videoName="";
-
-    if(videoInput.files.length){
-
-      videoName =
-        videoInput.files[0].name;
-
-    }
-
-
-    const car = {
-
-      title:
-        brand+" "+model,
-
-      year:
-        document.getElementById("sellYear").value,
-
-      fuel:
-        document.getElementById("sellFuel").value,
-
-      transmission:
-        document.getElementById("sellTransmission").value,
-
-      seats:
-        document.getElementById("sellSeats").value,
-
-      type:
-        document.getElementById("sellType").value,
-
-      price:
-        document.getElementById("sellPrice").value,
-
-      status:
-        "Pending Admin Approval",
-
-      photoCount:
-        photos.length,
-
-      video:
-        videoName,
-
-      ownerUid:
-        user.uid,
-
-      ownerPhone:
-        user.phoneNumber || "",
-
-      createdAt:
-        serverTimestamp()
-
-    };
-
-
-    await addDoc(
-      collection(db,"cars"),
-      car
-    );
-
+  if(!brand || !model){
 
     alert(
-      "Car submitted successfully.\n\n"+
-      "Admin approval is required before public display."
+      "Please enter Car Brand and Car Model."
     );
 
 
-    document
-      .getElementById("sellBrand")
-      .value="";
-
-    document
-      .getElementById("sellModel")
-      .value="";
-
-    document
-      .getElementById("sellYear")
-      .value="";
-
-    document
-      .getElementById("sellSeats")
-      .value="";
-
-    document
-      .getElementById("sellPrice")
-      .value="";
-
-    document
-      .getElementById("carPhotos")
-      .value="";
-
-    document
-      .getElementById("carVideo")
-      .value="";
-
-    document
-      .getElementById("photoPreview")
-      .innerHTML="";
-
-
-    alert(
-      "Firebase Firestore में listing save हो गई है."
-    );
-
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "Car submit नहीं हुआ.\n\n"+
-      error.message
-    );
+    return;
 
   }
+
+
+  const photos =
+    Array.from(
+      document
+      .getElementById("carPhotos")
+      .files
+    );
+
+
+  if(photos.length > 6){
+
+    alert(
+      "Maximum 6 photos allowed."
+    );
+
+
+    return;
+
+  }
+
+
+  const videoInput =
+    document.getElementById(
+      "carVideo"
+    );
+
+
+  const car = {
+
+    id:
+      "sell-"+Date.now(),
+
+    title:
+      brand+" "+model,
+
+    year:
+      document
+      .getElementById("sellYear")
+      .value,
+
+    fuel:
+      document
+      .getElementById("sellFuel")
+      .value,
+
+    transmission:
+      document
+      .getElementById("sellTransmission")
+      .value,
+
+    seats:
+      document
+      .getElementById("sellSeats")
+      .value,
+
+    price:
+      document
+      .getElementById("sellPrice")
+      .value,
+
+    status:
+      "Pending Admin Approval",
+
+    photoCount:
+      photos.length,
+
+    video:
+      videoInput.files.length
+      ?
+      videoInput.files[0].name
+      :
+      ""
+
+  };
+
+
+  sellCars.push(car);
+
+
+  renderSellCars();
+
+
+  alert(
+
+    "Car submitted successfully.\n"+
+    "Admin approval is required before public display."
+
+  );
 
 };
 
 
-/* =========================================================
-   LOAD CAB DRIVERS
-========================================================= */
-
-async function loadCabDrivers(){
+function renderSellCars(){
 
   const box =
-    document.getElementById("cabListings");
-
-  box.innerHTML =
-    `<div class="loading">
-       Loading available cabs...
-     </div>`;
+    document.getElementById(
+      "sellListings"
+    );
 
 
-  try{
-
-    const snapshot =
-      await getDocs(
-        query(
-          collection(db,"cabDrivers"),
-          where("status","==","Available")
-        )
-      );
+  box.innerHTML = "";
 
 
-    cabCars=[];
-
-
-    snapshot.forEach(documentSnapshot=>{
-
-      const data =
-        documentSnapshot.data();
-
-
-      if(
-        data.dutyOn === false
-      ){
-        return;
-      }
-
-
-      cabCars.push({
-
-        id:
-          documentSnapshot.id,
-
-        title:
-          data.carModel ||
-          "Available Cab",
-
-        type:
-          data.carType ||
-          "Car",
-
-        driverName:
-          data.driverName ||
-          "",
-
-        driverPhone:
-          data.driverPhone ||
-          "",
-
-        price:
-          data.price ||
-          "",
-
-        seats:
-          data.seats ||
-          "",
-
-        status:
-          data.status ||
-          "Available",
-
-        latitude:
-          data.latitude,
-
-        longitude:
-          data.longitude,
-
-        isVerified:
-          data.isVerified
-
-      });
-
-    });
-
-
-    renderCabCars(cabCars);
-
-  }catch(error){
-
-    console.error(error);
-
-    box.innerHTML =
-      `<div class="empty">
-        Unable to load cabs.<br><br>
-        ${error.message}
-       </div>`;
-
-  }
-
-}
-
-
-/* =========================================================
-   RENDER CAB
-========================================================= */
-
-function renderCabCars(list){
-
-  const box =
-    document.getElementById("cabListings");
-
-  box.innerHTML="";
-
-
-  if(!list.length){
-
-    box.innerHTML =
-      `<div class="empty">
-        No available cab right now.
-       </div>`;
-
-    return;
-  }
-
-
-  list.forEach(cab=>{
+  sellCars.forEach(car=>{
 
     const card =
       document.createElement("div");
 
-    card.className="property";
+
+    card.className =
+      "property";
 
 
-    card.innerHTML=`
-
-      <div
-        style="
-        height:190px;
-        background:#e7eef7;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:70px;">
-        🚕
-      </div>
+    card.innerHTML = `
 
       <div class="property-body">
 
-        <div class="property-title">
-          🚕 ${escapeHtml(cab.title)}
-        </div>
-
-        <span class="badge">
-          ${escapeHtml(cab.status)}
-        </span>
-
-        <div class="spec">
-          ${escapeHtml(cab.type)}
-          ${
-            cab.seats
-            ?
-            " • "+escapeHtml(cab.seats)
-            :
-            ""
-          }
-        </div>
 
         ${
-          cab.driverName
+          car.photoCount
           ?
-          `<div class="spec">
-             👨‍✈️ Driver: ${escapeHtml(cab.driverName)}
-           </div>`
+          `
+          <div class="photo-count">
+
+            📸 ${car.photoCount} Photos
+
+          </div>
+          `
           :
           ""
         }
 
-        <div class="price">
-          ${escapeHtml(cab.price)}
+
+        <div class="property-title">
+
+          🚘 ${car.title}
+
         </div>
 
-        <button
-          class="primary green"
-          onclick="bookCab('${cab.id}')">
-          🚕 Book Cab
-        </button>
+
+        <span class="badge">
+
+          ${car.status}
+
+        </span>
+
+
+        <div class="spec">
+
+          ${car.type || "Car"}
+          • ${car.year || ""}
+          • ${car.fuel || ""}
+
+        </div>
+
+
+        ${
+          car.price
+          ?
+          `
+          <div class="price">
+
+            ${car.price}
+
+          </div>
+          `
+          :
+          ""
+        }
+
 
       </div>
 
@@ -2217,229 +2248,32 @@ function renderCabCars(list){
 
 
 /* =========================================================
-   CAB FILTER
-========================================================= */
-
-window.filterCabType = function(type){
-
-  selectedCabType=type;
-
-  document
-    .querySelectorAll("#cabSection .vehicle-btn")
-    .forEach(b=>
-      b.classList.remove("active")
-    );
-
-  event.target.classList.add("active");
-
-
-  if(!type){
-
-    renderCabCars(cabCars);
-
-    return;
-  }
-
-
-  const filtered =
-    cabCars.filter(
-      cab=>
-        cab.type.toLowerCase() ===
-        type.toLowerCase()
-    );
-
-
-  renderCabCars(filtered);
-
-};
-
-
-/* =========================================================
-   CAB TYPE
-========================================================= */
-
-window.selectCabType = function(button){
-
-  button
-    .parentElement
-    .querySelectorAll(".vehicle-btn")
-    .forEach(b=>
-      b.classList.remove("active")
-    );
-
-  button.classList.add("active");
-
-};
-
-
-/* =========================================================
-   ROUTE MAP
-========================================================= */
-
-window.showRouteMap = function(){
-
-  const pickup =
-    document
-    .getElementById("pickup")
-    .value
-    .trim();
-
-  const destination =
-    document
-    .getElementById("destination")
-    .value
-    .trim();
-
-
-  if(!pickup || !destination){
-
-    alert(
-      "Please enter Pickup Point and Destination."
-    );
-
-    return;
-  }
-
-
-  const map =
-    document.getElementById("routeMap");
-
-
-  const query =
-    encodeURIComponent(
-      pickup+" to "+destination
-    );
-
-
-  map.innerHTML=`
-
-    <iframe
-      src="https://www.openstreetmap.org/export/embed.html?bbox=77.4%2C12.8%2C77.7%2C13.1&layer=mapnik"
-      loading="lazy">
-    </iframe>
-
-  `;
-
-};
-
-
-/* =========================================================
-   CAB BOOKING
-========================================================= */
-
-window.bookCab = async function(cabId){
-
-  try{
-
-    const user =
-      auth.currentUser;
-
-
-    if(!user){
-
-      alert(
-        "Please login first to book a cab."
-      );
-
-      showAccount();
-
-      return;
-    }
-
-
-    const pickup =
-      document
-      .getElementById("pickup")
-      .value
-      .trim();
-
-    const destination =
-      document
-      .getElementById("destination")
-      .value
-      .trim();
-
-
-    if(!pickup || !destination){
-
-      alert(
-        "Please enter Pickup Point and Destination first."
-      );
-
-      return;
-    }
-
-
-    await addDoc(
-      collection(db,"cabBookings"),
-      {
-
-        cabDriverId:
-          cabId,
-
-        customerUid:
-          user.uid,
-
-        customerPhone:
-          user.phoneNumber || "",
-
-        pickup:
-          pickup,
-
-        destination:
-          destination,
-
-        status:
-          "Pending",
-
-        createdAt:
-          serverTimestamp()
-
-      }
-    );
-
-
-    alert(
-      "Cab booking request received.\n\n"+
-      "Admin will assign the driver."
-    );
-
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "Booking failed.\n\n"+
-      error.message
-    );
-
-  }
-
-};
-
-
-/* =========================================================
    PHOTO VIEWER
 ========================================================= */
 
-let currentMedia=[];
-let currentIndex=0;
+
+let currentMedia = [];
+
+let currentIndex = 0;
 
 
-window.openCarViewer = function(id,type){
+window.openCarViewer =
+function(id,type){
 
-  let car;
+  const car =
+    type==="buy"
 
+    ?
 
-  if(type==="buy"){
+    buyCars.find(
+      x=>x.id===id
+    )
 
-    car =
-      buyCars.find(
-        x=>x.id===id
-      );
+    :
 
-  }
+    sellCars.find(
+      x=>x.id===id
+    );
 
 
   if(!car){
@@ -2448,28 +2282,27 @@ window.openCarViewer = function(id,type){
       "Car details not found."
     );
 
+
     return;
+
   }
 
 
-  currentMedia=[];
+  currentMedia = [];
 
 
-  if(car.photos){
+  (car.photos || [])
+  .forEach(photo=>{
 
-    car.photos.forEach(photo=>{
+    currentMedia.push({
 
-      currentMedia.push({
+      type:"image",
 
-        type:"image",
-
-        src:photo
-
-      });
+      src:photo
 
     });
 
-  }
+  });
 
 
   if(car.video){
@@ -2488,19 +2321,22 @@ window.openCarViewer = function(id,type){
   if(!currentMedia.length){
 
     alert(
-      "No photos or video available."
+      "No photos available for this car yet."
     );
 
+
     return;
+
   }
 
 
-  currentIndex=0;
+  currentIndex = 0;
 
 
   document
     .getElementById("viewer")
-    .classList.add("show");
+    .classList
+    .add("show");
 
 
   document
@@ -2517,22 +2353,39 @@ window.openCarViewer = function(id,type){
 function renderViewer(){
 
   const image =
-    document.getElementById("viewerImage");
+    document.getElementById(
+      "viewerImage"
+    );
+
 
   const video =
-    document.getElementById("viewerVideo");
+    document.getElementById(
+      "viewerVideo"
+    );
+
 
   const thumbs =
-    document.getElementById("viewerThumbs");
+    document.getElementById(
+      "viewerThumbs"
+    );
 
 
-  image.classList.add("hidden");
+  image
+    .classList
+    .add("hidden");
 
-  video.classList.add("hidden");
+
+  video
+    .classList
+    .add("hidden");
+
 
   video.pause();
 
-  video.removeAttribute("src");
+
+  video.removeAttribute(
+    "src"
+  );
 
 
   const media =
@@ -2541,27 +2394,39 @@ function renderViewer(){
 
   if(media.type==="image"){
 
-    image.src=media.src;
+    image.src =
+      media.src;
 
-    image.classList.remove("hidden");
 
-  }else{
+    image
+      .classList
+      .remove("hidden");
 
-    video.src=media.src;
+  }
+  else{
 
-    video.classList.remove("hidden");
+    video.src =
+      media.src;
+
+
+    video
+      .classList
+      .remove("hidden");
 
   }
 
 
-  thumbs.innerHTML="";
+  thumbs.innerHTML = "";
 
 
   currentMedia.forEach(
     (item,index)=>{
 
       const button =
-        document.createElement("button");
+        document.createElement(
+          "button"
+        );
+
 
       button.className =
         "thumb"+
@@ -2577,27 +2442,34 @@ function renderViewer(){
       if(item.type==="image"){
 
         button.innerHTML =
-          `<img src="${item.src}">`;
+          `
+          <img src="${item.src}">
+          `;
 
-      }else{
+      }
+      else{
 
-        button.innerHTML="🎥";
-
-        button.style.color="white";
+        button.innerHTML =
+          "🎥";
 
       }
 
 
-      button.onclick=()=>{
+      button.onclick =
+        ()=>{
 
-        currentIndex=index;
-
-        renderViewer();
-
-      };
+          currentIndex =
+            index;
 
 
-      thumbs.appendChild(button);
+          renderViewer();
+
+        };
+
+
+      thumbs.appendChild(
+        button
+      );
 
     }
   );
@@ -2605,81 +2477,571 @@ function renderViewer(){
 }
 
 
-window.previousMedia = function(){
+window.previousMedia =
+function(){
 
   if(!currentMedia.length)
     return;
 
-  currentIndex--;
 
-  if(currentIndex<0)
-    currentIndex =
-      currentMedia.length-1;
+  currentIndex =
+    (
+      currentIndex -
+      1 +
+      currentMedia.length
+    )
+    %
+    currentMedia.length;
+
 
   renderViewer();
 
 };
 
 
-window.nextMedia = function(){
+window.nextMedia =
+function(){
 
   if(!currentMedia.length)
     return;
 
-  currentIndex++;
 
-  if(
-    currentIndex>=
-    currentMedia.length
-  ){
+  currentIndex =
+    (
+      currentIndex +
+      1
+    )
+    %
+    currentMedia.length;
 
-    currentIndex=0;
-
-  }
 
   renderViewer();
 
 };
 
 
-window.closeViewer = function(){
+window.closeViewer =
+function(){
 
   document
     .getElementById("viewer")
-    .classList.remove("show");
+    .classList
+    .remove("show");
 
 
   const video =
-    document.getElementById("viewerVideo");
+    document.getElementById(
+      "viewerVideo"
+    );
+
 
   video.pause();
 
-  video.removeAttribute("src");
+
+  video.removeAttribute(
+    "src"
+  );
 
 };
 
 
 /* =========================================================
-   SECURITY HELPER
+   CAB TYPE
 ========================================================= */
 
-function escapeHtml(value){
 
-  return String(value || "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+window.selectCabType =
+function(button){
+
+  button
+    .parentElement
+    .querySelectorAll(
+      ".vehicle-btn"
+    )
+    .forEach(
+      b =>
+        b.classList
+        .remove("active")
+    );
+
+
+  button
+    .classList
+    .add("active");
+
+};
+
+
+/* =========================================================
+   REAL ROUTE MAP
+========================================================= */
+
+
+let routeMap = null;
+
+let pickupMarker = null;
+
+let destinationMarker = null;
+
+let routeLine = null;
+
+
+/* CREATE MAP */
+
+function initRouteMap(){
+
+  if(routeMap)
+    return;
+
+
+  routeMap =
+    L.map(
+      "routeMap"
+    )
+    .setView(
+      [17.385,78.4867],
+      11
+    );
+
+
+  L.tileLayer(
+
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+
+    {
+
+      maxZoom:19,
+
+      attribution:
+        "© OpenStreetMap contributors"
+
+    }
+
+  )
+  .addTo(routeMap);
 
 }
+
+
+/* FIND LOCATION */
+
+async function geocodePlace(place){
+
+  const url =
+
+    "https://nominatim.openstreetmap.org/search"+
+    "?format=jsonv2"+
+    "&limit=1"+
+    "&accept-language=en"+
+    "&q="+
+    encodeURIComponent(place);
+
+
+  const response =
+    await fetch(url);
+
+
+  if(!response.ok){
+
+    throw new Error(
+      "Location search failed."
+    );
+
+  }
+
+
+  const data =
+    await response.json();
+
+
+  if(!data.length){
+
+    throw new Error(
+      "Location not found: "+
+      place
+    );
+
+  }
+
+
+  return {
+
+    lat:
+      Number(data[0].lat),
+
+    lon:
+      Number(data[0].lon),
+
+    name:
+      data[0].display_name
+
+  };
+
+}
+
+
+/* CLEAR OLD ROUTE */
+
+function clearRoute(){
+
+  if(pickupMarker){
+
+    routeMap
+      .removeLayer(
+        pickupMarker
+      );
+
+    pickupMarker = null;
+
+  }
+
+
+  if(destinationMarker){
+
+    routeMap
+      .removeLayer(
+        destinationMarker
+      );
+
+    destinationMarker = null;
+
+  }
+
+
+  if(routeLine){
+
+    routeMap
+      .removeLayer(
+        routeLine
+      );
+
+    routeLine = null;
+
+  }
+
+}
+
+
+/* SHOW ROUTE */
+
+window.showRouteMap =
+async function(){
+
+  const pickup =
+    document
+    .getElementById("pickup")
+    .value
+    .trim();
+
+
+  const destination =
+    document
+    .getElementById("destination")
+    .value
+    .trim();
+
+
+  const status =
+    document.getElementById(
+      "mapStatus"
+    );
+
+
+  const summary =
+    document.getElementById(
+      "routeSummary"
+    );
+
+
+  if(!pickup || !destination){
+
+    alert(
+      "Please enter Pickup Point and Destination."
+    );
+
+
+    return;
+
+  }
+
+
+  initRouteMap();
+
+
+  routeMap.invalidateSize();
+
+
+  clearRoute();
+
+
+  summary
+    .classList
+    .add("hidden");
+
+
+  status.textContent =
+    "🔎 Finding pickup and destination...";
+
+
+  try{
+
+    /* FIND BOTH LOCATIONS */
+
+    const [
+      from,
+      to
+    ] = await Promise.all([
+
+      geocodePlace(
+        pickup
+      ),
+
+      geocodePlace(
+        destination
+      )
+
+    ]);
+
+
+    /* PICKUP PIN */
+
+    pickupMarker =
+      L.marker([
+        from.lat,
+        from.lon
+      ])
+      .addTo(routeMap)
+      .bindPopup(
+        "📍 Pickup<br>"+
+        from.name
+      );
+
+
+    /* DESTINATION PIN */
+
+    destinationMarker =
+      L.marker([
+        to.lat,
+        to.lon
+      ])
+      .addTo(routeMap)
+      .bindPopup(
+        "🏁 Destination<br>"+
+        to.name
+      );
+
+
+    status.textContent =
+      "🛣️ Calculating route...";
+
+
+    /* ROUTING */
+
+    const routeUrl =
+
+      "https://router.project-osrm.org/route/v1/driving/"+
+      from.lon+","+
+      from.lat+";"+
+      to.lon+","+
+      to.lat+
+      "?overview=full&geometries=geojson";
+
+
+    const response =
+      await fetch(routeUrl);
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "Route service failed."
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      !data.routes ||
+      !data.routes.length
+    ){
+
+      throw new Error(
+        "Route not found."
+      );
+
+    }
+
+
+    const route =
+      data.routes[0];
+
+
+    /* DRAW ROUTE */
+
+    routeLine =
+      L.geoJSON(
+        route.geometry,
+        {
+
+          style:{
+
+            weight:6,
+
+            opacity:0.85
+
+          }
+
+        }
+      )
+      .addTo(routeMap);
+
+
+    /* FIT MAP */
+
+    const bounds =
+      L.latLngBounds([
+
+        [
+          from.lat,
+          from.lon
+        ],
+
+        [
+          to.lat,
+          to.lon
+        ]
+
+      ]);
+
+
+    routeMap.fitBounds(
+      bounds,
+      {
+        padding:[
+          30,
+          30
+        ]
+      }
+    );
+
+
+    /* DISTANCE */
+
+    const km =
+      (
+        route.distance /
+        1000
+      )
+      .toFixed(1);
+
+
+    /* TIME */
+
+    const minutes =
+      Math.round(
+        route.duration /
+        60
+      );
+
+
+    const hours =
+      Math.floor(
+        minutes /
+        60
+      );
+
+
+    const mins =
+      minutes %
+      60;
+
+
+    const time =
+      hours
+      ?
+      `${hours} hr ${mins} min`
+      :
+      `${mins} min`;
+
+
+    document
+      .getElementById(
+        "routeDistance"
+      )
+      .textContent =
+      km+" KM";
+
+
+    document
+      .getElementById(
+        "routeDuration"
+      )
+      .textContent =
+      time;
+
+
+    summary
+      .classList
+      .remove("hidden");
+
+
+    status.textContent =
+      "✅ Route found successfully.";
+
+  }
+  catch(error){
+
+    console.error(error);
+
+
+    status.textContent =
+      "❌ "+error.message;
+
+
+    alert(
+
+      "Route नहीं बन पाया.\n\n"+
+      error.message+
+      "\n\nLocation का नाम City के साथ लिखकर फिर कोशिश करें."
+
+    );
+
+  }
+
+};
+
+
+/* =========================================================
+   BOOK CAB
+========================================================= */
+
+
+window.bookCab =
+function(){
+
+  alert(
+
+    "Cab booking request received.\n"+
+    "Available driver will be assigned by Admin."
+
+  );
+
+};
 
 
 /* =========================================================
    INITIAL LOAD
 ========================================================= */
 
-loadCars();
+
+renderBuyCars(
+  buyCars
+);
+
 
 </script>
 
