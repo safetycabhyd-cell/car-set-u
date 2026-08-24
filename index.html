@@ -4,11 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#123c73">
-<meta name="description" content="Car Set U - Buy, Sell & Cab Booking">
+
 <title>Car Set U - Buy • Sell • Cab Booking</title>
 
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -23,7 +31,7 @@ header{
   padding:16px;
   position:sticky;
   top:0;
-  z-index:20;
+  z-index:1000;
 }
 
 .top{
@@ -48,10 +56,11 @@ header{
 }
 
 .lang{
-  padding:9px;
+  padding:10px;
   border-radius:8px;
   border:0;
   font-weight:bold;
+  min-width:120px;
 }
 
 .container{
@@ -80,15 +89,15 @@ header{
   margin:0 0 8px;
 }
 
-.main-tabs{
+.tabs{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:8px;
 }
 
-.main-tab{
+.tab{
   border:0;
-  padding:14px 5px;
+  padding:13px 6px;
   border-radius:10px;
   font-weight:bold;
   background:#edf2f8;
@@ -96,12 +105,14 @@ header{
   font-size:14px;
 }
 
-.main-tab.active{
+.tab.active{
   background:#123c73;
   color:white;
 }
 
-input,select,textarea{
+input,
+select,
+textarea{
   width:100%;
   padding:13px;
   border:1px solid #ccd5e0;
@@ -111,10 +122,8 @@ input,select,textarea{
 }
 
 label{
-  display:block;
   font-weight:bold;
   font-size:14px;
-  margin-top:4px;
 }
 
 button{
@@ -135,28 +144,39 @@ button{
   background:#159447;
 }
 
-.orange{
-  background:#f28b20;
+.red{
+  background:#e53935;
 }
 
-.option-grid{
+.vehicle{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
+  grid-template-columns:130px 1fr;
+  gap:14px;
+  align-items:center;
 }
 
-.option{
-  border:1px solid #ccd5e0;
-  background:white;
-  padding:12px 6px;
-  border-radius:10px;
+.vehicle img{
+  width:100%;
+  height:95px;
+  object-fit:cover;
+  border-radius:12px;
+  background:#eee;
+}
+
+.price{
+  color:#1769e0;
+  font-size:20px;
   font-weight:bold;
-  text-align:center;
 }
 
-.option.selected{
-  background:#123c73;
-  color:white;
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#e8f6ed;
+  color:#13833d;
+  font-size:12px;
+  font-weight:bold;
 }
 
 .category-grid{
@@ -179,71 +199,24 @@ button{
   color:white;
 }
 
-.package{
+.service-grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:8px;
 }
 
-.package button{
+.service{
   border:1px solid #ccd5e0;
-  background:white;
-  padding:12px 5px;
-  border-radius:10px;
-  font-weight:bold;
-}
-
-.package button.selected{
-  background:#123c73;
-  color:white;
-}
-
-.vehicle{
-  display:grid;
-  grid-template-columns:130px 1fr;
-  gap:14px;
-  align-items:center;
-}
-
-.vehicle img{
-  width:100%;
-  height:95px;
-  object-fit:cover;
-  border-radius:12px;
-  background:#eee;
-}
-
-.driver-box{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  background:#f5f8fc;
   padding:12px;
-  border-radius:12px;
-}
-
-.driver-photo{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  object-fit:cover;
-  background:#ddd;
-}
-
-.price{
-  color:#1769e0;
-  font-size:20px;
+  border-radius:10px;
+  background:white;
   font-weight:bold;
+  text-align:center;
 }
 
-.badge{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  background:#e8f6ed;
-  color:#13833d;
-  font-size:12px;
-  font-weight:bold;
+.service.selected{
+  background:#1769e0;
+  color:white;
 }
 
 .features{
@@ -267,48 +240,108 @@ button{
   font-size:13px;
 }
 
-.map{
-  min-height:220px;
-  border-radius:12px;
-  background:linear-gradient(135deg,#dcebd8,#eaf1f5);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  color:#123c73;
+.hidden{
+  display:none !important;
+}
+
+#map{
+  height:380px;
+  width:100%;
+  border-radius:14px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.map-title{
   font-weight:bold;
-  padding:20px;
+  margin-bottom:8px;
 }
 
-.photo-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-}
-
-.photo-box{
-  height:90px;
-  border-radius:10px;
-  background:#edf2f8;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  font-size:13px;
-  color:#536174;
-}
-
-.status{
-  padding:12px;
-  border-radius:10px;
+.map-status{
   background:#e8f6ed;
-  color:#13783b;
+  color:#13833d;
+  padding:10px;
+  border-radius:9px;
+  font-size:13px;
   font-weight:bold;
   margin-top:10px;
 }
 
-.hidden{
-  display:none!important;
+.cab-popup{
+  min-width:190px;
+}
+
+.cab-popup h3{
+  margin:0 0 6px;
+}
+
+.cab-popup .available{
+  color:#13833d;
+  font-weight:bold;
+}
+
+.cab-popup button{
+  width:100%;
+  border:0;
+  background:#1769e0;
+  color:white;
+  padding:9px;
+  border-radius:8px;
+  margin-top:8px;
+  font-weight:bold;
+}
+
+.sell-grid,
+.buy-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.action-box{
+  background:#f5f8fc;
+  border:1px solid #d7dee8;
+  border-radius:12px;
+  padding:16px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.action-box button{
+  margin-top:10px;
+}
+
+.booking-summary{
+  background:#f5f8fc;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:12px;
+}
+
+.driver-card{
+  background:#f5f8fc;
+  border-radius:14px;
+  padding:14px;
+}
+
+.driver-photo{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#ddd;
+}
+
+.call-button{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:#159447;
+  color:white;
+  padding:13px;
+  border-radius:10px;
+  font-weight:bold;
+  margin-top:10px;
 }
 
 nav{
@@ -319,7 +352,7 @@ nav{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   padding:7px;
-  z-index:15;
+  z-index:1000;
 }
 
 nav button{
@@ -327,16 +360,6 @@ nav button{
   background:white;
   padding:9px 3px;
   font-size:12px;
-}
-
-.call-button{
-  display:inline-block;
-  text-decoration:none;
-  background:#159447;
-  color:white;
-  padding:10px 16px;
-  border-radius:10px;
-  font-weight:bold;
 }
 
 footer{
@@ -356,18 +379,21 @@ footer{
     height:80px;
   }
 
-  .package{
-    grid-template-columns:repeat(2,1fr);
-  }
-
   .category-grid{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .photo-grid{
-    grid-template-columns:repeat(2,1fr);
+  .sell-grid,
+  .buy-grid{
+    grid-template-columns:1fr;
   }
+
+  #map{
+    height:330px;
+  }
+
 }
+
 </style>
 </head>
 
@@ -381,16 +407,25 @@ footer{
 🚗 CAR <span>SET U</span>
 </div>
 
-<select class="lang" id="language" onchange="changeLanguage()">
+<select
+class="lang"
+id="language"
+onchange="changeLanguage()">
+
 <option value="en">English</option>
 <option value="hi">हिंदी</option>
 <option value="te">తెలుగు</option>
+
 </select>
 
 </div>
 
-<div class="tagline" id="tagline">
+<div
+class="tagline"
+id="tagline">
+
 Buy • Sell • Cab Booking
+
 </div>
 
 </header>
@@ -402,41 +437,44 @@ Buy • Sell • Cab Booking
 <section class="hero">
 
 <h1 id="heroTitle">
-Car Set U
+Cab Booking
 </h1>
 
 <p id="heroText">
-Buy Cars • Sell Cars • Book a Cab
+Book a verified cab for Local or Intercity travel
 </p>
 
 </section>
 
 
-<!-- MAIN OPTIONS -->
+<!-- MAIN MODES -->
 
 <section class="card">
 
-<div class="main-tabs">
+<div class="tabs">
 
 <button
-class="main-tab active"
-id="buyTab"
+class="tab"
 onclick="setMode('buy',this)">
-🚗 Buy Car
+
+🚗 Buy
+
 </button>
 
 <button
-class="main-tab"
-id="sellTab"
+class="tab"
 onclick="setMode('sell',this)">
-💰 Sell Car
+
+💰 Sell
+
 </button>
 
 <button
-class="main-tab"
-id="cabTab"
+class="tab active"
 onclick="setMode('cab',this)">
+
 🚕 Cab Booking
+
 </button>
 
 </div>
@@ -444,160 +482,107 @@ onclick="setMode('cab',this)">
 </section>
 
 
-<!-- BUY CAR -->
+<!-- BUY -->
 
-<section class="card" id="buyPanel">
+<section
+class="card hidden"
+id="buySection">
 
-<h2>🚗 Buy Car</h2>
+<h2>🚗 Buy a Car</h2>
 
 <p>
-Find four-wheelers available for purchase.
+Find a four-wheeler available for purchase.
 </p>
 
-<label>Location</label>
+<div class="buy-grid">
 
-<input
-id="buyLocation"
-placeholder="Search city, area or location">
-
-<label>Vehicle Type</label>
-
-<div class="category-grid">
-
-<button
-class="category selected"
-onclick="selectBuyCategory(this,'All')">
-🚘 All
-</button>
-
-<button
-class="category"
-onclick="selectBuyCategory(this,'Hatchback')">
-🚗 Hatchback
-</button>
-
-<button
-class="category"
-onclick="selectBuyCategory(this,'Sedan')">
-🚙 Sedan
-</button>
-
-<button
-class="category"
-onclick="selectBuyCategory(this,'SUV')">
-🚘 SUV
-</button>
-
-<button
-class="category"
-onclick="selectBuyCategory(this,'MUV')">
-🚐 MUV
-</button>
-
-<button
-class="category"
-onclick="selectBuyCategory(this,'Luxury')">
-👑 Luxury
-</button>
-
-</div>
-
+<div class="action-box">
+🚘 Cars
 <br>
+Hatchback / Sedan / SUV / MUV
 
 <button
 class="primary"
-onclick="searchBuyCars()">
-🔍 Search Cars For Sale
+onclick="alert('Car buying search will connect to Firebase vehicle database.')">
+
+Search Cars
+
 </button>
+
+</div>
+
+<div class="action-box">
+📍 Location
+<br>
+Find cars near you
+
+<button
+class="primary"
+onclick="alert('Location based car search will be connected in the next step.')">
+
+Search by Location
+
+</button>
+
+</div>
+
+</div>
 
 </section>
 
 
-<!-- SELL CAR -->
+<!-- SELL -->
 
-<section class="card hidden" id="sellPanel">
+<section
+class="card hidden"
+id="sellSection">
 
-<h2>💰 Sell Car</h2>
+<h2>💰 Sell Your Car</h2>
 
 <p>
-List your car for sale on Car Set U.
+List your car for sale.
 </p>
 
-<label>Owner Name</label>
+<label>
+Car Brand / Model
+</label>
 
 <input
-id="sellerName"
-placeholder="Enter your name">
-
-<label>Mobile Number</label>
-
-<input
-id="sellerMobile"
-type="tel"
-placeholder="Enter mobile number">
-
-<label>Car Brand & Model</label>
-
-<input
-id="sellerCar"
+id="sellCarName"
 placeholder="Example: Toyota Innova">
 
-<label>Vehicle Type</label>
-
-<select id="sellerType">
-
-<option>Hatchback</option>
-<option>Sedan</option>
-<option>SUV</option>
-<option>MUV</option>
-<option>Luxury</option>
-<option>Tempo Traveller</option>
-
-</select>
-
-<label>Year</label>
+<label>
+Year
+</label>
 
 <input
-id="sellerYear"
+id="sellYear"
+type="number"
 placeholder="Example: 2022">
 
-<label>Expected Price</label>
+<label>
+City / Location
+</label>
 
 <input
-id="sellerPrice"
+id="sellLocation"
+placeholder="City or Location">
+
+<label>
+Expected Price
+</label>
+
+<input
+id="sellPrice"
+type="number"
 placeholder="Enter expected price">
-
-<label>Location</label>
-
-<input
-id="sellerLocation"
-placeholder="Area, City or Location">
-
-<h3>📸 Car Photos</h3>
-
-<p>
-Upload up to 6 photos.
-</p>
-
-<input
-id="sellerPhotos"
-type="file"
-accept="image/*"
-multiple>
-
-<h3>🎥 Car Video</h3>
-
-<input
-id="sellerVideo"
-type="file"
-accept="video/*">
-
-<br>
 
 <button
 class="primary green"
 onclick="submitSell()">
-📤 Submit Car For Sale
+
+Submit Car for Sale
+
 </button>
 
 <p id="sellStatus"></p>
@@ -607,390 +592,258 @@ onclick="submitSell()">
 
 <!-- CAB BOOKING -->
 
-<section class="card hidden" id="cabPanel">
+<section
+id="cabSection">
 
-<h2>🚕 Cab Booking</h2>
 
-<h3>Booking Type</h3>
+<section class="card">
 
-<div class="option-grid">
+<h3>
+Rental Type
+</h3>
+
+<div class="service-grid">
 
 <button
-class="option selected"
-onclick="selectCabType(this,'Local')">
+class="service selected"
+onclick="selectService(this,'Local')">
+
 📍 Local
+
 </button>
 
 <button
-class="option"
-onclick="selectCabType(this,'Intercity / Outstation')">
+class="service"
+onclick="selectService(this,'Intercity')">
+
 🛣️ Intercity / Outstation
+
 </button>
 
 </div>
 
-
-<h3>Pickup Point</h3>
-
-<input
-id="pickupLocation"
-placeholder="Type pickup location">
+</section>
 
 
-<div
-id="pickupSuggestions"
-class="hidden">
-</div>
+<section class="card">
 
-
-<h3>Destination</h3>
-
-<input
-id="destinationLocation"
-placeholder="Type destination">
-
-
-<div
-id="destinationSuggestions"
-class="hidden">
-</div>
-
-
-<div class="notice">
-
-📍 Pickup और Destination में आगे
-Maps/Places autocomplete जोड़ा जाएगा।
-
-पूरा address, street/road, area, city,
-state और PIN जहाँ उपलब्ध हो दिखाया जाएगा।
-
-</div>
-
-
-<h3>Rental Duration</h3>
-
-<div class="package">
-
-<button
-class="selected"
-onclick="selectDuration(this,'4 Hours')">
-4 Hours
-</button>
-
-<button
-onclick="selectDuration(this,'8 Hours')">
-8 Hours
-</button>
-
-<button
-onclick="selectDuration(this,'12 Hours')">
-12 Hours
-</button>
-
-<button
-onclick="selectDuration(this,'24 Hours')">
-24 Hours
-</button>
-
-</div>
-
-
-<h3>Vehicle Type</h3>
+<h3>
+Vehicle Type
+</h3>
 
 <div class="category-grid">
 
 <button
 class="category selected"
-onclick="selectCabVehicle(this,'Hatchback')">
+onclick="selectCategory(this,'All')">
+
+🚘 All
+
+</button>
+
+<button
+class="category"
+onclick="selectCategory(this,'Hatchback')">
+
 🚗 Hatchback
+
 </button>
 
 <button
 class="category"
-onclick="selectCabVehicle(this,'Sedan')">
+onclick="selectCategory(this,'Sedan')">
+
 🚙 Sedan
+
 </button>
 
 <button
 class="category"
-onclick="selectCabVehicle(this,'SUV')">
+onclick="selectCategory(this,'SUV')">
+
 🚘 SUV
+
 </button>
 
 <button
 class="category"
-onclick="selectCabVehicle(this,'MUV')">
+onclick="selectCategory(this,'MUV')">
+
 🚐 MUV
+
 </button>
 
 <button
 class="category"
-onclick="selectCabVehicle(this,'Luxury')">
+onclick="selectCategory(this,'Luxury')">
+
 👑 Luxury
+
 </button>
 
 <button
 class="category"
-onclick="selectCabVehicle(this,'Tempo Traveller')">
+onclick="selectCategory(this,'Tempo Traveller')">
+
 🚌 Tempo Traveller
+
 </button>
 
 </div>
 
+</section>
 
-<br>
+
+<!-- LOCATION SEARCH -->
+
+<section class="card">
+
+<label>
+Pickup Point
+</label>
+
+<input
+id="location"
+placeholder="Enter pickup area, street, city">
+
+<label>
+Destination
+</label>
+
+<input
+id="destination"
+placeholder="Enter destination, street, city">
+
+<label>
+Search Vehicle
+</label>
+
+<input
+id="search"
+placeholder="Brand, Model or Vehicle">
 
 <button
 class="primary"
-onclick="showCabVehicle()">
-🔍 Search Available Cabs
+onclick="searchCabs()">
+
+🔎 Search Available Cabs
+
 </button>
 
 </section>
 
 
-<!-- CAB RESULT -->
+<!-- MAP -->
 
-<section
-class="card hidden"
-id="cabResult">
+<section class="card">
 
-<h2>Available Cab</h2>
-
-<div class="vehicle">
-
-<img
-src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=500&q=80">
-
-<div>
-
-<h3>Toyota Innova Crysta</h3>
-
-<span class="badge">
-Available
-</span>
-
-<p>
-MUV • 2022 • Diesel • Automatic • 7 Seater
-</p>
-
-<div class="price">
-₹3,200 / 8 Hours
+<div class="map-title">
+📍 Available Cabs Near You
 </div>
 
+<div
+id="map">
 </div>
 
+<div
+class="map-status"
+id="mapStatus">
+
+🟢 Ready — Search to find available cabs
+
 </div>
-
-<br>
-
-<button
-class="primary"
-onclick="showCabDetails()">
-View Cab
-</button>
 
 </section>
 
 
-<!-- CAB DETAILS - NO 6 PHOTOS / NO VIDEO -->
+<!-- BOOKING FORM -->
 
 <section
 class="card hidden"
-id="cabDetails">
+id="booking">
 
 <h2>
-🚘 Toyota Innova Crysta
+🚕 Cab Booking
 </h2>
 
-<div class="features">
+<div
+class="booking-summary"
+id="bookingSummary">
 
-<div class="feature">📅 Year: 2022</div>
-<div class="feature">⛽ Diesel</div>
-<div class="feature">⚙️ Automatic</div>
-<div class="feature">👥 7 Seater</div>
-<div class="feature">🚐 MUV</div>
-<div class="feature">❄️ AC</div>
+Select an available cab from the map.
 
 </div>
 
-
-<div class="notice">
-
-🚕 Cab Booking में vehicle photos/video upload
-का option नहीं है।
-
-Booking के बाद assigned driver की
-information दिखाई जाएगी।
-
-</div>
-
-
-<h3>🚕 Booking</h3>
-
-<p>
-Select your package and continue to booking.
-</p>
-
-<button
-class="primary green"
-onclick="openBooking()">
-🚕 Continue Cab Booking
-</button>
-
-</section>
-
-
-<!-- BOOKING CONFIRMED / DRIVER -->
-
-<section
-class="card hidden"
-id="driverPanel">
-
-<h2>
-👨‍✈️ Driver Assigned
-</h2>
-
-
-<div class="driver-box">
-
-<img
-class="driver-photo"
-src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80"
-alt="Driver">
-
-<div>
-
-<h3>
-Verified Driver
-</h3>
-
-<span class="badge">
-✅ Verified
-</span>
-
-<p>
-⭐ Rating: 4.8
-</p>
-
-<p>
-🚗 Toyota Innova Crysta
-</p>
-
-</div>
-
-</div>
-
-
-<br>
-
-
-<a
-class="call-button"
-href="tel:">
-📞 Call
-</a>
-
-
-<div class="notice">
-
-🔐 Driver का mobile number screen पर
-नहीं दिखाया जाएगा।
-
-📞 Call icon से authorized calling flow
-बाद में जोड़ा जाएगा।
-
-</div>
-
-
-<h3>📍 Live Location</h3>
-
-<div class="map">
-
-🔴 DRIVER LIVE LOCATION
-
-<br><br>
-
-Trip start होने के बाद driver का
-real-time GPS location यहाँ दिखाई देगा।
-
-</div>
-
-
-<h3>🚗 Trip Status</h3>
-
-<span class="badge">
-Trip Active
-</span>
-
-</section>
-
-
-<!-- BOOKING -->
-
-<section
-class="card hidden"
-id="bookingPanel">
-
-<h2>
-📋 Cab Booking Details
-</h2>
-
-<label>Your Name</label>
+<label>
+Your Name
+</label>
 
 <input
 id="customerName"
 placeholder="Enter your name">
 
-<label>Mobile Number</label>
+<label>
+Mobile Number
+</label>
 
 <input
 id="customerMobile"
 type="tel"
 placeholder="Enter mobile number">
 
-<label>Pickup Point</label>
+<label>
+Pickup Location
+</label>
 
 <input
-id="bookingPickup"
+id="pickup"
 placeholder="Pickup location">
 
-<label>Destination</label>
+<label>
+Destination
+</label>
 
 <input
-id="bookingDestination"
+id="destinationBooking"
 placeholder="Destination">
 
-<label>Booking Type</label>
+<label>
+Rental Type
+</label>
 
-<select id="bookingType">
+<select id="rentalType">
 
-<option>Local</option>
-<option>Intercity / Outstation</option>
+<option>
+Local
+</option>
 
-</select>
-
-<label>Duration</label>
-
-<select id="bookingDuration">
-
-<option>4 Hours</option>
-<option>8 Hours</option>
-<option>12 Hours</option>
-<option>24 Hours</option>
+<option>
+Intercity / Outstation
+</option>
 
 </select>
 
-<label>Vehicle Type</label>
+<label>
+Rental Duration
+</label>
 
-<select id="bookingVehicle">
+<select id="duration">
 
-<option>Hatchback</option>
-<option>Sedan</option>
-<option>SUV</option>
-<option>MUV</option>
-<option>Luxury</option>
-<option>Tempo Traveller</option>
+<option>
+4 Hours
+</option>
+
+<option selected>
+8 Hours
+</option>
+
+<option>
+12 Hours
+</option>
+
+<option>
+24 Hours
+</option>
 
 </select>
 
@@ -999,7 +852,7 @@ placeholder="Destination">
 class="primary green"
 onclick="submitBooking()">
 
-🚕 Submit Cab Booking
+🚕 Confirm Cab Booking
 
 </button>
 
@@ -1008,51 +861,110 @@ onclick="submitBooking()">
 </section>
 
 
+<!-- DRIVER AFTER BOOKING -->
+
+<section
+class="card hidden"
+id="driverSection">
+
+<h2>
+👨‍✈️ Assigned Driver
+</h2>
+
+<div class="driver-card">
+
+<img
+class="driver-photo"
+src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80"
+alt="Driver">
+
+<h3>
+Verified Driver
+</h3>
+
+<p>
+⭐ Rating: 4.8
+</p>
+
+<p>
+✅ Driving Licence Verified
+</p>
+
+<p>
+🚕 Vehicle: Toyota Innova Crysta
+</p>
+
+<p>
+🟢 Booking Confirmed
+</p>
+
+<a
+class="call-button"
+href="tel:+910000000000">
+
+📞 Call Driver
+
+</a>
+
+</div>
+
+</section>
+
+
+</section>
+
+
 <!-- MY TRIP -->
 
 <section
 class="card hidden"
-id="tripPanel">
+id="trip">
 
 <h2>
 🚗 My Active Trip
 </h2>
 
-<div class="driver-box">
+<p>
+<b>Vehicle:</b>
+Toyota Innova Crysta
+</p>
 
-<img
-class="driver-photo"
-src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80"
-alt="Driver">
+<p>
+<b>Category:</b>
+MUV
+</p>
 
-<div>
+<p>
+<b>Rental:</b>
+8 Hours
+</p>
 
-<b>Verified Driver</b>
-
-<p>⭐ 4.8 Rating</p>
-
-<p>🚗 Toyota Innova Crysta</p>
-
-</div>
-
-</div>
-
-<br>
+<p>
+<b>Status:</b>
 
 <span class="badge">
 Trip Active
 </span>
 
-<h3>📍 Live Location</h3>
+</p>
 
-<div class="map">
+<h3>
+📍 Live Location
+</h3>
 
-🔴 DRIVER LIVE LOCATION
+<div
+id="tripMap"
+style="
+height:280px;
+border-radius:14px;
+overflow:hidden;
+">
 
-<br><br>
+</div>
 
-Real-time GPS location will appear
-here after the trip starts.
+<div class="notice">
+
+Live GPS tracking will be connected with Firebase after the basic website test is completed.
 
 </div>
 
@@ -1065,19 +977,23 @@ here after the trip starts.
 <nav>
 
 <button onclick="goHome()">
-🏠<br>Home
+🏠<br>
+Home
 </button>
 
 <button onclick="showBuy()">
-🚗<br>Buy
+🚗<br>
+Buy
 </button>
 
 <button onclick="showCab()">
-🚕<br>Cab
+🚕<br>
+Cab
 </button>
 
 <button onclick="showTrip()">
-📍<br>My Trip
+📍<br>
+My Trip
 </button>
 
 </nav>
@@ -1085,15 +1001,17 @@ here after the trip starts.
 
 <footer>
 
-<b>CAR SET U</b>
+<b>
+CAR SET U
+</b>
 
-<br><br>
+<br>
 
 Buy • Sell • Cab Booking
 
 <br>
 
-Local • Intercity • Verified Drivers • Live Tracking
+Local • Intercity • Verified Drivers
 
 <br>
 
@@ -1102,504 +1020,100 @@ English • हिंदी • తెలుగు
 </footer>
 
 
-<!-- =====================================================
-     FIREBASE - CAR SET U WEB
-     ===================================================== -->
-
 <script type="module">
+
+/*
+  FIREBASE CONFIGURATION
+  Car Set U
+*/
 
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-import {
-  getAnalytics,
-  isSupported
-}
+import { getAnalytics }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
 
 
 const firebaseConfig = {
 
-  apiKey:
-  "AIzaSyDFCvXr8h-sZAxBUZNThtgNxEOwrOQWvrI",
+apiKey:
+"AIzaSyDFCvXr8h-sZAxBUZNThtgNxEOwrOQWvrI",
 
-  authDomain:
-  "car-set-u.firebaseapp.com",
+authDomain:
+"car-set-u.firebaseapp.com",
 
-  projectId:
-  "car-set-u",
+projectId:
+"car-set-u",
 
-  storageBucket:
-  "car-set-u.firebasestorage.app",
+storageBucket:
+"car-set-u.firebasestorage.app",
 
-  messagingSenderId:
-  "270679615416",
+messagingSenderId:
+"270679615416",
 
-  appId:
-  "1:270679615416:web:f22a7a71a736b52ac1914d",
+appId:
+"1:270679615416:web:f22a7a71a736b52ac1914d",
 
-  measurementId:
-  "G-R3H6ZC8NZ5"
+measurementId:
+"G-R3H6ZC8NZ5"
 
 };
 
 
-const app = initializeApp(firebaseConfig);
+const app =
+initializeApp(firebaseConfig);
 
-window.carSetUFirebaseApp = app;
+try{
+
+getAnalytics(app);
+
+}catch(error){
+
+console.log(
+"Firebase Analytics not available:",
+error
+);
+
+}
+
+window.firebaseReady=true;
+
+</script>
 
 
-isSupported()
-.then(function(supported){
-
-  if(supported){
-
-    getAnalytics(app);
-
-    console.log(
-      "Car Set U Firebase connected."
-    );
-
-  }
-
-})
-.catch(function(error){
-
-  console.log(
-    "Firebase Analytics unavailable:",
-    error
-  );
-
-});
-
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 </script>
 
 
 <script>
 
-let currentMode="buy";
 
-let selectedCabType="Local";
+let selectedService="Local";
+let selectedCategory="All";
+let selectedCab=null;
 
-let selectedDuration="4 Hours";
 
-let selectedCabVehicle="Hatchback";
-
-
-function hideAllPanels(){
-
-  const panels=[
-    "buyPanel",
-    "sellPanel",
-    "cabPanel",
-    "cabResult",
-    "cabDetails",
-    "bookingPanel",
-    "driverPanel",
-    "tripPanel"
-  ];
-
-  panels.forEach(function(id){
-
-    document
-    .getElementById(id)
-    .classList.add("hidden");
-
-  });
-
-}
-
-
-function setMode(mode,button){
-
-  currentMode=mode;
-
-  document
-  .querySelectorAll(".main-tab")
-  .forEach(function(tab){
-
-    tab.classList.remove("active");
-
-  });
-
-  button.classList.add("active");
-
-  hideAllPanels();
-
-
-  if(mode==="buy"){
-
-    document
-    .getElementById("buyPanel")
-    .classList.remove("hidden");
-
-  }
-
-
-  if(mode==="sell"){
-
-    document
-    .getElementById("sellPanel")
-    .classList.remove("hidden");
-
-  }
-
-
-  if(mode==="cab"){
-
-    document
-    .getElementById("cabPanel")
-    .classList.remove("hidden");
-
-  }
-
-}
-
-
-function selectCabType(button,type){
-
-  document
-  .querySelectorAll("#cabPanel .option")
-  .forEach(function(b){
-
-    b.classList.remove("selected");
-
-  });
-
-  button.classList.add("selected");
-
-  selectedCabType=type;
-
-}
-
-
-function selectDuration(button,duration){
-
-  document
-  .querySelectorAll("#cabPanel .package button")
-  .forEach(function(b){
-
-    b.classList.remove("selected");
-
-  });
-
-  button.classList.add("selected");
-
-  selectedDuration=duration;
-
-}
-
-
-function selectCabVehicle(button,type){
-
-  document
-  .querySelectorAll("#cabPanel .category")
-  .forEach(function(b){
-
-    b.classList.remove("selected");
-
-  });
-
-  button.classList.add("selected");
-
-  selectedCabVehicle=type;
-
-}
-
-
-function selectBuyCategory(button,type){
-
-  document
-  .querySelectorAll("#buyPanel .category")
-  .forEach(function(b){
-
-    b.classList.remove("selected");
-
-  });
-
-  button.classList.add("selected");
-
-}
-
-
-function searchBuyCars(){
-
-  alert(
-    "Buy Car search will connect to the Firebase vehicle database in the next step."
-  );
-
-}
-
-
-function submitSell(){
-
-  const name=
-  document.getElementById("sellerName")
-  .value.trim();
-
-  const mobile=
-  document.getElementById("sellerMobile")
-  .value.trim();
-
-  const car=
-  document.getElementById("sellerCar")
-  .value.trim();
-
-
-  const photos=
-  document.getElementById("sellerPhotos")
-  .files.length;
-
-  const video=
-  document.getElementById("sellerVideo")
-  .files.length;
-
-
-  if(!name || !mobile || !car){
-
-    document
-    .getElementById("sellStatus")
-    .textContent=
-    "Please enter Name, Mobile Number and Car details.";
-
-    return;
-
-  }
-
-
-  if(photos>6){
-
-    document
-    .getElementById("sellStatus")
-    .textContent=
-    "Maximum 6 car photos are allowed.";
-
-    return;
-
-  }
-
-
-  document
-  .getElementById("sellStatus")
-  .innerHTML=
-  "✅ Car selling request prepared.<br>"+
-  "6 Photos + 1 Video can be submitted.<br>"+
-  "Firebase storage/database will be connected in the next step.";
-
-}
-
-
-function showCabVehicle(){
-
-  document
-  .getElementById("cabResult")
-  .classList.remove("hidden");
-
-  window.scrollTo({
-
-    top:
-    document.getElementById("cabResult").offsetTop,
-
-    behavior:"smooth"
-
-  });
-
-}
-
-
-function showCabDetails(){
-
-  document
-  .getElementById("cabDetails")
-  .classList.remove("hidden");
-
-  window.scrollTo({
-
-    top:
-    document.getElementById("cabDetails").offsetTop,
-
-    behavior:"smooth"
-
-  });
-
-}
-
-
-function openBooking(){
-
-  document
-  .getElementById("bookingPanel")
-  .classList.remove("hidden");
-
-  document
-  .getElementById("bookingType")
-  .value=selectedCabType;
-
-  document
-  .getElementById("bookingDuration")
-  .value=selectedDuration;
-
-  document
-  .getElementById("bookingVehicle")
-  .value=selectedCabVehicle;
-
-
-  window.scrollTo({
-
-    top:
-    document.getElementById("bookingPanel").offsetTop,
-
-    behavior:"smooth"
-
-  });
-
-}
-
-
-function submitBooking(){
-
-  const name=
-  document
-  .getElementById("customerName")
-  .value.trim();
-
-  const mobile=
-  document
-  .getElementById("customerMobile")
-  .value.trim();
-
-  const pickup=
-  document
-  .getElementById("bookingPickup")
-  .value.trim();
-
-  const destination=
-  document
-  .getElementById("bookingDestination")
-  .value.trim();
-
-
-  if(!name || !mobile || !pickup || !destination){
-
-    document
-    .getElementById("bookingStatus")
-    .textContent=
-    "Please enter Name, Mobile, Pickup and Destination.";
-
-    return;
-
-  }
-
-
-  document
-  .getElementById("bookingStatus")
-  .innerHTML=
-  "✅ Booking request submitted.<br>"+
-  "Admin will assign the vehicle and verified driver.";
-
-}
-
-
-function showBuy(){
-
-  document
-  .getElementById("buyTab")
-  .click();
-
-  window.scrollTo({
-
-    top:0,
-    behavior:"smooth"
-
-  });
-
-}
-
-
-function showCab(){
-
-  document
-  .getElementById("cabTab")
-  .click();
-
-  window.scrollTo({
-
-    top:0,
-    behavior:"smooth"
-
-  });
-
-}
-
-
-function showTrip(){
-
-  hideAllPanels();
-
-  document
-  .getElementById("tripPanel")
-  .classList.remove("hidden");
-
-  window.scrollTo({
-
-    top:
-    document.getElementById("tripPanel").offsetTop,
-
-    behavior:"smooth"
-
-  });
-
-}
-
-
-function goHome(){
-
-  hideAllPanels();
-
-  document
-  .getElementById("buyPanel")
-  .classList.remove("hidden");
-
-  document
-  .querySelectorAll(".main-tab")
-  .forEach(function(tab){
-
-    tab.classList.remove("active");
-
-  });
-
-  document
-  .getElementById("buyTab")
-  .classList.add("active");
-
-  window.scrollTo({
-
-    top:0,
-    behavior:"smooth"
-
-  });
-
-}
-
+/* LANGUAGE */
 
 const translations={
 
 en:{
 tag:"Buy • Sell • Cab Booking",
-hero:"Car Set U",
-heroText:"Buy Cars • Sell Cars • Book a Cab"
+hero:"Cab Booking",
+heroText:"Book a verified cab for Local or Intercity travel"
 },
 
 hi:{
-tag:"कार खरीदें • कार बेचें • कैब बुक करें",
-hero:"Car Set U",
-heroText:"कार खरीदें • कार बेचें • कैब बुक करें"
+tag:"कार खरीदें • बेचें • कैब बुक करें",
+hero:"कैब बुकिंग",
+heroText:"लोकल या इंटरसिटी यात्रा के लिए Verified Cab बुक करें"
 },
 
 te:{
-tag:"కారు కొనండి • కారు అమ్మండి • క్యాబ్ బుక్ చేయండి",
-hero:"Car Set U",
-heroText:"కార్లు కొనండి • అమ్మండి • క్యాబ్ బుక్ చేయండి"
+tag:"కారు కొనండి • అమ్మండి • క్యాబ్ బుకింగ్",
+hero:"క్యాబ్ బుకింగ్",
+heroText:"లోకల్ లేదా ఇంటర్‌సిటీ ప్రయాణం కోసం క్యాబ్ బుక్ చేయండి"
 }
 
 };
@@ -1607,25 +1121,613 @@ heroText:"కార్లు కొనండి • అమ్మండి • �
 
 function changeLanguage(){
 
-  const lang=
-  document.getElementById("language").value;
+const lang=
+document.getElementById("language").value;
 
-  const t=
-  translations[lang];
+const t=
+translations[lang];
 
-  document
-  .getElementById("tagline")
-  .textContent=t.tag;
+document.getElementById("tagline")
+.textContent=t.tag;
 
-  document
-  .getElementById("heroTitle")
-  .textContent=t.hero;
+document.getElementById("heroTitle")
+.textContent=t.hero;
 
-  document
-  .getElementById("heroText")
-  .textContent=t.heroText;
+document.getElementById("heroText")
+.textContent=t.heroText;
 
 }
+
+
+/* MODE */
+
+function setMode(mode,button){
+
+document
+.querySelectorAll(".tab")
+.forEach(
+b=>b.classList.remove("active")
+);
+
+button.classList.add("active");
+
+
+document
+.getElementById("buySection")
+.classList.add("hidden");
+
+document
+.getElementById("sellSection")
+.classList.add("hidden");
+
+document
+.getElementById("cabSection")
+.classList.add("hidden");
+
+
+if(mode==="buy"){
+
+document
+.getElementById("buySection")
+.classList.remove("hidden");
+
+}
+
+if(mode==="sell"){
+
+document
+.getElementById("sellSection")
+.classList.remove("hidden");
+
+}
+
+if(mode==="cab"){
+
+document
+.getElementById("cabSection")
+.classList.remove("hidden");
+
+}
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+/* SERVICE */
+
+function selectService(button,service){
+
+document
+.querySelectorAll(".service")
+.forEach(
+b=>b.classList.remove("selected")
+);
+
+button.classList.add("selected");
+
+selectedService=service;
+
+}
+
+
+/* CATEGORY */
+
+function selectCategory(button,category){
+
+document
+.querySelectorAll(".category")
+.forEach(
+b=>b.classList.remove("selected")
+);
+
+button.classList.add("selected");
+
+selectedCategory=category;
+
+}
+
+
+/* MAP */
+
+let map;
+
+let tripMap;
+
+let cabMarkers=[];
+
+
+function initializeMap(){
+
+map=L.map("map").setView(
+[17.3850,78.4867],
+12
+);
+
+
+L.tileLayer(
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+{
+maxZoom:19,
+attribution:"© OpenStreetMap"
+}
+).addTo(map);
+
+
+/* TEST CAB LOCATIONS */
+
+createCab(
+17.3850,
+78.4867,
+"Toyota Innova Crysta",
+"MUV",
+"Available",
+"₹3,200 / 8 Hours"
+);
+
+createCab(
+17.4065,
+78.4772,
+"Maruti Swift",
+"Hatchback",
+"Available",
+"₹1,800 / 8 Hours"
+);
+
+createCab(
+17.3616,
+78.4747,
+"Hyundai Verna",
+"Sedan",
+"Available",
+"₹2,400 / 8 Hours"
+);
+
+}
+
+
+function createCab(
+lat,
+lng,
+name,
+category,
+status,
+rate
+){
+
+const icon=
+L.divIcon({
+
+className:"cab-icon",
+
+html:"🚕",
+
+iconSize:[35,35]
+
+});
+
+
+const marker=
+L.marker(
+[lat,lng],
+{icon:icon}
+).addTo(map);
+
+
+marker.bindPopup(`
+
+<div class="cab-popup">
+
+<h3>${name}</h3>
+
+<div class="available">
+🟢 ${status}
+</div>
+
+<p>
+${category}
+</p>
+
+<p>
+${rate}
+</p>
+
+<button
+onclick="selectCab('${name}','${category}','${rate}')">
+
+View / Book Cab
+
+</button>
+
+</div>
+
+`);
+
+
+cabMarkers.push(marker);
+
+}
+
+
+function selectCab(
+name,
+category,
+rate
+){
+
+selectedCab={
+name:name,
+category:category,
+rate:rate
+};
+
+
+document
+.getElementById("booking")
+.classList.remove("hidden");
+
+
+document
+.getElementById("bookingSummary")
+innerHTML=
+
+"<b>🚕 Selected Cab</b><br><br>"+
+name+
+"<br>"+
+category+
+"<br>"+
+"<b>"+rate+"</b>";
+
+
+document
+.getElementById("pickup")
+.value=
+document
+.getElementById("location")
+.value;
+
+
+document
+.getElementById("destinationBooking")
+.value=
+document
+.getElementById("destination")
+.value;
+
+
+window.scrollTo({
+
+top:
+document
+.getElementById("booking")
+.offsetTop,
+
+behavior:"smooth"
+
+});
+
+}
+
+
+/* SEARCH */
+
+function searchCabs(){
+
+const location=
+document
+.getElementById("location")
+.value.trim();
+
+const destination=
+document
+.getElementById("destination")
+.value.trim();
+
+if(!location){
+
+alert(
+"Please enter Pickup Point."
+);
+
+return;
+
+}
+
+
+document
+.getElementById("mapStatus")
+.innerHTML=
+"🟢 Available cabs found near your pickup location.";
+
+
+if(destination){
+
+document
+.getElementById("mapStatus")
+.innerHTML+=
+"<br>📍 Destination: "+
+destination;
+
+}
+
+
+document
+.getElementById("map")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+
+/* BOOKING */
+
+function submitBooking(){
+
+const name=
+document
+.getElementById("customerName")
+.value.trim();
+
+const mobile=
+document
+.getElementById("customerMobile")
+.value.trim();
+
+const pickup=
+document
+.getElementById("pickup")
+.value.trim();
+
+
+if(
+!name ||
+!mobile ||
+!pickup
+){
+
+document
+.getElementById("bookingStatus")
+.textContent=
+"Please enter Name, Mobile Number and Pickup Location.";
+
+return;
+
+}
+
+
+document
+.getElementById("bookingStatus")
+innerHTML=
+
+"✅ Cab booking request submitted.<br>"+
+"Admin will assign a verified driver.";
+
+
+document
+.getElementById("driverSection")
+.classList.remove("hidden");
+
+
+window.scrollTo({
+
+top:
+document
+.getElementById("driverSection")
+.offsetTop,
+
+behavior:"smooth"
+
+});
+
+}
+
+
+/* SELL */
+
+function submitSell(){
+
+const car=
+document
+.getElementById("sellCarName")
+.value.trim();
+
+const city=
+document
+.getElementById("sellLocation")
+.value.trim();
+
+if(!car || !city){
+
+document
+.getElementById("sellStatus")
+.textContent=
+"Please enter Car Model and Location.";
+
+return;
+
+}
+
+
+document
+.getElementById("sellStatus")
+innerHTML=
+"✅ Car listing request submitted.<br>"+
+"Admin will review the vehicle details.";
+
+}
+
+
+/* HOME */
+
+function goHome(){
+
+document
+.getElementById("buySection")
+.classList.add("hidden");
+
+document
+.getElementById("sellSection")
+.classList.add("hidden");
+
+document
+.getElementById("cabSection")
+.classList.remove("hidden");
+
+document
+.querySelectorAll(".tab")
+.forEach(
+b=>b.classList.remove("active")
+);
+
+document
+.querySelectorAll(".tab")[2]
+.classList.add("active");
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+}
+
+
+/* BUY */
+
+function showBuy(){
+
+document
+.getElementById("buySection")
+.classList.remove("hidden");
+
+document
+.getElementById("sellSection")
+.classList.add("hidden");
+
+document
+.getElementById("cabSection")
+.classList.add("hidden");
+
+document
+.querySelectorAll(".tab")
+.forEach(
+b=>b.classList.remove("active")
+);
+
+document
+.querySelectorAll(".tab")[0]
+.classList.add("active");
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+}
+
+
+/* CAB */
+
+function showCab(){
+
+document
+.getElementById("buySection")
+.classList.add("hidden");
+
+document
+.getElementById("sellSection")
+.classList.add("hidden");
+
+document
+.getElementById("cabSection")
+.classList.remove("hidden");
+
+document
+.querySelectorAll(".tab")
+.forEach(
+b=>b.classList.remove("active")
+);
+
+document
+.querySelectorAll(".tab")[2]
+.classList.add("active");
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+}
+
+
+/* TRIP */
+
+function showTrip(){
+
+document
+.getElementById("trip")
+.classList.remove("hidden");
+
+if(!tripMap){
+
+tripMap=
+L.map("tripMap")
+.setView(
+[17.3850,78.4867],
+14
+);
+
+L.tileLayer(
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+{
+maxZoom:19,
+attribution:"© OpenStreetMap"
+}
+).addTo(tripMap);
+
+
+L.marker(
+[17.3850,78.4867]
+)
+.addTo(tripMap)
+.bindPopup(
+"🚕 Driver Live Location"
+)
+.openPopup();
+
+}
+
+document
+.getElementById("trip")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+
+/* START */
+
+window.addEventListener(
+"load",
+function(){
+
+initializeMap();
+
+}
+);
 
 </script>
 
