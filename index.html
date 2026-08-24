@@ -1,31 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Car Set U - Hyderabad</title>
 
 <link rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-crossorigin="">
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
 font-family:Arial,Helvetica,sans-serif;
 background:#f3f7fc;
 color:#172033;
-padding-bottom:90px;
+padding-bottom:85px;
 }
 
 button,input,select{
@@ -46,7 +36,7 @@ padding:18px;
 display:flex;
 align-items:center;
 justify-content:space-between;
-gap:15px;
+gap:12px;
 }
 
 .logo{
@@ -64,13 +54,12 @@ width:48%;
 padding:13px;
 border-radius:12px;
 border:0;
-font-weight:bold;
 background:white;
-color:#111;
+font-weight:bold;
 }
 
 .subtitle{
-margin-top:15px;
+margin-top:14px;
 font-size:17px;
 }
 
@@ -84,38 +73,37 @@ padding:18px;
 background:linear-gradient(135deg,#17477f,#1870dd);
 color:white;
 border-radius:28px;
-padding:34px 28px;
+padding:32px 26px;
 margin-bottom:18px;
 }
 
 .hero h1{
-font-size:32px;
-margin-bottom:16px;
+font-size:31px;
+margin-bottom:14px;
 }
 
 .hero p{
 font-size:18px;
-line-height:1.45;
+line-height:1.5;
 }
 
 .tabs{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:12px;
+gap:10px;
 background:white;
 padding:14px;
-border-radius:25px;
+border-radius:24px;
 margin-bottom:18px;
-box-shadow:0 4px 18px #0000000d;
 }
 
 .tab{
 border:0;
 border-radius:16px;
-padding:18px 8px;
+padding:17px 7px;
 background:#edf3f9;
 font-weight:bold;
-font-size:17px;
+font-size:16px;
 }
 
 .tab.active{
@@ -143,7 +131,17 @@ margin:18px 0 10px;
 .info{
 color:#596273;
 line-height:1.5;
-margin-bottom:16px;
+margin-bottom:15px;
+}
+
+.form-group{
+margin-bottom:15px;
+}
+
+.form-group label{
+display:block;
+font-weight:bold;
+margin-bottom:7px;
 }
 
 input,select{
@@ -152,6 +150,7 @@ padding:15px;
 border:1px solid #d8dee7;
 border-radius:13px;
 background:white;
+outline:none;
 }
 
 .primary{
@@ -162,12 +161,11 @@ color:white;
 padding:16px;
 border-radius:13px;
 font-weight:bold;
-margin-top:10px;
+margin-top:9px;
 }
 
 .primary:disabled{
-opacity:.65;
-cursor:not-allowed;
+opacity:.6;
 }
 
 .green{
@@ -182,10 +180,72 @@ background:#df3535;
 background:#687386;
 }
 
-.google{
-background:white;
-color:#222;
+.login-help{
+background:#eef4ff;
+color:#344054;
+padding:14px;
+border-radius:13px;
+line-height:1.55;
+margin-bottom:17px;
+}
+
+.phone-row{
+display:flex;
+gap:8px;
+}
+
+.country-code{
+width:72px;
+padding:15px;
 border:1px solid #d8dee7;
+border-radius:13px;
+background:#f5f7fa;
+font-weight:bold;
+text-align:center;
+}
+
+.phone-row input{
+flex:1;
+}
+
+.google-btn{
+width:100%;
+border:1px solid #d7dce5;
+background:white;
+color:#172033;
+padding:16px;
+border-radius:13px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.google-dot{
+display:inline-flex;
+width:25px;
+height:25px;
+border-radius:50%;
+align-items:center;
+justify-content:center;
+color:#4285f4;
+font-weight:900;
+margin-right:7px;
+}
+
+.account-box{
+background:#f8fbff;
+border:1px solid #dce5f0;
+border-radius:15px;
+padding:14px;
+margin-top:12px;
+}
+
+.logged{
+background:#e9f8ee;
+color:#18763b;
+padding:14px;
+border-radius:12px;
+font-weight:bold;
+margin-bottom:12px;
 }
 
 .vehicle-grid{
@@ -227,7 +287,7 @@ padding:18px;
 }
 
 .property-title{
-font-size:24px;
+font-size:23px;
 font-weight:800;
 margin-bottom:10px;
 }
@@ -243,9 +303,9 @@ margin-bottom:10px;
 }
 
 .spec{
-color:#303a4a;
 line-height:1.6;
-margin:8px 0;
+color:#303a4a;
+margin:7px 0;
 }
 
 .price{
@@ -253,16 +313,6 @@ color:#1769df;
 font-size:28px;
 font-weight:800;
 margin:12px 0;
-}
-
-.form-group{
-margin-bottom:15px;
-}
-
-.form-group label{
-display:block;
-font-weight:bold;
-margin-bottom:7px;
 }
 
 .upload-box{
@@ -274,7 +324,7 @@ background:#f8fbff;
 
 .upload-box input{
 border:0;
-padding:5px 0;
+padding:7px 0;
 }
 
 .preview-grid{
@@ -291,42 +341,37 @@ object-fit:cover;
 border-radius:10px;
 }
 
-.logged{
-background:#e9f8ee;
-color:#18763b;
-padding:13px;
-border-radius:12px;
-font-weight:bold;
-margin-bottom:12px;
-}
-
-.login-help{
-background:#eef4ff;
-color:#344054;
-padding:12px;
-border-radius:12px;
-line-height:1.5;
-margin-bottom:15px;
-}
-
-.login-email{
+.stop-box{
 background:#f8fbff;
 border:1px solid #dce5f0;
-padding:12px;
-border-radius:12px;
-margin-bottom:12px;
+border-radius:16px;
+padding:15px;
+margin-top:12px;
+}
+
+.stop-number{
+display:inline-flex;
+width:32px;
+height:32px;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+background:#1769df;
+color:white;
+font-weight:bold;
+margin-right:7px;
 }
 
 .map-box{
 height:360px;
 border-radius:18px;
-background:#e7eef7;
-margin-top:14px;
 overflow:hidden;
+margin-top:14px;
+background:#e8eef7;
 }
 
 .map-status{
-padding:12px;
+padding:13px;
 background:#f7f9fc;
 color:#596273;
 border-radius:12px;
@@ -352,28 +397,7 @@ text-align:center;
 display:block;
 color:#1769df;
 font-size:20px;
-margin-top:4px;
-}
-
-.stop-box{
-background:#f8fbff;
-border:1px solid #dce5f0;
-border-radius:16px;
-padding:15px;
-margin-top:12px;
-}
-
-.stop-number{
-display:inline-flex;
-width:30px;
-height:30px;
-align-items:center;
-justify-content:center;
-border-radius:50%;
-background:#1769df;
-color:white;
-font-weight:bold;
-margin-right:7px;
+margin-top:5px;
 }
 
 .bottom-nav{
@@ -386,7 +410,7 @@ background:white;
 border-top:1px solid #ddd;
 display:grid;
 grid-template-columns:repeat(4,1fr);
-z-index:1000;
+z-index:5000;
 }
 
 .bottom-nav button{
@@ -406,115 +430,10 @@ margin-bottom:4px;
 display:none!important;
 }
 
-.viewer{
-position:fixed;
-inset:0;
-background:#000;
-z-index:9999;
-display:none;
-flex-direction:column;
-}
-
-.viewer.show{
-display:flex;
-}
-
-.viewer-top{
-height:60px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 16px;
-color:white;
-background:#000;
-}
-
-.close-viewer{
-border:0;
-background:#333;
-color:white;
-width:42px;
-height:42px;
-border-radius:50%;
-font-size:24px;
-}
-
-.viewer-main{
-flex:1;
-display:flex;
-align-items:center;
-justify-content:center;
-position:relative;
-overflow:hidden;
-}
-
-.viewer-main img,
-.viewer-main video{
-max-width:95%;
-max-height:82vh;
-object-fit:contain;
-}
-
-.viewer-arrow{
-position:absolute;
-top:50%;
-transform:translateY(-50%);
-width:48px;
-height:48px;
-border:0;
-border-radius:50%;
-background:#ffffffcc;
-color:#111;
-font-size:28px;
-font-weight:bold;
-}
-
-.prev{
-left:12px;
-}
-
-.next{
-right:12px;
-}
-
-.viewer-bottom{
-min-height:70px;
-padding:8px;
-display:flex;
-justify-content:center;
-gap:7px;
-overflow-x:auto;
-background:#111;
-}
-
-.thumb{
-width:60px;
-height:50px;
-border-radius:7px;
-overflow:hidden;
-border:2px solid transparent;
-flex:none;
-background:#333;
-}
-
-.thumb.active{
-border-color:#fff;
-}
-
-.thumb img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
 @media(max-width:560px){
 
 .logo{
 font-size:25px;
-}
-
-.language{
-width:52%;
 }
 
 .hero h1{
@@ -526,7 +445,6 @@ height:190px;
 }
 
 }
-
 </style>
 </head>
 
@@ -572,27 +490,223 @@ Car Sell करें या Cab Book करें.
 </section>
 
 
+<!-- ================= CUSTOMER LOGIN ================= -->
+
+<section id="customerGate">
+
+<div class="card">
+
+<h2>
+📱 Customer Login
+</h2>
+
+<div class="login-help">
+
+Car Set U इस्तेमाल करने से पहले
+पहले अपना <b>Mobile Number</b> दें।
+
+<br><br>
+
+उसके बाद
+<b>Google / Gmail Login</b> करें।
+
+<br><br>
+
+Booking करने के लिए
+Mobile Number + Gmail दोनों जरूरी हैं।
+
+</div>
+
+
+<!-- STEP 1 MOBILE -->
+
+<div id="phoneStep">
+
+<div class="form-group">
+
+<label>
+Mobile Number
+</label>
+
+<div class="phone-row">
+
+<div class="country-code">
++91
+</div>
+
+<input
+id="phoneNumber"
+type="tel"
+inputmode="numeric"
+maxlength="10"
+placeholder="10 digit mobile number">
+
+</div>
+
+</div>
+
+<button
+id="phoneContinueButton"
+class="primary"
+onclick="continueWithPhone()">
+
+Continue
+
+</button>
+
+</div>
+
+
+<!-- STEP 2 GOOGLE -->
+
+<div id="googleStep" class="hidden">
+
+<div class="account-box">
+
+<strong>
+📱 Mobile Number
+</strong>
+
+<div
+id="savedPhone"
+style="margin-top:7px;color:#596273">
+</div>
+
+</div>
+
+
+<p
+class="info"
+style="margin-top:15px">
+
+अब अपना Google / Gmail account चुनें।
+
+</p>
+
+
+<button
+id="googleLoginButton"
+class="google-btn"
+onclick="loginWithGoogle()">
+
+<span class="google-dot">
+G
+</span>
+
+Continue with Google / Gmail
+
+</button>
+
+
+<button
+class="primary gray"
+onclick="changePhone()">
+
+Change Mobile Number
+
+</button>
+
+</div>
+
+
+<!-- LOGGED IN -->
+
+<div id="loggedInBox" class="hidden">
+
+<div
+class="logged"
+id="loginStatus">
+</div>
+
+
+<div class="account-box">
+
+<strong>
+📱 Mobile
+</strong>
+
+<div
+id="accountPhone"
+style="margin-top:7px">
+</div>
+
+</div>
+
+
+<div class="account-box">
+
+<strong>
+📧 Gmail
+</strong>
+
+<div
+id="accountEmail"
+style="margin-top:7px">
+</div>
+
+</div>
+
+
+<button
+class="primary green"
+onclick="openCabAfterLogin()">
+
+🚕 Continue to Car Set U
+
+</button>
+
+
+<button
+class="primary red"
+onclick="logoutUser()">
+
+Logout
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= MAIN APP ================= -->
+
+<div id="mainApp" class="hidden">
+
+
 <div class="tabs">
 
 <button
 class="tab active"
 onclick="showSection('buy',this)">
+
 🚘 Buy
+
 </button>
+
 
 <button
 class="tab"
 onclick="showSection('sell',this)">
+
 💰 Sell
+
 </button>
+
 
 <button
 class="tab"
 onclick="showSection('cab',this)">
+
 🚕 Cab Booking
+
 </button>
 
 </div>
+
 
 
 <!-- ================= BUY ================= -->
@@ -601,11 +715,14 @@ onclick="showSection('cab',this)">
 
 <div class="card">
 
-<h2>🚘 Buy a Car</h2>
+<h2>
+🚘 Buy a Car
+</h2>
 
 <p class="info">
-Hyderabad में उपलब्ध cars देखें.
+Hyderabad में available cars देखें।
 </p>
+
 
 <div class="vehicle-grid">
 
@@ -635,7 +752,10 @@ Hyderabad में उपलब्ध cars देखें.
 
 </div>
 
-<div class="form-group" style="margin-top:15px;">
+
+<div
+class="form-group"
+style="margin-top:15px">
 
 <input
 id="buySearch"
@@ -643,10 +763,13 @@ placeholder="Brand, Model or Vehicle">
 
 </div>
 
+
 <button
 class="primary"
 onclick="searchBuy()">
+
 Search Cars
+
 </button>
 
 </div>
@@ -654,10 +777,12 @@ Search Cars
 
 <div class="card">
 
-<h2>📍 Hyderabad Location</h2>
+<h2>
+📍 Hyderabad Location
+</h2>
 
 <p class="info">
-Area, City या Location से car खोजें.
+Area, City या Location से car खोजें।
 </p>
 
 <input
@@ -667,82 +792,147 @@ placeholder="Area, City or Location">
 <button
 class="primary"
 onclick="searchByLocation()">
+
 Search by Location
+
 </button>
 
 </div>
+
 
 <div id="buyListings"></div>
 
 </section>
 
 
+
 <!-- ================= SELL ================= -->
 
-<section id="sellSection" class="hidden">
+<section
+id="sellSection"
+class="hidden">
 
 <div class="card">
 
-<h2>💰 Sell Your Car</h2>
+<h2>
+💰 Sell Your Car
+</h2>
 
 <p class="info">
-अपनी car की details डालकर Admin approval के लिए भेजें.
+अपनी car की details डालकर Admin approval के लिए भेजें।
 </p>
 
-<div class="form-group">
-<label>Car Brand</label>
-<input id="sellBrand" placeholder="Toyota">
-</div>
 
 <div class="form-group">
-<label>Car Model</label>
-<input id="sellModel" placeholder="Innova Crysta">
+
+<label>
+Car Brand
+</label>
+
+<input
+id="sellBrand"
+placeholder="Toyota">
+
 </div>
 
-<div class="form-group">
-<label>Year</label>
-<input id="sellYear" placeholder="2022">
-</div>
 
 <div class="form-group">
-<label>Fuel</label>
+
+<label>
+Car Model
+</label>
+
+<input
+id="sellModel"
+placeholder="Innova Crysta">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Year
+</label>
+
+<input
+id="sellYear"
+placeholder="2022">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Fuel
+</label>
 
 <select id="sellFuel">
+
 <option>Petrol</option>
 <option>Diesel</option>
 <option>CNG</option>
 <option>Electric</option>
+
 </select>
 
 </div>
 
+
 <div class="form-group">
-<label>Transmission</label>
+
+<label>
+Transmission
+</label>
 
 <select id="sellTransmission">
+
 <option>Manual</option>
 <option>Automatic</option>
+
 </select>
 
 </div>
 
+
 <div class="form-group">
-<label>Seats</label>
-<input id="sellSeats" placeholder="7 Seater">
+
+<label>
+Seats
+</label>
+
+<input
+id="sellSeats"
+placeholder="7 Seater">
+
 </div>
 
+
 <div class="form-group">
-<label>Price</label>
-<input id="sellPrice" placeholder="₹12,50,000">
+
+<label>
+Price
+</label>
+
+<input
+id="sellPrice"
+placeholder="₹12,50,000">
+
 </div>
 
+
 <div class="form-group">
 
-<label>📸 Car Photos</label>
+<label>
+📸 Car Photos
+</label>
 
 <div class="upload-box">
 
-<p>Upload maximum 6 car photos.</p>
+<p>
+Maximum 6 photos.
+</p>
 
 <input
 id="carPhotos"
@@ -759,13 +949,18 @@ class="preview-grid">
 
 </div>
 
+
 <div class="form-group">
 
-<label>🎥 Car Video</label>
+<label>
+🎥 Car Video
+</label>
 
 <div class="upload-box">
 
-<p>Upload 1 vehicle video.</p>
+<p>
+Upload vehicle video.
+</p>
 
 <input
 id="carVideo"
@@ -776,52 +971,73 @@ accept="video/*">
 
 </div>
 
+
 <button
 class="primary green"
 onclick="submitSell()">
+
 Submit Car for Sale
+
 </button>
 
 </div>
+
 
 <div id="sellListings"></div>
 
 </section>
 
 
-<!-- ================= CAB ================= -->
 
-<section id="cabSection" class="hidden">
+<!-- ================= CAB BOOKING ================= -->
+
+<section
+id="cabSection"
+class="hidden">
 
 <div class="card">
 
-<h2>🚕 Hyderabad Cab Booking</h2>
+<h2>
+🚕 Hyderabad Cab Booking
+</h2>
 
 <p class="info">
-Hyderabad / Telangana में Local या Intercity cab book करें.
+
+Hyderabad / Telangana में
+Local या Intercity Cab Book करें।
+
 </p>
 
 
-<h3>Rental Type</h3>
+<h3>
+Rental Type
+</h3>
 
 <div class="vehicle-grid">
 
 <button
 class="vehicle-btn active"
 onclick="selectCabType(this)">
+
 📍 Local
+
 </button>
 
 <button
 class="vehicle-btn"
 onclick="selectCabType(this)">
+
 🛣️ Intercity / Outstation
+
 </button>
 
 </div>
 
 
-<h3>Vehicle Type</h3>
+
+<h3>
+Vehicle Type
+</h3>
 
 <div class="vehicle-grid">
 
@@ -852,13 +1068,19 @@ onclick="selectCabType(this)">
 </div>
 
 
+
 <!-- ONLY PICKUP -->
 
 <div class="stop-box">
 
 <h3>
-<span class="stop-number">1</span>
+
+<span class="stop-number">
+1
+</span>
+
 Pickup Point
+
 </h3>
 
 <input
@@ -868,13 +1090,19 @@ placeholder="Nampally Metro Station">
 </div>
 
 
+
 <!-- ONLY FINAL DESTINATION -->
 
 <div class="stop-box">
 
 <h3>
-<span class="stop-number">2</span>
+
+<span class="stop-number">
+2
+</span>
+
 Final Destination
+
 </h3>
 
 <input
@@ -888,7 +1116,7 @@ placeholder="Miyapur">
 class="primary"
 onclick="showRouteMap()">
 
-📍 Show Route
+📍 Show Complete Route
 
 </button>
 
@@ -898,7 +1126,7 @@ id="mapStatus"
 class="map-status">
 
 Pickup और Final Destination डालकर
-Show Route दबाएँ.
+Show Complete Route दबाएँ।
 
 </div>
 
@@ -923,6 +1151,7 @@ class="route-summary hidden">
 
 </div>
 
+
 <div class="route-item">
 
 ⏱️ Estimated Time
@@ -938,17 +1167,22 @@ class="route-summary hidden">
 </div>
 
 
+
 <!-- AVAILABLE CAB -->
 
 <div class="card">
 
-<h2>🚕 Available Cab</h2>
+<h2>
+🚕 Available Cab
+</h2>
+
 
 <div class="property">
 
 <img
 src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=80"
 alt="Available Cab">
+
 
 <div class="property-body">
 
@@ -972,134 +1206,28 @@ MUV • 2022 • Diesel • Automatic • 7 Seater
 ₹3,200 / 8 Hours
 </div>
 
+
 <button
-class="primary green"
 id="bookCabButton"
-onclick="bookCab()">
-🚕 Book Cab
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ================= ACCOUNT ================= -->
-
-<section id="accountSection" class="hidden">
-
-<div class="card">
-
-<h2>📱 Customer Login</h2>
-
-<div class="login-help">
-
-Car Set U इस्तेमाल करने से पहले
-Google/Gmail Login जरूरी है.
-
-Booking के लिए mobile number भी देना जरूरी है.
-
-</div>
-
-
-<div
-id="loginStatus"
-class="logged hidden">
-</div>
-
-
-<!-- GOOGLE LOGIN -->
-
-<div id="googleLoginBox">
-
-<button
-id="googleLoginButton"
-class="primary google"
-onclick="loginWithGoogle()">
-
-🔵 Continue with Google / Gmail
-
-</button>
-
-</div>
-
-
-<!-- MOBILE -->
-
-<div
-id="mobileBox"
-class="hidden"
-style="margin-top:15px;">
-
-<label>
-Mobile Number
-</label>
-
-<div style="
-display:flex;
-gap:8px;
-margin-top:7px;
-">
-
-<div style="
-width:70px;
-padding:15px;
-border:1px solid #d8dee7;
-border-radius:13px;
-background:#f5f7fa;
-font-weight:bold;
-text-align:center;
-">
-+91
-</div>
-
-<input
-id="customerMobile"
-type="tel"
-inputmode="numeric"
-maxlength="10"
-placeholder="10 digit mobile number"
-style="flex:1;">
-
-</div>
-
-
-<button
-id="saveMobileButton"
 class="primary green"
-onclick="saveMobile()">
+onclick="bookCab()">
 
-Save Mobile Number
+🚕 Book Cab
 
 </button>
 
 </div>
 
-
-<div
-id="accountInfo"
-class="login-email hidden">
 </div>
-
-
-<button
-id="logoutBtn"
-class="primary red hidden"
-onclick="logoutUser()">
-
-Logout
-
-</button>
 
 </div>
 
 </section>
+
+</div>
 
 </main>
+
 
 
 <!-- ================= BOTTOM NAV ================= -->
@@ -1107,121 +1235,94 @@ Logout
 <nav class="bottom-nav">
 
 <button onclick="showHome()">
-<span>🏠</span>
+
+<span>
+🏠
+</span>
+
 Home
+
 </button>
+
 
 <button onclick="showSectionByName('buy')">
-<span>🚘</span>
+
+<span>
+🚘
+</span>
+
 Buy
+
 </button>
+
 
 <button onclick="showSectionByName('cab')">
-<span>🚕</span>
+
+<span>
+🚕
+</span>
+
 Cab
+
 </button>
 
+
 <button onclick="showAccount()">
-<span>👤</span>
+
+<span>
+👤
+</span>
+
 My Account
+
 </button>
 
 </nav>
 
 
-<!-- ================= VIEWER ================= -->
-
-<div id="viewer" class="viewer">
-
-<div class="viewer-top">
-
-<div
-id="viewerTitle"
-class="viewer-title">
-Car Photos
-</div>
-
-<button
-class="close-viewer"
-onclick="closeViewer()">
-✕
-</button>
-
-</div>
-
-<div class="viewer-main">
-
-<button
-class="viewer-arrow prev"
-onclick="previousMedia()">
-‹
-</button>
-
-<img
-id="viewerImage"
-class="hidden"
-alt="Car">
-
-<video
-id="viewerVideo"
-class="hidden"
-controls>
-</video>
-
-<button
-class="viewer-arrow next"
-onclick="nextMedia()">
-›
-</button>
-
-</div>
-
-<div
-id="viewerThumbs"
-class="viewer-bottom">
-</div>
-
-</div>
-
 
 <script
-src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-crossorigin="">
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 </script>
 
 
+
+<!-- ================= FIREBASE ================= -->
+
 <script type="module">
 
-/* =========================================================
-   FIREBASE
-========================================================= */
-
-import {
-initializeApp
-}
+import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
 import {
+
 getAuth,
 GoogleAuthProvider,
-signInWithPopup,
+signInWithRedirect,
+getRedirectResult,
 onAuthStateChanged,
 signOut
+
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
 import {
+
 getFirestore,
-collection,
+doc,
+setDoc,
 addDoc,
+collection,
 serverTimestamp
+
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-const firebaseConfig={
+
+const firebaseConfig = {
 
 apiKey:
 "AIzaSyDFCvXr8h-sZAxBUZNThtgNxEOwrOQWvrI",
@@ -1247,287 +1348,491 @@ measurementId:
 };
 
 
-const app=
+
+const app =
 initializeApp(firebaseConfig);
 
 
-const auth=
+const auth =
 getAuth(app);
 
 
-const db=
+const db =
 getFirestore(app);
 
 
-const googleProvider=
+const googleProvider =
 new GoogleAuthProvider();
 
 
 googleProvider.setCustomParameters({
+
 prompt:"select_account"
+
 });
 
 
-let pendingBooking=false;
+
+/* ================= PHONE ================= */
+
+function normalizePhone(value){
+
+const digits =
+(value || "").replace(/\D/g,"");
 
 
-/* =========================================================
-   HYDERABAD LOCATIONS
-========================================================= */
+if(digits.length === 10){
 
-const HYDERABAD_CENTER=[
-17.3850,
-78.4867
-];
+return "+91" + digits;
+
+}
 
 
-const HYDERABAD_LOCATIONS={
+if(
+digits.length === 12 &&
+digits.startsWith("91")
+){
 
-"nampally":{
-lat:17.3930,
-lon:78.4668,
-name:"Nampally, Hyderabad, Telangana, India"
-},
+return "+" + digits;
 
-"nampally metro":{
-lat:17.3930,
-lon:78.4668,
-name:"Nampally Metro Station, Hyderabad, Telangana, India"
-},
+}
 
-"nampally metro station":{
-lat:17.3930,
-lon:78.4668,
-name:"Nampally Metro Station, Hyderabad, Telangana, India"
-},
 
-"miyapur":{
-lat:17.4969,
-lon:78.3498,
-name:"Miyapur, Hyderabad, Telangana, India"
-},
+return "";
 
-"maya pur":{
-lat:17.4969,
-lon:78.3498,
-name:"Miyapur, Hyderabad, Telangana, India"
-},
+}
 
-"mayapur":{
-lat:17.4969,
-lon:78.3498,
-name:"Miyapur, Hyderabad, Telangana, India"
-},
 
-"ameerpet":{
-lat:17.4375,
-lon:78.4483,
-name:"Ameerpet, Hyderabad, Telangana, India"
-},
 
-"kukatpally":{
-lat:17.4849,
-lon:78.4138,
-name:"Kukatpally, Hyderabad, Telangana, India"
-},
+window.continueWithPhone =
+function(){
 
-"kondapur":{
-lat:17.4583,
-lon:78.3670,
-name:"Kondapur, Hyderabad, Telangana, India"
-},
+const input =
+document.getElementById("phoneNumber");
 
-"madhapur":{
-lat:17.4483,
-lon:78.3915,
-name:"Madhapur, Hyderabad, Telangana, India"
-},
 
-"gachibowli":{
-lat:17.4401,
-lon:78.3489,
-name:"Gachibowli, Hyderabad, Telangana, India"
-},
+const phone =
+normalizePhone(input.value);
 
-"hitech city":{
-lat:17.4435,
-lon:78.3772,
-name:"HITEC City, Hyderabad, Telangana, India"
-},
 
-"secunderabad":{
-lat:17.4399,
-lon:78.4983,
-name:"Secunderabad, Telangana, India"
-},
+if(!phone){
 
-"banjara hills":{
-lat:17.4156,
-lon:78.4347,
-name:"Banjara Hills, Hyderabad, Telangana, India"
-},
+alert(
+"Please enter a valid 10 digit mobile number."
+);
 
-"jubilee hills":{
-lat:17.4325,
-lon:78.4071,
-name:"Jubilee Hills, Hyderabad, Telangana, India"
-},
+return;
 
-"lb nagar":{
-lat:17.3457,
-lon:78.5522,
-name:"LB Nagar, Hyderabad, Telangana, India"
-},
+}
 
-"uppal":{
-lat:17.4010,
-lon:78.5591,
-name:"Uppal, Hyderabad, Telangana, India"
-},
 
-"mehdipatnam":{
-lat:17.3949,
-lon:78.4313,
-name:"Mehdipatnam, Hyderabad, Telangana, India"
-},
+localStorage.setItem(
+"carSetU_phone",
+phone
+);
 
-"tolichowki":{
-lat:17.3970,
-lon:78.4160,
-name:"Tolichowki, Hyderabad, Telangana, India"
-},
 
-"dilsukhnagar":{
-lat:17.3688,
-lon:78.5247,
-name:"Dilsukhnagar, Hyderabad, Telangana, India"
-},
+document.getElementById(
+"savedPhone"
+).textContent = phone;
 
-"begumpet":{
-lat:17.4439,
-lon:78.4623,
-name:"Begumpet, Hyderabad, Telangana, India"
-},
 
-"malakpet":{
-lat:17.3731,
-lon:78.5016,
-name:"Malakpet, Hyderabad, Telangana, India"
-},
+document.getElementById(
+"phoneStep"
+).classList.add("hidden");
 
-"attapur":{
-lat:17.3699,
-lon:78.4250,
-name:"Attapur, Hyderabad, Telangana, India"
-},
 
-"manikonda":{
-lat:17.4050,
-lon:78.3830,
-name:"Manikonda, Hyderabad, Telangana, India"
-},
+document.getElementById(
+"googleStep"
+).classList.remove("hidden");
 
-"shamshabad":{
-lat:17.2510,
-lon:78.4294,
-name:"Shamshabad, Telangana, India"
+};
+
+
+
+window.changePhone =
+function(){
+
+document.getElementById(
+"googleStep"
+).classList.add("hidden");
+
+
+document.getElementById(
+"phoneStep"
+).classList.remove("hidden");
+
+
+const saved =
+localStorage.getItem("carSetU_phone") || "";
+
+
+document.getElementById(
+"phoneNumber"
+).value =
+saved.replace("+91","");
+
+};
+
+
+
+/* ================= GOOGLE ================= */
+
+window.loginWithGoogle =
+async function(){
+
+const phone =
+localStorage.getItem("carSetU_phone");
+
+
+if(!phone){
+
+alert(
+"Please enter mobile number first."
+);
+
+return;
+
+}
+
+
+const button =
+document.getElementById(
+"googleLoginButton"
+);
+
+
+button.disabled=true;
+
+button.textContent=
+"⏳ Opening Google...";
+
+
+try{
+
+await signInWithRedirect(
+auth,
+googleProvider
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Google login could not start.\n\n"+
+(error.message || "Please try again.")
+);
+
+button.disabled=false;
+
+button.innerHTML=
+'<span class="google-dot">G</span> Continue with Google / Gmail';
+
 }
 
 };
 
 
-/* =========================================================
-   SAMPLE CARS
-========================================================= */
 
-const buyCars=[{
+getRedirectResult(auth)
+.catch(error=>{
 
-id:"buy1",
+if(error){
 
-title:"Toyota Innova Crysta",
-
-year:"2022",
-
-fuel:"Diesel",
-
-transmission:"Automatic",
-
-seats:"7 Seater",
-
-type:"MUV",
-
-price:"₹12,50,000",
-
-status:"Available",
-
-location:"Hyderabad, Telangana",
-
-photos:[
-"https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=80"
-]
-
-}];
-
-
-const sellCars=[];
-
-
-/* =========================================================
-   SECTION CONTROL
-========================================================= */
-
-window.showSection=function(section,button){
-
-[
-"buy",
-"sell",
-"cab",
-"account"
-].forEach(x=>{
-
-const el=
-document.getElementById(
-x+"Section"
+console.error(
+"Google redirect error:",
+error
 );
 
-if(el){
-el.classList.add("hidden");
+alert(
+"Google login failed.\n\n"+
+(error.message || "Please try again.")
+);
+
 }
 
 });
 
 
-const selected=
-document.getElementById(
-section+"Section"
+
+/* ================= CUSTOMER PROFILE ================= */
+
+async function saveCustomerProfile(user){
+
+const phone =
+localStorage.getItem("carSetU_phone") || "";
+
+
+if(!phone){
+
+alert(
+"Please enter mobile number first."
 );
 
+return false;
 
-if(selected){
-selected.classList.remove("hidden");
 }
 
 
+await setDoc(
+
+doc(
+db,
+"customers",
+user.uid
+),
+
+{
+
+uid:user.uid,
+
+name:
+user.displayName || "",
+
+email:
+user.email || "",
+
+phone:phone,
+
+provider:"google",
+
+updatedAt:
+serverTimestamp(),
+
+createdAt:
+serverTimestamp()
+
+},
+
+{merge:true}
+
+);
+
+
+return true;
+
+}
+
+
+
+/* ================= LOGIN STATE ================= */
+
+onAuthStateChanged(
+auth,
+async user=>{
+
+if(user){
+
+try{
+
+const saved =
+await saveCustomerProfile(user);
+
+
+if(!saved)return;
+
+
+document.getElementById(
+"phoneStep"
+).classList.add("hidden");
+
+
+document.getElementById(
+"googleStep"
+).classList.add("hidden");
+
+
+document.getElementById(
+"loggedInBox"
+).classList.remove("hidden");
+
+
+document.getElementById(
+"mainApp"
+).classList.remove("hidden");
+
+
+const phone =
+localStorage.getItem(
+"carSetU_phone"
+) || "";
+
+
+document.getElementById(
+"loginStatus"
+).textContent =
+"✅ Google / Gmail Login Successful";
+
+
+document.getElementById(
+"accountPhone"
+).textContent =
+phone;
+
+
+document.getElementById(
+"accountEmail"
+).textContent =
+user.email || "";
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Login हुआ लेकिन profile save नहीं हुआ.\n\n"+
+error.message
+);
+
+}
+
+}else{
+
+document.getElementById(
+"loggedInBox"
+).classList.add("hidden");
+
+
+document.getElementById(
+"mainApp"
+).classList.add("hidden");
+
+
+const saved =
+localStorage.getItem("carSetU_phone");
+
+
+if(saved){
+
+document.getElementById(
+"phoneStep"
+).classList.add("hidden");
+
+
+document.getElementById(
+"googleStep"
+).classList.remove("hidden");
+
+
+document.getElementById(
+"savedPhone"
+).textContent =
+saved;
+
+}else{
+
+document.getElementById(
+"phoneStep"
+).classList.remove("hidden");
+
+
+document.getElementById(
+"googleStep"
+).classList.add("hidden");
+
+}
+
+}
+
+});
+
+
+
+/* ================= LOGOUT ================= */
+
+window.logoutUser =
+async function(){
+
+try{
+
+await signOut(auth);
+
+localStorage.removeItem(
+"carSetU_phone"
+);
+
+
+document.getElementById(
+"phoneNumber"
+).value="";
+
+
+document.getElementById(
+"loggedInBox"
+).classList.add("hidden");
+
+
+document.getElementById(
+"mainApp"
+).classList.add("hidden");
+
+
+document.getElementById(
+"phoneStep"
+).classList.remove("hidden");
+
+
+document.getElementById(
+"googleStep"
+).classList.add("hidden");
+
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}catch(error){
+
+alert("Logout failed.");
+
+}
+
+};
+
+
+
+window.openCabAfterLogin =
+function(){
+
+showSectionByName("cab");
+
+};
+
+
+
+/* ================= SECTION ================= */
+
+window.showSection =
+function(section,button){
+
+["buy","sell","cab"].forEach(
+name=>{
+
+document.getElementById(
+name+"Section"
+).classList.add("hidden");
+
+}
+);
+
+
+document.getElementById(
+section+"Section"
+).classList.remove("hidden");
+
+
 document.querySelectorAll(".tab")
-.forEach(b=>
-b.classList.remove("active")
+.forEach(
+b=>b.classList.remove("active")
 );
 
 
 if(button){
+
 button.classList.add("active");
-}
-
-
-if(section==="cab"){
-
-setTimeout(()=>{
-
-if(routeMap){
-routeMap.invalidateSize();
-}
-
-},300);
 
 }
 
@@ -1540,13 +1845,31 @@ behavior:"smooth"
 };
 
 
-window.showSectionByName=function(section){
 
-const buttons=
+window.showSectionByName =
+function(section){
+
+if(!auth.currentUser){
+
+alert(
+"Please complete Phone Number → Google/Gmail Login first."
+);
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+return;
+
+}
+
+
+const buttons =
 document.querySelectorAll(".tab");
 
 
-const index=
+const index =
 section==="buy"
 ?0
 :section==="sell"
@@ -1562,32 +1885,20 @@ buttons[index]
 };
 
 
-window.showHome=function(){
+
+window.showHome =
+function(){
+
+if(!auth.currentUser)return;
 
 showSectionByName("buy");
 
 };
 
 
-window.showAccount=function(){
 
-[
-"buy",
-"sell",
-"cab"
-].forEach(x=>{
-
-document.getElementById(
-x+"Section"
-).classList.add("hidden");
-
-});
-
-
-document.getElementById(
-"accountSection"
-).classList.remove("hidden");
-
+window.showAccount =
+function(){
 
 window.scrollTo({
 top:0,
@@ -1597,413 +1908,59 @@ behavior:"smooth"
 };
 
 
-/* =========================================================
-   GOOGLE LOGIN
-========================================================= */
 
-window.loginWithGoogle=async function(){
+/* ================= BUY ================= */
 
-const button=
-document.getElementById(
-"googleLoginButton"
-);
+const buyCars=[
 
+{
 
-if(button){
+id:"buy1",
 
-button.disabled=true;
+title:
+"Toyota Innova Crysta",
 
-button.textContent=
-"⏳ Connecting to Google...";
+year:"2022",
 
-}
+fuel:"Diesel",
 
+transmission:"Automatic",
 
-try{
+seats:"7 Seater",
 
-const result=
-await signInWithPopup(
-auth,
-googleProvider
-);
+type:"MUV",
 
+price:"₹12,50,000",
 
-const user=
-result.user;
+status:"Available",
 
+location:
+"Hyderabad, Telangana",
 
-alert(
-"✅ Google Login successful.\n\n"+
-"Welcome "+(user.displayName||"Customer")
-);
-
-
-if(pendingBooking){
-
-pendingBooking=false;
-
-showSectionByName("cab");
-
-setTimeout(()=>{
-
-document.getElementById(
-"bookCabButton"
-).scrollIntoView({
-behavior:"smooth",
-block:"center"
-});
-
-},500);
+photo:
+"https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=80"
 
 }
 
-}
-catch(error){
+];
 
-console.error(
-"Google Login Error:",
-error
-);
 
-
-let message=
-"Google Login failed.";
-
-
-if(error.code){
-
-message+=
-"\n\n"+error.code;
-
-}
-
-
-if(error.message){
-
-message+=
-"\n"+error.message;
-
-}
-
-
-alert(message);
-
-}
-finally{
-
-if(button){
-
-button.disabled=false;
-
-button.textContent=
-"🔵 Continue with Google / Gmail";
-
-}
-
-}
-
-};
-
-
-/* =========================================================
-   MOBILE NUMBER
-========================================================= */
-
-function normalizeMobile(value){
-
-let number=
-(value||"")
-.replace(/\D/g,"");
-
-
-if(number.startsWith("91") &&
-number.length===12){
-
-number=
-number.substring(2);
-
-}
-
-
-if(number.length!==10){
-
-return "";
-
-}
-
-
-return "+91"+number;
-
-}
-
-
-window.saveMobile=function(){
-
-const user=
-auth.currentUser;
-
-
-if(!user){
-
-alert(
-"Please Login with Google first."
-);
-
-return;
-
-}
-
-
-const input=
-document.getElementById(
-"customerMobile"
-);
-
-
-const mobile=
-normalizeMobile(input.value);
-
-
-if(!mobile){
-
-alert(
-"Please enter a valid 10 digit mobile number."
-);
-
-return;
-
-}
-
-
-localStorage.setItem(
-"carSetCustomerMobile",
-mobile
-);
-
-
-input.value=
-mobile.substring(3);
-
-
-updateAccountUI();
-
-
-alert(
-"✅ Mobile number saved successfully."
-);
-
-};
-
-
-function getSavedMobile(){
-
-const saved=
-localStorage.getItem(
-"carSetCustomerMobile"
-);
-
-
-return saved||"";
-
-}
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-onAuthStateChanged(
-auth,
-user=>{
-
-updateAccountUI();
-
-
-if(user){
-
-console.log(
-"Logged in:",
-user.email
-);
-
-}
-
-});
-
-
-function updateAccountUI(){
-
-const user=
-auth.currentUser;
-
-
-const googleBox=
-document.getElementById(
-"googleLoginBox"
-);
-
-
-const mobileBox=
-document.getElementById(
-"mobileBox"
-);
-
-
-const status=
-document.getElementById(
-"loginStatus"
-);
-
-
-const accountInfo=
-document.getElementById(
-"accountInfo"
-);
-
-
-const logout=
-document.getElementById(
-"logoutBtn"
-);
-
-
-const mobileInput=
-document.getElementById(
-"customerMobile"
-);
-
-
-if(user){
-
-googleBox.classList.add(
-"hidden"
-);
-
-mobileBox.classList.remove(
-"hidden"
-);
-
-status.classList.remove(
-"hidden"
-);
-
-logout.classList.remove(
-"hidden"
-);
-
-accountInfo.classList.remove(
-"hidden"
-);
-
-
-status.textContent=
-"✅ Google Login successful";
-
-
-accountInfo.innerHTML=
-"📧 Gmail: <strong>"+
-(user.email||"")+
-"</strong><br><br>"+
-"👤 Name: <strong>"+
-(user.displayName||"Customer")+
-"</strong>";
-
-
-const savedMobile=
-getSavedMobile();
-
-
-if(savedMobile){
-
-mobileInput.value=
-savedMobile.substring(3);
-
-}
-else{
-
-mobileInput.value="";
-
-}
-
-}
-else{
-
-googleBox.classList.remove(
-"hidden"
-);
-
-mobileBox.classList.add(
-"hidden"
-);
-
-status.classList.add(
-"hidden"
-);
-
-logout.classList.add(
-"hidden"
-);
-
-accountInfo.classList.add(
-"hidden"
-);
-
-}
-
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-window.logoutUser=async function(){
-
-try{
-
-await signOut(auth);
-
-localStorage.removeItem(
-"carSetCustomerMobile"
-);
-
-alert(
-"Logged out successfully."
-);
-
-}
-catch(error){
-
-console.error(error);
-
-alert(
-"Logout failed."
-);
-
-}
-
-};
-
-
-/* =========================================================
-   BUY
-========================================================= */
 
 function renderBuyCars(list){
 
-const box=
+const box =
 document.getElementById(
 "buyListings"
 );
 
 
-box.innerHTML=
+box.innerHTML =
 "<div class='card'><h2>🚘 Available Cars</h2></div>";
 
 
 if(!list.length){
 
-box.innerHTML+=
+box.innerHTML +=
 "<div class='card'>No cars found.</div>";
 
 return;
@@ -2013,22 +1970,13 @@ return;
 
 list.forEach(car=>{
 
-const card=
-document.createElement("div");
+box.innerHTML += `
 
+<div class="property">
 
-card.className="property";
-
-
-const photo=
-car.photos&&car.photos.length
-?car.photos[0]
-:"";
-
-
-card.innerHTML=`
-
-<img src="${photo}" alt="${car.title}">
+<img
+src="${car.photo}"
+alt="${car.title}">
 
 <div class="property-body">
 
@@ -2041,8 +1989,11 @@ ${car.status}
 </span>
 
 <div class="spec">
-${car.type} • ${car.year} • ${car.fuel}
-• ${car.transmission} • ${car.seats}
+${car.type} •
+${car.year} •
+${car.fuel} •
+${car.transmission} •
+${car.seats}
 </div>
 
 <div class="spec">
@@ -2055,24 +2006,28 @@ ${car.price}
 
 <button
 class="primary"
-onclick="openCarViewer('${car.id}','buy')">
-View Car
+onclick="bookCab()">
+
+Contact / Enquiry
+
 </button>
 
 </div>
+
+</div>
+
 `;
-
-
-box.appendChild(card);
 
 });
 
 }
 
 
-window.searchBuy=function(){
 
-const search=
+window.searchBuy =
+function(){
+
+const search =
 document.getElementById(
 "buySearch"
 ).value
@@ -2080,24 +2035,32 @@ document.getElementById(
 .trim();
 
 
-const filtered=
+renderBuyCars(
+
 buyCars.filter(car=>
 
-car.title.toLowerCase().includes(search)
+car.title
+.toLowerCase()
+.includes(search)
+
 ||
-car.type.toLowerCase().includes(search)
+
+car.type
+.toLowerCase()
+.includes(search)
+
+)
 
 );
-
-
-renderBuyCars(filtered);
 
 };
 
 
-window.searchByLocation=function(){
 
-const location=
+window.searchByLocation =
+function(){
+
+const location =
 document.getElementById(
 "buyLocation"
 ).value
@@ -2114,34 +2077,39 @@ return;
 }
 
 
-const filtered=
+renderBuyCars(
+
 buyCars.filter(car=>
 
-(car.location||"")
+car.location
 .toLowerCase()
 .includes(location)
 
+)
+
 );
-
-
-renderBuyCars(filtered);
 
 };
 
 
-/* =========================================================
-   SELL
-========================================================= */
 
-window.previewPhotos=function(){
+/* ================= SELL ================= */
 
-const input=
+const sellCars=[];
+
+
+
 document.getElementById(
 "carPhotos"
-);
+).addEventListener(
+"change",
+function(){
+
+const files =
+Array.from(this.files);
 
 
-const preview=
+const preview =
 document.getElementById(
 "photoPreview"
 );
@@ -2150,17 +2118,13 @@ document.getElementById(
 preview.innerHTML="";
 
 
-const files=
-Array.from(input.files);
-
-
 if(files.length>6){
 
 alert(
-"Maximum 6 car photos allowed."
+"Maximum 6 photos allowed."
 );
 
-input.value="";
+this.value="";
 
 return;
 
@@ -2169,23 +2133,22 @@ return;
 
 files.forEach(file=>{
 
-if(!file.type.startsWith("image/")){
+if(!file.type.startsWith("image/"))
 return;
-}
 
 
-const reader=
+const reader =
 new FileReader();
 
 
-reader.onload=e=>{
+reader.onload =
+function(e){
 
-const img=
+const img =
 document.createElement("img");
 
 
-img.src=
-e.target.result;
+img.src=e.target.result;
 
 
 preview.appendChild(img);
@@ -2197,32 +2160,37 @@ reader.readAsDataURL(file);
 
 });
 
-};
+});
 
 
-document.getElementById(
-"carPhotos"
-).addEventListener(
-"change",
-window.previewPhotos
+
+window.submitSell =
+function(){
+
+if(!auth.currentUser){
+
+alert(
+"Please complete Phone Number → Google/Gmail Login first."
 );
 
+return;
 
-window.submitSell=function(){
+}
 
-const brand=
+
+const brand =
 document.getElementById(
 "sellBrand"
 ).value.trim();
 
 
-const model=
+const model =
 document.getElementById(
 "sellModel"
 ).value.trim();
 
 
-if(!brand||!model){
+if(!brand || !model){
 
 alert(
 "Please enter Car Brand and Car Model."
@@ -2233,28 +2201,7 @@ return;
 }
 
 
-const photos=
-Array.from(
-document.getElementById(
-"carPhotos"
-).files
-);
-
-
-if(photos.length>6){
-
-alert(
-"Maximum 6 photos allowed."
-);
-
-return;
-
-}
-
-
-const car={
-
-id:"sell-"+Date.now(),
+sellCars.push({
 
 title:
 brand+" "+model,
@@ -2285,335 +2232,28 @@ document.getElementById(
 ).value,
 
 status:
-"Pending Admin Approval",
+"Pending Admin Approval"
 
-location:
-"Hyderabad, Telangana",
-
-photoCount:
-photos.length
-
-};
-
-
-sellCars.push(car);
-
-renderSellCars();
+});
 
 
 alert(
-"Car submitted successfully.\n"+
-"Admin approval is required."
+"✅ Car submitted successfully.\n\nAdmin approval is required."
 );
 
 };
 
 
-function renderSellCars(){
 
-const box=
-document.getElementById(
-"sellListings"
-);
+/* ================= CAB TYPE ================= */
 
-
-box.innerHTML="";
-
-
-sellCars.forEach(car=>{
-
-const card=
-document.createElement("div");
-
-
-card.className="property";
-
-
-card.innerHTML=`
-
-<div class="property-body">
-
-<div class="property-title">
-🚘 ${car.title}
-</div>
-
-<span class="badge">
-${car.status}
-</span>
-
-<div class="spec">
-${car.year||""} •
-${car.fuel||""} •
-${car.transmission||""}
-</div>
-
-<div class="spec">
-📍 Hyderabad, Telangana
-</div>
-
-<div class="price">
-${car.price||""}
-</div>
-
-</div>
-`;
-
-
-box.appendChild(card);
-
-});
-
-}
-
-
-/* =========================================================
-   PHOTO VIEWER
-========================================================= */
-
-let currentMedia=[];
-
-let currentIndex=0;
-
-
-window.openCarViewer=function(id,type){
-
-const car=
-type==="buy"
-?buyCars.find(x=>x.id===id)
-:sellCars.find(x=>x.id===id);
-
-
-if(!car){
-
-alert(
-"Car details not found."
-);
-
-return;
-
-}
-
-
-currentMedia=[];
-
-
-(car.photos||[]).forEach(photo=>{
-
-currentMedia.push({
-type:"image",
-src:photo
-});
-
-});
-
-
-if(!currentMedia.length){
-
-alert(
-"No photos available."
-);
-
-return;
-
-}
-
-
-currentIndex=0;
-
-
-document.getElementById(
-"viewer"
-).classList.add("show");
-
-
-document.getElementById(
-"viewerTitle"
-).textContent=
-car.title;
-
-
-renderViewer();
-
-};
-
-
-function renderViewer(){
-
-const image=
-document.getElementById(
-"viewerImage"
-);
-
-
-const video=
-document.getElementById(
-"viewerVideo"
-);
-
-
-const thumbs=
-document.getElementById(
-"viewerThumbs"
-);
-
-
-image.classList.add("hidden");
-
-video.classList.add("hidden");
-
-video.pause();
-
-video.removeAttribute("src");
-
-
-const media=
-currentMedia[currentIndex];
-
-
-if(!media){
-return;
-}
-
-
-if(media.type==="image"){
-
-image.src=
-media.src;
-
-image.classList.remove(
-"hidden"
-);
-
-}
-else{
-
-video.src=
-media.src;
-
-video.classList.remove(
-"hidden"
-);
-
-}
-
-
-thumbs.innerHTML="";
-
-
-currentMedia.forEach(
-(item,index)=>{
-
-const button=
-document.createElement(
-"button"
-);
-
-
-button.className=
-"thumb"+
-(index===currentIndex
-?" active"
-:"");
-
-
-if(item.type==="image"){
-
-button.innerHTML=
-`<img src="${item.src}">`;
-
-}
-else{
-
-button.innerHTML="🎥";
-
-}
-
-
-button.onclick=()=>{
-
-currentIndex=index;
-
-renderViewer();
-
-};
-
-
-thumbs.appendChild(button);
-
-});
-
-}
-
-
-window.previousMedia=function(){
-
-if(!currentMedia.length){
-return;
-}
-
-
-currentIndex=
-(
-currentIndex-1+
-currentMedia.length
-)
-%currentMedia.length;
-
-
-renderViewer();
-
-};
-
-
-window.nextMedia=function(){
-
-if(!currentMedia.length){
-return;
-}
-
-
-currentIndex=
-(
-currentIndex+1
-)
-%currentMedia.length;
-
-
-renderViewer();
-
-};
-
-
-window.closeViewer=function(){
-
-document.getElementById(
-"viewer"
-).classList.remove("show");
-
-
-const video=
-document.getElementById(
-"viewerVideo"
-);
-
-
-video.pause();
-
-video.removeAttribute("src");
-
-};
-
-
-/* =========================================================
-   CAB TYPE
-========================================================= */
-
-window.selectCabType=function(button){
+window.selectCabType =
+function(button){
 
 button.parentElement
 .querySelectorAll(".vehicle-btn")
-.forEach(b=>
-b.classList.remove("active")
+.forEach(
+b=>b.classList.remove("active")
 );
 
 
@@ -2622,9 +2262,8 @@ button.classList.add("active");
 };
 
 
-/* =========================================================
-   MAP
-========================================================= */
+
+/* ================= ROUTE MAP ================= */
 
 let routeMap=null;
 
@@ -2633,17 +2272,82 @@ let routeMarkers=[];
 let routeLine=null;
 
 
+
+const HYDERABAD_LOCATIONS={
+
+"nampally metro station":
+[17.3930,78.4668],
+
+"nampally":
+[17.3930,78.4668],
+
+"ameerpet":
+[17.4375,78.4483],
+
+"kukatpally":
+[17.4849,78.4138],
+
+"miyapur":
+[17.4969,78.3498],
+
+"madhapur":
+[17.4483,78.3915],
+
+"gachibowli":
+[17.4401,78.3489],
+
+"hitech city":
+[17.4435,78.3772],
+
+"secunderabad":
+[17.4399,78.4983],
+
+"banjara hills":
+[17.4156,78.4347],
+
+"jubilee hills":
+[17.4325,78.4071],
+
+"lb nagar":
+[17.3457,78.5522],
+
+"uppal":
+[17.4010,78.5591],
+
+"dilsukhnagar":
+[17.3688,78.5247],
+
+"begumpet":
+[17.4439,78.4623],
+
+"mehdipatnam":
+[17.3949,78.4313],
+
+"tolichowki":
+[17.3970,78.4160],
+
+"attapur":
+[17.3699,78.4250],
+
+"manikonda":
+[17.4050,78.3830],
+
+"shamshabad":
+[17.2510,78.4294]
+
+};
+
+
+
 function initRouteMap(){
 
-if(routeMap){
-return;
-}
+if(routeMap)return;
 
 
-routeMap=
+routeMap =
 L.map("routeMap")
 .setView(
-HYDERABAD_CENTER,
+[17.3850,78.4867],
 11
 );
 
@@ -2651,225 +2355,243 @@ HYDERABAD_CENTER,
 L.tileLayer(
 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
 {
+
 maxZoom:19,
+
 attribution:
 "© OpenStreetMap contributors"
+
 }
 ).addTo(routeMap);
 
 }
 
 
-/* =========================================================
-   GEOCODE
-========================================================= */
 
 async function geocodePlace(place){
 
-const original=
+const clean =
+place
+.trim()
+.toLowerCase();
+
+
+if(HYDERABAD_LOCATIONS[clean]){
+
+const p =
+HYDERABAD_LOCATIONS[clean];
+
+
+return {
+
+lat:p[0],
+
+lon:p[1],
+
+name:place
+
+};
+
+}
+
+
+const match =
+Object.keys(
+HYDERABAD_LOCATIONS
+).find(
+key=>clean.includes(key)
+);
+
+
+if(match){
+
+const p =
+HYDERABAD_LOCATIONS[match];
+
+
+return {
+
+lat:p[0],
+
+lon:p[1],
+
+name:place
+
+};
+
+}
+
+
+let query =
 place.trim();
 
 
-if(!original){
-
-throw new Error(
-"Location is empty."
-);
-
-}
-
-
-const clean=
-original
-.replace(/\s+/g," ")
-.trim();
-
-
-const key=
-clean
-.toLowerCase()
-.replace(/,/g," ")
-.replace(/\s+/g," ")
-.trim();
-
-
-if(HYDERABAD_LOCATIONS[key]){
-
-const location=
-HYDERABAD_LOCATIONS[key];
-
-
-return{
-
-lat:Number(location.lat),
-
-lon:Number(location.lon),
-
-name:location.name
-
-};
-
-}
-
-
-const matchedKey=
-Object.keys(
-HYDERABAD_LOCATIONS
-).find(k=>
-key.includes(k)
-);
-
-
-if(matchedKey){
-
-const location=
-HYDERABAD_LOCATIONS[
-matchedKey
-];
-
-
-return{
-
-lat:Number(location.lat),
-
-lon:Number(location.lon),
-
-name:location.name
-
-};
-
-}
-
-
-let query=clean;
-
-
-const lower=
-query.toLowerCase();
-
-
 if(
-!lower.includes("hyderabad") &&
-!lower.includes("telangana")
+!query.includes("hyderabad") &&
+!query.includes("telangana")
 ){
 
-query+=
+query +=
 ", Hyderabad, Telangana, India";
 
 }
-else if(
-lower.includes("hyderabad") &&
-!lower.includes("india")
-){
-
-query+=", India";
-
-}
 
 
-const url=
+const url =
 "https://nominatim.openstreetmap.org/search"+
 "?format=jsonv2"+
-"&limit=5"+
-"&addressdetails=1"+
+"&limit=1"+
 "&countrycodes=in"+
-"&accept-language=en"+
 "&q="+
 encodeURIComponent(query);
 
 
-const response=
+const response =
 await fetch(url);
 
 
-if(!response.ok){
-
-throw new Error(
-"Location search failed."
-);
-
-}
-
-
-const data=
+const data =
 await response.json();
 
 
-if(
-!Array.isArray(data) ||
-!data.length
-){
+if(!data.length){
 
 throw new Error(
-"Location not found: "+original
+"Location not found: "+place
 );
 
 }
 
 
-const result=
-data.find(item=>{
+return {
 
-const text=
-(
-item.display_name||""
-).toLowerCase();
+lat:Number(data[0].lat),
 
+lon:Number(data[0].lon),
 
-return(
-text.includes("hyderabad")||
-text.includes("telangana")
-);
-
-})||data[0];
-
-
-const lat=
-Number(result.lat);
-
-
-const lon=
-Number(result.lon);
-
-
-if(
-!Number.isFinite(lat)||
-!Number.isFinite(lon)
-){
-
-throw new Error(
-"Invalid location coordinates."
-);
-
-}
-
-
-return{
-
-lat,
-lon,
 name:
-result.display_name||original
+data[0].display_name
 
 };
 
 }
 
 
-/* =========================================================
-   CLEAR ROUTE
-========================================================= */
 
-function clearRoute(){
+async function getRoute(points){
+
+const coordinates =
+points
+.map(
+p=>p.lon+","+p.lat
+)
+.join(";");
+
+
+const url =
+"https://router.project-osrm.org/route/v1/driving/"+
+coordinates+
+"?overview=full&geometries=geojson";
+
+
+const response =
+await fetch(url);
+
+
+const data =
+await response.json();
+
+
+if(
+!data.routes ||
+!data.routes.length
+){
+
+throw new Error(
+"Complete route not found."
+);
+
+}
+
+
+return data.routes[0];
+
+}
+
+
+
+window.showRouteMap =
+async function(){
+
+if(!auth.currentUser){
+
+alert(
+"Please complete Phone Number → Google/Gmail Login first."
+);
+
+return;
+
+}
+
+
+const pickup =
+document.getElementById(
+"pickup"
+).value.trim();
+
+
+const destination =
+document.getElementById(
+"destination"
+).value.trim();
+
+
+if(!pickup || !destination){
+
+alert(
+"Please enter Pickup and Final Destination."
+);
+
+return;
+
+}
+
+
+initRouteMap();
+
+
+const status =
+document.getElementById(
+"mapStatus"
+);
+
+
+status.textContent =
+"🔎 Finding locations...";
+
+
+try{
+
+const points =
+await Promise.all([
+
+geocodePlace(pickup),
+
+geocodePlace(destination)
+
+]);
+
+
+status.textContent =
+"🛣️ Calculating complete route...";
+
 
 if(routeMarkers.length){
 
-routeMarkers.forEach(marker=>{
-
-routeMap.removeLayer(marker);
-
-});
-
+routeMarkers.forEach(
+marker=>
+routeMap.removeLayer(marker)
+);
 
 routeMarkers=[];
 
@@ -2886,164 +2608,28 @@ routeLine=null;
 
 }
 
-}
 
-
-/* =========================================================
-   OSRM ROUTE
-========================================================= */
-
-async function getRoute(points){
-
-const coordinates=
-points.map(p=>
-p.lon+","+p.lat
-).join(";");
-
-
-const url=
-"https://router.project-osrm.org/route/v1/driving/"+
-coordinates+
-"?overview=full&geometries=geojson";
-
-
-const response=
-await fetch(url);
-
-
-if(!response.ok){
-
-throw new Error(
-"Route service failed."
-);
-
-}
-
-
-const data=
-await response.json();
-
-
-if(
-!data.routes||
-!data.routes.length
-){
-
-throw new Error(
-"Route not found."
-);
-
-}
-
-
-return data.routes[0];
-
-}
-
-
-/* =========================================================
-   SHOW PICKUP → DESTINATION ROUTE
-========================================================= */
-
-window.showRouteMap=async function(){
-
-const pickup=
-document.getElementById(
-"pickup"
-).value.trim();
-
-
-const destination=
-document.getElementById(
-"destination"
-).value.trim();
-
-
-const status=
-document.getElementById(
-"mapStatus"
-);
-
-
-const summary=
-document.getElementById(
-"routeSummary"
-);
-
-
-if(!pickup||!destination){
-
-alert(
-"Please enter Pickup Point and Final Destination."
-);
-
-return;
-
-}
-
-
-initRouteMap();
-
-
-setTimeout(()=>{
-
-routeMap.invalidateSize();
-
-},100);
-
-
-clearRoute();
-
-
-summary.classList.add(
-"hidden"
-);
-
-
-status.textContent=
-"🔎 Finding Pickup and Destination...";
-
-
-try{
-
-const points=
-await Promise.all([
-
-geocodePlace(pickup),
-
-geocodePlace(destination)
-
-]);
-
-
-status.textContent=
-"🛣️ Calculating route...";
-
-
-const route=
+const route =
 await getRoute(points);
 
 
-/* MARKERS */
+points.forEach(
+(point,index)=>{
 
-const labels=[
-"📍 Pickup",
-"🏁 Final Destination"
-];
-
-
-points.forEach((point,index)=>{
-
-const marker=
-L.marker([
+const marker =
+L.marker(
+[
 point.lat,
 point.lon
-])
+]
+)
 .addTo(routeMap)
 .bindPopup(
-labels[index]+
-"<br>"+
-point.name
+index===0
+?
+"📍 Pickup<br>"+point.name
+:
+"🏁 Final Destination<br>"+point.name
 );
 
 
@@ -3052,9 +2638,7 @@ routeMarkers.push(marker);
 });
 
 
-/* DRAW ROUTE */
-
-routeLine=
+routeLine =
 L.geoJSON(
 route.geometry,
 {
@@ -3066,8 +2650,6 @@ opacity:.85
 ).addTo(routeMap);
 
 
-/* FIT MAP */
-
 routeMap.fitBounds(
 routeLine.getBounds(),
 {
@@ -3076,73 +2658,69 @@ padding:[30,30]
 );
 
 
-/* DISTANCE */
-
-const km=
+const km =
 (route.distance/1000)
 .toFixed(1);
 
 
-/* TIME */
-
-const minutes=
+const totalMinutes =
 Math.round(
 route.duration/60
 );
 
 
-const hours=
+const hours =
 Math.floor(
-minutes/60
+totalMinutes/60
 );
 
 
-const mins=
-minutes%60;
+const mins =
+totalMinutes%60;
 
 
-const time=
+const time =
 hours>0
-?`${hours} hr ${mins} min`
-:`${mins} min`;
+?
+hours+" hr "+mins+" min"
+:
+mins+" min";
 
 
 document.getElementById(
 "routeDistance"
-).textContent=
+).textContent =
 km+" KM";
 
 
 document.getElementById(
 "routeDuration"
-).textContent=
+).textContent =
 time;
 
 
-summary.classList.remove(
+document.getElementById(
+"routeSummary"
+).classList.remove(
 "hidden"
 );
 
 
-status.textContent=
+status.textContent =
 "✅ Complete route found successfully.";
 
-}
-catch(error){
+}catch(error){
 
 console.error(error);
 
 
-status.textContent=
+status.textContent =
 "❌ "+error.message;
 
 
 alert(
-"Route नहीं बन पाया.\n\n"+
-error.message+
-"\n\nExample:\n"+
-"Pickup: Nampally Metro Station\n"+
-"Final Destination: Miyapur"
+"Complete route नहीं बन पाया.\n\n"+
+error.message
 );
 
 }
@@ -3150,97 +2728,61 @@ error.message+
 };
 
 
-/* =========================================================
-   FINAL CAB BOOKING
-========================================================= */
 
-let bookingInProgress=false;
+/* ================= BOOK CAB ================= */
 
+window.bookCab =
+async function(){
 
-window.bookCab=async function(){
+if(!auth.currentUser){
 
-if(bookingInProgress){
+alert(
+"Please complete Phone Number → Google/Gmail Login first."
+);
+
 return;
+
 }
 
 
-/* GOOGLE LOGIN REQUIRED */
+const phone =
+localStorage.getItem(
+"carSetU_phone"
+) || "";
 
-const user=
+
+const user =
 auth.currentUser;
 
 
-if(!user){
-
-pendingBooking=true;
-
-alert(
-"Please Login with Google/Gmail first.\n\n"+
-"Booking करने से पहले Customer Login जरूरी है."
-);
-
-showAccount();
-
-return;
-
-}
-
-
-/* MOBILE REQUIRED */
-
-const customerPhone=
-getSavedMobile();
-
-
-if(!customerPhone){
-
-pendingBooking=true;
-
-alert(
-"Please save your mobile number first.\n\n"+
-"My Account में जाकर mobile number save करें."
-);
-
-showAccount();
-
-return;
-
-}
-
-
-/* LOCATIONS */
-
-const pickup=
+const pickup =
 document.getElementById(
 "pickup"
 ).value.trim();
 
 
-const destination=
+const destination =
 document.getElementById(
 "destination"
 ).value.trim();
 
 
-const distanceText=
+const distance =
 document.getElementById(
 "routeDistance"
-).textContent.trim();
+).textContent;
 
 
-const estimatedTime=
+const time =
 document.getElementById(
 "routeDuration"
-).textContent.trim();
+).textContent;
 
 
-if(
-!pickup||
-!destination
-){
+if(!pickup || !destination){
 
 alert(
-"Please enter Pickup Point and Final Destination."
+"Please enter Pickup and Final Destination."
 );
 
 return;
@@ -3248,13 +2790,10 @@ return;
 }
 
 
-if(
-distanceText==="—"||
-estimatedTime==="—"
-){
+if(distance==="—" || time==="—"){
 
 alert(
-"Please press 'Show Route' first."
+"पहले Show Complete Route दबाएँ."
 );
 
 return;
@@ -3262,40 +2801,21 @@ return;
 }
 
 
-const distanceKm=
-Number.parseFloat(
-distanceText.replace(
-/[^\d.]/g,
-""
-)
-);
-
-
-bookingInProgress=true;
-
-
-const button=
+const button =
 document.getElementById(
 "bookCabButton"
 );
 
 
-if(button){
-
 button.disabled=true;
 
-button.textContent=
+button.textContent =
 "⏳ Booking...";
-
-}
 
 
 try{
 
-const bookingData={
-
-cabId:
-"cab1",
+const booking={
 
 bookingType:
 "cab",
@@ -3303,26 +2823,17 @@ bookingType:
 status:
 "pending",
 
-createdAt:
-serverTimestamp(),
-
-
-/* CUSTOMER */
-
-customerPhone:
-customerPhone,
-
 customerUid:
 user.uid,
 
-customerEmail:
-user.email||"",
-
 customerName:
-user.displayName||"Customer",
+user.displayName || "",
 
+customerEmail:
+user.email || "",
 
-/* ROUTE */
+customerPhone:
+phone,
 
 pickup:
 pickup,
@@ -3330,105 +2841,113 @@ pickup,
 destination:
 destination,
 
-
-/* DISTANCE + TIME */
-
-distanceKm:
-Number.isFinite(distanceKm)
-?distanceKm
-:0,
+distance:
+distance,
 
 estimatedTime:
-estimatedTime,
-
-
-/* DRIVER */
+time,
 
 driverId:"",
+
 driverName:"",
+
 driverMobile:"",
+
 driverCar:"",
-driverVehicleNumber:""
+
+vehicleNumber:"",
+
+createdAt:
+serverTimestamp()
 
 };
 
 
-/* FIRESTORE */
-
-const docRef=
+const bookingRef =
 await addDoc(
+
 collection(
 db,
 "cabBookings"
 ),
-bookingData
-);
 
+booking
 
-console.log(
-"Cab booking created:",
-docRef.id
 );
 
 
 alert(
-"✅ Cab booking request received successfully.\n\n"+
+
+"✅ Cab Booking Request Received\n\n"+
+
 "Booking ID: "+
-docRef.id+
-"\n\n"+
-"Customer: "+
-(user.displayName||"Customer")+
-"\n\n"+
-"Gmail: "+
-(user.email||"")+
-"\n\n"+
-"Mobile: "+
-customerPhone+
-"\n\n"+
-"Driver will be assigned by Admin."
+bookingRef.id+
+
+"\n\nMobile: "+
+phone+
+
+"\nGmail: "+
+(user.email || "")+
+
+"\n\nPickup: "+
+pickup+
+
+"\nDestination: "+
+destination+
+
+"\n\nDriver Admin द्वारा assign किया जाएगा."
+
 );
 
-}
-catch(error){
 
-console.error(
-"Cab booking error:",
-error
-);
+}catch(error){
+
+console.error(error);
 
 
 alert(
-"❌ Cab booking failed.\n\n"+
-(error.message||"Please try again.")
+
+"❌ Booking failed.\n\n"+
+(error.message || "Please try again.")
+
 );
 
 }
-finally{
 
-bookingInProgress=false;
-
-
-if(button){
 
 button.disabled=false;
 
-button.textContent=
+button.textContent =
 "🚕 Book Cab";
-
-}
-
-}
 
 };
 
 
-/* =========================================================
-   START
-========================================================= */
+
+/* ================= START ================= */
 
 renderBuyCars(
 buyCars
 );
+
+
+const savedPhone =
+localStorage.getItem(
+"carSetU_phone"
+);
+
+
+if(savedPhone){
+
+document.getElementById(
+"phoneNumber"
+).value =
+savedPhone.replace(
+"+91",
+""
+);
+
+}
 
 </script>
 
