@@ -182,23 +182,10 @@ background:#df3535;
 background:#687386;
 }
 
-.google-btn{
-width:100%;
-border:1px solid #d8dee7;
+.google{
 background:white;
-color:#202124;
-padding:16px;
-border-radius:13px;
-font-weight:bold;
-margin-top:10px;
-display:flex;
-align-items:center;
-justify-content:center;
-gap:10px;
-}
-
-.google-icon{
-font-size:22px;
+color:#222;
+border:1px solid #d8dee7;
 }
 
 .vehicle-grid{
@@ -322,43 +309,12 @@ line-height:1.5;
 margin-bottom:15px;
 }
 
-.login-divider{
-text-align:center;
-margin:15px 0;
-color:#687386;
-font-weight:bold;
-}
-
-.mobile-box{
-margin-top:15px;
-}
-
-.mobile-row{
-display:flex;
-gap:8px;
-margin-top:7px;
-}
-
-.country-code{
-width:72px;
-padding:15px;
-border:1px solid #d8dee7;
-border-radius:13px;
-background:#f5f7fa;
-font-weight:bold;
-text-align:center;
-}
-
-.mobile-input{
-flex:1;
-}
-
-.profile-box{
+.login-email{
 background:#f8fbff;
 border:1px solid #dce5f0;
-border-radius:15px;
-padding:15px;
-margin-top:12px;
+padding:12px;
+border-radius:12px;
+margin-bottom:12px;
 }
 
 .map-box{
@@ -752,47 +708,32 @@ Search by Location
 <label>Fuel</label>
 
 <select id="sellFuel">
-
 <option>Petrol</option>
 <option>Diesel</option>
 <option>CNG</option>
 <option>Electric</option>
-
 </select>
 
 </div>
 
 <div class="form-group">
-
 <label>Transmission</label>
 
 <select id="sellTransmission">
-
 <option>Manual</option>
 <option>Automatic</option>
-
 </select>
 
 </div>
 
 <div class="form-group">
-
 <label>Seats</label>
-
-<input
-id="sellSeats"
-placeholder="7 Seater">
-
+<input id="sellSeats" placeholder="7 Seater">
 </div>
 
 <div class="form-group">
-
 <label>Price</label>
-
-<input
-id="sellPrice"
-placeholder="₹12,50,000">
-
+<input id="sellPrice" placeholder="₹12,50,000">
 </div>
 
 <div class="form-group">
@@ -838,9 +779,7 @@ accept="video/*">
 <button
 class="primary green"
 onclick="submitSell()">
-
 Submit Car for Sale
-
 </button>
 
 </div>
@@ -913,7 +852,7 @@ onclick="selectCabType(this)">
 </div>
 
 
-<!-- PICKUP -->
+<!-- ONLY PICKUP -->
 
 <div class="stop-box">
 
@@ -929,7 +868,7 @@ placeholder="Nampally Metro Station">
 </div>
 
 
-<!-- FINAL DESTINATION -->
+<!-- ONLY FINAL DESTINATION -->
 
 <div class="stop-box">
 
@@ -949,7 +888,7 @@ placeholder="Miyapur">
 class="primary"
 onclick="showRouteMap()">
 
-📍 Show Complete Route
+📍 Show Route
 
 </button>
 
@@ -959,7 +898,7 @@ id="mapStatus"
 class="map-status">
 
 Pickup और Final Destination डालकर
-Show Complete Route दबाएँ.
+Show Route दबाएँ.
 
 </div>
 
@@ -1037,9 +976,7 @@ MUV • 2022 • Diesel • Automatic • 7 Seater
 class="primary green"
 id="bookCabButton"
 onclick="bookCab()">
-
 🚕 Book Cab
-
 </button>
 
 </div>
@@ -1061,9 +998,10 @@ onclick="bookCab()">
 
 <div class="login-help">
 
-पहले अपने Google / Gmail account से Login करें।
-उसके बाद अपना mobile number एक बार save करें।
-Booking के समय यही mobile number Admin को भेजा जाएगा।
+Car Set U इस्तेमाल करने से पहले
+Google/Gmail Login जरूरी है.
+
+Booking के लिए mobile number भी देना जरूरी है.
 
 </div>
 
@@ -1079,67 +1017,72 @@ class="logged hidden">
 <div id="googleLoginBox">
 
 <button
-class="google-btn"
-onclick="googleLogin()">
+id="googleLoginButton"
+class="primary google"
+onclick="loginWithGoogle()">
 
-<span class="google-icon">G</span>
-
-Continue with Google
+🔵 Continue with Google / Gmail
 
 </button>
 
 </div>
 
 
-<!-- MOBILE NUMBER -->
+<!-- MOBILE -->
 
 <div
 id="mobileBox"
-class="mobile-box hidden">
+class="hidden"
+style="margin-top:15px;">
 
-<div class="profile-box">
-
-<strong>Google Account</strong>
-
-<div id="googleUserEmail">
-—
-</div>
-
-</div>
-
-
-<label style="display:block;font-weight:bold;margin-top:15px;">
-
+<label>
 Mobile Number
-
 </label>
 
+<div style="
+display:flex;
+gap:8px;
+margin-top:7px;
+">
 
-<div class="mobile-row">
-
-<div class="country-code">
+<div style="
+width:70px;
+padding:15px;
+border:1px solid #d8dee7;
+border-radius:13px;
+background:#f5f7fa;
+font-weight:bold;
+text-align:center;
+">
 +91
 </div>
 
 <input
 id="customerMobile"
-class="mobile-input"
 type="tel"
 inputmode="numeric"
 maxlength="10"
-placeholder="10 digit mobile number">
+placeholder="10 digit mobile number"
+style="flex:1;">
 
 </div>
 
 
 <button
+id="saveMobileButton"
 class="primary green"
-onclick="saveMobileNumber()">
+onclick="saveMobile()">
 
 Save Mobile Number
 
 </button>
 
+</div>
+
+
+<div
+id="accountInfo"
+class="login-email hidden">
 </div>
 
 
@@ -1164,31 +1107,23 @@ Logout
 <nav class="bottom-nav">
 
 <button onclick="showHome()">
-
 <span>🏠</span>
 Home
-
 </button>
 
 <button onclick="showSectionByName('buy')">
-
 <span>🚘</span>
 Buy
-
 </button>
 
 <button onclick="showSectionByName('cab')">
-
 <span>🚕</span>
 Cab
-
 </button>
 
 <button onclick="showAccount()">
-
 <span>👤</span>
 My Account
-
 </button>
 
 </nav>
@@ -1203,17 +1138,13 @@ My Account
 <div
 id="viewerTitle"
 class="viewer-title">
-
 Car Photos
-
 </div>
 
 <button
 class="close-viewer"
 onclick="closeViewer()">
-
 ✕
-
 </button>
 
 </div>
@@ -1223,9 +1154,7 @@ onclick="closeViewer()">
 <button
 class="viewer-arrow prev"
 onclick="previousMedia()">
-
 ‹
-
 </button>
 
 <img
@@ -1242,9 +1171,7 @@ controls>
 <button
 class="viewer-arrow next"
 onclick="nextMedia()">
-
 ›
-
 </button>
 
 </div>
@@ -1287,9 +1214,6 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
 getFirestore,
-doc,
-getDoc,
-setDoc,
 collection,
 addDoc,
 serverTimestamp
@@ -1344,7 +1268,7 @@ prompt:"select_account"
 });
 
 
-let customerMobileSaved="";
+let pendingBooking=false;
 
 
 /* =========================================================
@@ -1549,7 +1473,7 @@ const sellCars=[];
 
 
 /* =========================================================
-   SECTIONS
+   SECTION CONTROL
 ========================================================= */
 
 window.showSection=function(section,button){
@@ -1584,8 +1508,7 @@ selected.classList.remove("hidden");
 }
 
 
-document
-.querySelectorAll(".tab")
+document.querySelectorAll(".tab")
 .forEach(b=>
 b.classList.remove("active")
 );
@@ -1654,20 +1577,16 @@ window.showAccount=function(){
 "cab"
 ].forEach(x=>{
 
-document
-.getElementById(
+document.getElementById(
 x+"Section"
-)
-.classList.add("hidden");
+).classList.add("hidden");
 
 });
 
 
-document
-.getElementById(
+document.getElementById(
 "accountSection"
-)
-.classList.remove("hidden");
+).classList.remove("hidden");
 
 
 window.scrollTo({
@@ -1682,7 +1601,23 @@ behavior:"smooth"
    GOOGLE LOGIN
 ========================================================= */
 
-window.googleLogin=async function(){
+window.loginWithGoogle=async function(){
+
+const button=
+document.getElementById(
+"googleLoginButton"
+);
+
+
+if(button){
+
+button.disabled=true;
+
+button.textContent=
+"⏳ Connecting to Google...";
+
+}
+
 
 try{
 
@@ -1697,15 +1632,30 @@ const user=
 result.user;
 
 
-console.log(
-"Google login successful:",
-user.uid
-);
-
-
 alert(
-"✅ Google Login successful."
+"✅ Google Login successful.\n\n"+
+"Welcome "+(user.displayName||"Customer")
 );
+
+
+if(pendingBooking){
+
+pendingBooking=false;
+
+showSectionByName("cab");
+
+setTimeout(()=>{
+
+document.getElementById(
+"bookCabButton"
+).scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+},500);
+
+}
 
 }
 catch(error){
@@ -1721,20 +1671,34 @@ let message=
 
 
 if(error.code){
+
 message+=
-"\n\nError: "+
-error.code;
+"\n\n"+error.code;
+
 }
 
 
 if(error.message){
+
 message+=
-"\n"+
-error.message;
+"\n"+error.message;
+
 }
 
 
 alert(message);
+
+}
+finally{
+
+if(button){
+
+button.disabled=false;
+
+button.textContent=
+"🔵 Continue with Google / Gmail";
+
+}
 
 }
 
@@ -1747,13 +1711,33 @@ alert(message);
 
 function normalizeMobile(value){
 
-return String(value||"")
+let number=
+(value||"")
 .replace(/\D/g,"");
+
+
+if(number.startsWith("91") &&
+number.length===12){
+
+number=
+number.substring(2);
 
 }
 
 
-window.saveMobileNumber=async function(){
+if(number.length!==10){
+
+return "";
+
+}
+
+
+return "+91"+number;
+
+}
+
+
+window.saveMobile=function(){
 
 const user=
 auth.currentUser;
@@ -1777,12 +1761,10 @@ document.getElementById(
 
 
 const mobile=
-normalizeMobile(
-input.value
-);
+normalizeMobile(input.value);
 
 
-if(!/^\d{10}$/.test(mobile)){
+if(!mobile){
 
 alert(
 "Please enter a valid 10 digit mobile number."
@@ -1793,85 +1775,37 @@ return;
 }
 
 
-const fullMobile=
-"+91"+mobile;
-
-
-try{
-
-await setDoc(
-doc(
-db,
-"customers",
-user.uid
-),
-{
-
-uid:user.uid,
-
-name:
-user.displayName||"",
-
-email:
-user.email||"",
-
-mobile:
-fullMobile,
-
-updatedAt:
-serverTimestamp(),
-
-createdAt:
-serverTimestamp()
-
-},
-{
-merge:true
-}
+localStorage.setItem(
+"carSetCustomerMobile",
+mobile
 );
 
 
-customerMobileSaved=
-fullMobile;
+input.value=
+mobile.substring(3);
 
 
-document.getElementById(
-"loginStatus"
-).textContent=
-"✅ Logged in: "+
-(user.email||"")+
-" | Mobile: "+
-fullMobile;
-
-
-document.getElementById(
-"loginStatus"
-).classList.remove(
-"hidden"
-);
+updateAccountUI();
 
 
 alert(
 "✅ Mobile number saved successfully."
 );
 
-}
-catch(error){
-
-console.error(
-"Save mobile error:",
-error
-);
-
-
-alert(
-"Mobile number save failed.\n\n"+
-(error.message||"Please try again.")
-);
-
-}
-
 };
+
+
+function getSavedMobile(){
+
+const saved=
+localStorage.getItem(
+"carSetCustomerMobile"
+);
+
+
+return saved||"";
+
+}
 
 
 /* =========================================================
@@ -1880,7 +1814,28 @@ alert(
 
 onAuthStateChanged(
 auth,
-async user=>{
+user=>{
+
+updateAccountUI();
+
+
+if(user){
+
+console.log(
+"Logged in:",
+user.email
+);
+
+}
+
+});
+
+
+function updateAccountUI(){
+
+const user=
+auth.currentUser;
+
 
 const googleBox=
 document.getElementById(
@@ -1900,15 +1855,21 @@ document.getElementById(
 );
 
 
+const accountInfo=
+document.getElementById(
+"accountInfo"
+);
+
+
 const logout=
 document.getElementById(
 "logoutBtn"
 );
 
 
-const emailBox=
+const mobileInput=
 document.getElementById(
-"googleUserEmail"
+"customerMobile"
 );
 
 
@@ -1918,82 +1879,49 @@ googleBox.classList.add(
 "hidden"
 );
 
-
 mobileBox.classList.remove(
 "hidden"
 );
-
-
-logout.classList.remove(
-"hidden"
-);
-
-
-if(emailBox){
-
-emailBox.textContent=
-user.email||"";
-
-}
-
-
-try{
-
-const customerRef=
-doc(
-db,
-"customers",
-user.uid
-);
-
-
-const customerSnap=
-await getDoc(customerRef);
-
-
-if(customerSnap.exists()){
-
-const data=
-customerSnap.data();
-
-
-if(data.mobile){
-
-customerMobileSaved=
-data.mobile;
-
-
-document.getElementById(
-"customerMobile"
-).value=
-data.mobile.replace(
-"+91",
-""
-);
-
-
-status.textContent=
-"✅ Logged in: "+
-(user.email||"")+
-" | Mobile: "+
-data.mobile;
-
 
 status.classList.remove(
 "hidden"
 );
 
-}
-
-}
-
-}
-catch(error){
-
-console.error(
-"Customer profile error:",
-error
+logout.classList.remove(
+"hidden"
 );
+
+accountInfo.classList.remove(
+"hidden"
+);
+
+
+status.textContent=
+"✅ Google Login successful";
+
+
+accountInfo.innerHTML=
+"📧 Gmail: <strong>"+
+(user.email||"")+
+"</strong><br><br>"+
+"👤 Name: <strong>"+
+(user.displayName||"Customer")+
+"</strong>";
+
+
+const savedMobile=
+getSavedMobile();
+
+
+if(savedMobile){
+
+mobileInput.value=
+savedMobile.substring(3);
+
+}
+else{
+
+mobileInput.value="";
 
 }
 
@@ -2004,27 +1932,25 @@ googleBox.classList.remove(
 "hidden"
 );
 
-
 mobileBox.classList.add(
 "hidden"
 );
-
 
 status.classList.add(
 "hidden"
 );
 
-
 logout.classList.add(
 "hidden"
 );
 
-
-customerMobileSaved="";
+accountInfo.classList.add(
+"hidden"
+);
 
 }
 
-});
+}
 
 
 /* =========================================================
@@ -2037,12 +1963,9 @@ try{
 
 await signOut(auth);
 
-customerMobileSaved="";
-
-document.getElementById(
-"customerMobile"
-).value="";
-
+localStorage.removeItem(
+"carSetCustomerMobile"
+);
 
 alert(
 "Logged out successfully."
@@ -2133,13 +2056,12 @@ ${car.price}
 <button
 class="primary"
 onclick="openCarViewer('${car.id}','buy')">
-
 View Car
-
 </button>
 
 </div>
 `;
+
 
 box.appendChild(card);
 
@@ -2161,15 +2083,9 @@ document.getElementById(
 const filtered=
 buyCars.filter(car=>
 
-car.title
-.toLowerCase()
-.includes(search)
-
+car.title.toLowerCase().includes(search)
 ||
-
-car.type
-.toLowerCase()
-.includes(search)
+car.type.toLowerCase().includes(search)
 
 );
 
@@ -2191,9 +2107,7 @@ document.getElementById(
 
 if(!location){
 
-renderBuyCars(
-buyCars
-);
+renderBuyCars(buyCars);
 
 return;
 
@@ -2246,9 +2160,7 @@ alert(
 "Maximum 6 car photos allowed."
 );
 
-
 input.value="";
-
 
 return;
 
@@ -2342,8 +2254,7 @@ return;
 
 const car={
 
-id:
-"sell-"+Date.now(),
+id:"sell-"+Date.now(),
 
 title:
 brand+" "+model,
@@ -2386,7 +2297,6 @@ photos.length
 
 
 sellCars.push(car);
-
 
 renderSellCars();
 
@@ -2490,11 +2400,8 @@ currentMedia=[];
 (car.photos||[]).forEach(photo=>{
 
 currentMedia.push({
-
 type:"image",
-
 src:photo
-
 });
 
 });
@@ -2550,22 +2457,13 @@ document.getElementById(
 );
 
 
-image.classList.add(
-"hidden"
-);
+image.classList.add("hidden");
 
-
-video.classList.add(
-"hidden"
-);
-
+video.classList.add("hidden");
 
 video.pause();
 
-
-video.removeAttribute(
-"src"
-);
+video.removeAttribute("src");
 
 
 const media=
@@ -2582,7 +2480,6 @@ if(media.type==="image"){
 image.src=
 media.src;
 
-
 image.classList.remove(
 "hidden"
 );
@@ -2592,7 +2489,6 @@ else{
 
 video.src=
 media.src;
-
 
 video.classList.remove(
 "hidden"
@@ -2642,9 +2538,7 @@ renderViewer();
 };
 
 
-thumbs.appendChild(
-button
-);
+thumbs.appendChild(button);
 
 });
 
@@ -2694,9 +2588,7 @@ window.closeViewer=function(){
 
 document.getElementById(
 "viewer"
-).classList.remove(
-"show"
-);
+).classList.remove("show");
 
 
 const video=
@@ -2707,10 +2599,7 @@ document.getElementById(
 
 video.pause();
 
-
-video.removeAttribute(
-"src"
-);
+video.removeAttribute("src");
 
 };
 
@@ -2728,9 +2617,7 @@ b.classList.remove("active")
 );
 
 
-button.classList.add(
-"active"
-);
+button.classList.add("active");
 
 };
 
@@ -2764,12 +2651,9 @@ HYDERABAD_CENTER,
 L.tileLayer(
 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
 {
-
 maxZoom:19,
-
 attribution:
 "© OpenStreetMap contributors"
-
 }
 ).addTo(routeMap);
 
@@ -2963,9 +2847,7 @@ throw new Error(
 return{
 
 lat,
-
 lon,
-
 name:
 result.display_name||original
 
@@ -2984,9 +2866,7 @@ if(routeMarkers.length){
 
 routeMarkers.forEach(marker=>{
 
-routeMap.removeLayer(
-marker
-);
+routeMap.removeLayer(marker);
 
 });
 
@@ -3001,7 +2881,6 @@ if(routeLine){
 routeMap.removeLayer(
 routeLine
 );
-
 
 routeLine=null;
 
@@ -3051,7 +2930,7 @@ if(
 ){
 
 throw new Error(
-"Complete route not found."
+"Route not found."
 );
 
 }
@@ -3063,7 +2942,7 @@ return data.routes[0];
 
 
 /* =========================================================
-   SHOW COMPLETE ROUTE
+   SHOW PICKUP → DESTINATION ROUTE
 ========================================================= */
 
 window.showRouteMap=async function(){
@@ -3092,10 +2971,7 @@ document.getElementById(
 );
 
 
-if(
-!pickup||
-!destination
-){
+if(!pickup||!destination){
 
 alert(
 "Please enter Pickup Point and Final Destination."
@@ -3125,7 +3001,7 @@ summary.classList.add(
 
 
 status.textContent=
-"🔎 Finding Pickup and Final Destination...";
+"🔎 Finding Pickup and Destination...";
 
 
 try{
@@ -3141,7 +3017,7 @@ geocodePlace(destination)
 
 
 status.textContent=
-"🛣️ Calculating complete route...";
+"🛣️ Calculating route...";
 
 
 const route=
@@ -3151,37 +3027,27 @@ await getRoute(points);
 /* MARKERS */
 
 const labels=[
-
 "📍 Pickup",
-
 "🏁 Final Destination"
-
 ];
 
 
-points.forEach(
-(point,index)=>{
+points.forEach((point,index)=>{
 
 const marker=
 L.marker([
-
 point.lat,
 point.lon
-
 ])
 .addTo(routeMap)
 .bindPopup(
-
 labels[index]+
 "<br>"+
 point.name
-
 );
 
 
-routeMarkers.push(
-marker
-);
+routeMarkers.push(marker);
 
 });
 
@@ -3192,15 +3058,10 @@ routeLine=
 L.geoJSON(
 route.geometry,
 {
-
 style:{
-
 weight:6,
-
 opacity:.85
-
 }
-
 }
 ).addTo(routeMap);
 
@@ -3210,12 +3071,7 @@ opacity:.85
 routeMap.fitBounds(
 routeLine.getBounds(),
 {
-
-padding:[
-30,
-30
-]
-
+padding:[30,30]
 }
 );
 
@@ -3223,9 +3079,7 @@ padding:[
 /* DISTANCE */
 
 const km=
-(
-route.distance/1000
-)
+(route.distance/1000)
 .toFixed(1);
 
 
@@ -3284,11 +3138,11 @@ status.textContent=
 
 
 alert(
-"Complete route नहीं बन पाया.\n\n"+
+"Route नहीं बन पाया.\n\n"+
 error.message+
 "\n\nExample:\n"+
 "Pickup: Nampally Metro Station\n"+
-"Final: Miyapur"
+"Final Destination: Miyapur"
 );
 
 }
@@ -3310,22 +3164,22 @@ return;
 }
 
 
+/* GOOGLE LOGIN REQUIRED */
+
 const user=
 auth.currentUser;
 
 
-/* GOOGLE LOGIN REQUIRED */
-
 if(!user){
 
+pendingBooking=true;
+
 alert(
-"Please Login with Google first.\n\n"+
+"Please Login with Google/Gmail first.\n\n"+
 "Booking करने से पहले Customer Login जरूरी है."
 );
 
-
 showAccount();
-
 
 return;
 
@@ -3334,48 +3188,27 @@ return;
 
 /* MOBILE REQUIRED */
 
-let mobile=
-customerMobileSaved;
+const customerPhone=
+getSavedMobile();
 
 
-if(!mobile){
+if(!customerPhone){
 
-const input=
-document.getElementById(
-"customerMobile"
-);
-
-
-const entered=
-normalizeMobile(
-input.value
-);
-
-
-if(/^\d{10}$/.test(entered)){
-
-mobile=
-"+91"+entered;
-
-}
-else{
+pendingBooking=true;
 
 alert(
-"Please save your mobile number before booking."
+"Please save your mobile number first.\n\n"+
+"My Account में जाकर mobile number save करें."
 );
 
-
 showAccount();
-
 
 return;
 
 }
 
-}
 
-
-/* ROUTE */
+/* LOCATIONS */
 
 const pickup=
 document.getElementById(
@@ -3421,7 +3254,7 @@ estimatedTime==="—"
 ){
 
 alert(
-"Please press 'Show Complete Route' first."
+"Please press 'Show Route' first."
 );
 
 return;
@@ -3451,7 +3284,6 @@ if(button){
 
 button.disabled=true;
 
-
 button.textContent=
 "⏳ Booking...";
 
@@ -3477,17 +3309,17 @@ serverTimestamp(),
 
 /* CUSTOMER */
 
+customerPhone:
+customerPhone,
+
 customerUid:
 user.uid,
-
-customerName:
-user.displayName||"",
 
 customerEmail:
 user.email||"",
 
-customerPhone:
-mobile,
+customerName:
+user.displayName||"Customer",
 
 
 /* ROUTE */
@@ -3499,7 +3331,7 @@ destination:
 destination,
 
 
-/* DISTANCE */
+/* DISTANCE + TIME */
 
 distanceKm:
 Number.isFinite(distanceKm)
@@ -3513,17 +3345,15 @@ estimatedTime,
 /* DRIVER */
 
 driverId:"",
-
 driverName:"",
-
 driverMobile:"",
-
 driverCar:"",
-
 driverVehicleNumber:""
 
 };
 
+
+/* FIRESTORE */
 
 const docRef=
 await addDoc(
@@ -3547,10 +3377,13 @@ alert(
 docRef.id+
 "\n\n"+
 "Customer: "+
-(user.displayName||"")+
+(user.displayName||"Customer")+
+"\n\n"+
+"Gmail: "+
+(user.email||"")+
 "\n\n"+
 "Mobile: "+
-mobile+
+customerPhone+
 "\n\n"+
 "Driver will be assigned by Admin."
 );
@@ -3578,7 +3411,6 @@ bookingInProgress=false;
 if(button){
 
 button.disabled=false;
-
 
 button.textContent=
 "🚕 Book Cab";
