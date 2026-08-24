@@ -1,1972 +1,1862 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Car Set U - Hyderabad • Buy • Sell • Cab Booking</title>
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0">
 
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  crossorigin=""
->
+<title>Car Set U - Hyderabad</title>
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+crossorigin="">
 
 <style>
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+box-sizing:border-box;
+margin:0;
+padding:0;
 }
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f3f7fc;
-  color:#172033;
-  padding-bottom:90px;
+font-family:Arial,Helvetica,sans-serif;
+background:#f3f7fc;
+color:#172033;
+padding-bottom:90px;
 }
 
 button,
 input,
 select{
-  font:inherit;
+font:inherit;
 }
 
 button{
-  cursor:pointer;
+cursor:pointer;
 }
 
 .header{
-  background:#17477f;
-  color:white;
-  padding:18px;
+background:#17477f;
+color:white;
+padding:18px;
 }
 
 .header-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
 }
 
 .logo{
-  font-size:30px;
-  font-weight:800;
-  line-height:1.05;
+font-size:30px;
+font-weight:800;
+line-height:1.05;
 }
 
 .logo span{
-  color:#ef4040;
+color:#ef4040;
 }
 
 .language{
-  width:48%;
-  padding:13px;
-  border-radius:12px;
-  border:0;
-  font-weight:bold;
-  background:white;
-  color:#111;
+width:48%;
+padding:13px;
+border-radius:12px;
+border:0;
+font-weight:bold;
+background:white;
+color:#111;
 }
 
 .subtitle{
-  margin-top:15px;
-  font-size:17px;
+margin-top:15px;
+font-size:17px;
 }
 
 .container{
-  width:min(100%,760px);
-  margin:auto;
-  padding:18px;
+width:min(100%,760px);
+margin:auto;
+padding:18px;
 }
 
 .hero{
-  background:linear-gradient(135deg,#17477f,#1870dd);
-  color:white;
-  border-radius:28px;
-  padding:34px 28px;
-  margin-bottom:18px;
+background:linear-gradient(135deg,#17477f,#1870dd);
+color:white;
+border-radius:28px;
+padding:34px 28px;
+margin-bottom:18px;
 }
 
 .hero h1{
-  font-size:32px;
-  margin-bottom:16px;
+font-size:32px;
+margin-bottom:16px;
 }
 
 .hero p{
-  font-size:18px;
-  line-height:1.45;
+font-size:18px;
+line-height:1.45;
 }
 
 .tabs{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  background:white;
-  padding:14px;
-  border-radius:25px;
-  margin-bottom:18px;
-  box-shadow:0 4px 18px #0000000d;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+background:white;
+padding:14px;
+border-radius:25px;
+margin-bottom:18px;
+box-shadow:0 4px 18px #0000000d;
 }
 
 .tab{
-  border:0;
-  border-radius:16px;
-  padding:18px 8px;
-  background:#edf3f9;
-  font-weight:bold;
-  font-size:17px;
+border:0;
+border-radius:16px;
+padding:18px 8px;
+background:#edf3f9;
+font-weight:bold;
+font-size:17px;
 }
 
 .tab.active{
-  background:#17477f;
-  color:white;
+background:#17477f;
+color:white;
 }
 
 .card{
-  background:white;
-  border-radius:25px;
-  padding:22px;
-  margin-bottom:18px;
-  box-shadow:0 5px 20px #0000000d;
+background:white;
+border-radius:25px;
+padding:22px;
+margin-bottom:18px;
+box-shadow:0 5px 20px #0000000d;
 }
 
 .card h2{
-  font-size:25px;
-  margin-bottom:14px;
+font-size:25px;
+margin-bottom:14px;
 }
 
 .card h3{
-  margin:18px 0 10px;
+margin:18px 0 10px;
 }
 
 .info{
-  color:#596273;
-  line-height:1.5;
-  margin-bottom:16px;
+color:#596273;
+line-height:1.5;
+margin-bottom:16px;
 }
 
 .search-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
 }
 
 input,
 select{
-  width:100%;
-  padding:15px;
-  border:1px solid #d8dee7;
-  border-radius:13px;
-  background:white;
+width:100%;
+padding:15px;
+border:1px solid #d8dee7;
+border-radius:13px;
+background:white;
 }
 
 .primary{
-  width:100%;
-  border:0;
-  background:#1769df;
-  color:white;
-  padding:16px;
-  border-radius:13px;
-  font-weight:bold;
-  margin-top:10px;
+width:100%;
+border:0;
+background:#1769df;
+color:white;
+padding:16px;
+border-radius:13px;
+font-weight:bold;
+margin-top:10px;
 }
 
 .green{
-  background:#159447;
+background:#159447;
 }
 
 .red{
-  background:#df3535;
+background:#df3535;
 }
 
 .gray{
-  background:#687386;
+background:#687386;
 }
 
 .vehicle-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 }
 
 .vehicle-btn{
-  padding:15px;
-  border-radius:13px;
-  border:1px solid #d9dee7;
-  background:white;
-  font-weight:bold;
+padding:15px;
+border-radius:13px;
+border:1px solid #d9dee7;
+background:white;
+font-weight:bold;
 }
 
 .vehicle-btn.active{
-  background:#1769df;
-  color:white;
+background:#1769df;
+color:white;
 }
 
 .property{
-  background:white;
-  border:1px solid #e1e5eb;
-  border-radius:22px;
-  overflow:hidden;
-  margin-top:15px;
+background:white;
+border:1px solid #e1e5eb;
+border-radius:22px;
+overflow:hidden;
+margin-top:15px;
 }
 
 .property img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  display:block;
+width:100%;
+height:220px;
+object-fit:cover;
+display:block;
 }
 
 .property-body{
-  padding:18px;
+padding:18px;
 }
 
 .property-title{
-  font-size:24px;
-  font-weight:800;
-  margin-bottom:10px;
+font-size:24px;
+font-weight:800;
+margin-bottom:10px;
 }
 
 .badge{
-  display:inline-block;
-  padding:8px 13px;
-  border-radius:20px;
-  background:#e4f8ea;
-  color:#16833e;
-  font-weight:bold;
-  margin-bottom:10px;
+display:inline-block;
+padding:8px 13px;
+border-radius:20px;
+background:#e4f8ea;
+color:#16833e;
+font-weight:bold;
+margin-bottom:10px;
 }
 
 .spec{
-  color:#303a4a;
-  line-height:1.6;
-  margin:8px 0;
+color:#303a4a;
+line-height:1.6;
+margin:8px 0;
 }
 
 .price{
-  color:#1769df;
-  font-size:28px;
-  font-weight:800;
-  margin:12px 0;
+color:#1769df;
+font-size:28px;
+font-weight:800;
+margin:12px 0;
 }
 
 .photo-count{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:7px 11px;
-  background:#eef4ff;
-  color:#1769df;
-  border-radius:18px;
-  font-size:14px;
-  font-weight:bold;
-  margin-bottom:10px;
+display:inline-flex;
+align-items:center;
+gap:6px;
+padding:7px 11px;
+background:#eef4ff;
+color:#1769df;
+border-radius:18px;
+font-size:14px;
+font-weight:bold;
+margin-bottom:10px;
 }
 
 .form-group{
-  margin-bottom:15px;
+margin-bottom:15px;
 }
 
 .form-group label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:7px;
+display:block;
+font-weight:bold;
+margin-bottom:7px;
 }
 
 .upload-box{
-  border:2px dashed #c9d3e1;
-  padding:18px;
-  border-radius:16px;
-  background:#f8fbff;
+border:2px dashed #c9d3e1;
+padding:18px;
+border-radius:16px;
+background:#f8fbff;
 }
 
 .upload-box input{
-  border:0;
-  padding:5px 0;
+border:0;
+padding:5px 0;
 }
 
 .preview-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:12px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-top:12px;
 }
 
 .preview-grid img{
-  width:100%;
-  height:100px;
-  object-fit:cover;
-  border-radius:10px;
+width:100%;
+height:100px;
+object-fit:cover;
+border-radius:10px;
 }
 
 .account-note{
-  color:#667085;
-  line-height:1.5;
-  margin-bottom:14px;
+color:#667085;
+line-height:1.5;
+margin-bottom:14px;
 }
 
 .logged{
-  background:#e9f8ee;
-  color:#18763b;
-  padding:13px;
-  border-radius:12px;
-  font-weight:bold;
-  margin-bottom:12px;
+background:#e9f8ee;
+color:#18763b;
+padding:13px;
+border-radius:12px;
+font-weight:bold;
+margin-bottom:12px;
 }
 
 .map-box{
-  height:360px;
-  border-radius:18px;
-  background:#e7eef7;
-  margin-top:14px;
-  overflow:hidden;
+height:360px;
+border-radius:18px;
+background:#e7eef7;
+margin-top:14px;
+overflow:hidden;
+position:relative;
 }
 
 #routeMap{
-  min-height:360px;
+min-height:360px;
 }
 
 .map-status{
-  padding:12px;
-  background:#f7f9fc;
-  color:#596273;
-  border-radius:12px;
-  margin-top:10px;
-  font-weight:bold;
+padding:12px;
+background:#f7f9fc;
+color:#596273;
+border-radius:12px;
+margin-top:10px;
+font-weight:bold;
 }
 
 .route-summary{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:12px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:12px;
 }
 
 .route-item{
-  background:#eef4ff;
-  border-radius:14px;
-  padding:14px;
-  text-align:center;
+background:#eef4ff;
+border-radius:14px;
+padding:14px;
+text-align:center;
 }
 
 .route-item strong{
-  display:block;
-  color:#1769df;
-  font-size:20px;
-  margin-top:4px;
-}
-
-.booking-status{
-  padding:14px;
-  border-radius:13px;
-  margin-top:12px;
-  background:#eef4ff;
-  font-weight:bold;
+display:block;
+color:#1769df;
+font-size:20px;
+margin-top:4px;
 }
 
 .bottom-nav{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  height:76px;
-  background:white;
-  border-top:1px solid #ddd;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  z-index:100;
+position:fixed;
+left:0;
+right:0;
+bottom:0;
+height:76px;
+background:white;
+border-top:1px solid #ddd;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+z-index:1000;
 }
 
 .bottom-nav button{
-  border:0;
-  background:white;
-  font-size:13px;
-  color:#202938;
+border:0;
+background:white;
+font-size:13px;
+color:#202938;
 }
 
 .bottom-nav span{
-  display:block;
-  font-size:23px;
-  margin-bottom:4px;
+display:block;
+font-size:23px;
+margin-bottom:4px;
 }
 
 .hidden{
-  display:none!important;
+display:none!important;
 }
 
 .viewer{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:9999;
-  display:none;
-  flex-direction:column;
+position:fixed;
+inset:0;
+background:#000;
+z-index:9999;
+display:none;
+flex-direction:column;
 }
 
 .viewer.show{
-  display:flex;
+display:flex;
 }
 
 .viewer-top{
-  height:60px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 16px;
-  color:white;
-  background:#000;
+height:60px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 16px;
+color:white;
+background:#000;
 }
 
 .viewer-title{
-  font-weight:bold;
+font-weight:bold;
 }
 
 .close-viewer{
-  border:0;
-  background:#333;
-  color:white;
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  font-size:24px;
+border:0;
+background:#333;
+color:white;
+width:42px;
+height:42px;
+border-radius:50%;
+font-size:24px;
 }
 
 .viewer-main{
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  overflow:hidden;
+flex:1;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+overflow:hidden;
 }
 
 .viewer-main img,
 .viewer-main video{
-  max-width:95%;
-  max-height:82vh;
-  object-fit:contain;
+max-width:95%;
+max-height:82vh;
+object-fit:contain;
 }
 
 .viewer-arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:48px;
-  height:48px;
-  border:0;
-  border-radius:50%;
-  background:#ffffffcc;
-  color:#111;
-  font-size:28px;
-  font-weight:bold;
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+width:48px;
+height:48px;
+border:0;
+border-radius:50%;
+background:#ffffffcc;
+color:#111;
+font-size:28px;
+font-weight:bold;
 }
 
 .prev{
-  left:12px;
+left:12px;
 }
 
 .next{
-  right:12px;
+right:12px;
 }
 
 .viewer-bottom{
-  min-height:70px;
-  padding:8px;
-  display:flex;
-  justify-content:center;
-  gap:7px;
-  overflow-x:auto;
-  background:#111;
+min-height:70px;
+padding:8px;
+display:flex;
+justify-content:center;
+gap:7px;
+overflow-x:auto;
+background:#111;
 }
 
 .thumb{
-  width:60px;
-  height:50px;
-  border-radius:7px;
-  overflow:hidden;
-  border:2px solid transparent;
-  flex:none;
-  background:#333;
+width:60px;
+height:50px;
+border-radius:7px;
+overflow:hidden;
+border:2px solid transparent;
+flex:none;
+background:#333;
 }
 
 .thumb.active{
-  border-color:#fff;
+border-color:#fff;
 }
 
 .thumb img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.error-box{
-  background:#fff0f0;
-  color:#a51d2d;
-  padding:14px;
-  border-radius:13px;
-  margin-top:12px;
-  font-weight:bold;
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
 @media(max-width:560px){
 
-  .logo{
-    font-size:25px;
-  }
+.logo{
+font-size:25px;
+}
 
-  .language{
-    width:52%;
-  }
+.language{
+width:52%;
+}
 
-  .hero h1{
-    font-size:27px;
-  }
+.hero h1{
+font-size:27px;
+}
 
-  .search-grid{
-    grid-template-columns:1fr;
-  }
+.search-grid{
+grid-template-columns:1fr;
+}
 
-  .property img{
-    height:190px;
-  }
+.property img{
+height:190px;
+}
 
 }
 
 </style>
+
 </head>
+
 
 <body>
 
+
 <header class="header">
 
-  <div class="header-top">
+<div class="header-top">
 
-    <div class="logo">
-      🚘 CAR<br>
-      <span>SET U</span>
-    </div>
+<div class="logo">
+🚘 CAR<br>
+<span>SET U</span>
+</div>
 
-    <select class="language">
-      <option>English</option>
-      <option>हिंदी</option>
-      <option>తెలుగు</option>
-    </select>
+<select class="language">
 
-  </div>
+<option>English</option>
+<option>हिंदी</option>
+<option>తెలుగు</option>
 
-  <div class="subtitle">
-    Hyderabad, Telangana • Buy • Sell • Cab Booking
-  </div>
+</select>
+
+</div>
+
+<div class="subtitle">
+Buy • Sell • Cab Booking • Hyderabad
+</div>
 
 </header>
 
 
 <main class="container">
 
+
 <section class="hero">
 
-  <h1>
-    Buy, Sell & Cab Booking
-  </h1>
+<h1>
+Buy, Sell & Cab Booking
+</h1>
 
-  <p>
-    Buy a car, sell your car or book an available cab in Hyderabad, Telangana.
-  </p>
+<p>
+Hyderabad, Telangana में Car Buy करें,
+Car Sell करें या Cab Book करें.
+</p>
 
 </section>
 
 
 <div class="tabs">
 
-  <button
-    class="tab active"
-    onclick="showSection('buy',this)">
-    🚘 Buy
-  </button>
+<button
+class="tab active"
+onclick="showSection('buy',this)">
+🚘 Buy
+</button>
 
-  <button
-    class="tab"
-    onclick="showSection('sell',this)">
-    💰 Sell
-  </button>
+<button
+class="tab"
+onclick="showSection('sell',this)">
+💰 Sell
+</button>
 
-  <button
-    class="tab"
-    onclick="showSection('cab',this)">
-    🚕 Cab Booking
-  </button>
+<button
+class="tab"
+onclick="showSection('cab',this)">
+🚕 Cab Booking
+</button>
 
 </div>
 
 
-<!-- BUY -->
+<!-- ================= BUY ================= -->
 
 <section id="buySection">
 
-  <div class="card">
+<div class="card">
 
-    <h2>🚘 Buy a Car</h2>
+<h2>
+🚘 Buy a Car
+</h2>
 
-    <p class="info">
-      Find cars available for purchase in Hyderabad.
-    </p>
+<p class="info">
+Hyderabad में उपलब्ध cars देखें.
+</p>
 
-    <div class="vehicle-grid">
+<div class="vehicle-grid">
 
-      <button class="vehicle-btn active">
-        🚘 All
-      </button>
+<button class="vehicle-btn active">
+🚘 All
+</button>
 
-      <button class="vehicle-btn">
-        🚗 Hatchback
-      </button>
+<button class="vehicle-btn">
+🚗 Hatchback
+</button>
 
-      <button class="vehicle-btn">
-        🚙 Sedan
-      </button>
+<button class="vehicle-btn">
+🚙 Sedan
+</button>
 
-      <button class="vehicle-btn">
-        🚘 SUV
-      </button>
+<button class="vehicle-btn">
+🚘 SUV
+</button>
 
-      <button class="vehicle-btn">
-        🚐 MUV
-      </button>
+<button class="vehicle-btn">
+🚐 MUV
+</button>
 
-      <button class="vehicle-btn">
-        👑 Luxury
-      </button>
+<button class="vehicle-btn">
+👑 Luxury
+</button>
 
-    </div>
+</div>
 
-    <div class="form-group" style="margin-top:15px">
+<div class="form-group"
+style="margin-top:15px;">
 
-      <input
-        id="buySearch"
-        placeholder="Brand, Model or Vehicle">
+<input
+id="buySearch"
+placeholder="Brand, Model or Vehicle">
 
-    </div>
+</div>
 
-    <button
-      class="primary"
-      onclick="searchBuy()">
+<button
+class="primary"
+onclick="searchBuy()">
 
-      Search Cars
+Search Cars
 
-    </button>
+</button>
 
-  </div>
-
-
-  <div class="card">
-
-    <h2>📍 Location</h2>
-
-    <p class="info">
-      Search cars in Hyderabad, Telangana.
-    </p>
-
-    <input
-      id="buyLocation"
-      placeholder="Area, City or Location">
-
-    <button
-      class="primary"
-      onclick="searchBuyLocation()">
-
-      Search by Location
-
-    </button>
-
-  </div>
+</div>
 
 
-  <div id="buyListings"></div>
+<div class="card">
+
+<h2>
+📍 Hyderabad Location
+</h2>
+
+<p class="info">
+Area, City या Location से car खोजें.
+</p>
+
+<input
+id="buyLocation"
+placeholder="Area, City or Location">
+
+<button
+class="primary"
+onclick="searchByLocation()">
+
+Search by Location
+
+</button>
+
+</div>
+
+
+<div id="buyListings"></div>
 
 </section>
 
 
-<!-- SELL -->
+<!-- ================= SELL ================= -->
 
 <section
-  id="sellSection"
-  class="hidden">
+id="sellSection"
+class="hidden">
 
-  <div class="card">
+<div class="card">
 
-    <h2>💰 Sell Your Car</h2>
+<h2>
+💰 Sell Your Car
+</h2>
 
-    <p class="info">
-      Add your car details and submit it for Admin approval.
-    </p>
+<p class="info">
+अपनी car की details डालकर Admin approval के लिए भेजें.
+</p>
 
 
-    <div class="form-group">
+<div class="form-group">
 
-      <label>Car Brand</label>
+<label>Car Brand</label>
 
-      <input
-        id="sellBrand"
-        placeholder="Toyota">
+<input
+id="sellBrand"
+placeholder="Toyota">
 
-    </div>
+</div>
 
 
-    <div class="form-group">
+<div class="form-group">
 
-      <label>Car Model</label>
+<label>Car Model</label>
 
-      <input
-        id="sellModel"
-        placeholder="Innova Crysta">
+<input
+id="sellModel"
+placeholder="Innova Crysta">
 
-    </div>
+</div>
 
 
-    <div class="form-group">
+<div class="form-group">
 
-      <label>Year</label>
+<label>Year</label>
 
-      <input
-        id="sellYear"
-        placeholder="2022">
+<input
+id="sellYear"
+placeholder="2022">
 
-    </div>
+</div>
 
 
-    <div class="form-group">
+<div class="form-group">
 
-      <label>Fuel</label>
+<label>Fuel</label>
 
-      <select id="sellFuel">
+<select id="sellFuel">
 
-        <option>Petrol</option>
-        <option>Diesel</option>
-        <option>CNG</option>
-        <option>Electric</option>
+<option>Petrol</option>
+<option>Diesel</option>
+<option>CNG</option>
+<option>Electric</option>
 
-      </select>
+</select>
 
-    </div>
+</div>
 
 
-    <div class="form-group">
+<div class="form-group">
 
-      <label>Transmission</label>
+<label>Transmission</label>
 
-      <select id="sellTransmission">
+<select id="sellTransmission">
 
-        <option>Manual</option>
-        <option>Automatic</option>
+<option>Manual</option>
+<option>Automatic</option>
 
-      </select>
+</select>
 
-    </div>
+</div>
 
 
-    <div class="form-group">
+<div class="form-group">
 
-      <label>Seats</label>
+<label>Seats</label>
 
-      <input
-        id="sellSeats"
-        placeholder="7 Seater">
+<input
+id="sellSeats"
+placeholder="7 Seater">
 
-    </div>
+</div>
 
 
-    <div class="form-group">
+<div class="form-group">
 
-      <label>Price</label>
+<label>Price</label>
 
-      <input
-        id="sellPrice"
-        placeholder="₹12,50,000">
+<input
+id="sellPrice"
+placeholder="₹12,50,000">
 
-    </div>
+</div>
 
 
-    <div class="form-group">
+<div class="form-group">
 
-      <label>📸 Car Photos</label>
+<label>📸 Car Photos</label>
 
-      <div class="upload-box">
+<div class="upload-box">
 
-        <p>Upload up to 6 car photos.</p>
+<p>
+Upload maximum 6 car photos.
+</p>
 
-        <input
-          id="carPhotos"
-          type="file"
-          accept="image/*"
-          multiple>
+<input
+id="carPhotos"
+type="file"
+accept="image/*"
+multiple>
 
-        <div
-          id="photoPreview"
-          class="preview-grid">
-        </div>
+<div
+id="photoPreview"
+class="preview-grid">
+</div>
 
-      </div>
+</div>
 
-    </div>
+</div>
 
 
-    <div class="form-group">
+<div class="form-group">
 
-      <label>🎥 Car Video</label>
+<label>🎥 Car Video</label>
 
-      <div class="upload-box">
+<div class="upload-box">
 
-        <p>Upload 1 vehicle video.</p>
+<p>
+Upload 1 vehicle video.
+</p>
 
-        <input
-          id="carVideo"
-          type="file"
-          accept="video/*">
+<input
+id="carVideo"
+type="file"
+accept="video/*">
 
-      </div>
+</div>
 
-    </div>
+</div>
 
 
-    <button
-      class="primary green"
-      onclick="submitSell()">
+<button
+class="primary green"
+onclick="submitSell()">
 
-      Submit Car for Sale
+Submit Car for Sale
 
-    </button>
+</button>
 
-  </div>
+</div>
 
 
-  <div id="sellListings"></div>
+<div id="sellListings"></div>
 
 </section>
 
 
-<!-- CAB -->
+<!-- ================= CAB ================= -->
 
 <section
-  id="cabSection"
-  class="hidden">
+id="cabSection"
+class="hidden">
 
-  <div class="card">
 
-    <h2>🚕 Cab Booking</h2>
+<div class="card">
 
-    <p class="info">
-      Book an available cab for Local or Intercity travel in Hyderabad, Telangana.
-    </p>
+<h2>
+🚕 Hyderabad Cab Booking
+</h2>
 
+<p class="info">
+Hyderabad / Telangana में Local या Intercity cab book करें.
+</p>
 
-    <h3>Rental Type</h3>
 
-    <div class="vehicle-grid">
+<h3>
+Rental Type
+</h3>
 
-      <button
-        class="vehicle-btn active"
-        onclick="selectCabType(this)">
+<div class="vehicle-grid">
 
-        📍 Local
+<button
+class="vehicle-btn active"
+onclick="selectCabType(this)">
 
-      </button>
+📍 Local
 
-      <button
-        class="vehicle-btn"
-        onclick="selectCabType(this)">
+</button>
 
-        🛣️ Intercity / Outstation
+<button
+class="vehicle-btn"
+onclick="selectCabType(this)">
 
-      </button>
+🛣️ Intercity / Outstation
 
-    </div>
+</button>
 
+</div>
 
-    <h3>Vehicle Type</h3>
 
-    <div class="vehicle-grid">
+<h3>
+Vehicle Type
+</h3>
 
-      <button class="vehicle-btn active">
-        🚕 All
-      </button>
+<div class="vehicle-grid">
 
-      <button class="vehicle-btn">
-        🚗 Hatchback
-      </button>
+<button class="vehicle-btn active">
+🚕 All
+</button>
 
-      <button class="vehicle-btn">
-        🚙 Sedan
-      </button>
+<button class="vehicle-btn">
+🚗 Hatchback
+</button>
 
-      <button class="vehicle-btn">
-        🚘 SUV
-      </button>
+<button class="vehicle-btn">
+🚙 Sedan
+</button>
 
-      <button class="vehicle-btn">
-        🚐 MUV
-      </button>
+<button class="vehicle-btn">
+🚘 SUV
+</button>
 
-      <button class="vehicle-btn">
-        👑 Luxury
-      </button>
+<button class="vehicle-btn">
+🚐 MUV
+</button>
 
-    </div>
+<button class="vehicle-btn">
+👑 Luxury
+</button>
 
+</div>
 
-    <h3>Pickup Point</h3>
 
-    <input
-      id="pickup"
-      placeholder="Example: Nampally Metro Station">
+<h3>
+Pickup Point
+</h3>
 
+<input
+id="pickup"
+placeholder="Nampally Metro Station">
 
-    <h3>Destination</h3>
 
-    <input
-      id="destination"
-      placeholder="Example: Miyapur">
+<h3>
+Destination
+</h3>
 
+<input
+id="destination"
+placeholder="Miyapur">
 
-    <button
-      class="primary"
-      onclick="showRouteMap()">
 
-      📍 Show Route on Map
+<button
+class="primary"
+onclick="showRouteMap()">
 
-    </button>
+📍 Show Route on Map
 
+</button>
 
-    <div
-      id="mapStatus"
-      class="map-status">
 
-      Enter Pickup Point and Destination, then tap Show Route on Map.
+<div
+id="mapStatus"
+class="map-status">
 
-    </div>
+Hyderabad location डालकर
+Show Route on Map दबाएँ.
 
+</div>
 
-    <div
-      id="routeMap"
-      class="map-box">
-    </div>
 
+<div
+id="routeMap"
+class="map-box">
+</div>
 
-    <div
-      id="routeSummary"
-      class="route-summary hidden">
 
-      <div class="route-item">
+<div
+id="routeSummary"
+class="route-summary hidden">
 
-        📏 Distance
 
-        <strong id="routeDistance">—</strong>
+<div class="route-item">
 
-      </div>
+📏 Distance
 
+<strong id="routeDistance">
+—
+</strong>
 
-      <div class="route-item">
+</div>
 
-        ⏱️ Estimated Time
 
-        <strong id="routeDuration">—</strong>
+<div class="route-item">
 
-      </div>
+⏱️ Estimated Time
 
-    </div>
+<strong id="routeDuration">
+—
+</strong>
 
-  </div>
+</div>
 
 
-  <!-- AVAILABLE CAB -->
+</div>
 
-  <div class="card">
+</div>
 
-    <h2>🚕 Available Cab</h2>
 
-    <div class="property">
+<!-- AVAILABLE CAB -->
 
-      <img
-        src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=80"
-        alt="Available Cab">
+<div class="card">
 
-      <div class="property-body">
+<h2>
+🚕 Available Cab
+</h2>
 
-        <div class="property-title">
-          🚕 Toyota Innova Crysta
-        </div>
 
-        <span class="badge">
-          Available
-        </span>
+<div class="property">
 
-        <div class="spec">
-          MUV • 2022 • Diesel • Automatic • 7 Seater
-        </div>
+<img
+src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=80"
+alt="Available Cab">
 
-        <div class="spec">
-          📍 Hyderabad, Telangana
-        </div>
 
-        <div class="price">
-          ₹3,200 / 8 Hours
-        </div>
+<div class="property-body">
 
-        <button
-          class="primary green"
-          onclick="bookCab()">
+<div class="property-title">
+🚕 Toyota Innova Crysta
+</div>
 
-          🚕 Book Cab
+<span class="badge">
+Available
+</span>
 
-        </button>
+<div class="spec">
+MUV • 2022 • Diesel • Automatic • 7 Seater
+</div>
 
-        <div
-          id="bookingStatus"
-          class="booking-status hidden">
-        </div>
+<div class="spec">
+📍 Hyderabad, Telangana
+</div>
 
-      </div>
+<div class="price">
+₹3,200 / 8 Hours
+</div>
 
-    </div>
+<button
+class="primary green"
+onclick="bookCab()">
 
-  </div>
+🚕 Book Cab
+
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 </section>
 
 
-<!-- ACCOUNT -->
+<!-- ================= ACCOUNT ================= -->
 
 <section
-  id="accountSection"
-  class="hidden">
+id="accountSection"
+class="hidden">
 
-  <div class="card">
+<div class="card">
 
-    <h2>📱 Customer Login</h2>
+<h2>
+📱 Customer Login
+</h2>
 
-    <p class="account-note">
+<p class="account-note">
 
-      Login with your mobile number.
-      Your number is used for account verification.
+Login with your mobile number.
+Mobile number public नहीं दिखाया जाएगा.
 
-    </p>
-
-
-    <div
-      id="loginStatus"
-      class="logged hidden">
-    </div>
+</p>
 
 
-    <div id="loginBox">
-
-      <input
-        id="phoneNumber"
-        type="tel"
-        placeholder="+91XXXXXXXXXX">
+<div
+id="loginStatus"
+class="logged hidden">
+</div>
 
 
-      <div
-        id="recaptcha-container"
-        style="margin-top:12px;">
-      </div>
+<div id="loginBox">
+
+<input
+id="phoneNumber"
+type="tel"
+placeholder="+91XXXXXXXXXX">
 
 
-      <button
-        class="primary"
-        onclick="sendOTP()">
-
-        Send OTP
-
-      </button>
-
-    </div>
+<div
+id="recaptcha-container"
+style="margin-top:12px;">
+</div>
 
 
-    <div
-      id="otpBox"
-      class="hidden"
-      style="margin-top:15px;">
+<button
+class="primary"
+onclick="sendOTP()">
 
-      <input
-        id="otpCode"
-        placeholder="Enter OTP"
-        maxlength="6">
+Send OTP
 
+</button>
 
-      <button
-        class="primary green"
-        onclick="verifyOTP()">
-
-        Verify OTP
-
-      </button>
-
-    </div>
+</div>
 
 
-    <button
-      id="logoutBtn"
-      class="primary red hidden"
-      onclick="logoutUser()">
+<div
+id="otpBox"
+class="hidden"
+style="margin-top:15px;">
 
-      Logout
+<input
+id="otpCode"
+placeholder="Enter OTP"
+maxlength="6">
 
-    </button>
 
-  </div>
+<button
+class="primary green"
+onclick="verifyOTP()">
+
+Verify OTP
+
+</button>
+
+</div>
+
+
+<button
+id="logoutBtn"
+class="primary red hidden"
+onclick="logoutUser()">
+
+Logout
+
+</button>
+
+</div>
 
 </section>
 
 </main>
 
 
-<!-- BOTTOM NAV -->
+<!-- ================= BOTTOM NAV ================= -->
 
 <nav class="bottom-nav">
 
-  <button onclick="showHome()">
-    <span>🏠</span>
-    Home
-  </button>
+<button onclick="showHome()">
 
-  <button onclick="showSectionByName('buy')">
-    <span>🚘</span>
-    Buy
-  </button>
+<span>🏠</span>
+Home
 
-  <button onclick="showSectionByName('cab')">
-    <span>🚕</span>
-    Cab
-  </button>
+</button>
 
-  <button onclick="showAccount()">
-    <span>👤</span>
-    My Account
-  </button>
+
+<button onclick="showSectionByName('buy')">
+
+<span>🚘</span>
+Buy
+
+</button>
+
+
+<button onclick="showSectionByName('cab')">
+
+<span>🚕</span>
+Cab
+
+</button>
+
+
+<button onclick="showAccount()">
+
+<span>👤</span>
+My Account
+
+</button>
 
 </nav>
 
 
-<!-- PHOTO VIEWER -->
+<!-- ================= VIEWER ================= -->
 
 <div
-  id="viewer"
-  class="viewer">
-
-  <div class="viewer-top">
-
-    <div
-      id="viewerTitle"
-      class="viewer-title">
-      Car Photos
-    </div>
-
-    <button
-      class="close-viewer"
-      onclick="closeViewer()">
-      ✕
-    </button>
-
-  </div>
+id="viewer"
+class="viewer">
 
 
-  <div class="viewer-main">
+<div class="viewer-top">
 
-    <button
-      class="viewer-arrow prev"
-      onclick="previousMedia()">
-      ‹
-    </button>
+<div
+id="viewerTitle"
+class="viewer-title">
 
+Car Photos
 
-    <img
-      id="viewerImage"
-      class="hidden"
-      alt="Car">
+</div>
 
+<button
+class="close-viewer"
+onclick="closeViewer()">
 
-    <video
-      id="viewerVideo"
-      class="hidden"
-      controls>
-    </video>
+✕
 
+</button>
 
-    <button
-      class="viewer-arrow next"
-      onclick="nextMedia()">
-      ›
-    </button>
-
-  </div>
+</div>
 
 
-  <div
-    id="viewerThumbs"
-    class="viewer-bottom">
-  </div>
+<div class="viewer-main">
+
+<button
+class="viewer-arrow prev"
+onclick="previousMedia()">
+
+‹
+
+</button>
+
+
+<img
+id="viewerImage"
+class="hidden"
+alt="Car">
+
+
+<video
+id="viewerVideo"
+class="hidden"
+controls>
+</video>
+
+
+<button
+class="viewer-arrow next"
+onclick="nextMedia()">
+
+›
+
+</button>
+
+</div>
+
+
+<div
+id="viewerThumbs"
+class="viewer-bottom">
+</div>
 
 </div>
 
 
 <script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-  crossorigin="">
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+crossorigin="">
 </script>
 
 
 <script type="module">
+
 
 /* =========================================================
    FIREBASE
 ========================================================= */
 
 import {
-  initializeApp
+initializeApp
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
+
 import {
-  getAuth,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-  onAuthStateChanged,
-  signOut
+getAuth,
+RecaptchaVerifier,
+signInWithPhoneNumber,
+onAuthStateChanged,
+signOut
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  serverTimestamp
+getFirestore
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-const firebaseConfig = {
+const firebaseConfig={
 
-  apiKey:
-  "AIzaSyDFCvXr8h-sZAxBUZNThtgNxEOwrOQWvrI",
+apiKey:
+"AIzaSyDFCvXr8h-sZAxBUZNThtgNxEOwrOQWvrI",
 
-  authDomain:
-  "car-set-u.firebaseapp.com",
+authDomain:
+"car-set-u.firebaseapp.com",
 
-  projectId:
-  "car-set-u",
+projectId:
+"car-set-u",
 
-  storageBucket:
-  "car-set-u.firebasestorage.app",
+storageBucket:
+"car-set-u.firebasestorage.app",
 
-  messagingSenderId:
-  "270679615416",
+messagingSenderId:
+"270679615416",
 
-  appId:
-  "1:270679615416:web:f22a7a71a736b52ac1914d",
+appId:
+"1:270679615416:web:f22a7a71a736b52ac1914d",
 
-  measurementId:
-  "G-R3H6ZC8NZ5"
+measurementId:
+"G-R3H6ZC8NZ5"
 
 };
 
 
-const app =
-  initializeApp(firebaseConfig);
+const app=
+initializeApp(firebaseConfig);
 
-const auth =
-  getAuth(app);
+const auth=
+getAuth(app);
 
-const db =
-  getFirestore(app);
+const db=
+getFirestore(app);
 
-let confirmationResult = null;
+let confirmationResult=null;
 
-let recaptchaVerifier = null;
+let recaptchaVerifier=null;
 
 
 /* =========================================================
    HYDERABAD
 ========================================================= */
 
-const HYDERABAD_CENTER = [
-  17.3850,
-  78.4867
+const HYDERABAD_CENTER=[
+17.3850,
+78.4867
 ];
 
 
-const HYDERABAD_ALIASES = {
+const HYDERABAD_LOCATIONS={
 
-  "maya pur":"Miyapur",
-  "mayapur":"Miyapur",
-  "miya pur":"Miyapur",
+"nampally":{
+lat:17.3930,
+lon:78.4668,
+name:"Nampally, Hyderabad, Telangana, India"
+},
 
-  "nampally metro":
-  "Nampally Metro Station",
+"nampally metro":{
+lat:17.3930,
+lon:78.4668,
+name:"Nampally Metro Station, Hyderabad, Telangana, India"
+},
 
-  "nampally metro station":
-  "Nampally Metro Station",
+"nampally metro station":{
+lat:17.3930,
+lon:78.4668,
+name:"Nampally Metro Station, Hyderabad, Telangana, India"
+},
 
-  "lb nagar":
-  "LB Nagar",
+"nampally metro station hyderabad":{
+lat:17.3930,
+lon:78.4668,
+name:"Nampally Metro Station, Hyderabad, Telangana, India"
+},
 
-  "l b nagar":
-  "LB Nagar",
+"miyapur":{
+lat:17.4969,
+lon:78.3498,
+name:"Miyapur, Hyderabad, Telangana, India"
+},
 
-  "koti":
-  "Koti",
+"maya pur":{
+lat:17.4969,
+lon:78.3498,
+name:"Miyapur, Hyderabad, Telangana, India"
+},
 
-  "uppal":
-  "Uppal",
+"mayapur":{
+lat:17.4969,
+lon:78.3498,
+name:"Miyapur, Hyderabad, Telangana, India"
+},
 
-  "secunderabad":
-  "Secunderabad",
+"miyapur hyderabad":{
+lat:17.4969,
+lon:78.3498,
+name:"Miyapur, Hyderabad, Telangana, India"
+},
 
-  "ameerpet":
-  "Ameerpet",
+"koti":{
+lat:17.3854,
+lon:78.4867,
+name:"Koti, Hyderabad, Telangana, India"
+},
 
-  "kukatpally":
-  "Kukatpally",
+"lb nagar":{
+lat:17.3457,
+lon:78.5522,
+name:"LB Nagar, Hyderabad, Telangana, India"
+},
 
-  "madhapur":
-  "Madhapur",
+"uppal":{
+lat:17.4010,
+lon:78.5591,
+name:"Uppal, Hyderabad, Telangana, India"
+},
 
-  "hitech city":
-  "HITEC City",
+"ameerpet":{
+lat:17.4375,
+lon:78.4483,
+name:"Ameerpet, Hyderabad, Telangana, India"
+},
 
-  "hi tech city":
-  "HITEC City",
+"kukatpally":{
+lat:17.4849,
+lon:78.4138,
+name:"Kukatpally, Hyderabad, Telangana, India"
+},
 
-  "gachibowli":
-  "Gachibowli",
+"madhapur":{
+lat:17.4483,
+lon:78.3915,
+name:"Madhapur, Hyderabad, Telangana, India"
+},
 
-  "banjara hills":
-  "Banjara Hills",
+"gachibowli":{
+lat:17.4401,
+lon:78.3489,
+name:"Gachibowli, Hyderabad, Telangana, India"
+},
 
-  "jubilee hills":
-  "Jubilee Hills",
+"hitech city":{
+lat:17.4435,
+lon:78.3772,
+name:"HITEC City, Hyderabad, Telangana, India"
+},
 
-  "mehdipatnam":
-  "Mehdipatnam",
+"hi tech city":{
+lat:17.4435,
+lon:78.3772,
+name:"HITEC City, Hyderabad, Telangana, India"
+},
 
-  "tolichowki":
-  "Tolichowki",
+"secunderabad":{
+lat:17.4399,
+lon:78.4983,
+name:"Secunderabad, Telangana, India"
+},
 
-  "dilsukhnagar":
-  "Dilsukhnagar",
+"banjara hills":{
+lat:17.4156,
+lon:78.4347,
+name:"Banjara Hills, Hyderabad, Telangana, India"
+},
 
-  "kondapur":
-  "Kondapur",
+"jubilee hills":{
+lat:17.4325,
+lon:78.4071,
+name:"Jubilee Hills, Hyderabad, Telangana, India"
+},
 
-  "begumpet":
-  "Begumpet",
+"mehdipatnam":{
+lat:17.3949,
+lon:78.4313,
+name:"Mehdipatnam, Hyderabad, Telangana, India"
+},
 
-  "malakpet":
-  "Malakpet",
+"tolichowki":{
+lat:17.3970,
+lon:78.4160,
+name:"Tolichowki, Hyderabad, Telangana, India"
+},
 
-  "attapur":
-  "Attapur",
+"dilsukhnagar":{
+lat:17.3688,
+lon:78.5247,
+name:"Dilsukhnagar, Hyderabad, Telangana, India"
+},
 
-  "manikonda":
-  "Manikonda",
+"kondapur":{
+lat:17.4583,
+lon:78.3670,
+name:"Kondapur, Hyderabad, Telangana, India"
+},
 
-  "shamshabad":
-  "Shamshabad"
+"begumpet":{
+lat:17.4439,
+lon:78.4623,
+name:"Begumpet, Hyderabad, Telangana, India"
+},
+
+"malakpet":{
+lat:17.3731,
+lon:78.5016,
+name:"Malakpet, Hyderabad, Telangana, India"
+},
+
+"attapur":{
+lat:17.3699,
+lon:78.4250,
+name:"Attapur, Hyderabad, Telangana, India"
+},
+
+"manikonda":{
+lat:17.4050,
+lon:78.3830,
+name:"Manikonda, Hyderabad, Telangana, India"
+},
+
+"shamshabad":{
+lat:17.2510,
+lon:78.4294,
+name:"Shamshabad, Telangana, India"
+}
 
 };
 
 
 /* =========================================================
-   KNOWN HYDERABAD LOCATIONS
+   CARS
 ========================================================= */
 
-const HYDERABAD_KNOWN_LOCATIONS = {
+const buyCars=[{
 
-  "nampally":{
-    lat:17.3930,
-    lon:78.4668,
-    name:"Nampally, Hyderabad, Telangana, India"
-  },
+id:"buy1",
 
-  "nampally metro station":{
-    lat:17.3930,
-    lon:78.4668,
-    name:"Nampally Metro Station, Hyderabad, Telangana, India"
-  },
+title:"Toyota Innova Crysta",
 
-  "koti":{
-    lat:17.3854,
-    lon:78.4867,
-    name:"Koti, Hyderabad, Telangana, India"
-  },
+year:"2022",
 
-  "lb nagar":{
-    lat:17.3457,
-    lon:78.5522,
-    name:"LB Nagar, Hyderabad, Telangana, India"
-  },
+fuel:"Diesel",
 
-  "miyapur":{
-    lat:17.4969,
-    lon:78.3498,
-    name:"Miyapur, Hyderabad, Telangana, India"
-  },
+transmission:"Automatic",
 
-  "maya pur":{
-    lat:17.4969,
-    lon:78.3498,
-    name:"Miyapur, Hyderabad, Telangana, India"
-  },
+seats:"7 Seater",
 
-  "uppal":{
-    lat:17.4010,
-    lon:78.5591,
-    name:"Uppal, Hyderabad, Telangana, India"
-  },
+type:"MUV",
 
-  "ameerpet":{
-    lat:17.4375,
-    lon:78.4483,
-    name:"Ameerpet, Hyderabad, Telangana, India"
-  },
+price:"₹12,50,000",
 
-  "kukatpally":{
-    lat:17.4849,
-    lon:78.4138,
-    name:"Kukatpally, Hyderabad, Telangana, India"
-  },
+status:"Available",
 
-  "madhapur":{
-    lat:17.4483,
-    lon:78.3915,
-    name:"Madhapur, Hyderabad, Telangana, India"
-  },
+location:"Hyderabad, Telangana",
 
-  "gachibowli":{
-    lat:17.4401,
-    lon:78.3489,
-    name:"Gachibowli, Hyderabad, Telangana, India"
-  },
+photos:[
+"https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=80"
+],
 
-  "hitech city":{
-    lat:17.4435,
-    lon:78.3772,
-    name:"HITEC City, Hyderabad, Telangana, India"
-  },
+video:""
 
-  "secunderabad":{
-    lat:17.4399,
-    lon:78.4983,
-    name:"Secunderabad, Telangana, India"
-  },
-
-  "banjara hills":{
-    lat:17.4156,
-    lon:78.4347,
-    name:"Banjara Hills, Hyderabad, Telangana, India"
-  },
-
-  "jubilee hills":{
-    lat:17.4325,
-    lon:78.4071,
-    name:"Jubilee Hills, Hyderabad, Telangana, India"
-  },
-
-  "mehdipatnam":{
-    lat:17.3949,
-    lon:78.4313,
-    name:"Mehdipatnam, Hyderabad, Telangana, India"
-  },
-
-  "tolichowki":{
-    lat:17.3970,
-    lon:78.4160,
-    name:"Tolichowki, Hyderabad, Telangana, India"
-  },
-
-  "dilsukhnagar":{
-    lat:17.3688,
-    lon:78.5247,
-    name:"Dilsukhnagar, Hyderabad, Telangana, India"
-  },
-
-  "kondapur":{
-    lat:17.4583,
-    lon:78.3670,
-    name:"Kondapur, Hyderabad, Telangana, India"
-  },
-
-  "begumpet":{
-    lat:17.4439,
-    lon:78.4623,
-    name:"Begumpet, Hyderabad, Telangana, India"
-  },
-
-  "malakpet":{
-    lat:17.3731,
-    lon:78.5016,
-    name:"Malakpet, Hyderabad, Telangana, India"
-  },
-
-  "attapur":{
-    lat:17.3699,
-    lon:78.4250,
-    name:"Attapur, Hyderabad, Telangana, India"
-  },
-
-  "manikonda":{
-    lat:17.4050,
-    lon:78.3830,
-    name:"Manikonda, Hyderabad, Telangana, India"
-  },
-
-  "shamshabad":{
-    lat:17.2510,
-    lon:78.4294,
-    name:"Shamshabad, Telangana, India"
-  }
-
-};
+}];
 
 
-/* =========================================================
-   DEMO DATA
-========================================================= */
-
-const buyCars = [
-
-  {
-
-    id:"buy1",
-
-    title:"Toyota Innova Crysta",
-
-    year:"2022",
-
-    fuel:"Diesel",
-
-    transmission:"Automatic",
-
-    seats:"7 Seater",
-
-    type:"MUV",
-
-    price:"₹12,50,000",
-
-    status:"Available",
-
-    location:"Hyderabad, Telangana",
-
-    photos:[
-      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=80"
-    ],
-
-    video:""
-
-  }
-
-];
-
-
-const sellCars = [];
-
-
-const cabCars = [
-
-  {
-
-    id:"cab1",
-
-    title:"Toyota Innova Crysta",
-
-    year:"2022",
-
-    fuel:"Diesel",
-
-    transmission:"Automatic",
-
-    seats:"7 Seater",
-
-    type:"MUV",
-
-    price:"₹3,200 / 8 Hours",
-
-    status:"Available",
-
-    location:"Hyderabad, Telangana"
-
-  }
-
-];
+const sellCars=[];
 
 
 /* =========================================================
    SECTIONS
 ========================================================= */
 
-window.showSection =
+window.showSection=
 function(section,button){
 
-  [
-    "buy",
-    "sell",
-    "cab",
-    "account"
-  ]
-  .forEach(x=>{
+[
+"buy",
+"sell",
+"cab",
+"account"
+].forEach(x=>{
 
-    const element =
-      document.getElementById(
-        x+"Section"
-      );
+const el=
+document.getElementById(
+x+"Section"
+);
 
-    if(element){
-      element.classList.add("hidden");
-    }
+if(el)
+el.classList.add("hidden");
 
-  });
+});
 
 
-  const target =
-    document.getElementById(
-      section+"Section"
-    );
+const selected=
+document.getElementById(
+section+"Section"
+);
+
+if(selected)
+selected.classList.remove("hidden");
 
 
-  if(target){
-    target.classList.remove("hidden");
-  }
+document
+.querySelectorAll(".tab")
+.forEach(b=>
+b.classList.remove("active")
+);
 
 
-  document
-    .querySelectorAll(".tab")
-    .forEach(b=>{
-      b.classList.remove("active");
-    });
+if(button)
+button.classList.add("active");
 
 
-  if(button){
-    button.classList.add("active");
-  }
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
 };
 
 
-window.showSectionByName =
+window.showSectionByName=
 function(section){
 
-  const buttons =
-    document.querySelectorAll(".tab");
+const buttons=
+document.querySelectorAll(".tab");
 
+const index=
+section==="buy"
+?0
+:section==="sell"
+?1
+:2;
 
-  const index =
-    section==="buy"
-    ?0
-    :section==="sell"
-    ?1
-    :2;
-
-
-  showSection(
-    section,
-    buttons[index]
-  );
+showSection(
+section,
+buttons[index]
+);
 
 };
 
 
-window.showHome =
+window.showHome=
+function(){
+showSectionByName("buy");
+};
+
+
+window.showAccount=
 function(){
 
-  showSectionByName("buy");
+[
+"buy",
+"sell",
+"cab"
+].forEach(x=>
+document
+.getElementById(x+"Section")
+.classList.add("hidden")
+);
+
+
+document
+.getElementById("accountSection")
+.classList
+.remove("hidden");
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+setupRecaptcha();
 
 };
 
 
 /* =========================================================
-   ACCOUNT LOGIN
+   LOGIN
 ========================================================= */
-
-window.showAccount =
-function(){
-
-  [
-    "buy",
-    "sell",
-    "cab"
-  ]
-  .forEach(x=>{
-    document
-      .getElementById(x+"Section")
-      .classList
-      .add("hidden");
-  });
-
-
-  document
-    .getElementById("accountSection")
-    .classList
-    .remove("hidden");
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-
-  setupRecaptcha();
-
-};
-
 
 function setupRecaptcha(){
 
-  if(recaptchaVerifier){
-    return;
-  }
+if(recaptchaVerifier)
+return;
 
 
-  recaptchaVerifier =
-    new RecaptchaVerifier(
-      auth,
-      "recaptcha-container",
-      {
-        size:"normal"
-      }
-    );
+try{
 
+recaptchaVerifier=
+new RecaptchaVerifier(
+auth,
+"recaptcha-container",
+{
+size:"normal"
+}
+);
 
-  recaptchaVerifier.render()
-    .catch(error=>{
-      console.error(
-        "reCAPTCHA error:",
-        error
-      );
-    });
+recaptchaVerifier.render();
+
+}
+catch(error){
+
+console.error(error);
+
+}
 
 }
 
 
-window.sendOTP =
+window.sendOTP=
 async function(){
 
-  try{
+try{
 
-    setupRecaptcha();
+setupRecaptcha();
 
-
-    let phone =
-      document
-        .getElementById("phoneNumber")
-        .value
-        .trim();
-
-
-    if(!phone){
-
-      alert(
-        "Please enter mobile number."
-      );
-
-      return;
-
-    }
+let phone=
+document
+.getElementById("phoneNumber")
+.value
+.trim();
 
 
-    if(!phone.startsWith("+")){
+if(!phone){
 
-      phone =
-        "+91"+phone;
+alert("Please enter mobile number.");
 
-    }
+return;
 
-
-    confirmationResult =
-      await signInWithPhoneNumber(
-        auth,
-        phone,
-        recaptchaVerifier
-      );
+}
 
 
-    document
-      .getElementById("otpBox")
-      .classList
-      .remove("hidden");
+if(!phone.startsWith("+")){
+phone="+91"+phone;
+}
 
 
-    alert(
-      "OTP sent successfully."
-    );
+confirmationResult=
+await signInWithPhoneNumber(
+auth,
+phone,
+recaptchaVerifier
+);
 
-  }
-  catch(error){
 
-    console.error(error);
+document
+.getElementById("otpBox")
+.classList
+.remove("hidden");
 
-    alert(
-      "OTP could not be sent.\n\n"+
-      error.message
-    );
 
-  }
+alert("OTP sent successfully.");
+
+}
+catch(error){
+
+console.error(error);
+
+alert(
+"OTP could not be sent.\n\n"+
+error.message
+);
+
+}
 
 };
 
 
-window.verifyOTP =
+window.verifyOTP=
 async function(){
 
-  try{
+try{
 
-    const otp =
-      document
-        .getElementById("otpCode")
-        .value
-        .trim();
-
-
-    if(otp.length!==6){
-
-      alert(
-        "Please enter 6 digit OTP."
-      );
-
-      return;
-
-    }
+const otp=
+document
+.getElementById("otpCode")
+.value
+.trim();
 
 
-    if(!confirmationResult){
+if(otp.length!==6){
 
-      alert(
-        "Please request OTP first."
-      );
+alert("Please enter 6 digit OTP.");
 
-      return;
+return;
 
-    }
+}
 
 
-    await confirmationResult.confirm(
-      otp
-    );
+if(!confirmationResult){
+
+alert("Please request OTP first.");
+
+return;
+
+}
 
 
-    alert(
-      "Login successful."
-    );
+await confirmationResult.confirm(otp);
 
-  }
-  catch(error){
+alert("Login successful.");
 
-    console.error(error);
+}
+catch(error){
 
-    alert(
-      "Invalid OTP.\n\n"+
-      error.message
-    );
+console.error(error);
 
-  }
+alert(
+"Invalid OTP.\n\n"+
+error.message
+);
+
+}
 
 };
 
 
-window.logoutUser =
+window.logoutUser=
 async function(){
 
-  try{
-
-    await signOut(auth);
-
-  }
-  catch(error){
-
-    console.error(error);
-
-  }
+await signOut(auth);
 
 };
 
 
 onAuthStateChanged(
-  auth,
-  user=>{
+auth,
+user=>{
 
-    const loginBox =
-      document.getElementById(
-        "loginBox"
-      );
+const loginBox=
+document.getElementById("loginBox");
 
-    const otpBox =
-      document.getElementById(
-        "otpBox"
-      );
+const otpBox=
+document.getElementById("otpBox");
 
-    const status =
-      document.getElementById(
-        "loginStatus"
-      );
+const status=
+document.getElementById("loginStatus");
 
-    const logout =
-      document.getElementById(
-        "logoutBtn"
-      );
+const logout=
+document.getElementById("logoutBtn");
 
 
-    if(user){
+if(user){
 
-      loginBox
-        .classList
-        .add("hidden");
+loginBox.classList.add("hidden");
 
-      otpBox
-        .classList
-        .add("hidden");
+otpBox.classList.add("hidden");
 
-      status
-        .classList
-        .remove("hidden");
+status.classList.remove("hidden");
 
-      logout
-        .classList
-        .remove("hidden");
+logout.classList.remove("hidden");
 
-      status.textContent =
-        "✅ Customer logged in: "+
-        (
-          user.phoneNumber ||
-          ""
-        );
+status.textContent=
+"✅ Customer logged in: "+
+(user.phoneNumber||"");
 
-    }
-    else{
+}
+else{
 
-      loginBox
-        .classList
-        .remove("hidden");
+loginBox.classList.remove("hidden");
 
-      status
-        .classList
-        .add("hidden");
+status.classList.add("hidden");
 
-      logout
-        .classList
-        .add("hidden");
+logout.classList.add("hidden");
 
-    }
+}
 
-  }
-);
+});
 
 
 /* =========================================================
@@ -1975,431 +1865,364 @@ onAuthStateChanged(
 
 function renderBuyCars(list){
 
-  const box =
-    document.getElementById(
-      "buyListings"
-    );
+const box=
+document.getElementById("buyListings");
 
 
-  box.innerHTML =
-    "<div class='card'><h2>🚘 Available Cars</h2></div>";
+box.innerHTML=
+"<div class='card'><h2>🚘 Available Cars</h2></div>";
 
 
-  if(!list.length){
+if(!list.length){
 
-    box.innerHTML +=
-      "<div class='card'><p class='info'>No cars found.</p></div>";
+box.innerHTML+=
+"<div class='card'>No cars found.</div>";
 
-    return;
-
-  }
-
-
-  list.forEach(car=>{
-
-    const card =
-      document.createElement("div");
-
-
-    card.className =
-      "property";
-
-
-    const photos =
-      car.photos || [];
-
-
-    card.innerHTML = `
-
-      <img
-        src="${photos[0] || ""}"
-        alt="${car.title}">
-
-      <div class="property-body">
-
-        ${
-          photos.length
-          ?
-          `
-          <div class="photo-count">
-            📸 ${photos.length}
-            Photo${photos.length>1?"s":""}
-          </div>
-          `
-          :
-          ""
-        }
-
-        <div class="property-title">
-          🚘 ${car.title}
-        </div>
-
-        <span class="badge">
-          ${car.status}
-        </span>
-
-        <div class="spec">
-          ${car.type}
-          • ${car.year}
-          • ${car.fuel}
-          • ${car.transmission}
-          • ${car.seats}
-        </div>
-
-        <div class="spec">
-          📍 ${car.location}
-        </div>
-
-        <div class="price">
-          ${car.price}
-        </div>
-
-        <button
-          class="primary"
-          onclick="openCarViewer('${car.id}','buy')">
-          View Car
-        </button>
-
-      </div>
-
-    `;
-
-
-    box.appendChild(card);
-
-  });
+return;
 
 }
 
 
-window.searchBuy =
+list.forEach(car=>{
+
+const card=
+document.createElement("div");
+
+card.className="property";
+
+const photo=
+car.photos&&car.photos.length
+?car.photos[0]
+:"";
+
+
+card.innerHTML=`
+
+<img src="${photo}"
+alt="${car.title}">
+
+<div class="property-body">
+
+<div class="photo-count">
+📸 ${(car.photos||[]).length} Photo
+</div>
+
+<div class="property-title">
+🚘 ${car.title}
+</div>
+
+<span class="badge">
+${car.status}
+</span>
+
+<div class="spec">
+${car.type} • ${car.year} • ${car.fuel}
+• ${car.transmission} • ${car.seats}
+</div>
+
+<div class="spec">
+📍 ${car.location||"Hyderabad, Telangana"}
+</div>
+
+<div class="price">
+${car.price}
+</div>
+
+<button
+class="primary"
+onclick="openCarViewer('${car.id}','buy')">
+
+View Car
+
+</button>
+
+</div>
+`;
+
+box.appendChild(card);
+
+});
+
+}
+
+
+window.searchBuy=
 function(){
 
-  const search =
-    document
-      .getElementById("buySearch")
-      .value
-      .toLowerCase()
-      .trim();
+const search=
+document
+.getElementById("buySearch")
+.value
+.toLowerCase()
+.trim();
 
 
-  const location =
-    document
-      .getElementById("buyLocation")
-      .value
-      .toLowerCase()
-      .trim();
+const filtered=
+buyCars.filter(car=>
+
+car.title.toLowerCase().includes(search)
+||
+car.type.toLowerCase().includes(search)
+);
 
 
-  const filtered =
-    buyCars.filter(car=>{
-
-      const text =
-        (
-          car.title+
-          " "+
-          car.type+
-          " "+
-          car.location
-        )
-        .toLowerCase();
-
-
-      return
-        (!search || text.includes(search)) &&
-        (!location || text.includes(location));
-
-    });
-
-
-  renderBuyCars(filtered);
+renderBuyCars(filtered);
 
 };
 
 
-window.searchBuyLocation =
+window.searchByLocation=
 function(){
 
-  searchBuy();
+const location=
+document
+.getElementById("buyLocation")
+.value
+.toLowerCase()
+.trim();
+
+
+if(!location){
+
+renderBuyCars(buyCars);
+
+return;
+
+}
+
+
+const filtered=
+buyCars.filter(car=>
+(car.location||"")
+.toLowerCase()
+.includes(location)
+);
+
+
+renderBuyCars(filtered);
 
 };
 
 
 /* =========================================================
-   SELL
+   SELL PHOTOS
 ========================================================= */
 
-window.previewPhotos =
+window.previewPhotos=
 function(){
 
-  const input =
-    document.getElementById(
-      "carPhotos"
-    );
+const input=
+document.getElementById("carPhotos");
+
+const preview=
+document.getElementById("photoPreview");
 
 
-  const preview =
-    document.getElementById(
-      "photoPreview"
-    );
+preview.innerHTML="";
 
 
-  preview.innerHTML = "";
+const files=
+Array.from(input.files);
 
 
-  const files =
-    Array.from(input.files);
+if(files.length>6){
+
+alert(
+"Maximum 6 car photos allowed."
+);
+
+input.value="";
+
+return;
+
+}
 
 
-  if(files.length>6){
+files.forEach(file=>{
 
-    alert(
-      "Maximum 6 car photos allowed."
-    );
-
-
-    input.value = "";
-
-    return;
-
-  }
+if(!file.type.startsWith("image/"))
+return;
 
 
-  files.forEach(file=>{
-
-    if(
-      !file.type.startsWith("image/")
-    ){
-      return;
-    }
+const reader=
+new FileReader();
 
 
-    const reader =
-      new FileReader();
+reader.onload=e=>{
+
+const img=
+document.createElement("img");
+
+img.src=e.target.result;
+
+preview.appendChild(img);
+
+};
 
 
-    reader.onload =
-      event=>{
+reader.readAsDataURL(file);
 
-        const img =
-          document.createElement("img");
-
-        img.src =
-          event.target.result;
-
-        preview.appendChild(img);
-
-      };
-
-
-    reader.readAsDataURL(file);
-
-  });
+});
 
 };
 
 
 document
-  .getElementById("carPhotos")
-  .addEventListener(
-    "change",
-    window.previewPhotos
-  );
+.getElementById("carPhotos")
+.addEventListener(
+"change",
+window.previewPhotos
+);
 
 
-window.submitSell =
-async function(){
+window.submitSell=
+function(){
 
-  const brand =
-    document
-      .getElementById("sellBrand")
-      .value
-      .trim();
-
-
-  const model =
-    document
-      .getElementById("sellModel")
-      .value
-      .trim();
+const brand=
+document
+.getElementById("sellBrand")
+.value.trim();
 
 
-  if(!brand || !model){
-
-    alert(
-      "Please enter Car Brand and Car Model."
-    );
-
-    return;
-
-  }
+const model=
+document
+.getElementById("sellModel")
+.value.trim();
 
 
-  const photos =
-    Array.from(
-      document
-        .getElementById("carPhotos")
-        .files
-    );
+if(!brand||!model){
+
+alert(
+"Please enter Car Brand and Car Model."
+);
+
+return;
+
+}
 
 
-  if(photos.length>6){
-
-    alert(
-      "Maximum 6 photos allowed."
-    );
-
-    return;
-
-  }
+const photos=
+Array.from(
+document
+.getElementById("carPhotos")
+.files
+);
 
 
-  const videoInput =
-    document.getElementById(
-      "carVideo"
-    );
+if(photos.length>6){
+
+alert(
+"Maximum 6 photos allowed."
+);
+
+return;
+
+}
 
 
-  const car = {
+const car={
 
-    id:
-      "sell-"+Date.now(),
+id:"sell-"+Date.now(),
 
-    title:
-      brand+" "+model,
+title:brand+" "+model,
 
-    year:
-      document
-        .getElementById("sellYear")
-        .value,
+year:
+document
+.getElementById("sellYear")
+.value,
 
-    fuel:
-      document
-        .getElementById("sellFuel")
-        .value,
+fuel:
+document
+.getElementById("sellFuel")
+.value,
 
-    transmission:
-      document
-        .getElementById("sellTransmission")
-        .value,
+transmission:
+document
+.getElementById("sellTransmission")
+.value,
 
-    seats:
-      document
-        .getElementById("sellSeats")
-        .value,
+seats:
+document
+.getElementById("sellSeats")
+.value,
 
-    price:
-      document
-        .getElementById("sellPrice")
-        .value,
+price:
+document
+.getElementById("sellPrice")
+.value,
 
-    status:
-      "Pending Admin Approval",
+status:
+"Pending Admin Approval",
 
-    location:
-      "Hyderabad, Telangana",
+location:
+"Hyderabad, Telangana",
 
-    photoCount:
-      photos.length,
+photoCount:
+photos.length
 
-    video:
-      videoInput.files.length
-      ?
-      videoInput.files[0].name
-      :
-      ""
-
-  };
+};
 
 
-  sellCars.push(car);
+sellCars.push(car);
 
-  renderSellCars();
+renderSellCars();
 
 
-  alert(
-    "Car submitted successfully.\n"+
-    "Admin approval is required before public display."
-  );
+alert(
+"Car submitted successfully.\n"+
+"Admin approval is required."
+);
 
 };
 
 
 function renderSellCars(){
 
-  const box =
-    document.getElementById(
-      "sellListings"
-    );
+const box=
+document.getElementById("sellListings");
+
+box.innerHTML="";
 
 
-  box.innerHTML = "";
+sellCars.forEach(car=>{
 
+const card=
+document.createElement("div");
 
-  sellCars.forEach(car=>{
+card.className="property";
 
-    const card =
-      document.createElement("div");
+card.innerHTML=`
 
+<div class="property-body">
 
-    card.className =
-      "property";
+<div class="property-title">
+🚘 ${car.title}
+</div>
 
+<span class="badge">
+${car.status}
+</span>
 
-    card.innerHTML = `
+<div class="spec">
+${car.year||""} •
+${car.fuel||""} •
+${car.transmission||""}
+</div>
 
-      <div class="property-body">
+<div class="spec">
+📍 Hyderabad, Telangana
+</div>
 
-        ${
-          car.photoCount
-          ?
-          `
-          <div class="photo-count">
-            📸 ${car.photoCount} Photos
-          </div>
-          `
-          :
-          ""
-        }
+<div class="price">
+${car.price||""}
+</div>
 
-        <div class="property-title">
-          🚘 ${car.title}
-        </div>
+</div>
+`;
 
-        <span class="badge">
-          ${car.status}
-        </span>
+box.appendChild(card);
 
-        <div class="spec">
-          ${car.year || ""}
-          • ${car.fuel || ""}
-          • ${car.transmission || ""}
-        </div>
-
-        <div class="spec">
-          📍 Hyderabad, Telangana
-        </div>
-
-        ${
-          car.price
-          ?
-          `
-          <div class="price">
-            ${car.price}
-          </div>
-          `
-          :
-          ""
-        }
-
-      </div>
-
-    `;
-
-
-    box.appendChild(card);
-
-  });
+});
 
 }
 
@@ -2408,250 +2231,213 @@ function renderSellCars(){
    PHOTO VIEWER
 ========================================================= */
 
-let currentMedia = [];
+let currentMedia=[];
 
-let currentIndex = 0;
+let currentIndex=0;
 
 
-window.openCarViewer =
+window.openCarViewer=
 function(id,type){
 
-  const car =
-    type==="buy"
-    ?
-    buyCars.find(x=>x.id===id)
-    :
-    sellCars.find(x=>x.id===id);
+const car=
+type==="buy"
+?buyCars.find(x=>x.id===id)
+:sellCars.find(x=>x.id===id);
 
 
-  if(!car){
+if(!car){
 
-    alert(
-      "Car details not found."
-    );
+alert("Car details not found.");
 
-    return;
+return;
 
-  }
+}
 
 
-  currentMedia = [];
+currentMedia=[];
 
 
-  (car.photos || [])
-    .forEach(photo=>{
+(car.photos||[])
+.forEach(photo=>{
 
-      currentMedia.push({
-        type:"image",
-        src:photo
-      });
+currentMedia.push({
+type:"image",
+src:photo
+});
 
-    });
-
-
-  if(car.video){
-
-    currentMedia.push({
-      type:"video",
-      src:car.video
-    });
-
-  }
+});
 
 
-  if(!currentMedia.length){
+if(!currentMedia.length){
 
-    alert(
-      "No photos available for this car yet."
-    );
+alert("No photos available.");
 
-    return;
+return;
 
-  }
+}
 
 
-  currentIndex = 0;
+currentIndex=0;
 
 
-  document
-    .getElementById("viewer")
-    .classList
-    .add("show");
+document
+.getElementById("viewer")
+.classList
+.add("show");
 
 
-  document
-    .getElementById("viewerTitle")
-    .textContent =
-    car.title;
+document
+.getElementById("viewerTitle")
+.textContent=car.title;
 
 
-  renderViewer();
+renderViewer();
 
 };
 
 
 function renderViewer(){
 
-  const image =
-    document.getElementById(
-      "viewerImage"
-    );
+const image=
+document.getElementById("viewerImage");
 
-  const video =
-    document.getElementById(
-      "viewerVideo"
-    );
+const video=
+document.getElementById("viewerVideo");
 
-  const thumbs =
-    document.getElementById(
-      "viewerThumbs"
-    );
+const thumbs=
+document.getElementById("viewerThumbs");
 
 
-  image.classList.add("hidden");
+image.classList.add("hidden");
 
-  video.classList.add("hidden");
+video.classList.add("hidden");
 
-  video.pause();
+video.pause();
 
-  video.removeAttribute("src");
-
-
-  const media =
-    currentMedia[currentIndex];
+video.removeAttribute("src");
 
 
-  if(media.type==="image"){
-
-    image.src =
-      media.src;
-
-    image.classList.remove("hidden");
-
-  }
-  else{
-
-    video.src =
-      media.src;
-
-    video.classList.remove("hidden");
-
-  }
+const media=
+currentMedia[currentIndex];
 
 
-  thumbs.innerHTML = "";
+if(!media)
+return;
 
 
-  currentMedia.forEach(
-    (item,index)=>{
+if(media.type==="image"){
 
-      const button =
-        document.createElement(
-          "button"
-        );
+image.src=media.src;
 
+image.classList.remove("hidden");
 
-      button.className =
-        "thumb"+
-        (
-          index===currentIndex
-          ?
-          " active"
-          :
-          ""
-        );
+}
+else{
 
+video.src=media.src;
 
-      if(item.type==="image"){
-
-        button.innerHTML =
-          `<img src="${item.src}">`;
-
-      }
-      else{
-
-        button.innerHTML =
-          "🎥";
-
-      }
-
-
-      button.onclick =
-        ()=>{
-          currentIndex=index;
-          renderViewer();
-        };
-
-
-      thumbs.appendChild(button);
-
-    }
-  );
+video.classList.remove("hidden");
 
 }
 
 
-window.previousMedia =
-function(){
-
-  if(!currentMedia.length){
-    return;
-  }
+thumbs.innerHTML="";
 
 
-  currentIndex =
-    (
-      currentIndex-
-      1+
-      currentMedia.length
-    )%
-    currentMedia.length;
+currentMedia.forEach(
+(item,index)=>{
+
+const button=
+document.createElement("button");
+
+button.className=
+"thumb"+
+(index===currentIndex?" active":"");
 
 
-  renderViewer();
+if(item.type==="image"){
 
-};
+button.innerHTML=
+`<img src="${item.src}">`;
 
+}
+else{
 
-window.nextMedia =
-function(){
+button.innerHTML="🎥";
 
-  if(!currentMedia.length){
-    return;
-  }
-
-
-  currentIndex =
-    (
-      currentIndex+
-      1
-    )%
-    currentMedia.length;
+}
 
 
-  renderViewer();
+button.onclick=()=>{
+
+currentIndex=index;
+
+renderViewer();
 
 };
 
 
-window.closeViewer =
+thumbs.appendChild(button);
+
+});
+
+}
+
+
+window.previousMedia=
 function(){
 
-  document
-    .getElementById("viewer")
-    .classList
-    .remove("show");
+if(!currentMedia.length)
+return;
 
 
-  const video =
-    document.getElementById(
-      "viewerVideo"
-    );
+currentIndex=
+(
+currentIndex-1+
+currentMedia.length
+)
+%currentMedia.length;
 
 
-  video.pause();
+renderViewer();
 
-  video.removeAttribute("src");
+};
+
+
+window.nextMedia=
+function(){
+
+if(!currentMedia.length)
+return;
+
+
+currentIndex=
+(
+currentIndex+1
+)
+%currentMedia.length;
+
+
+renderViewer();
+
+};
+
+
+window.closeViewer=
+function(){
+
+document
+.getElementById("viewer")
+.classList
+.remove("show");
+
+
+const video=
+document.getElementById("viewerVideo");
+
+video.pause();
+
+video.removeAttribute("src");
 
 };
 
@@ -2660,18 +2446,17 @@ function(){
    CAB TYPE
 ========================================================= */
 
-window.selectCabType =
+window.selectCabType=
 function(button){
 
-  button
-    .parentElement
-    .querySelectorAll(".vehicle-btn")
-    .forEach(b=>{
-      b.classList.remove("active");
-    });
+button
+.parentElement
+.querySelectorAll(".vehicle-btn")
+.forEach(b=>
+b.classList.remove("active")
+);
 
-
-  button.classList.add("active");
+button.classList.add("active");
 
 };
 
@@ -2680,253 +2465,275 @@ function(button){
    MAP
 ========================================================= */
 
-let routeMap = null;
+let routeMap=null;
 
-let pickupMarker = null;
+let pickupMarker=null;
 
-let destinationMarker = null;
+let destinationMarker=null;
 
-let routeLine = null;
+let routeLine=null;
 
 
 function initRouteMap(){
 
-  if(routeMap){
-    return;
-  }
+if(routeMap)
+return;
 
 
-  routeMap =
-    L.map("routeMap")
-      .setView(
-        HYDERABAD_CENTER,
-        11
-      );
+routeMap=
+L.map("routeMap")
+.setView(
+HYDERABAD_CENTER,
+11
+);
 
 
-  L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    {
-      maxZoom:19,
-      attribution:
-        "© OpenStreetMap contributors"
-    }
-  )
-  .addTo(routeMap);
+L.tileLayer(
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+{
+maxZoom:19,
+attribution:"© OpenStreetMap contributors"
+}
+)
+.addTo(routeMap);
 
 }
 
 
-function normalizeHyderabadPlace(place){
-
-  let clean =
-    place
-      .trim()
-      .replace(/\s+/g," ");
-
-
-  const key =
-    clean.toLowerCase();
-
-
-  if(HYDERABAD_ALIASES[key]){
-
-    clean =
-      HYDERABAD_ALIASES[key];
-
-  }
-
-
-  const lower =
-    clean.toLowerCase();
-
-
-  if(
-    !lower.includes("hyderabad") &&
-    !lower.includes("telangana")
-  ){
-
-    clean +=
-      ", Hyderabad, Telangana, India";
-
-  }
-  else if(
-    lower.includes("hyderabad") &&
-    !lower.includes("india")
-  ){
-
-    clean += ", India";
-
-  }
-
-
-  return clean;
-
-}
-
+/* =========================================================
+   LOCATION SEARCH
+========================================================= */
 
 async function geocodePlace(place){
 
-  const original =
-    place.trim();
+const original=
+place.trim();
 
 
-  const normalized =
-    normalizeHyderabadPlace(
-      original
-    );
+if(!original){
 
-
-  const key =
-    original
-      .toLowerCase()
-      .replace(/\s+/g," ")
-      .trim();
-
-
-  const aliasKey =
-    HYDERABAD_ALIASES[key]
-    ?
-    HYDERABAD_ALIASES[key]
-      .toLowerCase()
-    :
-    key;
-
-
-  if(
-    HYDERABAD_KNOWN_LOCATIONS[
-      aliasKey
-    ]
-  ){
-
-    return
-      HYDERABAD_KNOWN_LOCATIONS[
-        aliasKey
-      ];
-
-  }
-
-
-  const url =
-    "https://nominatim.openstreetmap.org/search"+
-    "?format=jsonv2"+
-    "&limit=5"+
-    "&addressdetails=1"+
-    "&countrycodes=in"+
-    "&accept-language=en"+
-    "&q="+
-    encodeURIComponent(
-      normalized
-    );
-
-
-  const response =
-    await fetch(
-      url,
-      {
-        headers:{
-          "Accept":
-            "application/json"
-        }
-      }
-    );
-
-
-  if(!response.ok){
-
-    throw new Error(
-      "Location search failed."
-    );
-
-  }
-
-
-  const data =
-    await response.json();
-
-
-  if(!data.length){
-
-    throw new Error(
-      "Location not found in Hyderabad: "+
-      original
-    );
-
-  }
-
-
-  const hyderabadResult =
-    data.find(item=>{
-
-      const text =
-        (
-          item.display_name ||
-          ""
-        )
-        .toLowerCase();
-
-
-      return
-        text.includes("hyderabad") ||
-        text.includes("telangana");
-
-    });
-
-
-  const item =
-    hyderabadResult ||
-    data[0];
-
-
-  return {
-
-    lat:
-      Number(item.lat),
-
-    lon:
-      Number(item.lon),
-
-    name:
-      item.display_name
-
-  };
+throw new Error(
+"Location is empty."
+);
 
 }
 
 
+const clean=
+original
+.replace(/\s+/g," ")
+.trim();
+
+
+const key=
+clean
+.toLowerCase()
+.replace(/,/g," ")
+.replace(/\s+/g," ")
+.trim();
+
+
+/* DIRECT HYDERABAD MATCH */
+
+if(HYDERABAD_LOCATIONS[key]){
+
+const location=
+HYDERABAD_LOCATIONS[key];
+
+return{
+
+lat:Number(location.lat),
+
+lon:Number(location.lon),
+
+name:location.name
+
+};
+
+}
+
+
+/* PARTIAL MATCH */
+
+const matchedKey=
+Object.keys(HYDERABAD_LOCATIONS)
+.find(k=>key.includes(k));
+
+
+if(matchedKey){
+
+const location=
+HYDERABAD_LOCATIONS[matchedKey];
+
+return{
+
+lat:Number(location.lat),
+
+lon:Number(location.lon),
+
+name:location.name
+
+};
+
+}
+
+
+/* ONLINE SEARCH */
+
+let query=clean;
+
+const lower=
+query.toLowerCase();
+
+
+if(
+!lower.includes("hyderabad") &&
+!lower.includes("telangana")
+){
+
+query+=
+", Hyderabad, Telangana, India";
+
+}
+else if(
+lower.includes("hyderabad") &&
+!lower.includes("india")
+){
+
+query+=", India";
+
+}
+
+
+const url=
+"https://nominatim.openstreetmap.org/search"+
+"?format=jsonv2"+
+"&limit=5"+
+"&addressdetails=1"+
+"&countrycodes=in"+
+"&accept-language=en"+
+"&q="+
+encodeURIComponent(query);
+
+
+const response=
+await fetch(url);
+
+
+if(!response.ok){
+
+throw new Error(
+"Location search failed."
+);
+
+}
+
+
+const data=
+await response.json();
+
+
+if(
+!Array.isArray(data) ||
+data.length===0
+){
+
+throw new Error(
+"Location not found in Hyderabad: "+
+original
+);
+
+}
+
+
+const result=
+data.find(item=>{
+
+const text=
+(
+item.display_name||""
+)
+.toLowerCase();
+
+
+return(
+text.includes("hyderabad")||
+text.includes("telangana")
+);
+
+})||data[0];
+
+
+const lat=
+Number(result.lat);
+
+const lon=
+Number(result.lon);
+
+
+if(
+!Number.isFinite(lat)||
+!Number.isFinite(lon)
+){
+
+throw new Error(
+"Invalid location coordinates."
+);
+
+}
+
+
+return{
+
+lat:lat,
+
+lon:lon,
+
+name:
+result.display_name||original
+
+};
+
+}
+
+
+/* =========================================================
+   CLEAR ROUTE
+========================================================= */
+
 function clearRoute(){
 
-  if(pickupMarker){
+if(pickupMarker){
 
-    routeMap.removeLayer(
-      pickupMarker
-    );
+routeMap.removeLayer(
+pickupMarker
+);
 
-    pickupMarker=null;
+pickupMarker=null;
 
-  }
-
-
-  if(destinationMarker){
-
-    routeMap.removeLayer(
-      destinationMarker
-    );
-
-    destinationMarker=null;
-
-  }
+}
 
 
-  if(routeLine){
+if(destinationMarker){
 
-    routeMap.removeLayer(
-      routeLine
-    );
+routeMap.removeLayer(
+destinationMarker
+);
 
-    routeLine=null;
+destinationMarker=null;
 
-  }
+}
+
+
+if(routeLine){
+
+routeMap.removeLayer(
+routeLine
+);
+
+routeLine=null;
+
+}
 
 }
 
@@ -2935,423 +2742,294 @@ function clearRoute(){
    SHOW ROUTE
 ========================================================= */
 
-window.showRouteMap =
+window.showRouteMap=
 async function(){
 
-  const pickup =
-    document
-      .getElementById("pickup")
-      .value
-      .trim();
+const pickup=
+document
+.getElementById("pickup")
+.value
+.trim();
 
 
-  const destination =
-    document
-      .getElementById("destination")
-      .value
-      .trim();
+const destination=
+document
+.getElementById("destination")
+.value
+.trim();
 
 
-  const status =
-    document.getElementById(
-      "mapStatus"
-    );
+const status=
+document.getElementById("mapStatus");
 
 
-  const summary =
-    document.getElementById(
-      "routeSummary"
-    );
+const summary=
+document.getElementById("routeSummary");
 
 
-  if(!pickup || !destination){
+if(!pickup||!destination){
 
-    alert(
-      "Please enter Pickup Point and Destination."
-    );
+alert(
+"Please enter Pickup Point and Destination."
+);
 
-    return;
+return;
 
-  }
+}
 
 
-  initRouteMap();
+initRouteMap();
 
-  routeMap.invalidateSize();
+setTimeout(()=>{
+routeMap.invalidateSize();
+},100);
 
-  clearRoute();
 
-  summary.classList.add("hidden");
+clearRoute();
 
+summary.classList.add("hidden");
 
-  status.textContent =
-    "🔎 Finding Hyderabad pickup and destination...";
 
+status.textContent=
+"🔎 Finding Hyderabad locations...";
 
-  try{
 
-    const [
-      from,
-      to
-    ] =
-      await Promise.all([
+try{
 
-        geocodePlace(pickup),
+const from=
+await geocodePlace(pickup);
 
-        geocodePlace(destination)
+const to=
+await geocodePlace(destination);
 
-      ]);
 
+/* SAFETY CHECK */
 
-    pickupMarker =
-      L.marker([
-        from.lat,
-        from.lon
-      ])
-      .addTo(routeMap)
-      .bindPopup(
-        "📍 Pickup<br>"+
-        from.name
-      );
+if(
+!from||
+!to||
+!Number.isFinite(from.lat)||
+!Number.isFinite(from.lon)||
+!Number.isFinite(to.lat)||
+!Number.isFinite(to.lon)
+){
 
+throw new Error(
+"Location coordinates could not be found."
+);
 
-    destinationMarker =
-      L.marker([
-        to.lat,
-        to.lon
-      ])
-      .addTo(routeMap)
-      .bindPopup(
-        "🏁 Destination<br>"+
-        to.name
-      );
+}
 
 
-    status.textContent =
-      "🛣️ Calculating Hyderabad route...";
+/* PICKUP */
 
+pickupMarker=
+L.marker([
+from.lat,
+from.lon
+])
+.addTo(routeMap)
+.bindPopup(
+"📍 Pickup<br>"+
+from.name
+);
 
-    const routeUrl =
-      "https://router.project-osrm.org/route/v1/driving/"+
-      from.lon+","+
-      from.lat+";"+
-      to.lon+","+
-      to.lat+
-      "?overview=full&geometries=geojson";
 
+/* DESTINATION */
 
-    const response =
-      await fetch(routeUrl);
+destinationMarker=
+L.marker([
+to.lat,
+to.lon
+])
+.addTo(routeMap)
+.bindPopup(
+"🏁 Destination<br>"+
+to.name
+);
 
 
-    if(!response.ok){
+status.textContent=
+"🛣️ Calculating Hyderabad route...";
 
-      throw new Error(
-        "Route service failed."
-      );
 
-    }
+/* OSRM */
 
+const routeUrl=
+"https://router.project-osrm.org/route/v1/driving/"+
+from.lon+","+from.lat+";"+
+to.lon+","+to.lat+
+"?overview=full&geometries=geojson";
 
-    const data =
-      await response.json();
 
+const response=
+await fetch(routeUrl);
 
-    if(
-      !data.routes ||
-      !data.routes.length
-    ){
 
-      throw new Error(
-        "Route not found."
-      );
+if(!response.ok){
 
-    }
+throw new Error(
+"Route service failed."
+);
 
+}
 
-    const route =
-      data.routes[0];
 
+const data=
+await response.json();
 
-    routeLine =
-      L.geoJSON(
-        route.geometry,
-        {
-          style:{
-            weight:6,
-            opacity:0.85
-          }
-        }
-      )
-      .addTo(routeMap);
 
+if(
+!data.routes||
+!data.routes.length
+){
 
-    const bounds =
-      L.latLngBounds([
+throw new Error(
+"Route not found."
+);
 
-        [
-          from.lat,
-          from.lon
-        ],
+}
 
-        [
-          to.lat,
-          to.lon
-        ]
 
-      ]);
+const route=
+data.routes[0];
 
 
-    routeMap.fitBounds(
-      bounds,
-      {
-        padding:[
-          30,
-          30
-        ]
-      }
-    );
+/* DRAW */
 
+routeLine=
+L.geoJSON(
+route.geometry,
+{
+style:{
+weight:6,
+opacity:0.85
+}
+}
+)
+.addTo(routeMap);
 
-    const km =
-      (
-        route.distance/
-        1000
-      ).toFixed(1);
 
+/* FIT */
 
-    const minutes =
-      Math.round(
-        route.duration/
-        60
-      );
+const bounds=
+L.latLngBounds([
 
+[
+from.lat,
+from.lon
+],
 
-    const hours =
-      Math.floor(
-        minutes/
-        60
-      );
+[
+to.lat,
+to.lon
+]
 
+]);
 
-    const mins =
-      minutes%60;
 
+routeMap.fitBounds(
+bounds,
+{
+padding:[30,30]
+}
+);
 
-    const time =
-      hours
-      ?
-      `${hours} hr ${mins} min`
-      :
-      `${mins} min`;
 
+/* DISTANCE */
 
-    document
-      .getElementById(
-        "routeDistance"
-      )
-      .textContent =
-      km+" KM";
+const km=
+(
+route.distance/1000
+)
+.toFixed(1);
 
 
-    document
-      .getElementById(
-        "routeDuration"
-      )
-      .textContent =
-      time;
+/* TIME */
 
+const minutes=
+Math.round(
+route.duration/60
+);
 
-    summary
-      .classList
-      .remove("hidden");
 
+const hours=
+Math.floor(
+minutes/60
+);
 
-    status.textContent =
-      "✅ Hyderabad route found successfully.";
 
-  }
-  catch(error){
+const mins=
+minutes%60;
 
-    console.error(error);
 
+const time=
+hours
+?`${hours} hr ${mins} min`
+:`${mins} min`;
 
-    status.textContent =
-      "❌ "+error.message;
 
+document
+.getElementById("routeDistance")
+.textContent=
+km+" KM";
 
-    alert(
-      "Route नहीं बन पाया.\n\n"+
-      error.message+
-      "\n\nTry:\n"+
-      "Nampally Metro Station\n"+
-      "Miyapur"
-    );
 
-  }
+document
+.getElementById("routeDuration")
+.textContent=
+time;
+
+
+summary.classList.remove("hidden");
+
+
+status.textContent=
+"✅ Hyderabad route found successfully.";
+
+}
+catch(error){
+
+console.error(error);
+
+status.textContent=
+"❌ "+error.message;
+
+
+alert(
+"Route नहीं बन पाया.\n\n"+
+error.message+
+"\n\nTry करें:\n"+
+"Nampally Metro Station\n"+
+"Miyapur"
+);
+
+}
 
 };
 
 
 /* =========================================================
-   BOOK CAB + FIRESTORE
+   BOOK CAB
 ========================================================= */
 
-window.bookCab =
-async function(){
+window.bookCab=
+function(){
 
-  const pickup =
-    document
-      .getElementById("pickup")
-      .value
-      .trim();
-
-
-  const destination =
-    document
-      .getElementById("destination")
-      .value
-      .trim();
-
-
-  const distance =
-    document
-      .getElementById("routeDistance")
-      .textContent;
-
-
-  const estimatedTime =
-    document
-      .getElementById("routeDuration")
-      .textContent;
-
-
-  const bookingStatus =
-    document.getElementById(
-      "bookingStatus"
-    );
-
-
-  if(!pickup || !destination){
-
-    alert(
-      "Please enter Pickup Point and Destination first."
-    );
-
-    return;
-
-  }
-
-
-  const user =
-    auth.currentUser;
-
-
-  const customerPhone =
-    user &&
-    user.phoneNumber
-    ?
-    user.phoneNumber
-    :
-    "Guest";
-
-
-  try{
-
-    const bookingData = {
-
-      customerPhone:
-
-        customerPhone,
-
-      pickup:
-
-        pickup,
-
-      destination:
-
-        destination,
-
-      distanceKm:
-
-        distance,
-
-      estimatedTime:
-
-        estimatedTime,
-
-      cabId:
-
-        "cab1",
-
-      status:
-
-        "Pending",
-
-      createdAt:
-
-        serverTimestamp()
-
-    };
-
-
-    const docRef =
-      await addDoc(
-        collection(
-          db,
-          "cabBookings"
-        ),
-        bookingData
-      );
-
-
-    bookingStatus
-      .classList
-      .remove("hidden");
-
-
-    bookingStatus.textContent =
-      "✅ Cab booking request received. Booking ID: "+
-      docRef.id;
-
-
-    alert(
-      "Cab booking request received.\n"+
-      "Available driver will be assigned by Admin."
-    );
-
-  }
-  catch(error){
-
-    console.error(error);
-
-
-    bookingStatus
-      .classList
-      .remove("hidden");
-
-
-    bookingStatus.textContent =
-      "❌ Booking could not be saved: "+
-      error.message;
-
-
-    alert(
-      "Booking save नहीं हुआ.\n\n"+
-      error.message
-    );
-
-  }
+alert(
+"Cab booking request received.\n"+
+"Available driver will be assigned by Admin."
+);
 
 };
 
 
 /* =========================================================
-   INITIAL LOAD
+   START
 ========================================================= */
 
 renderBuyCars(
-  buyCars
+buyCars
 );
 
 </script>
