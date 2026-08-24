@@ -152,10 +152,6 @@ input,select{
   background:white;
 }
 
-.full{
-  grid-column:1/-1;
-}
-
 .primary{
   width:100%;
   border:0;
@@ -359,7 +355,7 @@ input,select{
   display:none!important;
 }
 
-/* FULL SCREEN PHOTO VIEWER */
+/* PHOTO VIEWER */
 
 .viewer{
   position:fixed;
@@ -466,6 +462,30 @@ input,select{
   object-fit:cover;
 }
 
+.notice{
+  background:#fff7df;
+  color:#795700;
+  padding:13px;
+  border-radius:12px;
+  line-height:1.45;
+  margin-top:12px;
+}
+
+.loading{
+  text-align:center;
+  padding:20px;
+  color:#667085;
+}
+
+.empty{
+  background:white;
+  border-radius:18px;
+  padding:20px;
+  text-align:center;
+  color:#667085;
+  margin-top:15px;
+}
+
 @media(max-width:560px){
 
   .logo{
@@ -523,434 +543,443 @@ input,select{
 
 <main class="container">
 
-  <section class="hero">
-    <h1 id="heroTitle">Buy, Sell & Cab Booking</h1>
-    <p id="heroText">
-      Buy a car, sell your car or book an available cab.
+<section class="hero">
+  <h1 id="heroTitle">Buy, Sell & Cab Booking</h1>
+  <p id="heroText">
+    Buy a car, sell your car or book an available cab.
+  </p>
+</section>
+
+
+<div class="tabs">
+
+  <button class="tab active" onclick="showSection('buy',this)">
+    🚘 Buy
+  </button>
+
+  <button class="tab" onclick="showSection('sell',this)">
+    💰 Sell
+  </button>
+
+  <button class="tab" onclick="showSection('cab',this)">
+    🚕 Cab Booking
+  </button>
+
+</div>
+
+
+<!-- BUY -->
+
+<section id="buySection">
+
+  <div class="card">
+
+    <h2>🚘 Buy a Car</h2>
+
+    <p class="info">
+      Find a four-wheeler available for purchase.
     </p>
-  </section>
 
+    <div class="vehicle-grid">
 
-  <!-- MAIN TABS -->
+      <button class="vehicle-btn active"
+              onclick="filterBuyType('')">
+        🚘 All
+      </button>
 
-  <div class="tabs">
+      <button class="vehicle-btn"
+              onclick="filterBuyType('Hatchback')">
+        🚗 Hatchback
+      </button>
 
-    <button class="tab active" onclick="showSection('buy',this)">
-      🚘 Buy
-    </button>
+      <button class="vehicle-btn"
+              onclick="filterBuyType('Sedan')">
+        🚙 Sedan
+      </button>
 
-    <button class="tab" onclick="showSection('sell',this)">
-      💰 Sell
-    </button>
+      <button class="vehicle-btn"
+              onclick="filterBuyType('SUV')">
+        🚘 SUV
+      </button>
 
-    <button class="tab" onclick="showSection('cab',this)">
-      🚕 Cab Booking
+      <button class="vehicle-btn"
+              onclick="filterBuyType('MUV')">
+        🚐 MUV
+      </button>
+
+      <button class="vehicle-btn"
+              onclick="filterBuyType('Luxury')">
+        👑 Luxury
+      </button>
+
+    </div>
+
+    <div class="form-group" style="margin-top:15px;">
+
+      <input
+        id="buySearch"
+        placeholder="Brand, Model or Vehicle">
+
+    </div>
+
+    <button class="primary" onclick="searchBuy()">
+      Search Cars
     </button>
 
   </div>
 
 
-  <!-- BUY -->
+  <div class="card">
 
-  <section id="buySection">
+    <h2>📍 Location</h2>
 
-    <div class="card">
+    <p class="info">
+      Find cars near your location.
+    </p>
 
-      <h2>🚘 Buy a Car</h2>
+    <input
+      id="buyLocation"
+      placeholder="Area, City or Location">
 
-      <p class="info">
-        Find a four-wheeler available for purchase.
-      </p>
+    <button class="primary"
+            onclick="searchLocation()">
+      Search by Location
+    </button>
 
-      <div class="vehicle-grid">
+  </div>
 
-        <button class="vehicle-btn active">
-          🚘 All
-        </button>
 
-        <button class="vehicle-btn">
-          🚗 Hatchback
-        </button>
+  <div id="buyListings"></div>
 
-        <button class="vehicle-btn">
-          🚙 Sedan
-        </button>
+</section>
 
-        <button class="vehicle-btn">
-          🚘 SUV
-        </button>
 
-        <button class="vehicle-btn">
-          🚐 MUV
-        </button>
+<!-- SELL -->
 
-        <button class="vehicle-btn">
-          👑 Luxury
-        </button>
+<section id="sellSection" class="hidden">
 
-      </div>
+  <div class="card">
 
-      <div class="form-group" style="margin-top:15px;">
+    <h2>💰 Sell Your Car</h2>
+
+    <p class="info">
+      Add your car details and submit it for admin approval.
+    </p>
+
+    <div class="form-group">
+      <label>Car Brand</label>
+      <input id="sellBrand" placeholder="Toyota">
+    </div>
+
+    <div class="form-group">
+      <label>Car Model</label>
+      <input id="sellModel" placeholder="Innova Crysta">
+    </div>
+
+    <div class="form-group">
+      <label>Year</label>
+      <input id="sellYear" placeholder="2022">
+    </div>
+
+    <div class="form-group">
+      <label>Fuel</label>
+
+      <select id="sellFuel">
+        <option>Petrol</option>
+        <option>Diesel</option>
+        <option>CNG</option>
+        <option>Electric</option>
+      </select>
+
+    </div>
+
+    <div class="form-group">
+      <label>Transmission</label>
+
+      <select id="sellTransmission">
+        <option>Manual</option>
+        <option>Automatic</option>
+      </select>
+
+    </div>
+
+    <div class="form-group">
+      <label>Seats</label>
+      <input id="sellSeats" placeholder="7 Seater">
+    </div>
+
+    <div class="form-group">
+      <label>Car Type</label>
+
+      <select id="sellType">
+        <option>Hatchback</option>
+        <option>Sedan</option>
+        <option>SUV</option>
+        <option>MUV</option>
+        <option>Luxury</option>
+      </select>
+
+    </div>
+
+    <div class="form-group">
+      <label>Price</label>
+      <input id="sellPrice" placeholder="₹12,50,000">
+    </div>
+
+
+    <div class="form-group">
+
+      <label>📸 Car Photos</label>
+
+      <div class="upload-box">
+
+        <p>
+          Upload up to 6 car photos.
+        </p>
+
         <input
-          id="buySearch"
-          placeholder="Brand, Model or Vehicle">
-      </div>
+          id="carPhotos"
+          type="file"
+          accept="image/*"
+          multiple
+          onchange="previewPhotos()">
 
-      <button class="primary" onclick="searchBuy()">
-        Search Cars
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <h2>📍 Location</h2>
-
-      <p class="info">
-        Find cars near your location.
-      </p>
-
-      <input
-        id="buyLocation"
-        placeholder="Area, City or Location">
-
-      <button class="primary">
-        Search by Location
-      </button>
-
-    </div>
-
-
-    <div id="buyListings"></div>
-
-  </section>
-
-
-  <!-- SELL -->
-
-  <section id="sellSection" class="hidden">
-
-    <div class="card">
-
-      <h2>💰 Sell Your Car</h2>
-
-      <p class="info">
-        Add your car details and submit it for sale.
-      </p>
-
-      <div class="form-group">
-        <label>Car Brand</label>
-        <input id="sellBrand" placeholder="Toyota">
-      </div>
-
-      <div class="form-group">
-        <label>Car Model</label>
-        <input id="sellModel" placeholder="Innova Crysta">
-      </div>
-
-      <div class="form-group">
-        <label>Year</label>
-        <input id="sellYear" placeholder="2022">
-      </div>
-
-      <div class="form-group">
-        <label>Fuel</label>
-        <select id="sellFuel">
-          <option>Petrol</option>
-          <option>Diesel</option>
-          <option>CNG</option>
-          <option>Electric</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Transmission</label>
-        <select id="sellTransmission">
-          <option>Manual</option>
-          <option>Automatic</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Seats</label>
-        <input id="sellSeats" placeholder="7 Seater">
-      </div>
-
-      <div class="form-group">
-        <label>Price</label>
-        <input id="sellPrice" placeholder="₹12,50,000">
-      </div>
-
-
-      <!-- ONLY SELL HAS PHOTOS -->
-
-      <div class="form-group">
-
-        <label>
-          📸 Car Photos
-        </label>
-
-        <div class="upload-box">
-
-          <p>
-            Upload up to 6 car photos.
-          </p>
-
-          <input
-            id="carPhotos"
-            type="file"
-            accept="image/*"
-            multiple
-            onchange="previewPhotos()">
-
-          <div
-            id="photoPreview"
-            class="preview-grid">
-          </div>
-
+        <div
+          id="photoPreview"
+          class="preview-grid">
         </div>
 
       </div>
 
+    </div>
 
-      <div class="form-group">
 
-        <label>
-          🎥 Car Video
-        </label>
+    <div class="form-group">
 
-        <div class="upload-box">
+      <label>🎥 Car Video</label>
 
-          <p>
-            Upload 1 vehicle video.
-          </p>
+      <div class="upload-box">
 
-          <input
-            id="carVideo"
-            type="file"
-            accept="video/*">
+        <p>
+          Upload 1 vehicle video.
+        </p>
 
-        </div>
+        <input
+          id="carVideo"
+          type="file"
+          accept="video/*">
 
       </div>
 
+    </div>
+
+
+    <div class="notice">
+      Photos and video are previewed on this device for now.
+      Firebase Storage is not enabled on the current Spark plan.
+    </div>
+
+
+    <button
+      class="primary green"
+      onclick="submitSell()">
+      Submit Car for Sale
+    </button>
+
+  </div>
+
+
+  <div id="sellListings"></div>
+
+</section>
+
+
+<!-- CAB -->
+
+<section id="cabSection" class="hidden">
+
+  <div class="card">
+
+    <h2>🚕 Cab Booking</h2>
+
+    <p class="info">
+      Book an available cab for Local or Intercity travel.
+    </p>
+
+    <h3>Rental Type</h3>
+
+    <div class="vehicle-grid">
 
       <button
-        class="primary green"
-        onclick="submitSell()">
-        Submit Car for Sale
+        class="vehicle-btn active"
+        onclick="selectCabType(this)">
+        📍 Local
+      </button>
+
+      <button
+        class="vehicle-btn"
+        onclick="selectCabType(this)">
+        🛣️ Intercity / Outstation
       </button>
 
     </div>
 
 
-    <div id="sellListings"></div>
+    <h3>Vehicle Type</h3>
 
-  </section>
+    <div class="vehicle-grid">
+
+      <button class="vehicle-btn active"
+              onclick="filterCabType('')">
+        🚕 All
+      </button>
+
+      <button class="vehicle-btn"
+              onclick="filterCabType('Hatchback')">
+        🚗 Hatchback
+      </button>
+
+      <button class="vehicle-btn"
+              onclick="filterCabType('Sedan')">
+        🚙 Sedan
+      </button>
+
+      <button class="vehicle-btn"
+              onclick="filterCabType('SUV')">
+        🚘 SUV
+      </button>
+
+      <button class="vehicle-btn"
+              onclick="filterCabType('MUV')">
+        🚐 MUV
+      </button>
+
+      <button class="vehicle-btn"
+              onclick="filterCabType('Luxury')">
+        👑 Luxury
+      </button>
+
+    </div>
 
 
-  <!-- CAB -->
+    <h3>Pickup Point</h3>
 
-  <section id="cabSection" class="hidden">
+    <input
+      id="pickup"
+      placeholder="Enter pickup point">
 
-    <div class="card">
 
-      <h2>🚕 Cab Booking</h2>
+    <h3>Destination</h3>
 
-      <p class="info">
-        Book an available cab for Local or Intercity travel.
-      </p>
+    <input
+      id="destination"
+      placeholder="Enter destination">
 
-      <h3>Rental Type</h3>
 
-      <div class="vehicle-grid">
+    <button
+      class="primary"
+      onclick="showRouteMap()">
+      📍 Show Route on Map
+    </button>
 
-        <button
-          class="vehicle-btn active"
-          onclick="selectCabType(this)">
-          📍 Local
-        </button>
 
-        <button
-          class="vehicle-btn"
-          onclick="selectCabType(this)">
-          🛣️ Intercity / Outstation
-        </button>
+    <div
+      id="routeMap"
+      class="map-box">
+      Enter Pickup Point and Destination to see the map.
+    </div>
 
+  </div>
+
+
+  <div class="card">
+
+    <h2>🚕 Available Cab</h2>
+
+    <div id="cabListings">
+
+      <div class="loading">
+        Loading available cabs...
       </div>
 
+    </div>
 
-      <h3>Vehicle Type</h3>
+  </div>
 
-      <div class="vehicle-grid">
+</section>
 
-        <button class="vehicle-btn active">
-          🚕 All
-        </button>
 
-        <button class="vehicle-btn">
-          🚗 Hatchback
-        </button>
+<!-- ACCOUNT -->
 
-        <button class="vehicle-btn">
-          🚙 Sedan
-        </button>
+<section id="accountSection" class="hidden">
 
-        <button class="vehicle-btn">
-          🚘 SUV
-        </button>
+  <div class="card">
 
-        <button class="vehicle-btn">
-          🚐 MUV
-        </button>
+    <h2>📱 Customer Login</h2>
 
-        <button class="vehicle-btn">
-          👑 Luxury
-        </button>
+    <p class="account-note">
+      Login with your mobile number. Your number is used
+      for account verification and is not shown publicly
+      to other customers.
+    </p>
 
+
+    <div
+      id="loginStatus"
+      class="logged hidden">
+    </div>
+
+
+    <div id="loginBox">
+
+      <input
+        id="phoneNumber"
+        type="tel"
+        placeholder="+91XXXXXXXXXX">
+
+      <div
+        id="recaptcha-container"
+        style="margin-top:12px;">
       </div>
-
-
-      <h3>Pickup Point</h3>
-
-      <input
-        id="pickup"
-        placeholder="Enter pickup point">
-
-      <h3>Destination</h3>
-
-      <input
-        id="destination"
-        placeholder="Enter destination">
 
       <button
         class="primary"
-        onclick="showRouteMap()">
-        📍 Show Route on Map
+        onclick="sendOTP()">
+        Send OTP
       </button>
 
-
-      <div
-        id="routeMap"
-        class="map-box">
-        Enter Pickup Point and Destination to see the map.
-      </div>
-
     </div>
 
 
-    <!-- AVAILABLE CAB -->
+    <div
+      id="otpBox"
+      class="hidden"
+      style="margin-top:15px;">
 
-    <div class="card">
-
-      <h2>🚕 Available Cab</h2>
-
-      <div class="property">
-
-        <img
-          src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=80"
-          alt="Available Cab">
-
-        <div class="property-body">
-
-          <div class="property-title">
-            🚕 Toyota Innova Crysta
-          </div>
-
-          <span class="badge">
-            Available
-          </span>
-
-          <div class="spec">
-            MUV • 2022 • Diesel • Automatic • 7 Seater
-          </div>
-
-          <div class="price">
-            ₹3,200 / 8 Hours
-          </div>
-
-          <button
-            class="primary green"
-            onclick="bookCab()">
-            🚕 Book Cab
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- CUSTOMER ACCOUNT ONLY -->
-
-  <section id="accountSection" class="hidden">
-
-    <div class="card">
-
-      <h2>📱 Customer Login</h2>
-
-      <p class="account-note">
-        Login with your mobile number. Your number is used
-        for account verification and is not shown publicly
-        to other customers.
-      </p>
-
-      <div
-        id="loginStatus"
-        class="logged hidden">
-      </div>
-
-      <div id="loginBox">
-
-        <input
-          id="phoneNumber"
-          type="tel"
-          placeholder="+91XXXXXXXXXX">
-
-        <div id="recaptcha-container"
-             style="margin-top:12px;">
-        </div>
-
-        <button
-          class="primary"
-          onclick="sendOTP()">
-          Send OTP
-        </button>
-
-      </div>
-
-      <div
-        id="otpBox"
-        class="hidden"
-        style="margin-top:15px;">
-
-        <input
-          id="otpCode"
-          placeholder="Enter OTP"
-          maxlength="6">
-
-        <button
-          class="primary green"
-          onclick="verifyOTP()">
-          Verify OTP
-        </button>
-
-      </div>
+      <input
+        id="otpCode"
+        placeholder="Enter OTP"
+        maxlength="6">
 
       <button
-        id="logoutBtn"
-        class="primary red hidden"
-        onclick="logoutUser()">
-        Logout
+        class="primary green"
+        onclick="verifyOTP()">
+        Verify OTP
       </button>
 
     </div>
 
-  </section>
+
+    <button
+      id="logoutBtn"
+      class="primary red hidden"
+      onclick="logoutUser()">
+      Logout
+    </button>
+
+  </div>
+
+</section>
 
 </main>
 
@@ -982,11 +1011,9 @@ input,select{
 </nav>
 
 
-<!-- FULL SCREEN PHOTO VIEWER -->
+<!-- PHOTO VIEWER -->
 
-<div
-  id="viewer"
-  class="viewer">
+<div id="viewer" class="viewer">
 
   <div class="viewer-top">
 
@@ -1063,6 +1090,11 @@ import {
   getFirestore,
   collection,
   addDoc,
+  doc,
+  setDoc,
+  getDocs,
+  query,
+  where,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
@@ -1098,58 +1130,19 @@ const auth = getAuth(app);
 
 const db = getFirestore(app);
 
-let confirmationResult = null;
 
+let confirmationResult = null;
 let recaptchaVerifier = null;
 
+let buyCars = [];
+let cabCars = [];
 
-/* =========================================================
-   DEMO LISTINGS
-========================================================= */
-
-const buyCars = [
-
-  {
-    id:"buy1",
-    title:"Toyota Innova Crysta",
-    year:"2022",
-    fuel:"Diesel",
-    transmission:"Automatic",
-    seats:"7 Seater",
-    type:"MUV",
-    price:"₹12,50,000",
-    status:"Available",
-    photos:[
-      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=80"
-    ],
-    video:""
-  }
-
-];
-
-
-const sellCars = [];
-
-
-const cabCars = [
-
-  {
-    id:"cab1",
-    title:"Toyota Innova Crysta",
-    year:"2022",
-    fuel:"Diesel",
-    transmission:"Automatic",
-    seats:"7 Seater",
-    type:"MUV",
-    price:"₹3,200 / 8 Hours",
-    status:"Available"
-  }
-
-];
+let selectedBuyType = "";
+let selectedCabType = "";
 
 
 /* =========================================================
-   MAIN SECTION
+   SECTION CONTROL
 ========================================================= */
 
 window.showSection = function(section,button){
@@ -1176,10 +1169,19 @@ window.showSection = function(section,button){
     button.classList.add("active");
   }
 
+  if(section==="buy"){
+    loadCars();
+  }
+
+  if(section==="cab"){
+    loadCabDrivers();
+  }
+
   window.scrollTo({
     top:0,
     behavior:"smooth"
   });
+
 };
 
 
@@ -1196,13 +1198,12 @@ window.showSectionByName = function(section){
     section,
     buttons[index]
   );
+
 };
 
 
 window.showHome = function(){
-
   showSectionByName("buy");
-
 };
 
 
@@ -1230,11 +1231,12 @@ window.showAccount = function(){
   });
 
   setupRecaptcha();
+
 };
 
 
 /* =========================================================
-   FIREBASE PHONE OTP
+   RECAPTCHA
 ========================================================= */
 
 function setupRecaptcha(){
@@ -1255,6 +1257,10 @@ function setupRecaptcha(){
 }
 
 
+/* =========================================================
+   PHONE OTP
+========================================================= */
+
 window.sendOTP = async function(){
 
   try{
@@ -1263,10 +1269,13 @@ window.sendOTP = async function(){
 
     let phone =
       document.getElementById("phoneNumber")
-      .value.trim();
+      .value
+      .trim();
 
     if(!phone){
+
       alert("Please enter mobile number.");
+
       return;
     }
 
@@ -1307,7 +1316,15 @@ window.verifyOTP = async function(){
 
     const otp =
       document.getElementById("otpCode")
-      .value.trim();
+      .value
+      .trim();
+
+    if(!confirmationResult){
+
+      alert("Please request OTP first.");
+
+      return;
+    }
 
     if(otp.length !== 6){
 
@@ -1316,7 +1333,12 @@ window.verifyOTP = async function(){
       return;
     }
 
-    await confirmationResult.confirm(otp);
+    const result =
+      await confirmationResult.confirm(otp);
+
+    const user = result.user;
+
+    await saveCustomer(user);
 
     alert("Login successful.");
 
@@ -1334,9 +1356,63 @@ window.verifyOTP = async function(){
 };
 
 
+/* =========================================================
+   CUSTOMER FIRESTORE
+========================================================= */
+
+async function saveCustomer(user){
+
+  const customerRef =
+    doc(db,"customers",user.uid);
+
+  await setDoc(
+    customerRef,
+    {
+      name:
+        user.displayName || "",
+
+      phoneNumber:
+        user.phoneNumber || "",
+
+      photoUrl:
+        user.photoURL || "",
+
+      role:
+        "customer",
+
+      status:
+        "active",
+
+      isBlocked:
+        false,
+
+      updatedAt:
+        serverTimestamp(),
+
+      createdAt:
+        serverTimestamp()
+    },
+    {
+      merge:true
+    }
+  );
+
+}
+
+
 window.logoutUser = async function(){
 
-  await signOut(auth);
+  try{
+
+    await signOut(auth);
+
+    alert("Logged out.");
+
+  }catch(error){
+
+    console.error(error);
+
+  }
 
 };
 
@@ -1366,12 +1442,9 @@ onAuthStateChanged(auth,(user)=>{
 
     logout.classList.remove("hidden");
 
-    const phone =
-      user.phoneNumber || "";
-
     status.textContent =
       "✅ Customer logged in: "+
-      phone;
+      (user.phoneNumber || "");
 
   }else{
 
@@ -1387,7 +1460,103 @@ onAuthStateChanged(auth,(user)=>{
 
 
 /* =========================================================
-   BUY LISTINGS
+   LOAD CARS FROM FIRESTORE
+========================================================= */
+
+async function loadCars(){
+
+  const box =
+    document.getElementById("buyListings");
+
+  box.innerHTML =
+    `<div class="loading">
+       Loading cars...
+     </div>`;
+
+  try{
+
+    const snapshot =
+      await getDocs(
+        collection(db,"cars")
+      );
+
+    buyCars=[];
+
+    snapshot.forEach(documentSnapshot=>{
+
+      const data =
+        documentSnapshot.data();
+
+      if(
+        data.status &&
+        data.status !== "Available"
+      ){
+        return;
+      }
+
+      buyCars.push({
+
+        id:
+          documentSnapshot.id,
+
+        title:
+          data.title || "Car",
+
+        year:
+          data.year || "",
+
+        fuel:
+          data.fuel || "",
+
+        transmission:
+          data.transmission || "",
+
+        seats:
+          data.seats || "",
+
+        type:
+          data.type ||
+          data.carType ||
+          "Car",
+
+        price:
+          data.price || "",
+
+        status:
+          data.status || "Available",
+
+        photos:
+          data.photos || [],
+
+        video:
+          data.video || "",
+
+        location:
+          data.location || ""
+
+      });
+
+    });
+
+    renderBuyCars(buyCars);
+
+  }catch(error){
+
+    console.error(error);
+
+    box.innerHTML =
+      `<div class="empty">
+        Unable to load cars.<br><br>
+        ${error.message}
+       </div>`;
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER BUY CARS
 ========================================================= */
 
 function renderBuyCars(list){
@@ -1395,8 +1564,29 @@ function renderBuyCars(list){
   const box =
     document.getElementById("buyListings");
 
-  box.innerHTML =
-    "<div class='card'><h2>🚘 Available Cars</h2></div>";
+  box.innerHTML="";
+
+  if(!list.length){
+
+    box.innerHTML =
+      `<div class="empty">
+        No cars available right now.
+       </div>`;
+
+    return;
+  }
+
+
+  const heading =
+    document.createElement("div");
+
+  heading.className="card";
+
+  heading.innerHTML =
+    `<h2>🚘 Available Cars</h2>`;
+
+  box.appendChild(heading);
+
 
   list.forEach(car=>{
 
@@ -1405,42 +1595,78 @@ function renderBuyCars(list){
 
     card.className="property";
 
-    const photos =
-      car.photos || [];
+    const photo =
+      car.photos &&
+      car.photos.length
+      ?
+      car.photos[0]
+      :
+      "";
+
 
     card.innerHTML = `
 
-      <img
-        src="${photos[0] || ''}"
-        alt="${car.title}">
+      ${
+        photo
+        ?
+        `<img
+           src="${photo}"
+           alt="${escapeHtml(car.title)}">`
+        :
+        `<div
+           style="
+           height:190px;
+           background:#e7eef7;
+           display:flex;
+           align-items:center;
+           justify-content:center;
+           font-size:60px;">
+           🚘
+         </div>`
+      }
 
       <div class="property-body">
 
         ${
-          photos.length > 0
+          car.photos &&
+          car.photos.length
           ?
           `<div class="photo-count">
-             📸 ${photos.length} Photo${photos.length>1?'s':''}
+             📸 ${car.photos.length}
+             Photo${car.photos.length>1?'s':''}
            </div>`
-          : ""
+          :
+          ""
         }
 
         <div class="property-title">
-          🚘 ${car.title}
+          🚘 ${escapeHtml(car.title)}
         </div>
 
         <span class="badge">
-          ${car.status}
+          ${escapeHtml(car.status)}
         </span>
 
         <div class="spec">
-          ${car.type} • ${car.year} •
-          ${car.fuel} • ${car.transmission} •
-          ${car.seats}
+          ${escapeHtml(car.type)} •
+          ${escapeHtml(car.year)} •
+          ${escapeHtml(car.fuel)} •
+          ${escapeHtml(car.transmission)} •
+          ${escapeHtml(car.seats)}
         </div>
 
+        ${
+          car.location
+          ?
+          `<div class="spec">
+             📍 ${escapeHtml(car.location)}
+           </div>`
+          :
+          ""
+        }
+
         <div class="price">
-          ${car.price}
+          ${escapeHtml(car.price)}
         </div>
 
         <button
@@ -1459,6 +1685,10 @@ function renderBuyCars(list){
 }
 
 
+/* =========================================================
+   BUY SEARCH
+========================================================= */
+
 window.searchBuy = function(){
 
   const search =
@@ -1467,10 +1697,76 @@ window.searchBuy = function(){
     .toLowerCase()
     .trim();
 
+  let filtered =
+    buyCars.filter(car=>{
+
+      const text =
+        (
+          car.title+" "+
+          car.type+" "+
+          car.fuel+" "+
+          car.year
+        ).toLowerCase();
+
+      return text.includes(search);
+
+    });
+
+
+  if(selectedBuyType){
+
+    filtered =
+      filtered.filter(
+        car=>
+          car.type.toLowerCase() ===
+          selectedBuyType.toLowerCase()
+      );
+
+  }
+
+
+  renderBuyCars(filtered);
+
+};
+
+
+window.filterBuyType = function(type){
+
+  selectedBuyType=type;
+
+  document
+    .querySelectorAll("#buySection .vehicle-btn")
+    .forEach(b=>
+      b.classList.remove("active")
+    );
+
+  event.target.classList.add("active");
+
+  searchBuy();
+
+};
+
+
+window.searchLocation = function(){
+
+  const location =
+    document.getElementById("buyLocation")
+    .value
+    .toLowerCase()
+    .trim();
+
+  if(!location){
+
+    renderBuyCars(buyCars);
+
+    return;
+  }
+
   const filtered =
     buyCars.filter(car=>
-      car.title.toLowerCase().includes(search) ||
-      car.type.toLowerCase().includes(search)
+      (car.location || "")
+      .toLowerCase()
+      .includes(location)
     );
 
   renderBuyCars(filtered);
@@ -1497,7 +1793,9 @@ window.previewPhotos = function(){
 
   if(files.length > 6){
 
-    alert("Maximum 6 car photos allowed.");
+    alert(
+      "Maximum 6 car photos allowed."
+    );
 
     input.value="";
 
@@ -1532,163 +1830,384 @@ window.previewPhotos = function(){
 
 
 /* =========================================================
-   SELL SUBMIT
+   SELL TO FIRESTORE
 ========================================================= */
 
 window.submitSell = async function(){
 
-  const brand =
-    document.getElementById("sellBrand")
-    .value.trim();
+  try{
 
-  const model =
-    document.getElementById("sellModel")
-    .value.trim();
+    const user = auth.currentUser;
 
-  if(!brand || !model){
+    if(!user){
 
-    alert(
-      "Please enter Car Brand and Car Model."
+      alert(
+        "Please login with your mobile number first."
+      );
+
+      showAccount();
+
+      return;
+    }
+
+
+    const brand =
+      document
+      .getElementById("sellBrand")
+      .value
+      .trim();
+
+    const model =
+      document
+      .getElementById("sellModel")
+      .value
+      .trim();
+
+
+    if(!brand || !model){
+
+      alert(
+        "Please enter Car Brand and Car Model."
+      );
+
+      return;
+    }
+
+
+    const photosInput =
+      document.getElementById("carPhotos");
+
+    const videoInput =
+      document.getElementById("carVideo");
+
+
+    const photos =
+      Array.from(photosInput.files);
+
+
+    if(photos.length > 6){
+
+      alert(
+        "Maximum 6 photos allowed."
+      );
+
+      return;
+    }
+
+
+    let videoName="";
+
+    if(videoInput.files.length){
+
+      videoName =
+        videoInput.files[0].name;
+
+    }
+
+
+    const car = {
+
+      title:
+        brand+" "+model,
+
+      year:
+        document.getElementById("sellYear").value,
+
+      fuel:
+        document.getElementById("sellFuel").value,
+
+      transmission:
+        document.getElementById("sellTransmission").value,
+
+      seats:
+        document.getElementById("sellSeats").value,
+
+      type:
+        document.getElementById("sellType").value,
+
+      price:
+        document.getElementById("sellPrice").value,
+
+      status:
+        "Pending Admin Approval",
+
+      photoCount:
+        photos.length,
+
+      video:
+        videoName,
+
+      ownerUid:
+        user.uid,
+
+      ownerPhone:
+        user.phoneNumber || "",
+
+      createdAt:
+        serverTimestamp()
+
+    };
+
+
+    await addDoc(
+      collection(db,"cars"),
+      car
     );
 
-    return;
-  }
-
-
-  const photosInput =
-    document.getElementById("carPhotos");
-
-  const videoInput =
-    document.getElementById("carVideo");
-
-
-  const photos =
-    Array.from(photosInput.files);
-
-
-  if(photos.length > 6){
 
     alert(
-      "Maximum 6 photos allowed."
+      "Car submitted successfully.\n\n"+
+      "Admin approval is required before public display."
     );
 
-    return;
+
+    document
+      .getElementById("sellBrand")
+      .value="";
+
+    document
+      .getElementById("sellModel")
+      .value="";
+
+    document
+      .getElementById("sellYear")
+      .value="";
+
+    document
+      .getElementById("sellSeats")
+      .value="";
+
+    document
+      .getElementById("sellPrice")
+      .value="";
+
+    document
+      .getElementById("carPhotos")
+      .value="";
+
+    document
+      .getElementById("carVideo")
+      .value="";
+
+    document
+      .getElementById("photoPreview")
+      .innerHTML="";
+
+
+    alert(
+      "Firebase Firestore में listing save हो गई है."
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Car submit नहीं हुआ.\n\n"+
+      error.message
+    );
+
   }
-
-
-  let videoName="";
-
-  if(videoInput.files.length){
-
-    videoName =
-      videoInput.files[0].name;
-
-  }
-
-
-  const car = {
-
-    id:
-      "sell-"+Date.now(),
-
-    title:
-      brand+" "+model,
-
-    year:
-      document.getElementById("sellYear").value,
-
-    fuel:
-      document.getElementById("sellFuel").value,
-
-    transmission:
-      document.getElementById("sellTransmission").value,
-
-    seats:
-      document.getElementById("sellSeats").value,
-
-    price:
-      document.getElementById("sellPrice").value,
-
-    status:
-      "Pending Admin Approval",
-
-    photoCount:
-      photos.length,
-
-    video:
-      videoName
-
-  };
-
-
-  sellCars.push(car);
-
-  renderSellCars();
-
-  alert(
-    "Car submitted successfully.\n"+
-    "Admin approval is required before public display."
-  );
 
 };
 
 
 /* =========================================================
-   SELL LISTINGS
+   LOAD CAB DRIVERS
 ========================================================= */
 
-function renderSellCars(){
+async function loadCabDrivers(){
 
   const box =
-    document.getElementById("sellListings");
+    document.getElementById("cabListings");
+
+  box.innerHTML =
+    `<div class="loading">
+       Loading available cabs...
+     </div>`;
+
+
+  try{
+
+    const snapshot =
+      await getDocs(
+        query(
+          collection(db,"cabDrivers"),
+          where("status","==","Available")
+        )
+      );
+
+
+    cabCars=[];
+
+
+    snapshot.forEach(documentSnapshot=>{
+
+      const data =
+        documentSnapshot.data();
+
+
+      if(
+        data.dutyOn === false
+      ){
+        return;
+      }
+
+
+      cabCars.push({
+
+        id:
+          documentSnapshot.id,
+
+        title:
+          data.carModel ||
+          "Available Cab",
+
+        type:
+          data.carType ||
+          "Car",
+
+        driverName:
+          data.driverName ||
+          "",
+
+        driverPhone:
+          data.driverPhone ||
+          "",
+
+        price:
+          data.price ||
+          "",
+
+        seats:
+          data.seats ||
+          "",
+
+        status:
+          data.status ||
+          "Available",
+
+        latitude:
+          data.latitude,
+
+        longitude:
+          data.longitude,
+
+        isVerified:
+          data.isVerified
+
+      });
+
+    });
+
+
+    renderCabCars(cabCars);
+
+  }catch(error){
+
+    console.error(error);
+
+    box.innerHTML =
+      `<div class="empty">
+        Unable to load cabs.<br><br>
+        ${error.message}
+       </div>`;
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER CAB
+========================================================= */
+
+function renderCabCars(list){
+
+  const box =
+    document.getElementById("cabListings");
 
   box.innerHTML="";
 
-  sellCars.forEach(car=>{
+
+  if(!list.length){
+
+    box.innerHTML =
+      `<div class="empty">
+        No available cab right now.
+       </div>`;
+
+    return;
+  }
+
+
+  list.forEach(cab=>{
 
     const card =
       document.createElement("div");
 
     card.className="property";
 
+
     card.innerHTML=`
+
+      <div
+        style="
+        height:190px;
+        background:#e7eef7;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:70px;">
+        🚕
+      </div>
 
       <div class="property-body">
 
-        ${
-          car.photoCount
-          ?
-          `<div class="photo-count">
-             📸 ${car.photoCount} Photos
-           </div>`
-          :""
-        }
-
         <div class="property-title">
-          🚘 ${car.title}
+          🚕 ${escapeHtml(cab.title)}
         </div>
 
         <span class="badge">
-          ${car.status}
+          ${escapeHtml(cab.status)}
         </span>
 
         <div class="spec">
-          ${car.type || "Car"} •
-          ${car.year || ""} •
-          ${car.fuel || ""}
+          ${escapeHtml(cab.type)}
+          ${
+            cab.seats
+            ?
+            " • "+escapeHtml(cab.seats)
+            :
+            ""
+          }
         </div>
 
         ${
-          car.price
+          cab.driverName
           ?
-          `<div class="price">
-             ${car.price}
+          `<div class="spec">
+             👨‍✈️ Driver: ${escapeHtml(cab.driverName)}
            </div>`
-          :""
+          :
+          ""
         }
 
+        <div class="price">
+          ${escapeHtml(cab.price)}
+        </div>
+
+        <button
+          class="primary green"
+          onclick="bookCab('${cab.id}')">
+          🚕 Book Cab
+        </button>
+
       </div>
+
     `;
+
 
     box.appendChild(card);
 
@@ -1698,11 +2217,213 @@ function renderSellCars(){
 
 
 /* =========================================================
+   CAB FILTER
+========================================================= */
+
+window.filterCabType = function(type){
+
+  selectedCabType=type;
+
+  document
+    .querySelectorAll("#cabSection .vehicle-btn")
+    .forEach(b=>
+      b.classList.remove("active")
+    );
+
+  event.target.classList.add("active");
+
+
+  if(!type){
+
+    renderCabCars(cabCars);
+
+    return;
+  }
+
+
+  const filtered =
+    cabCars.filter(
+      cab=>
+        cab.type.toLowerCase() ===
+        type.toLowerCase()
+    );
+
+
+  renderCabCars(filtered);
+
+};
+
+
+/* =========================================================
+   CAB TYPE
+========================================================= */
+
+window.selectCabType = function(button){
+
+  button
+    .parentElement
+    .querySelectorAll(".vehicle-btn")
+    .forEach(b=>
+      b.classList.remove("active")
+    );
+
+  button.classList.add("active");
+
+};
+
+
+/* =========================================================
+   ROUTE MAP
+========================================================= */
+
+window.showRouteMap = function(){
+
+  const pickup =
+    document
+    .getElementById("pickup")
+    .value
+    .trim();
+
+  const destination =
+    document
+    .getElementById("destination")
+    .value
+    .trim();
+
+
+  if(!pickup || !destination){
+
+    alert(
+      "Please enter Pickup Point and Destination."
+    );
+
+    return;
+  }
+
+
+  const map =
+    document.getElementById("routeMap");
+
+
+  const query =
+    encodeURIComponent(
+      pickup+" to "+destination
+    );
+
+
+  map.innerHTML=`
+
+    <iframe
+      src="https://www.openstreetmap.org/export/embed.html?bbox=77.4%2C12.8%2C77.7%2C13.1&layer=mapnik"
+      loading="lazy">
+    </iframe>
+
+  `;
+
+};
+
+
+/* =========================================================
+   CAB BOOKING
+========================================================= */
+
+window.bookCab = async function(cabId){
+
+  try{
+
+    const user =
+      auth.currentUser;
+
+
+    if(!user){
+
+      alert(
+        "Please login first to book a cab."
+      );
+
+      showAccount();
+
+      return;
+    }
+
+
+    const pickup =
+      document
+      .getElementById("pickup")
+      .value
+      .trim();
+
+    const destination =
+      document
+      .getElementById("destination")
+      .value
+      .trim();
+
+
+    if(!pickup || !destination){
+
+      alert(
+        "Please enter Pickup Point and Destination first."
+      );
+
+      return;
+    }
+
+
+    await addDoc(
+      collection(db,"cabBookings"),
+      {
+
+        cabDriverId:
+          cabId,
+
+        customerUid:
+          user.uid,
+
+        customerPhone:
+          user.phoneNumber || "",
+
+        pickup:
+          pickup,
+
+        destination:
+          destination,
+
+        status:
+          "Pending",
+
+        createdAt:
+          serverTimestamp()
+
+      }
+    );
+
+
+    alert(
+      "Cab booking request received.\n\n"+
+      "Admin will assign the driver."
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Booking failed.\n\n"+
+      error.message
+    );
+
+  }
+
+};
+
+
+/* =========================================================
    PHOTO VIEWER
 ========================================================= */
 
 let currentMedia=[];
-
 let currentIndex=0;
 
 
@@ -1710,21 +2431,22 @@ window.openCarViewer = function(id,type){
 
   let car;
 
+
   if(type==="buy"){
 
     car =
-      buyCars.find(x=>x.id===id);
-
-  }else{
-
-    car =
-      sellCars.find(x=>x.id===id);
+      buyCars.find(
+        x=>x.id===id
+      );
 
   }
 
+
   if(!car){
 
-    alert("Car details not found.");
+    alert(
+      "Car details not found."
+    );
 
     return;
   }
@@ -1738,8 +2460,11 @@ window.openCarViewer = function(id,type){
     car.photos.forEach(photo=>{
 
       currentMedia.push({
+
         type:"image",
+
         src:photo
+
       });
 
     });
@@ -1750,8 +2475,11 @@ window.openCarViewer = function(id,type){
   if(car.video){
 
     currentMedia.push({
+
       type:"video",
+
       src:car.video
+
     });
 
   }
@@ -1760,7 +2488,7 @@ window.openCarViewer = function(id,type){
   if(!currentMedia.length){
 
     alert(
-      "No photos available for this car yet."
+      "No photos or video available."
     );
 
     return;
@@ -1769,14 +2497,17 @@ window.openCarViewer = function(id,type){
 
   currentIndex=0;
 
+
   document
     .getElementById("viewer")
     .classList.add("show");
+
 
   document
     .getElementById("viewerTitle")
     .textContent =
     car.title;
+
 
   renderViewer();
 
@@ -1826,44 +2557,50 @@ function renderViewer(){
   thumbs.innerHTML="";
 
 
-  currentMedia.forEach((item,index)=>{
+  currentMedia.forEach(
+    (item,index)=>{
 
-    const button =
-      document.createElement("button");
+      const button =
+        document.createElement("button");
 
-    button.className =
-      "thumb"+
-      (index===currentIndex
-      ?" active":"");
+      button.className =
+        "thumb"+
+        (
+          index===currentIndex
+          ?
+          " active"
+          :
+          ""
+        );
 
 
-    if(item.type==="image"){
+      if(item.type==="image"){
 
-      button.innerHTML =
-        `<img src="${item.src}">`;
+        button.innerHTML =
+          `<img src="${item.src}">`;
 
-    }else{
+      }else{
 
-      button.innerHTML =
-        "🎥";
+        button.innerHTML="🎥";
 
-      button.style.color="white";
+        button.style.color="white";
+
+      }
+
+
+      button.onclick=()=>{
+
+        currentIndex=index;
+
+        renderViewer();
+
+      };
+
+
+      thumbs.appendChild(button);
 
     }
-
-
-    button.onclick=()=>{
-
-      currentIndex=index;
-
-      renderViewer();
-
-    };
-
-
-    thumbs.appendChild(button);
-
-  });
+  );
 
 }
 
@@ -1876,7 +2613,8 @@ window.previousMedia = function(){
   currentIndex--;
 
   if(currentIndex<0)
-    currentIndex=currentMedia.length-1;
+    currentIndex =
+      currentMedia.length-1;
 
   renderViewer();
 
@@ -1890,8 +2628,14 @@ window.nextMedia = function(){
 
   currentIndex++;
 
-  if(currentIndex>=currentMedia.length)
+  if(
+    currentIndex>=
+    currentMedia.length
+  ){
+
     currentIndex=0;
+
+  }
 
   renderViewer();
 
@@ -1900,10 +2644,10 @@ window.nextMedia = function(){
 
 window.closeViewer = function(){
 
-  const viewer =
-    document.getElementById("viewer");
+  document
+    .getElementById("viewer")
+    .classList.remove("show");
 
-  viewer.classList.remove("show");
 
   const video =
     document.getElementById("viewerVideo");
@@ -1916,81 +2660,26 @@ window.closeViewer = function(){
 
 
 /* =========================================================
-   CAB
+   SECURITY HELPER
 ========================================================= */
 
-window.selectCabType = function(button){
+function escapeHtml(value){
 
-  button
-    .parentElement
-    .querySelectorAll(".vehicle-btn")
-    .forEach(b=>
-      b.classList.remove("active")
-    );
+  return String(value || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
-  button.classList.add("active");
-
-};
-
-
-window.showRouteMap = function(){
-
-  const pickup =
-    document.getElementById("pickup")
-    .value.trim();
-
-  const destination =
-    document.getElementById("destination")
-    .value.trim();
-
-
-  if(!pickup || !destination){
-
-    alert(
-      "Please enter Pickup Point and Destination."
-    );
-
-    return;
-  }
-
-
-  const map =
-    document.getElementById("routeMap");
-
-
-  const query =
-    encodeURIComponent(
-      pickup+" to "+destination
-    );
-
-
-  map.innerHTML=`
-
-    <iframe
-      src="https://www.openstreetmap.org/export/embed.html?bbox=77.4%2C12.8%2C77.7%2C13.1&layer=mapnik"
-      loading="lazy">
-    </iframe>
-
-  `;
-
-};
-
-
-window.bookCab = function(){
-
-  alert(
-    "Cab booking request received.\n"+
-    "Available driver will be assigned by Admin."
-  );
-
-};
+}
 
 
 /* =========================================================
    INITIAL LOAD
 ========================================================= */
 
-renderBuyCars(buyCars);
+loadCars();
 
 </script>
 
