@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#123c73">
-<meta name="description" content="Car Set U - Buy, Sell & Rent Four-Wheelers With Driver">
-<title>Car Set U - Buy • Sell • Rent</title>
+<meta name="description" content="Car Set U - Buy, Sell & Cab Booking">
+<title>Car Set U - Buy • Sell • Cab Booking</title>
 
 <style>
 *{box-sizing:border-box}
@@ -23,7 +23,7 @@ header{
   padding:16px;
   position:sticky;
   top:0;
-  z-index:10;
+  z-index:20;
 }
 
 .top{
@@ -80,22 +80,23 @@ header{
   margin:0 0 8px;
 }
 
-.tabs{
+.main-tabs{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:8px;
 }
 
-.tab{
+.main-tab{
   border:0;
-  padding:13px 6px;
+  padding:14px 5px;
   border-radius:10px;
   font-weight:bold;
   background:#edf2f8;
   cursor:pointer;
+  font-size:14px;
 }
 
-.tab.active{
+.main-tab.active{
   background:#123c73;
   color:white;
 }
@@ -110,8 +111,10 @@ input,select,textarea{
 }
 
 label{
+  display:block;
   font-weight:bold;
   font-size:14px;
+  margin-top:4px;
 }
 
 button{
@@ -134,6 +137,30 @@ button{
 
 .orange{
   background:#f28b20;
+}
+
+.red{
+  background:#d9363e;
+}
+
+.option-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.option{
+  border:1px solid #ccd5e0;
+  background:white;
+  padding:12px 6px;
+  border-radius:10px;
+  font-weight:bold;
+  text-align:center;
+}
+
+.option.selected{
+  background:#123c73;
+  color:white;
 }
 
 .vehicle{
@@ -206,26 +233,6 @@ button{
   color:white;
 }
 
-.service-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-}
-
-.service{
-  border:1px solid #ccd5e0;
-  padding:12px;
-  border-radius:10px;
-  background:white;
-  font-weight:bold;
-  text-align:center;
-}
-
-.service.selected{
-  background:#1769e0;
-  color:white;
-}
-
 .features{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -248,7 +255,7 @@ button{
 }
 
 .map{
-  height:220px;
+  min-height:220px;
   border-radius:12px;
   background:linear-gradient(135deg,#dcebd8,#eaf1f5);
   display:flex;
@@ -257,10 +264,46 @@ button{
   text-align:center;
   color:#123c73;
   font-weight:bold;
+  padding:20px;
+}
+
+.photo-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.photo-box{
+  height:90px;
+  border-radius:10px;
+  background:#edf2f8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:13px;
+  color:#536174;
 }
 
 .hidden{
-  display:none;
+  display:none!important;
+}
+
+.status{
+  padding:12px;
+  border-radius:10px;
+  background:#e8f6ed;
+  color:#13783b;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.search-result{
+  padding:12px;
+  border:1px solid #d8e0ea;
+  border-radius:10px;
+  margin-top:8px;
+  background:#fafcff;
 }
 
 nav{
@@ -271,6 +314,7 @@ nav{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   padding:7px;
+  z-index:15;
 }
 
 nav button{
@@ -305,6 +349,9 @@ footer{
     grid-template-columns:repeat(2,1fr);
   }
 
+  .photo-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
 }
 </style>
 </head>
@@ -328,7 +375,7 @@ footer{
 </div>
 
 <div class="tagline" id="tagline">
-Buy • Sell • Rent Four-Wheelers With Driver
+Buy • Sell • Cab Booking
 </div>
 
 </header>
@@ -336,43 +383,44 @@ Buy • Sell • Rent Four-Wheelers With Driver
 
 <main class="container">
 
-
 <section class="hero">
 
 <h1 id="heroTitle">
-Rent a Car With Driver
+Car Set U
 </h1>
 
 <p id="heroText">
-4 Hours • 8 Hours • 12 Hours • 24 Hours • Intercity
+Buy Cars • Sell Cars • Book a Cab
 </p>
 
 </section>
 
 
+<!-- MAIN OPTIONS -->
+
 <section class="card">
 
-<div class="tabs">
+<div class="main-tabs">
 
 <button
-class="tab active"
-onclick="setMode('buy',this)"
-id="buyBtn">
-🚗 Buy
+class="main-tab active"
+id="buyTab"
+onclick="setMode('buy',this)">
+🚗 Buy Car
 </button>
 
 <button
-class="tab"
-onclick="setMode('sell',this)"
-id="sellBtn">
-💰 Sell
+class="main-tab"
+id="sellTab"
+onclick="setMode('sell',this)">
+💰 Sell Car
 </button>
 
 <button
-class="tab"
-onclick="setMode('rent',this)"
-id="rentBtn">
-👨‍✈️ Rent With Driver
+class="main-tab"
+id="cabTab"
+onclick="setMode('cab',this)">
+🚕 Cab Booking
 </button>
 
 </div>
@@ -380,131 +428,293 @@ id="rentBtn">
 </section>
 
 
-<section class="card">
+<!-- BUY -->
 
-<h3 id="serviceTitle">
-Rental Type
-</h3>
+<section class="card" id="buyPanel">
 
-<div class="service-grid">
+<h2>🚗 Buy Car</h2>
+
+<p>
+Find four-wheelers available for purchase.
+</p>
+
+<label>Location</label>
+
+<input
+id="buyLocation"
+placeholder="Search city, area or location">
+
+<label>Vehicle Type</label>
+
+<div class="category-grid">
+
+<button class="category selected"
+onclick="selectCategory(this,'All')">
+🚘 All
+</button>
+
+<button class="category"
+onclick="selectCategory(this,'Hatchback')">
+🚗 Hatchback
+</button>
+
+<button class="category"
+onclick="selectCategory(this,'Sedan')">
+🚙 Sedan
+</button>
+
+<button class="category"
+onclick="selectCategory(this,'SUV')">
+🚘 SUV
+</button>
+
+<button class="category"
+onclick="selectCategory(this,'MUV')">
+🚐 MUV
+</button>
+
+<button class="category"
+onclick="selectCategory(this,'Luxury')">
+👑 Luxury
+</button>
+
+</div>
+
+<br>
 
 <button
-class="service selected"
-onclick="selectService(this,'Local')">
+class="primary"
+onclick="searchBuyCars()">
+🔍 Search Cars For Sale
+</button>
+
+</section>
+
+
+<!-- SELL -->
+
+<section class="card hidden" id="sellPanel">
+
+<h2>💰 Sell Car</h2>
+
+<p>
+List your car for sale on Car Set U.
+</p>
+
+<label>Owner Name</label>
+
+<input
+id="sellerName"
+placeholder="Enter your name">
+
+<label>Mobile Number</label>
+
+<input
+id="sellerMobile"
+type="tel"
+placeholder="Enter mobile number">
+
+<label>Car Brand & Model</label>
+
+<input
+id="sellerCar"
+placeholder="Example: Toyota Innova">
+
+<label>Vehicle Type</label>
+
+<select id="sellerType">
+
+<option>Hatchback</option>
+<option>Sedan</option>
+<option>SUV</option>
+<option>MUV</option>
+<option>Luxury</option>
+
+</select>
+
+<label>Expected Price</label>
+
+<input
+id="sellerPrice"
+placeholder="Enter expected price">
+
+<label>Location</label>
+
+<input
+id="sellerLocation"
+placeholder="Area, City or Location">
+
+<label>Photos</label>
+
+<input
+type="file"
+accept="image/*"
+multiple>
+
+<label>Vehicle Video</label>
+
+<input
+type="file"
+accept="video/*">
+
+<button
+class="primary green"
+onclick="submitSell()">
+📤 Submit Car For Sale
+</button>
+
+<p id="sellStatus"></p>
+
+</section>
+
+
+<!-- CAB BOOKING -->
+
+<section class="card hidden" id="cabPanel">
+
+<h2>🚕 Cab Booking</h2>
+
+<h3>Booking Type</h3>
+
+<div class="option-grid">
+
+<button
+class="option selected"
+onclick="selectCabType(this,'Local')">
 📍 Local
 </button>
 
 <button
-class="service"
-onclick="selectService(this,'Intercity')">
+class="option"
+onclick="selectCabType(this,'Intercity / Outstation')">
 🛣️ Intercity / Outstation
 </button>
 
 </div>
 
-</section>
+
+<h3>Pickup Point</h3>
+
+<input
+id="pickupLocation"
+placeholder="Type pickup location">
 
 
-<section class="card">
+<div
+id="pickupSuggestions"
+class="hidden">
+</div>
 
-<h3 id="categoryTitle">
-Vehicle Type
-</h3>
+
+<h3>Destination</h3>
+
+<input
+id="destinationLocation"
+placeholder="Type destination">
+
+
+<div
+id="destinationSuggestions"
+class="hidden">
+</div>
+
+
+<div class="notice">
+📍 Location search is ready for Maps/Places integration.
+Street, area, city, state and PIN information can be shown
+after the Maps service is connected.
+</div>
+
+
+<h3>Rental Duration</h3>
+
+<div class="package">
+
+<button
+class="selected"
+onclick="selectDuration(this,'4 Hours')">
+4 Hours
+</button>
+
+<button
+onclick="selectDuration(this,'8 Hours')">
+8 Hours
+</button>
+
+<button
+onclick="selectDuration(this,'12 Hours')">
+12 Hours
+</button>
+
+<button
+onclick="selectDuration(this,'24 Hours')">
+24 Hours
+</button>
+
+</div>
+
+
+<h3>Vehicle Type</h3>
 
 <div class="category-grid">
 
 <button
 class="category selected"
-onclick="selectCategory(this,'All')">
-🚘 All
-</button>
-
-<button
-class="category"
-onclick="selectCategory(this,'Hatchback')">
+onclick="selectCabVehicle(this,'Hatchback')">
 🚗 Hatchback
 </button>
 
 <button
 class="category"
-onclick="selectCategory(this,'Sedan')">
+onclick="selectCabVehicle(this,'Sedan')">
 🚙 Sedan
 </button>
 
 <button
 class="category"
-onclick="selectCategory(this,'SUV')">
+onclick="selectCabVehicle(this,'SUV')">
 🚘 SUV
 </button>
 
 <button
 class="category"
-onclick="selectCategory(this,'MUV')">
+onclick="selectCabVehicle(this,'MUV')">
 🚐 MUV
 </button>
 
 <button
 class="category"
-onclick="selectCategory(this,'Luxury')">
+onclick="selectCabVehicle(this,'Luxury')">
 👑 Luxury
 </button>
 
 <button
 class="category"
-onclick="selectCategory(this,'Tempo Traveller')">
+onclick="selectCabVehicle(this,'Tempo Traveller')">
 🚌 Tempo Traveller
 </button>
 
 </div>
 
-</section>
 
-
-<section class="card">
-
-<label id="locationLabel">
-Pickup / Location
-</label>
-
-<input
-id="location"
-placeholder="Area, City or Location">
-
-
-<label id="destinationLabel">
-Destination
-</label>
-
-<input
-id="destination"
-placeholder="Destination for Intercity">
-
-
-<label id="searchLabel">
-Search Vehicle
-</label>
-
-<input
-id="search"
-placeholder="Brand, Model or Vehicle">
-
+<br>
 
 <button
 class="primary"
-onclick="searchCars()"
-id="searchBtn">
-Search
+onclick="showCabVehicle()">
+🔍 Search Available Cabs
 </button>
 
 </section>
 
 
-<section class="card">
+<!-- CAB RESULT -->
 
-<h3 id="featuredTitle">
-Featured Four-Wheelers
-</h3>
+<section
+class="card hidden"
+id="cabResult">
 
+<h2>Available Cab</h2>
 
 <div class="vehicle">
 
@@ -513,12 +723,10 @@ src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=c
 
 <div>
 
-<h3>
-Toyota Innova Crysta
-</h3>
+<h3>Toyota Innova Crysta</h3>
 
 <span class="badge">
-With Driver
+👨‍✈️ Verified Driver
 </span>
 
 <p>
@@ -537,363 +745,197 @@ MUV • 2022 • Diesel • Automatic • 7 Seater
 
 <button
 class="primary"
-onclick="showDetails()">
-View Details
+onclick="showCabDetails()">
+View Cab Details
 </button>
 
 </section>
 
 
+<!-- CAB DETAILS -->
+
 <section
 class="card hidden"
-id="details">
+id="cabDetails">
 
 <h2>
-Toyota Innova Crysta
+🚘 Toyota Innova Crysta
 </h2>
-
-
-<div class="vehicle">
-
-<img
-src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=500&q=80">
-
-<div>
-
-<p>
-<b>Category:</b> MUV
-</p>
-
-<p>
-<b>Fuel:</b> Diesel
-</p>
-
-<p>
-<b>Seats:</b> 7
-</p>
-
-<p>
-<b>Transmission:</b> Automatic
-</p>
-
-<p>
-<b>Driver:</b> Verified Driver
-</p>
-
-</div>
-
-</div>
-
-
-<h3>
-Rental Duration
-</h3>
-
-
-<div class="package">
-
-<button
-onclick="selectPackage(this,'4 Hours')">
-4 Hours<br>
-₹1,800
-</button>
-
-<button
-class="selected"
-onclick="selectPackage(this,'8 Hours')">
-8 Hours<br>
-₹3,200
-</button>
-
-<button
-onclick="selectPackage(this,'12 Hours')">
-12 Hours<br>
-₹4,200
-</button>
-
-<button
-onclick="selectPackage(this,'24 Hours')">
-24 Hours<br>
-₹5,800
-</button>
-
-</div>
-
-
-<h3>
-Rental Type
-</h3>
-
-<div class="service-grid">
-
-<button
-class="service selected"
-onclick="selectService(this,'Local')">
-📍 Local
-</button>
-
-<button
-class="service"
-onclick="selectService(this,'Intercity')">
-🛣️ Intercity
-</button>
-
-</div>
-
-
-<h3>
-Vehicle Information
-</h3>
-
 
 <div class="features">
 
-<div class="feature">
-📅 Year: 2022
-</div>
-
-<div class="feature">
-⛽ Diesel
-</div>
-
-<div class="feature">
-⚙️ Automatic
-</div>
-
-<div class="feature">
-👥 7 Seater
-</div>
-
-<div class="feature">
-🚐 MUV
-</div>
-
-<div class="feature">
-❄️ AC
-</div>
-
-<div class="feature">
-📸 Up to 6 Photos
-</div>
-
-<div class="feature">
-🎥 1 Video
-</div>
+<div class="feature">📅 Year: 2022</div>
+<div class="feature">⛽ Diesel</div>
+<div class="feature">⚙️ Automatic</div>
+<div class="feature">👥 7 Seater</div>
+<div class="feature">🚐 MUV</div>
+<div class="feature">❄️ AC</div>
+<div class="feature">📸 6 Photos</div>
+<div class="feature">🎥 Video</div>
 
 </div>
 
 
-<h3>
-Driver
-</h3>
+<h3>Vehicle Photos</h3>
+
+<div class="photo-grid">
+
+<div class="photo-box">📸 Photo 1</div>
+<div class="photo-box">📸 Photo 2</div>
+<div class="photo-box">📸 Photo 3</div>
+<div class="photo-box">📸 Photo 4</div>
+<div class="photo-box">📸 Photo 5</div>
+<div class="photo-box">📸 Photo 6</div>
+
+</div>
+
+
+<h3>Vehicle Video</h3>
+
+<div class="photo-box">
+🎥 Vehicle Video
+</div>
+
+
+<h3>👨‍✈️ Driver</h3>
 
 <div class="card">
 
-<b>
-👨‍✈️ Verified Driver
-</b>
+<b>Verified Driver</b>
+
+<p>⭐ Rating: 4.8</p>
+
+<p>✅ Driving Licence Verified</p>
 
 <p>
-Driver details will be shown after confirmed booking.
-</p>
-
-<p>
-⭐ Rating: 4.8
-</p>
-
-<p>
-✅ Driving Licence Verified
+Driver's private mobile number will not be displayed.
 </p>
 
 </div>
 
 
-<h3>
-Live Location
-</h3>
+<h3>📍 Live Location</h3>
 
 <div class="map">
 
-📍 Live Location<br>
-Driver's real-time location will appear here
-after trip starts.
+📍 Live Driver Location
+
+<br><br>
+
+Live GPS will appear here after
+the trip starts and GPS permissions
+are connected.
 
 </div>
-
-
-<br>
 
 
 <div class="notice">
 
-🔐 Customer Safety:<br>
-Owner/Driver का private mobile number
-publicly display नहीं होगा।
-
-<br><br>
-
-📍 Live tracking सिर्फ active rental trip के दौरान
-enable रहेगा।
+🔐 Customer privacy:
+Driver/Owner mobile number is not
+publicly displayed.
 
 </div>
 
-
 <br>
-
 
 <button
 class="primary green"
-onclick="bookCar()">
+onclick="openBooking()">
 
-Book Car With Driver
+🚕 Book This Cab
 
 </button>
 
 </section>
 
 
+<!-- BOOKING -->
+
 <section
 class="card hidden"
-id="booking">
+id="bookingPanel">
 
-<h2>
-Booking Details
-</h2>
+<h2>📋 Cab Booking</h2>
 
-
-<label>
-Your Name
-</label>
+<label>Your Name</label>
 
 <input
 id="customerName"
 placeholder="Enter your name">
 
-
-<label>
-Mobile Number
-</label>
+<label>Mobile Number</label>
 
 <input
 id="customerMobile"
 type="tel"
 placeholder="Enter mobile number">
 
-
-<label>
-Pickup Location
-</label>
+<label>Pickup Point</label>
 
 <input
-id="pickup"
+id="bookingPickup"
 placeholder="Pickup location">
 
-
-<label>
-Destination
-</label>
+<label>Destination</label>
 
 <input
-id="destinationBooking"
+id="bookingDestination"
 placeholder="Destination">
 
+<label>Booking Type</label>
 
-<label>
-Rental Type
-</label>
+<select id="bookingType">
 
-<select id="rentalType">
-
-<option>
-Local
-</option>
-
-<option>
-Intercity / Outstation
-</option>
+<option>Local</option>
+<option>Intercity / Outstation</option>
 
 </select>
 
+<label>Duration</label>
 
-<label>
-Rental Duration
-</label>
+<select id="bookingDuration">
 
-<select id="duration">
-
-<option>
-4 Hours
-</option>
-
-<option selected>
-8 Hours
-</option>
-
-<option>
-12 Hours
-</option>
-
-<option>
-24 Hours
-</option>
+<option>4 Hours</option>
+<option>8 Hours</option>
+<option>12 Hours</option>
+<option>24 Hours</option>
 
 </select>
 
+<label>Vehicle Type</label>
 
-<label>
-Vehicle Category
-</label>
+<select id="bookingVehicle">
 
-<select id="vehicleCategory">
-
-<option>
-Hatchback
-</option>
-
-<option>
-Sedan
-</option>
-
-<option>
-SUV
-</option>
-
-<option>
-MUV
-</option>
-
-<option>
-Luxury
-</option>
-
-<option>
-Tempo Traveller
-</option>
+<option>Hatchback</option>
+<option>Sedan</option>
+<option>SUV</option>
+<option>MUV</option>
+<option>Luxury</option>
+<option>Tempo Traveller</option>
 
 </select>
-
 
 <button
 class="primary green"
 onclick="submitBooking()">
 
-Submit Booking
+🚕 Confirm Cab Booking Request
 
 </button>
-
 
 <p id="bookingStatus"></p>
 
 </section>
 
 
+<!-- MY TRIP -->
+
 <section
 class="card hidden"
-id="trip">
+id="tripPanel">
 
-<h2>
-🚗 My Active Trip
-</h2>
+<h2>🚗 My Active Trip</h2>
 
 <p>
 <b>Vehicle:</b>
@@ -901,13 +943,8 @@ Toyota Innova Crysta
 </p>
 
 <p>
-<b>Category:</b>
-MUV
-</p>
-
-<p>
-<b>Rental:</b>
-8 Hours
+<b>Driver:</b>
+Verified Driver
 </p>
 
 <p>
@@ -917,33 +954,29 @@ Trip Active
 </span>
 </p>
 
-
-<h3>
-📍 Live Location
-</h3>
-
+<h3>📍 Live Location</h3>
 
 <div class="map">
 
-🔴 DRIVER LIVE LOCATION<br>
-Real-time GPS will connect here
-through Firebase.
+🔴 DRIVER LIVE LOCATION
+
+<br><br>
+
+Real-time GPS location will appear
+after the trip starts.
 
 </div>
 
-
 <br>
-
 
 <div class="notice">
 
-Live tracking will be active only
-during the rental trip.
+Live tracking is intended to remain active
+only during the customer's active trip.
 
 </div>
 
 </section>
-
 
 </main>
 
@@ -951,23 +984,19 @@ during the rental trip.
 <nav>
 
 <button onclick="goHome()">
-🏠<br>
-Home
+🏠<br>Home
 </button>
 
-<button onclick="showDetails()">
-🔍<br>
-Search
+<button onclick="showBuy()">
+🚗<br>Buy
+</button>
+
+<button onclick="showCab()">
+🚕<br>Cab
 </button>
 
 <button onclick="showTrip()">
-📍<br>
-My Trip
-</button>
-
-<button onclick="showBooking()">
-📋<br>
-Booking
+📍<br>My Trip
 </button>
 
 </nav>
@@ -975,13 +1004,11 @@ Booking
 
 <footer>
 
-<b>
-CAR SET U
-</b>
+<b>CAR SET U</b>
 
-<br>
+<br><br>
 
-Buy • Sell • Rent • Four-Wheelers
+Buy • Sell • Cab Booking
 
 <br>
 
@@ -995,8 +1022,7 @@ English • हिंदी • తెలుగు
 
 
 <!-- =====================================================
-     FIREBASE CONNECTION
-     Car Set U Web
+     FIREBASE
      ===================================================== -->
 
 <script type="module">
@@ -1039,72 +1065,402 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-
-/*
-  Firebase Analytics browser support check.
-  This prevents Analytics from breaking the page
-  if the current browser does not support it.
-*/
+window.carSetUFirebaseApp = app;
 
 isSupported()
-.then((supported)=>{
+.then(function(supported){
 
   if(supported){
 
     getAnalytics(app);
 
     console.log(
-      "Car Set U Firebase Analytics connected successfully."
+      "Car Set U Firebase connected."
     );
 
   }
 
 })
-.catch((error)=>{
+.catch(function(error){
 
   console.log(
-    "Firebase Analytics is not available:",
+    "Firebase Analytics unavailable:",
     error
   );
 
 });
-
-
-/*
-  Make Firebase app available to the page
-  for future Firebase features.
-*/
-
-window.carSetUFirebaseApp = app;
 
 </script>
 
 
 <script>
 
-let selectedPackage="8 Hours";
-let selectedService="Local";
-let selectedCategory="All";
+let currentMode="buy";
+
+let selectedCabType="Local";
+let selectedDuration="4 Hours";
+let selectedCabVehicle="Hatchback";
+
+
+function setMode(mode,button){
+
+  currentMode=mode;
+
+  document
+  .querySelectorAll(".main-tab")
+  .forEach(function(tab){
+
+    tab.classList.remove("active");
+
+  });
+
+  button.classList.add("active");
+
+
+  document
+  .getElementById("buyPanel")
+  .classList.add("hidden");
+
+  document
+  .getElementById("sellPanel")
+  .classList.add("hidden");
+
+  document
+  .getElementById("cabPanel")
+  .classList.add("hidden");
+
+  document
+  .getElementById("cabResult")
+  .classList.add("hidden");
+
+  document
+  .getElementById("cabDetails")
+  .classList.add("hidden");
+
+  document
+  .getElementById("bookingPanel")
+  .classList.add("hidden");
+
+
+  if(mode==="buy"){
+
+    document
+    .getElementById("buyPanel")
+    .classList.remove("hidden");
+
+  }
+
+
+  if(mode==="sell"){
+
+    document
+    .getElementById("sellPanel")
+    .classList.remove("hidden");
+
+  }
+
+
+  if(mode==="cab"){
+
+    document
+    .getElementById("cabPanel")
+    .classList.remove("hidden");
+
+  }
+
+}
+
+
+function selectCabType(button,type){
+
+  document
+  .querySelectorAll("#cabPanel .option")
+  .forEach(function(b){
+
+    b.classList.remove("selected");
+
+  });
+
+  button.classList.add("selected");
+
+  selectedCabType=type;
+
+}
+
+
+function selectDuration(button,duration){
+
+  document
+  .querySelectorAll(".package button")
+  .forEach(function(b){
+
+    b.classList.remove("selected");
+
+  });
+
+  button.classList.add("selected");
+
+  selectedDuration=duration;
+
+}
+
+
+function selectCabVehicle(button,type){
+
+  document
+  .querySelectorAll("#cabPanel .category")
+  .forEach(function(b){
+
+    b.classList.remove("selected");
+
+  });
+
+  button.classList.add("selected");
+
+  selectedCabVehicle=type;
+
+}
+
+
+function selectCategory(button,type){
+
+  document
+  .querySelectorAll("#buyPanel .category")
+  .forEach(function(b){
+
+    b.classList.remove("selected");
+
+  });
+
+  button.classList.add("selected");
+
+}
+
+
+function searchBuyCars(){
+
+  alert(
+    "Buy Car search will connect to the Firebase vehicle database in the next step."
+  );
+
+}
+
+
+function submitSell(){
+
+  const name=
+  document.getElementById("sellerName").value.trim();
+
+  const mobile=
+  document.getElementById("sellerMobile").value.trim();
+
+  const car=
+  document.getElementById("sellerCar").value.trim();
+
+  if(!name || !mobile || !car){
+
+    document.getElementById("sellStatus")
+    .textContent=
+    "Please enter Name, Mobile Number and Car details.";
+
+    return;
+
+  }
+
+  document.getElementById("sellStatus")
+  .innerHTML=
+  "✅ Car selling request prepared.<br>"+
+  "Firebase database connection will be added in the next step.";
+
+}
+
+
+function showCabVehicle(){
+
+  document
+  .getElementById("cabResult")
+  .classList.remove("hidden");
+
+  window.scrollTo({
+
+    top:
+    document.getElementById("cabResult").offsetTop,
+
+    behavior:"smooth"
+
+  });
+
+}
+
+
+function showCabDetails(){
+
+  document
+  .getElementById("cabDetails")
+  .classList.remove("hidden");
+
+  window.scrollTo({
+
+    top:
+    document.getElementById("cabDetails").offsetTop,
+
+    behavior:"smooth"
+
+  });
+
+}
+
+
+function openBooking(){
+
+  document
+  .getElementById("bookingPanel")
+  .classList.remove("hidden");
+
+  document
+  .getElementById("bookingType")
+  .value=selectedCabType;
+
+  document
+  .getElementById("bookingDuration")
+  .value=selectedDuration;
+
+  document
+  .getElementById("bookingVehicle")
+  .value=selectedCabVehicle;
+
+  window.scrollTo({
+
+    top:
+    document.getElementById("bookingPanel").offsetTop,
+
+    behavior:"smooth"
+
+  });
+
+}
+
+
+function submitBooking(){
+
+  const name=
+  document.getElementById("customerName")
+  .value.trim();
+
+  const mobile=
+  document.getElementById("customerMobile")
+  .value.trim();
+
+  const pickup=
+  document.getElementById("bookingPickup")
+  .value.trim();
+
+  const destination=
+  document.getElementById("bookingDestination")
+  .value.trim();
+
+
+  if(!name || !mobile || !pickup || !destination){
+
+    document
+    .getElementById("bookingStatus")
+    .textContent=
+    "Please enter Name, Mobile, Pickup and Destination.";
+
+    return;
+
+  }
+
+
+  document
+  .getElementById("bookingStatus")
+  .innerHTML=
+  "✅ Booking request received.<br>"+
+  "Firebase booking database will be connected in the next step.";
+
+}
+
+
+function showBuy(){
+
+  document
+  .getElementById("buyTab")
+  .click();
+
+  window.scrollTo({
+
+    top:0,
+    behavior:"smooth"
+
+  });
+
+}
+
+
+function showCab(){
+
+  document
+  .getElementById("cabTab")
+  .click();
+
+  window.scrollTo({
+
+    top:0,
+    behavior:"smooth"
+
+  });
+
+}
+
+
+function showTrip(){
+
+  document
+  .getElementById("tripPanel")
+  .classList.remove("hidden");
+
+  window.scrollTo({
+
+    top:
+    document.getElementById("tripPanel").offsetTop,
+
+    behavior:"smooth"
+
+  });
+
+}
+
+
+function goHome(){
+
+  window.scrollTo({
+
+    top:0,
+    behavior:"smooth"
+
+  });
+
+}
 
 
 const translations={
 
 en:{
-tag:"Buy • Sell • Rent Four-Wheelers With Driver",
-hero:"Rent a Car With Driver",
-heroText:"4 Hours • 8 Hours • 12 Hours • 24 Hours • Intercity"
+tag:"Buy • Sell • Cab Booking",
+hero:"Car Set U",
+heroText:"Buy Cars • Sell Cars • Book a Cab"
 },
 
 hi:{
-tag:"ड्राइवर के साथ Four-Wheelers Buy • Sell • Rent",
-hero:"ड्राइवर के साथ कार रेंट करें",
-heroText:"4 घंटे • 8 घंटे • 12 घंटे • 24 घंटे • इंटरसिटी"
+tag:"कार खरीदें • कार बेचें • कैब बुक करें",
+hero:"Car Set U",
+heroText:"कार खरीदें • कार बेचें • कैब बुक करें"
 },
 
 te:{
-tag:"డ్రైవర్‌తో Four-Wheelers Buy • Sell • Rent",
-hero:"డ్రైవర్‌తో కారు రెంట్",
-heroText:"4 గంటలు • 8 గంటలు • 12 గంటలు • 24 గంటలు • ఇంటర్‌సిటీ"
+tag:"కారు కొనండి • కారు అమ్మండి • క్యాబ్ బుక్ చేయండి",
+hero:"Car Set U",
+heroText:"కార్లు కొనండి • అమ్మండి • క్యాబ్ బుక్ చేయండి"
 }
 
 };
@@ -1112,234 +1468,23 @@ heroText:"4 గంటలు • 8 గంటలు • 12 గంటలు • 24 
 
 function changeLanguage(){
 
-const lang=
-document.getElementById("language").value;
-
-const t=
-translations[lang];
-
-document.getElementById("tagline")
-.textContent=t.tag;
-
-document.getElementById("heroTitle")
-.textContent=t.hero;
-
-document.getElementById("heroText")
-.textContent=t.heroText;
-
-}
-
-
-function setMode(mode,button){
-
-document
-.querySelectorAll(".tab")
-.forEach(b=>{
-b.classList.remove("active");
-});
-
-button.classList.add("active");
-
-if(mode==="rent"){
-
-document
-.getElementById("details")
-.classList.remove("hidden");
-
-}
-
-}
-
-
-function selectService(button,service){
-
-document
-.querySelectorAll(".service")
-.forEach(b=>{
-b.classList.remove("selected");
-});
-
-button.classList.add("selected");
-
-selectedService=service;
-
-}
-
-
-function selectCategory(button,category){
-
-document
-.querySelectorAll(".category")
-.forEach(b=>{
-b.classList.remove("selected");
-});
-
-button.classList.add("selected");
-
-selectedCategory=category;
-
-}
-
-
-function showDetails(){
-
-document
-.getElementById("details")
-.classList.remove("hidden");
-
-document
-.getElementById("booking")
-.classList.add("hidden");
-
-document
-.getElementById("trip")
-.classList.add("hidden");
-
-window.scrollTo({
-top:500,
-behavior:"smooth"
-});
-
-}
-
-
-function selectPackage(button,packageName){
-
-document
-.querySelectorAll(".package button")
-.forEach(b=>{
-b.classList.remove("selected");
-});
-
-button.classList.add("selected");
-
-selectedPackage=packageName;
-
-document.getElementById("duration")
-.value=packageName;
-
-}
-
-
-function bookCar(){
-
-document
-.getElementById("booking")
-.classList.remove("hidden");
-
-document
-.getElementById("duration")
-.value=selectedPackage;
-
-document
-.getElementById("rentalType")
-.value=selectedService;
-
-document
-.getElementById("vehicleCategory")
-.value=selectedCategory==="All"
-?"MUV"
-:selectedCategory;
-
-window.scrollTo({
-top:document.getElementById("booking").offsetTop,
-behavior:"smooth"
-});
-
-}
-
-
-function submitBooking(){
-
-const name=
-document.getElementById("customerName")
-.value.trim();
-
-const mobile=
-document.getElementById("customerMobile")
-.value.trim();
-
-const pickup=
-document.getElementById("pickup")
-.value.trim();
-
-if(!name || !mobile || !pickup){
-
-document.getElementById("bookingStatus")
-.textContent=
-"Please enter Name, Mobile Number and Pickup Location.";
-
-return;
-
-}
-
-document.getElementById("bookingStatus")
-.innerHTML=
-"✅ Booking request submitted.<br>"+
-"Admin will assign a verified driver and vehicle.";
-
-}
-
-
-function showBooking(){
-
-document
-.getElementById("booking")
-.classList.remove("hidden");
-
-document
-.getElementById("details")
-.classList.add("hidden");
-
-document
-.getElementById("trip")
-.classList.add("hidden");
-
-window.scrollTo({
-top:500,
-behavior:"smooth"
-});
-
-}
-
-
-function showTrip(){
-
-document
-.getElementById("trip")
-.classList.remove("hidden");
-
-document
-.getElementById("details")
-.classList.add("hidden");
-
-document
-.getElementById("booking")
-.classList.add("hidden");
-
-window.scrollTo({
-top:500,
-behavior:"smooth"
-});
-
-}
-
-
-function goHome(){
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-function searchCars(){
-
-alert(
-"Search will connect to the Firebase vehicle database in the next step."
-);
+  const lang=
+  document.getElementById("language").value;
+
+  const t=
+  translations[lang];
+
+  document
+  .getElementById("tagline")
+  .textContent=t.tag;
+
+  document
+  .getElementById("heroTitle")
+  .textContent=t.hero;
+
+  document
+  .getElementById("heroText")
+  .textContent=t.heroText;
 
 }
 
