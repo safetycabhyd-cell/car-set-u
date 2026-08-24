@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Car Set U - Hyderabad</title>
 
 <link rel="stylesheet"
@@ -14,50 +10,38 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
 crossorigin="">
 
 <style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
 font-family:Arial,Helvetica,sans-serif;
 background:#f3f7fc;
 color:#172033;
-padding-bottom:90px;
+padding-bottom:90px
 }
 
-button,input,select{
-font:inherit;
-}
-
-button{
-cursor:pointer;
-}
+button,input,select{font:inherit}
+button{cursor:pointer}
 
 .header{
 background:#17477f;
-color:white;
-padding:18px;
+color:#fff;
+padding:18px
 }
 
 .header-top{
 display:flex;
 align-items:center;
 justify-content:space-between;
-gap:15px;
+gap:15px
 }
 
 .logo{
 font-size:30px;
 font-weight:800;
-line-height:1.05;
+line-height:1.05
 }
 
-.logo span{
-color:#ef4040;
-}
+.logo span{color:#ef4040}
 
 .language{
 width:48%;
@@ -65,48 +49,48 @@ padding:13px;
 border-radius:12px;
 border:0;
 font-weight:bold;
-background:white;
-color:#111;
+background:#fff;
+color:#111
 }
 
 .subtitle{
 margin-top:15px;
-font-size:17px;
+font-size:17px
 }
 
 .container{
 width:min(100%,760px);
 margin:auto;
-padding:18px;
+padding:18px
 }
 
 .hero{
 background:linear-gradient(135deg,#17477f,#1870dd);
-color:white;
+color:#fff;
 border-radius:28px;
 padding:34px 28px;
-margin-bottom:18px;
+margin-bottom:18px
 }
 
 .hero h1{
 font-size:32px;
-margin-bottom:16px;
+margin-bottom:16px
 }
 
 .hero p{
 font-size:18px;
-line-height:1.45;
+line-height:1.45
 }
 
 .tabs{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:12px;
-background:white;
+background:#fff;
 padding:14px;
 border-radius:25px;
 margin-bottom:18px;
-box-shadow:0 4px 18px #0000000d;
+box-shadow:0 4px 18px #0000000d
 }
 
 .tab{
@@ -115,35 +99,35 @@ border-radius:16px;
 padding:18px 8px;
 background:#edf3f9;
 font-weight:bold;
-font-size:17px;
+font-size:17px
 }
 
 .tab.active{
 background:#17477f;
-color:white;
+color:#fff
 }
 
 .card{
-background:white;
+background:#fff;
 border-radius:25px;
 padding:22px;
 margin-bottom:18px;
-box-shadow:0 5px 20px #0000000d;
+box-shadow:0 5px 20px #0000000d
 }
 
 .card h2{
 font-size:25px;
-margin-bottom:14px;
+margin-bottom:14px
 }
 
 .card h3{
-margin:18px 0 10px;
+margin:18px 0 10px
 }
 
 .info{
 color:#596273;
 line-height:1.5;
-margin-bottom:16px;
+margin-bottom:16px
 }
 
 input,select{
@@ -151,79 +135,71 @@ width:100%;
 padding:15px;
 border:1px solid #d8dee7;
 border-radius:13px;
-background:white;
+background:#fff
 }
 
 .primary{
 width:100%;
 border:0;
 background:#1769df;
-color:white;
+color:#fff;
 padding:16px;
 border-radius:13px;
 font-weight:bold;
-margin-top:10px;
+margin-top:10px
 }
 
 .primary:disabled{
 opacity:.65;
-cursor:not-allowed;
+cursor:not-allowed
 }
 
-.green{
-background:#159447;
-}
-
-.red{
-background:#df3535;
-}
-
-.gray{
-background:#687386;
-}
+.green{background:#159447}
+.red{background:#df3535}
+.gray{background:#687386}
 
 .vehicle-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:10px;
+gap:10px
 }
 
 .vehicle-btn{
 padding:15px;
 border-radius:13px;
 border:1px solid #d9dee7;
-background:white;
-font-weight:bold;
+background:#fff;
+font-weight:bold
 }
 
 .vehicle-btn.active{
 background:#1769df;
-color:white;
+color:#fff
 }
 
 .property{
-background:white;
+background:#fff;
 border:1px solid #e1e5eb;
 border-radius:22px;
 overflow:hidden;
-margin-top:15px;
+margin-top:15px
 }
 
 .property img{
 width:100%;
 height:220px;
 object-fit:cover;
-display:block;
+display:block
 }
 
 .property-body{
-padding:18px;
+padding:18px
 }
 
 .property-title{
 font-size:24px;
 font-weight:800;
-margin-bottom:10px;
+margin-bottom:10px
 }
 
 .badge{
@@ -233,56 +209,56 @@ border-radius:20px;
 background:#e4f8ea;
 color:#16833e;
 font-weight:bold;
-margin-bottom:10px;
+margin-bottom:10px
 }
 
 .spec{
 color:#303a4a;
 line-height:1.6;
-margin:8px 0;
+margin:8px 0
 }
 
 .price{
 color:#1769df;
 font-size:28px;
 font-weight:800;
-margin:12px 0;
+margin:12px 0
 }
 
 .form-group{
-margin-bottom:15px;
+margin-bottom:15px
 }
 
 .form-group label{
 display:block;
 font-weight:bold;
-margin-bottom:7px;
+margin-bottom:7px
 }
 
 .upload-box{
 border:2px dashed #c9d3e1;
 padding:18px;
 border-radius:16px;
-background:#f8fbff;
+background:#f8fbff
 }
 
 .upload-box input{
 border:0;
-padding:5px 0;
+padding:5px 0
 }
 
 .preview-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:8px;
-margin-top:12px;
+margin-top:12px
 }
 
 .preview-grid img{
 width:100%;
 height:100px;
 object-fit:cover;
-border-radius:10px;
+border-radius:10px
 }
 
 .logged{
@@ -291,7 +267,7 @@ color:#18763b;
 padding:13px;
 border-radius:12px;
 font-weight:bold;
-margin-bottom:12px;
+margin-bottom:12px
 }
 
 .login-help{
@@ -300,7 +276,7 @@ color:#344054;
 padding:12px;
 border-radius:12px;
 line-height:1.5;
-margin-bottom:15px;
+margin-bottom:15px
 }
 
 .map-box{
@@ -308,7 +284,7 @@ height:360px;
 border-radius:18px;
 background:#e7eef7;
 margin-top:14px;
-overflow:hidden;
+overflow:hidden
 }
 
 .map-status{
@@ -317,28 +293,28 @@ background:#f7f9fc;
 color:#596273;
 border-radius:12px;
 margin-top:10px;
-font-weight:bold;
+font-weight:bold
 }
 
 .route-summary{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
-margin-top:12px;
+margin-top:12px
 }
 
 .route-item{
 background:#eef4ff;
 border-radius:14px;
 padding:14px;
-text-align:center;
+text-align:center
 }
 
 .route-item strong{
 display:block;
 color:#1769df;
 font-size:20px;
-margin-top:4px;
+margin-top:4px
 }
 
 .stop-box{
@@ -346,7 +322,7 @@ background:#f8fbff;
 border:1px solid #dce5f0;
 border-radius:16px;
 padding:15px;
-margin-top:12px;
+margin-top:12px
 }
 
 .stop-number{
@@ -357,9 +333,9 @@ align-items:center;
 justify-content:center;
 border-radius:50%;
 background:#1769df;
-color:white;
+color:#fff;
 font-weight:bold;
-margin-right:7px;
+margin-right:7px
 }
 
 .bottom-nav{
@@ -368,29 +344,114 @@ left:0;
 right:0;
 bottom:0;
 height:76px;
-background:white;
+background:#fff;
 border-top:1px solid #ddd;
 display:grid;
 grid-template-columns:repeat(4,1fr);
-z-index:1000;
+z-index:1000
 }
 
 .bottom-nav button{
 border:0;
-background:white;
+background:#fff;
 font-size:13px;
-color:#202938;
+color:#202938
 }
 
 .bottom-nav span{
 display:block;
 font-size:23px;
-margin-bottom:4px;
+margin-bottom:4px
 }
 
 .hidden{
-display:none!important;
+display:none!important
 }
+
+/* LOGIN GATE */
+
+.login-gate{
+position:fixed;
+inset:0;
+background:#f3f7fc;
+z-index:9000;
+overflow:auto;
+padding:30px 18px;
+display:flex;
+align-items:center;
+justify-content:center
+}
+
+.login-card{
+width:min(100%,520px);
+background:#fff;
+border-radius:28px;
+padding:28px 22px;
+box-shadow:0 8px 35px #00000012;
+text-align:center
+}
+
+.login-logo{
+font-size:34px;
+font-weight:900;
+margin-bottom:20px
+}
+
+.login-logo span{
+color:#ef4040
+}
+
+.login-title{
+font-size:29px;
+font-weight:800;
+margin-bottom:12px
+}
+
+.login-sub{
+color:#687386;
+line-height:1.5;
+margin-bottom:20px
+}
+
+.phone-row{
+display:flex;
+gap:8px;
+text-align:left
+}
+
+.country-code{
+width:74px;
+padding:15px;
+border:1px solid #d8dee7;
+border-radius:13px;
+background:#f5f7fa;
+font-weight:bold;
+text-align:center
+}
+
+#recaptcha-container{
+margin-top:12px;
+min-height:0
+}
+
+.otp-note{
+margin-top:12px;
+color:#596273;
+font-size:14px
+}
+
+.error-box{
+background:#fff0f0;
+color:#b42318;
+padding:12px;
+border-radius:12px;
+margin-top:12px;
+text-align:left;
+line-height:1.4;
+white-space:pre-line
+}
+
+/* VIEWER */
 
 .viewer{
 position:fixed;
@@ -398,11 +459,11 @@ inset:0;
 background:#000;
 z-index:9999;
 display:none;
-flex-direction:column;
+flex-direction:column
 }
 
 .viewer.show{
-display:flex;
+display:flex
 }
 
 .viewer-top{
@@ -411,18 +472,18 @@ display:flex;
 align-items:center;
 justify-content:space-between;
 padding:0 16px;
-color:white;
-background:#000;
+color:#fff;
+background:#000
 }
 
 .close-viewer{
 border:0;
 background:#333;
-color:white;
+color:#fff;
 width:42px;
 height:42px;
 border-radius:50%;
-font-size:24px;
+font-size:24px
 }
 
 .viewer-main{
@@ -431,14 +492,14 @@ display:flex;
 align-items:center;
 justify-content:center;
 position:relative;
-overflow:hidden;
+overflow:hidden
 }
 
 .viewer-main img,
 .viewer-main video{
 max-width:95%;
 max-height:82vh;
-object-fit:contain;
+object-fit:contain
 }
 
 .viewer-arrow{
@@ -452,16 +513,11 @@ border-radius:50%;
 background:#ffffffcc;
 color:#111;
 font-size:28px;
-font-weight:bold;
+font-weight:bold
 }
 
-.prev{
-left:12px;
-}
-
-.next{
-right:12px;
-}
+.prev{left:12px}
+.next{right:12px}
 
 .viewer-bottom{
 min-height:70px;
@@ -470,7 +526,7 @@ display:flex;
 justify-content:center;
 gap:7px;
 overflow-x:auto;
-background:#111;
+background:#111
 }
 
 .thumb{
@@ -480,39 +536,38 @@ border-radius:7px;
 overflow:hidden;
 border:2px solid transparent;
 flex:none;
-background:#333;
+background:#333
 }
 
 .thumb.active{
-border-color:#fff;
+border-color:#fff
 }
 
 .thumb img{
 width:100%;
 height:100%;
-object-fit:cover;
+object-fit:cover
 }
 
 @media(max-width:560px){
 
 .logo{
-font-size:25px;
+font-size:25px
 }
 
 .language{
-width:52%;
+width:52%
 }
 
 .hero h1{
-font-size:27px;
+font-size:27px
 }
 
 .property img{
-height:190px;
+height:190px
 }
 
 }
-
 </style>
 </head>
 
@@ -581,7 +636,7 @@ onclick="showSection('cab',this)">
 </div>
 
 
-<!-- ================= BUY ================= -->
+<!-- BUY -->
 
 <section id="buySection">
 
@@ -621,7 +676,9 @@ Hyderabad में उपलब्ध cars देखें.
 
 </div>
 
-<div class="form-group" style="margin-top:15px;">
+<div
+class="form-group"
+style="margin-top:15px">
 
 <input
 id="buySearch"
@@ -663,9 +720,11 @@ Search by Location
 </section>
 
 
-<!-- ================= SELL ================= -->
+<!-- SELL -->
 
-<section id="sellSection" class="hidden">
+<section
+id="sellSection"
+class="hidden">
 
 <div class="card">
 
@@ -677,45 +736,59 @@ Search by Location
 
 <div class="form-group">
 <label>Car Brand</label>
-<input id="sellBrand" placeholder="Toyota">
+<input
+id="sellBrand"
+placeholder="Toyota">
 </div>
 
 <div class="form-group">
 <label>Car Model</label>
-<input id="sellModel" placeholder="Innova Crysta">
+<input
+id="sellModel"
+placeholder="Innova Crysta">
 </div>
 
 <div class="form-group">
 <label>Year</label>
-<input id="sellYear" placeholder="2022">
+<input
+id="sellYear"
+placeholder="2022">
 </div>
 
 <div class="form-group">
 <label>Fuel</label>
+
 <select id="sellFuel">
 <option>Petrol</option>
 <option>Diesel</option>
 <option>CNG</option>
 <option>Electric</option>
 </select>
+
 </div>
 
 <div class="form-group">
 <label>Transmission</label>
+
 <select id="sellTransmission">
 <option>Manual</option>
 <option>Automatic</option>
 </select>
+
 </div>
 
 <div class="form-group">
 <label>Seats</label>
-<input id="sellSeats" placeholder="7 Seater">
+<input
+id="sellSeats"
+placeholder="7 Seater">
 </div>
 
 <div class="form-group">
 <label>Price</label>
-<input id="sellPrice" placeholder="₹12,50,000">
+<input
+id="sellPrice"
+placeholder="₹12,50,000">
 </div>
 
 <div class="form-group">
@@ -771,9 +844,11 @@ Submit Car for Sale
 </section>
 
 
-<!-- ================= CAB ================= -->
+<!-- CAB -->
 
-<section id="cabSection" class="hidden">
+<section
+id="cabSection"
+class="hidden">
 
 <div class="card">
 
@@ -834,7 +909,7 @@ onclick="selectCabType(this)">
 </div>
 
 
-<!-- PICKUP -->
+<!-- ONLY PICKUP -->
 
 <div class="stop-box">
 
@@ -850,45 +925,13 @@ placeholder="Nampally Metro Station">
 </div>
 
 
-<!-- DROP 1 -->
+<!-- ONLY DESTINATION -->
 
 <div class="stop-box">
 
 <h3>
 <span class="stop-number">2</span>
-Drop 1
-</h3>
-
-<input
-id="drop1"
-placeholder="Ameerpet">
-
-</div>
-
-
-<!-- DROP 2 -->
-
-<div class="stop-box">
-
-<h3>
-<span class="stop-number">3</span>
-Drop 2
-</h3>
-
-<input
-id="drop2"
-placeholder="Kukatpally">
-
-</div>
-
-
-<!-- FINAL DESTINATION -->
-
-<div class="stop-box">
-
-<h3>
-<span class="stop-number">4</span>
-Final Destination
+Destination
 </h3>
 
 <input
@@ -911,7 +954,7 @@ onclick="showRouteMap()">
 id="mapStatus"
 class="map-status">
 
-Pickup, Drop 1, Drop 2 और Final Destination डालकर
+Pickup और Destination डालकर
 Show Complete Route दबाएँ.
 
 </div>
@@ -1002,17 +1045,20 @@ onclick="bookCab()">
 </section>
 
 
-<!-- ================= ACCOUNT ================= -->
+<!-- ACCOUNT -->
 
-<section id="accountSection" class="hidden">
+<section
+id="accountSection"
+class="hidden">
 
 <div class="card">
 
 <h2>📱 Customer Login</h2>
 
 <div class="login-help">
-पहले अपना mobile number डालकर OTP से login करें।
-Login होने के बाद आपका mobile number booking में automatically जाएगा।
+OTP login के बाद आपका verified mobile number
+booking में automatically जाएगा।
+Booking के समय नंबर दोबारा नहीं पूछा जाएगा.
 </div>
 
 <div
@@ -1021,49 +1067,36 @@ class="logged hidden">
 </div>
 
 
-<div id="loginBox">
+<div id="accountLoginBox">
 
 <label>
 Mobile Number
 </label>
 
-<div style="
-display:flex;
-gap:8px;
-margin-top:7px;
-">
+<div
+class="phone-row"
+style="margin-top:7px">
 
-<div style="
-width:70px;
-padding:15px;
-border:1px solid #d8dee7;
-border-radius:13px;
-background:#f5f7fa;
-font-weight:bold;
-text-align:center;
-">
+<div class="country-code">
 +91
 </div>
 
 <input
-id="phoneNumber"
+id="accountPhoneNumber"
 type="tel"
 inputmode="numeric"
 maxlength="10"
-placeholder="10 digit mobile number"
-style="flex:1;">
+placeholder="10 digit mobile number">
 
 </div>
-
 
 <div
-id="recaptcha-container"
-style="margin-top:12px;">
+id="account-recaptcha-container"
+style="margin-top:12px">
 </div>
 
-
 <button
-id="sendOtpButton"
+id="accountSendOtpButton"
 class="primary"
 onclick="sendOTP()">
 Send OTP
@@ -1073,20 +1106,20 @@ Send OTP
 
 
 <div
-id="otpBox"
+id="accountOtpBox"
 class="hidden"
-style="margin-top:15px;">
+style="margin-top:15px">
 
 <label>
 Enter OTP
 </label>
 
 <input
-id="otpCode"
+id="accountOtpCode"
 inputmode="numeric"
 placeholder="6 digit OTP"
 maxlength="6"
-style="margin-top:7px;">
+style="margin-top:7px">
 
 <button
 class="primary green"
@@ -1098,7 +1131,7 @@ Verify OTP
 
 
 <button
-id="logoutBtn"
+id="accountLogoutBtn"
 class="primary red hidden"
 onclick="logoutUser()">
 Logout
@@ -1111,7 +1144,7 @@ Logout
 </main>
 
 
-<!-- ================= BOTTOM NAV ================= -->
+<!-- BOTTOM NAV -->
 
 <nav class="bottom-nav">
 
@@ -1138,15 +1171,114 @@ My Account
 </nav>
 
 
-<!-- ================= VIEWER ================= -->
+<!-- LOGIN GATE -->
 
-<div id="viewer" class="viewer">
+<div
+id="loginGate"
+class="login-gate">
+
+<div class="login-card">
+
+<div class="login-logo">
+🚘 CAR <span>SET U</span>
+</div>
+
+<div class="login-title">
+📱 Customer Login
+</div>
+
+<div class="login-sub">
+Car Set U इस्तेमाल करने से पहले
+mobile number से OTP verification जरूरी है.
+</div>
+
+<label
+style="display:block;text-align:left;font-weight:bold">
+Mobile Number
+</label>
+
+<div
+class="phone-row"
+style="margin-top:7px">
+
+<div class="country-code">
++91
+</div>
+
+<input
+id="gatePhoneNumber"
+type="tel"
+inputmode="numeric"
+autocomplete="tel-national"
+maxlength="10"
+placeholder="10 digit mobile number">
+
+</div>
+
+
+<div
+id="gate-recaptcha-container"
+style="margin-top:12px">
+</div>
+
+
+<button
+id="gateSendOtpButton"
+class="primary"
+onclick="sendOTP()">
+📩 Send OTP
+</button>
+
+
+<div
+id="gateOtpBox"
+class="hidden"
+style="margin-top:15px;text-align:left">
+
+<label>
+Enter OTP
+</label>
+
+<input
+id="gateOtpCode"
+inputmode="numeric"
+autocomplete="one-time-code"
+placeholder="6 digit OTP"
+maxlength="6"
+style="margin-top:7px">
+
+<button
+class="primary green"
+onclick="verifyOTP()">
+✅ Verify OTP
+</button>
+
+<div class="otp-note">
+OTP आपके mobile पर SMS से आएगा.
+</div>
+
+</div>
+
+
+<div
+id="gateError"
+class="error-box hidden">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- IMAGE VIEWER -->
+
+<div
+id="viewer"
+class="viewer">
 
 <div class="viewer-top">
 
-<div
-id="viewerTitle"
-class="viewer-title">
+<div id="viewerTitle">
 Car Photos
 </div>
 
@@ -1200,10 +1332,6 @@ crossorigin="">
 
 
 <script type="module">
-
-/* =========================================================
-   FIREBASE
-========================================================= */
 
 import {
 initializeApp
@@ -1260,178 +1388,177 @@ const auth=getAuth(app);
 
 const db=getFirestore(app);
 
+
 let confirmationResult=null;
-
 let recaptchaVerifier=null;
+let recaptchaTarget=null;
+let bookingInProgress=false;
 
 
-/* =========================================================
-   HYDERABAD LOCATIONS
-========================================================= */
+/* LOCATIONS */
 
 const HYDERABAD_CENTER=[
 17.3850,
 78.4867
 ];
 
+
 const HYDERABAD_LOCATIONS={
 
-"nampally":{
-lat:17.3930,
-lon:78.4668,
-name:"Nampally, Hyderabad, Telangana, India"
-},
+"nampally":[
+17.3930,
+78.4668,
+"Nampally, Hyderabad, Telangana, India"
+],
 
-"nampally metro":{
-lat:17.3930,
-lon:78.4668,
-name:"Nampally Metro Station, Hyderabad, Telangana, India"
-},
+"nampally metro":[
+17.3930,
+78.4668,
+"Nampally Metro Station, Hyderabad, Telangana, India"
+],
 
-"nampally metro station":{
-lat:17.3930,
-lon:78.4668,
-name:"Nampally Metro Station, Hyderabad, Telangana, India"
-},
+"nampally metro station":[
+17.3930,
+78.4668,
+"Nampally Metro Station, Hyderabad, Telangana, India"
+],
 
-"miyapur":{
-lat:17.4969,
-lon:78.3498,
-name:"Miyapur, Hyderabad, Telangana, India"
-},
+"miyapur":[
+17.4969,
+78.3498,
+"Miyapur, Hyderabad, Telangana, India"
+],
 
-"maya pur":{
-lat:17.4969,
-lon:78.3498,
-name:"Miyapur, Hyderabad, Telangana, India"
-},
+"maya pur":[
+17.4969,
+78.3498,
+"Miyapur, Hyderabad, Telangana, India"
+],
 
-"mayapur":{
-lat:17.4969,
-lon:78.3498,
-name:"Miyapur, Hyderabad, Telangana, India"
-},
+"mayapur":[
+17.4969,
+78.3498,
+"Miyapur, Hyderabad, Telangana, India"
+],
 
-"ameerpet":{
-lat:17.4375,
-lon:78.4483,
-name:"Ameerpet, Hyderabad, Telangana, India"
-},
+"ameerpet":[
+17.4375,
+78.4483,
+"Ameerpet, Hyderabad, Telangana, India"
+],
 
-"kukatpally":{
-lat:17.4849,
-lon:78.4138,
-name:"Kukatpally, Hyderabad, Telangana, India"
-},
+"kukatpally":[
+17.4849,
+78.4138,
+"Kukatpally, Hyderabad, Telangana, India"
+],
 
-"kondapur":{
-lat:17.4583,
-lon:78.3670,
-name:"Kondapur, Hyderabad, Telangana, India"
-},
+"kondapur":[
+17.4583,
+78.3670,
+"Kondapur, Hyderabad, Telangana, India"
+],
 
-"madhapur":{
-lat:17.4483,
-lon:78.3915,
-name:"Madhapur, Hyderabad, Telangana, India"
-},
+"madhapur":[
+17.4483,
+78.3915,
+"Madhapur, Hyderabad, Telangana, India"
+],
 
-"gachibowli":{
-lat:17.4401,
-lon:78.3489,
-name:"Gachibowli, Hyderabad, Telangana, India"
-},
+"gachibowli":[
+17.4401,
+78.3489,
+"Gachibowli, Hyderabad, Telangana, India"
+],
 
-"hitech city":{
-lat:17.4435,
-lon:78.3772,
-name:"HITEC City, Hyderabad, Telangana, India"
-},
+"hitech city":[
+17.4435,
+78.3772,
+"HITEC City, Hyderabad, Telangana, India"
+],
 
-"secunderabad":{
-lat:17.4399,
-lon:78.4983,
-name:"Secunderabad, Telangana, India"
-},
+"secunderabad":[
+17.4399,
+78.4983,
+"Secunderabad, Telangana, India"
+],
 
-"banjara hills":{
-lat:17.4156,
-lon:78.4347,
-name:"Banjara Hills, Hyderabad, Telangana, India"
-},
+"banjara hills":[
+17.4156,
+78.4347,
+"Banjara Hills, Hyderabad, Telangana, India"
+],
 
-"jubilee hills":{
-lat:17.4325,
-lon:78.4071,
-name:"Jubilee Hills, Hyderabad, Telangana, India"
-},
+"jubilee hills":[
+17.4325,
+78.4071,
+"Jubilee Hills, Hyderabad, Telangana, India"
+],
 
-"lb nagar":{
-lat:17.3457,
-lon:78.5522,
-name:"LB Nagar, Hyderabad, Telangana, India"
-},
+"lb nagar":[
+17.3457,
+78.5522,
+"LB Nagar, Hyderabad, Telangana, India"
+],
 
-"uppal":{
-lat:17.4010,
-lon:78.5591,
-name:"Uppal, Hyderabad, Telangana, India"
-},
+"uppal":[
+17.4010,
+78.5591,
+"Uppal, Hyderabad, Telangana, India"
+],
 
-"mehdipatnam":{
-lat:17.3949,
-lon:78.4313,
-name:"Mehdipatnam, Hyderabad, Telangana, India"
-},
+"mehdipatnam":[
+17.3949,
+78.4313,
+"Mehdipatnam, Hyderabad, Telangana, India"
+],
 
-"tolichowki":{
-lat:17.3970,
-lon:78.4160,
-name:"Tolichowki, Hyderabad, Telangana, India"
-},
+"tolichowki":[
+17.3970,
+78.4160,
+"Tolichowki, Hyderabad, Telangana, India"
+],
 
-"dilsukhnagar":{
-lat:17.3688,
-lon:78.5247,
-name:"Dilsukhnagar, Hyderabad, Telangana, India"
-},
+"dilsukhnagar":[
+17.3688,
+78.5247,
+"Dilsukhnagar, Hyderabad, Telangana, India"
+],
 
-"begumpet":{
-lat:17.4439,
-lon:78.4623,
-name:"Begumpet, Hyderabad, Telangana, India"
-},
+"begumpet":[
+17.4439,
+78.4623,
+"Begumpet, Hyderabad, Telangana, India"
+],
 
-"malakpet":{
-lat:17.3731,
-lon:78.5016,
-name:"Malakpet, Hyderabad, Telangana, India"
-},
+"malakpet":[
+17.3731,
+78.5016,
+"Malakpet, Hyderabad, Telangana, India"
+],
 
-"attapur":{
-lat:17.3699,
-lon:78.4250,
-name:"Attapur, Hyderabad, Telangana, India"
-},
+"attapur":[
+17.3699,
+78.4250,
+"Attapur, Hyderabad, Telangana, India"
+],
 
-"manikonda":{
-lat:17.4050,
-lon:78.3830,
-name:"Manikonda, Hyderabad, Telangana, India"
-},
+"manikonda":[
+17.4050,
+78.3830,
+"Manikonda, Hyderabad, Telangana, India"
+],
 
-"shamshabad":{
-lat:17.2510,
-lon:78.4294,
-name:"Shamshabad, Telangana, India"
-}
+"shamshabad":[
+17.2510,
+78.4294,
+"Shamshabad, Telangana, India"
+]
 
 };
 
 
-/* =========================================================
-   SAMPLE CARS
-========================================================= */
+/* SAMPLE CARS */
 
 const buyCars=[{
 
@@ -1461,264 +1588,196 @@ photos:[
 
 }];
 
+
 const sellCars=[];
 
 
-/* =========================================================
-   SECTIONS
-========================================================= */
+/* ERROR */
 
-window.showSection=function(section,button){
+function showError(message){
 
-[
-"buy",
-"sell",
-"cab",
-"account"
-].forEach(x=>{
+const box=
+document.getElementById("gateError");
 
-const el=document.getElementById(
-x+"Section"
-);
+box.textContent=message;
 
-if(el){
-el.classList.add("hidden");
-}
-
-});
-
-
-const selected=document.getElementById(
-section+"Section"
-);
-
-if(selected){
-selected.classList.remove("hidden");
-}
-
-
-document.querySelectorAll(".tab")
-.forEach(b=>b.classList.remove("active"));
-
-
-if(button){
-button.classList.add("active");
-}
-
-
-if(section==="cab"){
-
-setTimeout(()=>{
-
-if(routeMap){
-routeMap.invalidateSize();
-}
-
-},300);
+box.classList.remove("hidden");
 
 }
 
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-};
-
-
-window.showSectionByName=function(section){
-
-const buttons=document.querySelectorAll(".tab");
-
-const index=
-section==="buy"
-?0
-:section==="sell"
-?1
-:2;
-
-showSection(
-section,
-buttons[index]
-);
-
-};
-
-
-window.showHome=function(){
-
-showSectionByName("buy");
-
-};
-
-
-window.showAccount=function(){
-
-[
-"buy",
-"sell",
-"cab"
-].forEach(x=>{
+function clearError(){
 
 document.getElementById(
-x+"Section"
+"gateError"
 ).classList.add("hidden");
 
-});
+}
 
 
-document.getElementById(
-"accountSection"
-).classList.remove("hidden");
-
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-
-setTimeout(()=>{
-setupRecaptcha();
-},100);
-
-};
-
-
-/* =========================================================
-   OTP LOGIN
-========================================================= */
+/* RECAPTCHA */
 
 function resetRecaptcha(){
 
 if(recaptchaVerifier){
 
 try{
-
 recaptchaVerifier.clear();
-
 }
-catch(e){
-
-console.log(e);
+catch(e){}
 
 }
 
 recaptchaVerifier=null;
+recaptchaTarget=null;
+
+[
+"gate-recaptcha-container",
+"account-recaptcha-container"
+].forEach(id=>{
+
+const element=
+document.getElementById(id);
+
+if(element){
+element.innerHTML="";
+}
+
+});
 
 }
 
-const container=
-document.getElementById(
-"recaptcha-container"
-);
 
-if(container){
+async function setupRecaptcha(targetId){
 
-container.innerHTML="";
-
-}
-
-}
-
-
-function setupRecaptcha(){
-
-if(recaptchaVerifier){
+if(
+recaptchaVerifier &&
+recaptchaTarget===targetId
+){
 return;
 }
 
+resetRecaptcha();
 
-try{
+recaptchaTarget=targetId;
 
 recaptchaVerifier=
 new RecaptchaVerifier(
 auth,
-"recaptcha-container",
+targetId,
 {
 size:"normal",
 
 callback:function(){
-
-console.log(
-"reCAPTCHA solved"
-);
-
+clearError();
 },
 
 "expired-callback":function(){
-
 resetRecaptcha();
-
 }
+
 }
 );
 
-
-recaptchaVerifier.render();
+await recaptchaVerifier.render();
 
 }
-catch(error){
 
-console.error(
-"reCAPTCHA error:",
-error
+
+/* PHONE */
+
+function getPhoneInput(){
+
+const gate=
+document.getElementById(
+"gatePhoneNumber"
 );
 
-}
+const account=
+document.getElementById(
+"accountPhoneNumber"
+);
+
+return !document
+.getElementById("loginGate")
+.classList.contains("hidden")
+?gate
+:account;
 
 }
 
 
 function normalizePhone(value){
 
-let phone=
+let number=
 (value||"")
 .replace(/\D/g,"");
 
+if(number.length===10){
 
-if(phone.length===10){
-
-return "+91"+phone;
+return "+91"+number;
 
 }
-
 
 if(
-phone.length===12 &&
-phone.startsWith("91")
+number.length===12 &&
+number.startsWith("91")
 ){
 
-return "+"+phone;
+return "+"+number;
 
 }
-
 
 return "";
 
 }
 
 
+function syncPhoneInputs(value){
+
+const number=
+value
+.replace(/\D/g,"")
+.replace(/^91/,"")
+.slice(0,10);
+
+document.getElementById(
+"gatePhoneNumber"
+).value=number;
+
+document.getElementById(
+"accountPhoneNumber"
+).value=number;
+
+}
+
+
+/* SEND OTP */
+
 window.sendOTP=async function(){
 
-const button=
-document.getElementById(
-"sendOtpButton"
-);
+clearError();
 
 const input=
-document.getElementById(
-"phoneNumber"
-);
+getPhoneInput();
 
 const phone=
 normalizePhone(input.value);
 
+const gateOpen=
+!document
+.getElementById("loginGate")
+.classList.contains("hidden");
+
+const button=
+gateOpen
+?document.getElementById("gateSendOtpButton")
+:document.getElementById("accountSendOtpButton");
+
 
 if(!phone){
 
-alert(
+showError(
 "Please enter a valid 10 digit mobile number."
 );
 
@@ -1727,36 +1786,23 @@ return;
 }
 
 
-input.value=
-phone.substring(3);
+syncPhoneInputs(phone);
 
-
-if(button){
 button.disabled=true;
-button.textContent="⏳ Sending OTP...";
-}
+
+button.textContent=
+"⏳ Sending OTP...";
 
 
 try{
 
-/*
-हर OTP request से पहले
-fresh reCAPTCHA रखें.
-*/
-
-resetRecaptcha();
-
-setupRecaptcha();
+const target=
+gateOpen
+?"gate-recaptcha-container"
+:"account-recaptcha-container";
 
 
-/*
-reCAPTCHA render होने के लिए
-थोड़ा समय.
-*/
-
-await new Promise(
-resolve=>setTimeout(resolve,500)
-);
+await setupRecaptcha(target);
 
 
 confirmationResult=
@@ -1768,7 +1814,11 @@ recaptchaVerifier
 
 
 document.getElementById(
-"otpBox"
+"gateOtpBox"
+).classList.remove("hidden");
+
+document.getElementById(
+"accountOtpBox"
 ).classList.remove("hidden");
 
 
@@ -1780,67 +1830,56 @@ alert(
 catch(error){
 
 console.error(
-"OTP ERROR:",
+"OTP ERROR",
 error
 );
 
-
 resetRecaptcha();
 
-
-let message=
-"OTP could not be sent.";
-
-
-if(error&&error.code){
-
-message+=
-"\n\nError: "+
-error.code;
-
-}
-
-
-if(error&&error.message){
-
-message+=
+showError(
+"OTP could not be sent.\n"+
+(error.code||"")+
 "\n"+
-error.message;
-
-}
-
-
-alert(message);
+(error.message||"")
+);
 
 }
 finally{
 
-if(button){
-
 button.disabled=false;
 
 button.textContent=
-"Send OTP";
-
-}
+"📩 Send OTP";
 
 }
 
 };
 
 
+/* VERIFY OTP */
+
 window.verifyOTP=async function(){
 
+clearError();
+
+const gateOpen=
+!document
+.getElementById("loginGate")
+.classList.contains("hidden");
+
 const otp=
-document.getElementById(
-"otpCode"
-).value
+(
+gateOpen
+?document.getElementById("gateOtpCode")
+:document.getElementById("accountOtpCode")
+)
+.value
 .trim();
 
 
 if(!/^\d{6}$/.test(otp)){
 
-alert(
+showError(
 "Please enter the 6 digit OTP."
 );
 
@@ -1851,7 +1890,7 @@ return;
 
 if(!confirmationResult){
 
-alert(
+showError(
 "Please request OTP first."
 );
 
@@ -1866,20 +1905,24 @@ await confirmationResult.confirm(
 otp
 );
 
+confirmationResult=null;
+
+resetRecaptcha();
+
 alert(
-"Login successful."
+"✅ Login successful."
 );
 
 }
 catch(error){
 
 console.error(
-"VERIFY OTP ERROR:",
+"VERIFY OTP ERROR",
 error
 );
 
-alert(
-"Invalid OTP.\n\n"+
+showError(
+"Invalid OTP. "+
 (error.message||"Please try again.")
 );
 
@@ -1887,6 +1930,8 @@ alert(
 
 };
 
+
+/* LOGOUT */
 
 window.logoutUser=async function(){
 
@@ -1898,14 +1943,6 @@ confirmationResult=null;
 
 resetRecaptcha();
 
-document.getElementById(
-"otpCode"
-).value="";
-
-document.getElementById(
-"otpBox"
-).classList.add("hidden");
-
 }
 catch(error){
 
@@ -1916,18 +1953,15 @@ console.error(error);
 };
 
 
+/* AUTH STATE */
+
 onAuthStateChanged(
 auth,
 user=>{
 
-const loginBox=
+const gate=
 document.getElementById(
-"loginBox"
-);
-
-const otpBox=
-document.getElementById(
-"otpBox"
+"loginGate"
 );
 
 const status=
@@ -1935,23 +1969,37 @@ document.getElementById(
 "loginStatus"
 );
 
+const accountLogin=
+document.getElementById(
+"accountLoginBox"
+);
+
+const accountOtp=
+document.getElementById(
+"accountOtpBox"
+);
+
 const logout=
 document.getElementById(
-"logoutBtn"
+"accountLogoutBtn"
 );
 
 
 if(user){
 
-loginBox.classList.add(
-"hidden"
-);
-
-otpBox.classList.add(
+gate.classList.add(
 "hidden"
 );
 
 status.classList.remove(
+"hidden"
+);
+
+accountLogin.classList.add(
+"hidden"
+);
+
+accountOtp.classList.add(
 "hidden"
 );
 
@@ -1967,11 +2015,19 @@ status.textContent=
 }
 else{
 
-loginBox.classList.remove(
+gate.classList.remove(
 "hidden"
 );
 
 status.classList.add(
+"hidden"
+);
+
+accountLogin.classList.remove(
+"hidden"
+);
+
+accountOtp.classList.add(
 "hidden"
 );
 
@@ -1984,9 +2040,118 @@ logout.classList.add(
 });
 
 
-/* =========================================================
-   BUY
-========================================================= */
+/* SECTIONS */
+
+window.showSection=function(
+section,
+button
+){
+
+[
+"buy",
+"sell",
+"cab",
+"account"
+].forEach(x=>{
+
+const element=
+document.getElementById(
+x+"Section"
+);
+
+if(element){
+element.classList.add("hidden");
+}
+
+});
+
+
+const selected=
+document.getElementById(
+section+"Section"
+);
+
+if(selected){
+selected.classList.remove(
+"hidden"
+);
+}
+
+
+document.querySelectorAll(
+".tab"
+).forEach(
+b=>b.classList.remove("active")
+);
+
+
+if(button){
+button.classList.add("active");
+}
+
+
+if(section==="cab"){
+
+setTimeout(()=>{
+
+if(routeMap){
+routeMap.invalidateSize();
+}
+
+},250);
+
+}
+
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+};
+
+
+window.showSectionByName=
+function(section){
+
+const buttons=
+document.querySelectorAll(
+".tab"
+);
+
+const button=
+section==="buy"
+?buttons[0]
+:section==="sell"
+?buttons[1]
+:buttons[2];
+
+showSection(
+section,
+button
+);
+
+};
+
+
+window.showHome=function(){
+
+showSectionByName("buy");
+
+};
+
+
+window.showAccount=function(){
+
+showSection(
+"account",
+null
+);
+
+};
+
+
+/* BUY */
 
 function renderBuyCars(list){
 
@@ -2016,15 +2181,12 @@ document.createElement("div");
 
 card.className="property";
 
-const photo=
-car.photos&&car.photos.length
-?car.photos[0]
-:"";
-
 
 card.innerHTML=`
 
-<img src="${photo}" alt="${car.title}">
+<img
+src="${car.photos?.[0]||""}"
+alt="${car.title}">
 
 <div class="property-body">
 
@@ -2037,8 +2199,9 @@ ${car.status}
 </span>
 
 <div class="spec">
-${car.type} • ${car.year} • ${car.fuel}
-• ${car.transmission} • ${car.seats}
+${car.type} • ${car.year} •
+${car.fuel} • ${car.transmission} •
+${car.seats}
 </div>
 
 <div class="spec">
@@ -2075,24 +2238,24 @@ document.getElementById(
 .trim();
 
 
-const filtered=
+renderBuyCars(
 buyCars.filter(car=>
-
-car.title.toLowerCase().includes(search)
+car.title
+.toLowerCase()
+.includes(search)
 ||
-car.type.toLowerCase().includes(search)
-
+car.type
+.toLowerCase()
+.includes(search)
+)
 );
-
-
-renderBuyCars(filtered);
 
 };
 
 
 window.searchByLocation=function(){
 
-const location=
+const search=
 document.getElementById(
 "buyLocation"
 ).value
@@ -2100,33 +2263,22 @@ document.getElementById(
 .trim();
 
 
-if(!location){
+renderBuyCars(
 
-renderBuyCars(buyCars);
-
-return;
-
-}
-
-
-const filtered=
-buyCars.filter(car=>
-
+!search
+?buyCars
+:buyCars.filter(car=>
 (car.location||"")
 .toLowerCase()
-.includes(location)
+.includes(search)
+)
 
 );
-
-
-renderBuyCars(filtered);
 
 };
 
 
-/* =========================================================
-   SELL
-========================================================= */
+/* SELL */
 
 window.previewPhotos=function(){
 
@@ -2241,9 +2393,10 @@ return;
 }
 
 
-const car={
+sellCars.push({
 
-id:"sell-"+Date.now(),
+id:
+"sell-"+Date.now(),
 
 title:
 brand+" "+model,
@@ -2279,13 +2432,10 @@ status:
 location:
 "Hyderabad, Telangana",
 
-photoCount:
-photos.length
+photos:[]
 
-};
+});
 
-
-sellCars.push(car);
 
 renderSellCars();
 
@@ -2343,6 +2493,7 @@ ${car.price||""}
 </div>
 
 </div>
+
 `;
 
 box.appendChild(card);
@@ -2352,16 +2503,16 @@ box.appendChild(card);
 }
 
 
-/* =========================================================
-   PHOTO VIEWER
-========================================================= */
+/* VIEWER */
 
 let currentMedia=[];
-
 let currentIndex=0;
 
 
-window.openCarViewer=function(id,type){
+window.openCarViewer=function(
+id,
+type
+){
 
 const car=
 type==="buy"
@@ -2380,17 +2531,12 @@ return;
 }
 
 
-currentMedia=[];
-
-
-(car.photos||[]).forEach(photo=>{
-
-currentMedia.push({
+currentMedia=
+(car.photos||[])
+.map(src=>({
 type:"image",
-src:photo
-});
-
-});
+src:src
+}));
 
 
 if(!currentMedia.length){
@@ -2440,18 +2586,21 @@ document.getElementById(
 "viewerThumbs"
 );
 
+const media=
+currentMedia[currentIndex];
 
-image.classList.add("hidden");
 
-video.classList.add("hidden");
+image.classList.add(
+"hidden"
+);
+
+video.classList.add(
+"hidden"
+);
 
 video.pause();
 
 video.removeAttribute("src");
-
-
-const media=
-currentMedia[currentIndex];
 
 
 if(!media){
@@ -2461,7 +2610,8 @@ return;
 
 if(media.type==="image"){
 
-image.src=media.src;
+image.src=
+media.src;
 
 image.classList.remove(
 "hidden"
@@ -2470,7 +2620,8 @@ image.classList.remove(
 }
 else{
 
-video.src=media.src;
+video.src=
+media.src;
 
 video.classList.remove(
 "hidden"
@@ -2492,9 +2643,11 @@ document.createElement(
 
 button.className=
 "thumb"+
-(index===currentIndex
+(
+index===currentIndex
 ?" active"
-:"");
+:""
+);
 
 
 if(item.type==="image"){
@@ -2534,10 +2687,12 @@ return;
 
 currentIndex=
 (
-currentIndex-1+
+currentIndex-
+1+
 currentMedia.length
 )
-%currentMedia.length;
+%
+currentMedia.length;
 
 renderViewer();
 
@@ -2552,9 +2707,11 @@ return;
 
 currentIndex=
 (
-currentIndex+1
+currentIndex+
+1
 )
-%currentMedia.length;
+%
+currentMedia.length;
 
 renderViewer();
 
@@ -2565,7 +2722,9 @@ window.closeViewer=function(){
 
 document.getElementById(
 "viewer"
-).classList.remove("show");
+).classList.remove(
+"show"
+);
 
 const video=
 document.getElementById(
@@ -2579,31 +2738,30 @@ video.removeAttribute("src");
 };
 
 
-/* =========================================================
-   CAB TYPE
-========================================================= */
+/* CAB TYPE */
 
-window.selectCabType=function(button){
+window.selectCabType=
+function(button){
 
 button.parentElement
-.querySelectorAll(".vehicle-btn")
-.forEach(b=>
-b.classList.remove("active")
+.querySelectorAll(
+".vehicle-btn"
+)
+.forEach(
+b=>b.classList.remove("active")
 );
 
-button.classList.add("active");
+button.classList.add(
+"active"
+);
 
 };
 
 
-/* =========================================================
-   MAP
-========================================================= */
+/* MAP */
 
 let routeMap=null;
-
 let routeMarkers=[];
-
 let routeLine=null;
 
 
@@ -2634,9 +2792,7 @@ attribution:
 }
 
 
-/* =========================================================
-   GEOCODE
-========================================================= */
+/* GEOCODE */
 
 async function geocodePlace(place){
 
@@ -2653,14 +2809,8 @@ throw new Error(
 }
 
 
-const clean=
-original
-.replace(/\s+/g," ")
-.trim();
-
-
 const key=
-clean
+original
 .toLowerCase()
 .replace(/,/g," ")
 .replace(/\s+/g," ")
@@ -2669,16 +2819,14 @@ clean
 
 if(HYDERABAD_LOCATIONS[key]){
 
-const location=
+const x=
 HYDERABAD_LOCATIONS[key];
 
 return{
 
-lat:Number(location.lat),
-
-lon:Number(location.lon),
-
-name:location.name
+lat:x[0],
+lon:x[1],
+name:x[2]
 
 };
 
@@ -2688,32 +2836,31 @@ name:location.name
 const matchedKey=
 Object.keys(
 HYDERABAD_LOCATIONS
-).find(k=>
-key.includes(k)
+).find(
+k=>key.includes(k)
 );
 
 
 if(matchedKey){
 
-const location=
+const x=
 HYDERABAD_LOCATIONS[
 matchedKey
 ];
 
 return{
 
-lat:Number(location.lat),
-
-lon:Number(location.lon),
-
-name:location.name
+lat:x[0],
+lon:x[1],
+name:x[2]
 
 };
 
 }
 
 
-let query=clean;
+let query=
+original;
 
 const lower=
 query.toLowerCase();
@@ -2729,7 +2876,6 @@ query+=
 
 }
 else if(
-lower.includes("hyderabad") &&
 !lower.includes("india")
 ){
 
@@ -2738,7 +2884,8 @@ query+=", India";
 }
 
 
-const url=
+const response=
+await fetch(
 "https://nominatim.openstreetmap.org/search"+
 "?format=jsonv2"+
 "&limit=5"+
@@ -2746,11 +2893,8 @@ const url=
 "&countrycodes=in"+
 "&accept-language=en"+
 "&q="+
-encodeURIComponent(query);
-
-
-const response=
-await fetch(url);
+encodeURIComponent(query)
+);
 
 
 if(!response.ok){
@@ -2767,7 +2911,7 @@ await response.json();
 
 
 if(
-!Array.isArray(data) ||
+!Array.isArray(data)||
 !data.length
 ){
 
@@ -2779,42 +2923,17 @@ throw new Error(
 
 
 const result=
-data.find(item=>{
-
-const text=
-(
-item.display_name||""
-).toLowerCase();
-
-return(
-text.includes("hyderabad")||
-text.includes("telangana")
-);
-
-})||data[0];
-
-
-const lat=Number(result.lat);
-
-const lon=Number(result.lon);
-
-
-if(
-!Number.isFinite(lat)||
-!Number.isFinite(lon)
-){
-
-throw new Error(
-"Invalid location coordinates."
-);
-
-}
+data.find(item=>
+(item.display_name||"")
+.toLowerCase()
+.includes("hyderabad")
+)||data[0];
 
 
 return{
 
-lat,
-lon,
+lat:Number(result.lat),
+lon:Number(result.lon),
 name:
 result.display_name||original
 
@@ -2823,23 +2942,16 @@ result.display_name||original
 }
 
 
-/* =========================================================
-   CLEAR ROUTE
-========================================================= */
+/* CLEAR ROUTE */
 
 function clearRoute(){
 
-if(routeMarkers.length){
-
-routeMarkers.forEach(marker=>{
-
-routeMap.removeLayer(marker);
-
-});
+routeMarkers.forEach(
+marker=>
+routeMap.removeLayer(marker)
+);
 
 routeMarkers=[];
-
-}
 
 
 if(routeLine){
@@ -2855,26 +2967,24 @@ routeLine=null;
 }
 
 
-/* =========================================================
-   OSRM ROUTE
-========================================================= */
+/* ROUTE */
 
 async function getRoute(points){
 
 const coordinates=
-points.map(p=>
-p.lon+","+p.lat
-).join(";");
-
-
-const url=
-"https://router.project-osrm.org/route/v1/driving/"+
-coordinates+
-"?overview=full&geometries=geojson";
+points
+.map(
+p=>p.lon+","+p.lat
+)
+.join(";");
 
 
 const response=
-await fetch(url);
+await fetch(
+"https://router.project-osrm.org/route/v1/driving/"+
+coordinates+
+"?overview=full&geometries=geojson"
+);
 
 
 if(!response.ok){
@@ -2907,41 +3017,25 @@ return data.routes[0];
 }
 
 
-/* =========================================================
-   SHOW COMPLETE ROUTE
-========================================================= */
+/* SHOW ROUTE */
 
-window.showRouteMap=async function(){
+window.showRouteMap=
+async function(){
 
 const pickup=
 document.getElementById(
 "pickup"
 ).value.trim();
 
-
-const drop1=
-document.getElementById(
-"drop1"
-).value.trim();
-
-
-const drop2=
-document.getElementById(
-"drop2"
-).value.trim();
-
-
 const destination=
 document.getElementById(
 "destination"
 ).value.trim();
 
-
 const status=
 document.getElementById(
 "mapStatus"
 );
-
 
 const summary=
 document.getElementById(
@@ -2949,15 +3043,10 @@ document.getElementById(
 );
 
 
-if(
-!pickup||
-!drop1||
-!drop2||
-!destination
-){
+if(!pickup||!destination){
 
 alert(
-"Please enter Pickup, Drop 1, Drop 2 and Final Destination."
+"Please enter Pickup and Destination."
 );
 
 return;
@@ -2975,24 +3064,22 @@ routeMap.invalidateSize();
 
 clearRoute();
 
+
 summary.classList.add(
 "hidden"
 );
 
 
 status.textContent=
-"🔎 Finding all locations...";
+"🔎 Finding Pickup and Destination...";
 
 
 try{
 
-const points=await Promise.all([
+const points=
+await Promise.all([
 
 geocodePlace(pickup),
-
-geocodePlace(drop1),
-
-geocodePlace(drop2),
 
 geocodePlace(destination)
 
@@ -3011,13 +3098,12 @@ await getRoute(points);
 
 const labels=[
 "📍 Pickup",
-"🔵 Drop 1",
-"🟠 Drop 2",
-"🏁 Final Destination"
+"🏁 Destination"
 ];
 
 
-points.forEach((point,index)=>{
+points.forEach(
+(point,index)=>{
 
 const marker=
 L.marker([
@@ -3084,7 +3170,7 @@ minutes%60;
 
 
 const time=
-hours>0
+hours
 ?`${hours} hr ${mins} min`
 :`${mins} min`;
 
@@ -3109,7 +3195,6 @@ summary.classList.remove(
 status.textContent=
 "✅ Complete route found successfully.";
 
-
 }
 catch(error){
 
@@ -3121,12 +3206,7 @@ status.textContent=
 
 alert(
 "Complete route नहीं बन पाया.\n\n"+
-error.message+
-"\n\nExample:\n"+
-"Pickup: Nampally Metro Station\n"+
-"Drop 1: Ameerpet\n"+
-"Drop 2: Kukatpally\n"+
-"Final: Miyapur"
+error.message
 );
 
 }
@@ -3134,21 +3214,15 @@ error.message+
 };
 
 
-/* =========================================================
-   FINAL CAB BOOKING
-========================================================= */
+/* FINAL CAB BOOKING */
 
-let bookingInProgress=false;
-
-
-window.bookCab=async function(){
+window.bookCab=
+async function(){
 
 if(bookingInProgress){
 return;
 }
 
-
-/* LOGIN REQUIRED */
 
 const user=
 auth.currentUser;
@@ -3157,11 +3231,8 @@ auth.currentUser;
 if(!user){
 
 alert(
-"Please Login with OTP first.\n\n"+
-"Booking करने से पहले Customer Login जरूरी है."
+"Please Login with OTP first."
 );
-
-showAccount();
 
 return;
 
@@ -3183,23 +3254,11 @@ return;
 }
 
 
-/* LOCATIONS */
+/* ONLY PICKUP + DESTINATION */
 
 const pickup=
 document.getElementById(
 "pickup"
-).value.trim();
-
-
-const drop1=
-document.getElementById(
-"drop1"
-).value.trim();
-
-
-const drop2=
-document.getElementById(
-"drop2"
 ).value.trim();
 
 
@@ -3221,15 +3280,10 @@ document.getElementById(
 ).textContent.trim();
 
 
-if(
-!pickup||
-!drop1||
-!drop2||
-!destination
-){
+if(!pickup||!destination){
 
 alert(
-"Please enter Pickup, Drop 1, Drop 2 and Final Destination."
+"Please enter Pickup and Destination."
 );
 
 return;
@@ -3251,15 +3305,6 @@ return;
 }
 
 
-const distanceKm=
-Number.parseFloat(
-distanceText.replace(
-/[^\d.]/g,
-""
-)
-);
-
-
 bookingInProgress=true;
 
 
@@ -3269,21 +3314,24 @@ document.getElementById(
 );
 
 
-if(button){
-
 button.disabled=true;
 
 button.textContent=
 "⏳ Booking...";
 
-}
-
 
 try{
 
-const bookingData={
+const distanceKm=
+Number.parseFloat(
+distanceText.replace(
+/[^\d.]/g,
+""
+)
+);
 
-/* BOOKING IDENTIFICATION */
+
+const bookingData={
 
 cabId:
 "cab1",
@@ -3312,12 +3360,6 @@ user.uid,
 pickup:
 pickup,
 
-drop1:
-drop1,
-
-drop2:
-drop2,
-
 destination:
 destination,
 
@@ -3333,7 +3375,7 @@ estimatedTime:
 estimatedTime,
 
 
-/* DRIVER - ADMIN WILL ASSIGN */
+/* DRIVER */
 
 driverId:"",
 driverName:"",
@@ -3341,15 +3383,15 @@ driverMobile:"",
 driverCar:"",
 driverVehicleNumber:""
 
-
 };
 
 
-/* FIRESTORE */
-
 const docRef=
 await addDoc(
-collection(db,"cabBookings"),
+collection(
+db,
+"cabBookings"
+),
 bookingData
 );
 
@@ -3382,16 +3424,14 @@ error
 
 alert(
 "❌ Cab booking failed.\n\n"+
-(error.message||"Please try again.")
+(error.message||
+"Please try again.")
 );
 
 }
 finally{
 
 bookingInProgress=false;
-
-
-if(button){
 
 button.disabled=false;
 
@@ -3400,14 +3440,10 @@ button.textContent=
 
 }
 
-}
-
 };
 
 
-/* =========================================================
-   START
-========================================================= */
+/* START */
 
 renderBuyCars(
 buyCars
