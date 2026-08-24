@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#123c73">
+<meta name="description" content="Car Set U - Buy, Sell & Rent Four-Wheelers With Driver">
+<title>Car Set U - Buy • Sell • Rent</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+}
+
+header{
+  background:#123c73;
+  color:white;
+  padding:16px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:800;
+}
+
+.logo span{
+  color:#e53935;
+}
+
+.tagline{
+  margin-top:5px;
+  font-size:13px;
+}
+
+.lang{
+  padding:9px;
+  border-radius:8px;
+  border:0;
+  font-weight:bold;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:14px;
+}
+
+.card{
+  background:white;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.hero{
+  background:linear-gradient(135deg,#123c73,#1967d2);
+  color:white;
+  border-radius:18px;
+  padding:22px;
+  margin-bottom:14px;
+}
+
+.hero h1{
+  margin:0 0 8px;
+}
+
+.tabs{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.tab{
+  border:0;
+  padding:13px 6px;
+  border-radius:10px;
+  font-weight:bold;
+  background:#edf2f8;
+  cursor:pointer;
+}
+
+.tab.active{
+  background:#123c73;
+  color:white;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #ccd5e0;
+  border-radius:10px;
+  margin:6px 0 12px;
+  font-size:15px;
+}
+
+label{
+  font-weight:bold;
+  font-size:14px;
+}
+
+button{
+  cursor:pointer;
+}
+
+.primary{
+  width:100%;
+  background:#1769e0;
+  color:white;
+  border:0;
+  padding:14px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+.green{
+  background:#159447;
+}
+
+.orange{
+  background:#f28b20;
+}
+
+.vehicle{
+  display:grid;
+  grid-template-columns:130px 1fr;
+  gap:14px;
+  align-items:center;
+}
+
+.vehicle img{
+  width:100%;
+  height:95px;
+  object-fit:cover;
+  border-radius:12px;
+  background:#eee;
+}
+
+.price{
+  color:#1769e0;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#e8f6ed;
+  color:#13833d;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.package{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+
+.package button{
+  border:1px solid #ccd5e0;
+  background:white;
+  padding:12px 5px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+.package button.selected{
+  background:#123c73;
+  color:white;
+}
+
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.category{
+  border:1px solid #ccd5e0;
+  background:white;
+  padding:12px 5px;
+  border-radius:10px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.category.selected{
+  background:#123c73;
+  color:white;
+}
+
+.service-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.service{
+  border:1px solid #ccd5e0;
+  padding:12px;
+  border-radius:10px;
+  background:white;
+  font-weight:bold;
+  text-align:center;
+}
+
+.service.selected{
+  background:#1769e0;
+  color:white;
+}
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.feature{
+  background:#f5f8fc;
+  padding:10px;
+  border-radius:10px;
+  font-size:14px;
+}
+
+.notice{
+  background:#fff5e6;
+  border-left:4px solid #f28b20;
+  padding:12px;
+  border-radius:8px;
+  font-size:13px;
+}
+
+.map{
+  height:220px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#dcebd8,#eaf1f5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#123c73;
+  font-weight:bold;
+}
+
+.hidden{
+  display:none;
+}
+
+nav{
+  position:sticky;
+  bottom:0;
+  background:white;
+  border-top:1px solid #ddd;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  padding:7px;
+}
+
+nav button{
+  border:0;
+  background:white;
+  padding:9px 3px;
+  font-size:12px;
+}
+
+footer{
+  text-align:center;
+  color:#687386;
+  padding:20px;
+  font-size:12px;
+}
+
+@media(max-width:600px){
+
+  .vehicle{
+    grid-template-columns:100px 1fr;
+  }
+
+  .vehicle img{
+    height:80px;
+  }
+
+  .package{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .category-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="top">
+
+<div class="logo">
+🚗 CAR <span>SET U</span>
+</div>
+
+<select class="lang" id="language" onchange="changeLanguage()">
+<option value="en">English</option>
+<option value="hi">हिंदी</option>
+<option value="te">తెలుగు</option>
+</select>
+
+</div>
+
+<div class="tagline" id="tagline">
+Buy • Sell • Rent Four-Wheelers With Driver
+</div>
+
+</header>
+
+
+<main class="container">
+
+
+<section class="hero">
+
+<h1 id="heroTitle">
+Rent a Car With Driver
+</h1>
+
+<p id="heroText">
+4 Hours • 8 Hours • 12 Hours • 24 Hours • Intercity
+</p>
+
+</section>
+
+
+<section class="card">
+
+<div class="tabs">
+
+<button
+class="tab active"
+onclick="setMode('buy',this)"
+id="buyBtn">
+🚗 Buy
+</button>
+
+<button
+class="tab"
+onclick="setMode('sell',this)"
+id="sellBtn">
+💰 Sell
+</button>
+
+<button
+class="tab"
+onclick="setMode('rent',this)"
+id="rentBtn">
+👨‍✈️ Rent With Driver
+</button>
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h3 id="serviceTitle">
+Rental Type
+</h3>
+
+<div class="service-grid">
+
+<button
+class="service selected"
+onclick="selectService(this,'Local')">
+📍 Local
+</button>
+
+<button
+class="service"
+onclick="selectService(this,'Intercity')">
+🛣️ Intercity / Outstation
+</button>
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h3 id="categoryTitle">
+Vehicle Type
+</h3>
+
+<div class="category-grid">
+
+<button
+class="category selected"
+onclick="selectCategory(this,'All')">
+🚘 All
+</button>
+
+<button
+class="category"
+onclick="selectCategory(this,'Hatchback')">
+🚗 Hatchback
+</button>
+
+<button
+class="category"
+onclick="selectCategory(this,'Sedan')">
+🚙 Sedan
+</button>
+
+<button
+class="category"
+onclick="selectCategory(this,'SUV')">
+🚘 SUV
+</button>
+
+<button
+class="category"
+onclick="selectCategory(this,'MUV')">
+🚐 MUV
+</button>
+
+<button
+class="category"
+onclick="selectCategory(this,'Luxury')">
+👑 Luxury
+</button>
+
+<button
+class="category"
+onclick="selectCategory(this,'Tempo Traveller')">
+🚌 Tempo Traveller
+</button>
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<label id="locationLabel">
+Pickup / Location
+</label>
+
+<input
+id="location"
+placeholder="Area, City or Location">
+
+
+<label id="destinationLabel">
+Destination
+</label>
+
+<input
+id="destination"
+placeholder="Destination for Intercity">
+
+
+<label id="searchLabel">
+Search Vehicle
+</label>
+
+<input
+id="search"
+placeholder="Brand, Model or Vehicle">
+
+
+<button
+class="primary"
+onclick="searchCars()"
+id="searchBtn">
+Search
+</button>
+
+</section>
+
+
+<section class="card">
+
+<h3 id="featuredTitle">
+Featured Four-Wheelers
+</h3>
+
+
+<div class="vehicle">
+
+<img
+src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=500&q=80">
+
+<div>
+
+<h3>
+Toyota Innova Crysta
+</h3>
+
+<span class="badge">
+With Driver
+</span>
+
+<p>
+MUV • 2022 • Diesel • Automatic • 7 Seater
+</p>
+
+<div class="price">
+₹3,200 / 8 Hours
+</div>
+
+</div>
+
+</div>
+
+<br>
+
+<button
+class="primary"
+onclick="showDetails()">
+View Details
+</button>
+
+</section>
+
+
+<section
+class="card hidden"
+id="details">
+
+<h2>
+Toyota Innova Crysta
+</h2>
+
+
+<div class="vehicle">
+
+<img
+src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=500&q=80">
+
+<div>
+
+<p>
+<b>Category:</b> MUV
+</p>
+
+<p>
+<b>Fuel:</b> Diesel
+</p>
+
+<p>
+<b>Seats:</b> 7
+</p>
+
+<p>
+<b>Transmission:</b> Automatic
+</p>
+
+<p>
+<b>Driver:</b> Verified Driver
+</p>
+
+</div>
+
+</div>
+
+
+<h3>
+Rental Duration
+</h3>
+
+
+<div class="package">
+
+<button
+onclick="selectPackage(this,'4 Hours')">
+4 Hours<br>
+₹1,800
+</button>
+
+<button
+class="selected"
+onclick="selectPackage(this,'8 Hours')">
+8 Hours<br>
+₹3,200
+</button>
+
+<button
+onclick="selectPackage(this,'12 Hours')">
+12 Hours<br>
+₹4,200
+</button>
+
+<button
+onclick="selectPackage(this,'24 Hours')">
+24 Hours<br>
+₹5,800
+</button>
+
+</div>
+
+
+<h3>
+Rental Type
+</h3>
+
+<div class="service-grid">
+
+<button
+class="service selected"
+onclick="selectService(this,'Local')">
+📍 Local
+</button>
+
+<button
+class="service"
+onclick="selectService(this,'Intercity')">
+🛣️ Intercity
+</button>
+
+</div>
+
+
+<h3>
+Vehicle Information
+</h3>
+
+
+<div class="features">
+
+<div class="feature">
+📅 Year: 2022
+</div>
+
+<div class="feature">
+⛽ Diesel
+</div>
+
+<div class="feature">
+⚙️ Automatic
+</div>
+
+<div class="feature">
+👥 7 Seater
+</div>
+
+<div class="feature">
+🚐 MUV
+</div>
+
+<div class="feature">
+❄️ AC
+</div>
+
+<div class="feature">
+📸 Up to 6 Photos
+</div>
+
+<div class="feature">
+🎥 1 Video
+</div>
+
+</div>
+
+
+<h3>
+Driver
+</h3>
+
+<div class="card">
+
+<b>
+👨‍✈️ Verified Driver
+</b>
+
+<p>
+Driver details will be shown after confirmed booking.
+</p>
+
+<p>
+⭐ Rating: 4.8
+</p>
+
+<p>
+✅ Driving Licence Verified
+</p>
+
+</div>
+
+
+<h3>
+Live Location
+</h3>
+
+<div class="map">
+
+📍 Live Location<br>
+Driver's real-time location will appear here
+after trip starts.
+
+</div>
+
+
+<br>
+
+
+<div class="notice">
+
+🔐 Customer Safety:<br>
+Owner/Driver का private mobile number
+publicly display नहीं होगा।
+
+<br><br>
+
+📍 Live tracking सिर्फ active rental trip के दौरान
+enable रहेगा।
+
+</div>
+
+
+<br>
+
+
+<button
+class="primary green"
+onclick="bookCar()">
+
+Book Car With Driver
+
+</button>
+
+</section>
+
+
+<section
+class="card hidden"
+id="booking">
+
+<h2>
+Booking Details
+</h2>
+
+
+<label>
+Your Name
+</label>
+
+<input
+id="customerName"
+placeholder="Enter your name">
+
+
+<label>
+Mobile Number
+</label>
+
+<input
+id="customerMobile"
+type="tel"
+placeholder="Enter mobile number">
+
+
+<label>
+Pickup Location
+</label>
+
+<input
+id="pickup"
+placeholder="Pickup location">
+
+
+<label>
+Destination
+</label>
+
+<input
+id="destinationBooking"
+placeholder="Destination">
+
+
+<label>
+Rental Type
+</label>
+
+<select id="rentalType">
+
+<option>
+Local
+</option>
+
+<option>
+Intercity / Outstation
+</option>
+
+</select>
+
+
+<label>
+Rental Duration
+</label>
+
+<select id="duration">
+
+<option>
+4 Hours
+</option>
+
+<option selected>
+8 Hours
+</option>
+
+<option>
+12 Hours
+</option>
+
+<option>
+24 Hours
+</option>
+
+</select>
+
+
+<label>
+Vehicle Category
+</label>
+
+<select id="vehicleCategory">
+
+<option>
+Hatchback
+</option>
+
+<option>
+Sedan
+</option>
+
+<option>
+SUV
+</option>
+
+<option>
+MUV
+</option>
+
+<option>
+Luxury
+</option>
+
+<option>
+Tempo Traveller
+</option>
+
+</select>
+
+
+<button
+class="primary green"
+onclick="submitBooking()">
+
+Submit Booking
+
+</button>
+
+
+<p id="bookingStatus"></p>
+
+</section>
+
+
+<section
+class="card hidden"
+id="trip">
+
+<h2>
+🚗 My Active Trip
+</h2>
+
+<p>
+<b>Vehicle:</b>
+Toyota Innova Crysta
+</p>
+
+<p>
+<b>Category:</b>
+MUV
+</p>
+
+<p>
+<b>Rental:</b>
+8 Hours
+</p>
+
+<p>
+<b>Status:</b>
+<span class="badge">
+Trip Active
+</span>
+</p>
+
+
+<h3>
+📍 Live Location
+</h3>
+
+
+<div class="map">
+
+🔴 DRIVER LIVE LOCATION<br>
+Real-time GPS will connect here
+through Firebase.
+
+</div>
+
+
+<br>
+
+
+<div class="notice">
+
+Live tracking will be active only
+during the rental trip.
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<nav>
+
+<button onclick="goHome()">
+🏠<br>
+Home
+</button>
+
+<button onclick="showDetails()">
+🔍<br>
+Search
+</button>
+
+<button onclick="showTrip()">
+📍<br>
+My Trip
+</button>
+
+<button onclick="showBooking()">
+📋<br>
+Booking
+</button>
+
+</nav>
+
+
+<footer>
+
+<b>
+CAR SET U
+</b>
+
+<br>
+
+Buy • Sell • Rent • Four-Wheelers
+
+<br>
+
+Local • Intercity • Verified Drivers • Live Tracking
+
+<br>
+
+English • हिंदी • తెలుగు
+
+</footer>
+
+
+<script>
+
+let selectedPackage="8 Hours";
+let selectedService="Local";
+let selectedCategory="All";
+
+
+const translations={
+
+en:{
+tag:"Buy • Sell • Rent Four-Wheelers With Driver",
+hero:"Rent a Car With Driver",
+heroText:"4 Hours • 8 Hours • 12 Hours • 24 Hours • Intercity"
+},
+
+hi:{
+tag:"ड्राइवर के साथ Four-Wheelers Buy • Sell • Rent",
+hero:"ड्राइवर के साथ कार रेंट करें",
+heroText:"4 घंटे • 8 घंटे • 12 घंटे • 24 घंटे • इंटरसिटी"
+},
+
+te:{
+tag:"డ్రైవర్‌తో Four-Wheelers Buy • Sell • Rent",
+hero:"డ్రైవర్‌తో కారు రెంట్",
+heroText:"4 గంటలు • 8 గంటలు • 12 గంటలు • 24 గంటలు • ఇంటర్‌సిటీ"
+}
+
+};
+
+
+function changeLanguage(){
+
+const lang=
+document.getElementById("language").value;
+
+const t=
+translations[lang];
+
+document.getElementById("tagline")
+.textContent=t.tag;
+
+document.getElementById("heroTitle")
+.textContent=t.hero;
+
+document.getElementById("heroText")
+.textContent=t.heroText;
+
+}
+
+
+function setMode(mode,button){
+
+document
+.querySelectorAll(".tab")
+.forEach(b=>{
+b.classList.remove("active");
+});
+
+button.classList.add("active");
+
+if(mode==="rent"){
+
+document
+.getElementById("details")
+.classList.remove("hidden");
+
+}
+
+}
+
+
+function selectService(button,service){
+
+document
+.querySelectorAll(".service")
+.forEach(b=>{
+b.classList.remove("selected");
+});
+
+button.classList.add("selected");
+
+selectedService=service;
+
+}
+
+
+function selectCategory(button,category){
+
+document
+.querySelectorAll(".category")
+.forEach(b=>{
+b.classList.remove("selected");
+});
+
+button.classList.add("selected");
+
+selectedCategory=category;
+
+}
+
+
+function showDetails(){
+
+document
+.getElementById("details")
+.classList.remove("hidden");
+
+document
+.getElementById("booking")
+.classList.add("hidden");
+
+document
+.getElementById("trip")
+.classList.add("hidden");
+
+window.scrollTo({
+top:500,
+behavior:"smooth"
+});
+
+}
+
+
+function selectPackage(button,packageName){
+
+document
+.querySelectorAll(".package button")
+.forEach(b=>{
+b.classList.remove("selected");
+});
+
+button.classList.add("selected");
+
+selectedPackage=packageName;
+
+document.getElementById("duration")
+.value=packageName;
+
+}
+
+
+function bookCar(){
+
+document
+.getElementById("booking")
+.classList.remove("hidden");
+
+document
+.getElementById("duration")
+.value=selectedPackage;
+
+document
+.getElementById("rentalType")
+.value=selectedService;
+
+document
+.getElementById("vehicleCategory")
+.value=selectedCategory==="All"
+?"MUV"
+:selectedCategory;
+
+window.scrollTo({
+top:document.getElementById("booking").offsetTop,
+behavior:"smooth"
+});
+
+}
+
+
+function submitBooking(){
+
+const name=
+document.getElementById("customerName")
+.value.trim();
+
+const mobile=
+document.getElementById("customerMobile")
+.value.trim();
+
+const pickup=
+document.getElementById("pickup")
+.value.trim();
+
+if(!name || !mobile || !pickup){
+
+document.getElementById("bookingStatus")
+.textContent=
+"Please enter Name, Mobile Number and Pickup Location.";
+
+return;
+
+}
+
+document.getElementById("bookingStatus")
+.innerHTML=
+"✅ Booking request submitted.<br>"+
+"Admin will assign a verified driver and vehicle.";
+
+}
+
+
+function showBooking(){
+
+document
+.getElementById("booking")
+.classList.remove("hidden");
+
+document
+.getElementById("details")
+.classList.add("hidden");
+
+document
+.getElementById("trip")
+.classList.add("hidden");
+
+window.scrollTo({
+top:500,
+behavior:"smooth"
+});
+
+}
+
+
+function showTrip(){
+
+document
+.getElementById("trip")
+.classList.remove("hidden");
+
+document
+.getElementById("details")
+.classList.add("hidden");
+
+document
+.getElementById("booking")
+.classList.add("hidden");
+
+window.scrollTo({
+top:500,
+behavior:"smooth"
+});
+
+}
+
+
+function goHome(){
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+function searchCars(){
+
+alert(
+"Search will connect to the Firebase vehicle database in the next step."
+);
+
+}
+
+</script>
+
+</body>
+</html>
