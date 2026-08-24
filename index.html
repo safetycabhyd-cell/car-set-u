@@ -994,6 +994,92 @@ English • हिंदी • తెలుగు
 </footer>
 
 
+<!-- =====================================================
+     FIREBASE CONNECTION
+     Car Set U Web
+     ===================================================== -->
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+  getAnalytics,
+  isSupported
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
+
+
+const firebaseConfig = {
+
+  apiKey:
+  "AIzaSyDFCvXr8h-sZAxBUZNThtgNxEOwrOQWvrI",
+
+  authDomain:
+  "car-set-u.firebaseapp.com",
+
+  projectId:
+  "car-set-u",
+
+  storageBucket:
+  "car-set-u.firebasestorage.app",
+
+  messagingSenderId:
+  "270679615416",
+
+  appId:
+  "1:270679615416:web:f22a7a71a736b52ac1914d",
+
+  measurementId:
+  "G-R3H6ZC8NZ5"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+
+/*
+  Firebase Analytics browser support check.
+  This prevents Analytics from breaking the page
+  if the current browser does not support it.
+*/
+
+isSupported()
+.then((supported)=>{
+
+  if(supported){
+
+    getAnalytics(app);
+
+    console.log(
+      "Car Set U Firebase Analytics connected successfully."
+    );
+
+  }
+
+})
+.catch((error)=>{
+
+  console.log(
+    "Firebase Analytics is not available:",
+    error
+  );
+
+});
+
+
+/*
+  Make Firebase app available to the page
+  for future Firebase features.
+*/
+
+window.carSetUFirebaseApp = app;
+
+</script>
+
+
 <script>
 
 let selectedPackage="8 Hours";
