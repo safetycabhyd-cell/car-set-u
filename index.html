@@ -139,10 +139,6 @@ button{
   background:#f28b20;
 }
 
-.red{
-  background:#d9363e;
-}
-
 .option-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -159,56 +155,6 @@ button{
 }
 
 .option.selected{
-  background:#123c73;
-  color:white;
-}
-
-.vehicle{
-  display:grid;
-  grid-template-columns:130px 1fr;
-  gap:14px;
-  align-items:center;
-}
-
-.vehicle img{
-  width:100%;
-  height:95px;
-  object-fit:cover;
-  border-radius:12px;
-  background:#eee;
-}
-
-.price{
-  color:#1769e0;
-  font-size:20px;
-  font-weight:bold;
-}
-
-.badge{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  background:#e8f6ed;
-  color:#13833d;
-  font-size:12px;
-  font-weight:bold;
-}
-
-.package{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-}
-
-.package button{
-  border:1px solid #ccd5e0;
-  background:white;
-  padding:12px 5px;
-  border-radius:10px;
-  font-weight:bold;
-}
-
-.package button.selected{
   background:#123c73;
   color:white;
 }
@@ -231,6 +177,73 @@ button{
 .category.selected{
   background:#123c73;
   color:white;
+}
+
+.package{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+
+.package button{
+  border:1px solid #ccd5e0;
+  background:white;
+  padding:12px 5px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+.package button.selected{
+  background:#123c73;
+  color:white;
+}
+
+.vehicle{
+  display:grid;
+  grid-template-columns:130px 1fr;
+  gap:14px;
+  align-items:center;
+}
+
+.vehicle img{
+  width:100%;
+  height:95px;
+  object-fit:cover;
+  border-radius:12px;
+  background:#eee;
+}
+
+.driver-box{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:#f5f8fc;
+  padding:12px;
+  border-radius:12px;
+}
+
+.driver-photo{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#ddd;
+}
+
+.price{
+  color:#1769e0;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#e8f6ed;
+  color:#13833d;
+  font-size:12px;
+  font-weight:bold;
 }
 
 .features{
@@ -285,10 +298,6 @@ button{
   color:#536174;
 }
 
-.hidden{
-  display:none!important;
-}
-
 .status{
   padding:12px;
   border-radius:10px;
@@ -298,12 +307,8 @@ button{
   margin-top:10px;
 }
 
-.search-result{
-  padding:12px;
-  border:1px solid #d8e0ea;
-  border-radius:10px;
-  margin-top:8px;
-  background:#fafcff;
+.hidden{
+  display:none!important;
 }
 
 nav{
@@ -322,6 +327,16 @@ nav button{
   background:white;
   padding:9px 3px;
   font-size:12px;
+}
+
+.call-button{
+  display:inline-block;
+  text-decoration:none;
+  background:#159447;
+  color:white;
+  padding:10px 16px;
+  border-radius:10px;
+  font-weight:bold;
 }
 
 footer{
@@ -383,6 +398,7 @@ Buy • Sell • Cab Booking
 
 <main class="container">
 
+
 <section class="hero">
 
 <h1 id="heroTitle">
@@ -428,7 +444,7 @@ onclick="setMode('cab',this)">
 </section>
 
 
-<!-- BUY -->
+<!-- BUY CAR -->
 
 <section class="card" id="buyPanel">
 
@@ -448,33 +464,39 @@ placeholder="Search city, area or location">
 
 <div class="category-grid">
 
-<button class="category selected"
-onclick="selectCategory(this,'All')">
+<button
+class="category selected"
+onclick="selectBuyCategory(this,'All')">
 🚘 All
 </button>
 
-<button class="category"
-onclick="selectCategory(this,'Hatchback')">
+<button
+class="category"
+onclick="selectBuyCategory(this,'Hatchback')">
 🚗 Hatchback
 </button>
 
-<button class="category"
-onclick="selectCategory(this,'Sedan')">
+<button
+class="category"
+onclick="selectBuyCategory(this,'Sedan')">
 🚙 Sedan
 </button>
 
-<button class="category"
-onclick="selectCategory(this,'SUV')">
+<button
+class="category"
+onclick="selectBuyCategory(this,'SUV')">
 🚘 SUV
 </button>
 
-<button class="category"
-onclick="selectCategory(this,'MUV')">
+<button
+class="category"
+onclick="selectBuyCategory(this,'MUV')">
 🚐 MUV
 </button>
 
-<button class="category"
-onclick="selectCategory(this,'Luxury')">
+<button
+class="category"
+onclick="selectBuyCategory(this,'Luxury')">
 👑 Luxury
 </button>
 
@@ -491,7 +513,7 @@ onclick="searchBuyCars()">
 </section>
 
 
-<!-- SELL -->
+<!-- SELL CAR -->
 
 <section class="card hidden" id="sellPanel">
 
@@ -529,8 +551,15 @@ placeholder="Example: Toyota Innova">
 <option>SUV</option>
 <option>MUV</option>
 <option>Luxury</option>
+<option>Tempo Traveller</option>
 
 </select>
+
+<label>Year</label>
+
+<input
+id="sellerYear"
+placeholder="Example: 2022">
 
 <label>Expected Price</label>
 
@@ -544,18 +573,26 @@ placeholder="Enter expected price">
 id="sellerLocation"
 placeholder="Area, City or Location">
 
-<label>Photos</label>
+<h3>📸 Car Photos</h3>
+
+<p>
+Upload up to 6 photos.
+</p>
 
 <input
+id="sellerPhotos"
 type="file"
 accept="image/*"
 multiple>
 
-<label>Vehicle Video</label>
+<h3>🎥 Car Video</h3>
 
 <input
+id="sellerVideo"
 type="file"
 accept="video/*">
+
+<br>
 
 <button
 class="primary green"
@@ -620,9 +657,13 @@ class="hidden">
 
 
 <div class="notice">
-📍 Location search is ready for Maps/Places integration.
-Street, area, city, state and PIN information can be shown
-after the Maps service is connected.
+
+📍 Pickup और Destination में आगे
+Maps/Places autocomplete जोड़ा जाएगा।
+
+पूरा address, street/road, area, city,
+state और PIN जहाँ उपलब्ध हो दिखाया जाएगा।
+
 </div>
 
 
@@ -726,7 +767,7 @@ src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=c
 <h3>Toyota Innova Crysta</h3>
 
 <span class="badge">
-👨‍✈️ Verified Driver
+Available
 </span>
 
 <p>
@@ -746,13 +787,13 @@ MUV • 2022 • Diesel • Automatic • 7 Seater
 <button
 class="primary"
 onclick="showCabDetails()">
-View Cab Details
+View Cab
 </button>
 
 </section>
 
 
-<!-- CAB DETAILS -->
+<!-- CAB DETAILS - NO 6 PHOTOS / NO VIDEO -->
 
 <section
 class="card hidden"
@@ -770,46 +811,94 @@ id="cabDetails">
 <div class="feature">👥 7 Seater</div>
 <div class="feature">🚐 MUV</div>
 <div class="feature">❄️ AC</div>
-<div class="feature">📸 6 Photos</div>
-<div class="feature">🎥 Video</div>
 
 </div>
 
 
-<h3>Vehicle Photos</h3>
+<div class="notice">
 
-<div class="photo-grid">
+🚕 Cab Booking में vehicle photos/video upload
+का option नहीं है।
 
-<div class="photo-box">📸 Photo 1</div>
-<div class="photo-box">📸 Photo 2</div>
-<div class="photo-box">📸 Photo 3</div>
-<div class="photo-box">📸 Photo 4</div>
-<div class="photo-box">📸 Photo 5</div>
-<div class="photo-box">📸 Photo 6</div>
+Booking के बाद assigned driver की
+information दिखाई जाएगी।
 
 </div>
 
 
-<h3>Vehicle Video</h3>
-
-<div class="photo-box">
-🎥 Vehicle Video
-</div>
-
-
-<h3>👨‍✈️ Driver</h3>
-
-<div class="card">
-
-<b>Verified Driver</b>
-
-<p>⭐ Rating: 4.8</p>
-
-<p>✅ Driving Licence Verified</p>
+<h3>🚕 Booking</h3>
 
 <p>
-Driver's private mobile number will not be displayed.
+Select your package and continue to booking.
 </p>
+
+<button
+class="primary green"
+onclick="openBooking()">
+🚕 Continue Cab Booking
+</button>
+
+</section>
+
+
+<!-- BOOKING CONFIRMED / DRIVER -->
+
+<section
+class="card hidden"
+id="driverPanel">
+
+<h2>
+👨‍✈️ Driver Assigned
+</h2>
+
+
+<div class="driver-box">
+
+<img
+class="driver-photo"
+src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80"
+alt="Driver">
+
+<div>
+
+<h3>
+Verified Driver
+</h3>
+
+<span class="badge">
+✅ Verified
+</span>
+
+<p>
+⭐ Rating: 4.8
+</p>
+
+<p>
+🚗 Toyota Innova Crysta
+</p>
+
+</div>
+
+</div>
+
+
+<br>
+
+
+<a
+class="call-button"
+href="tel:">
+📞 Call
+</a>
+
+
+<div class="notice">
+
+🔐 Driver का mobile number screen पर
+नहीं दिखाया जाएगा।
+
+📞 Call icon से authorized calling flow
+बाद में जोड़ा जाएगा।
 
 </div>
 
@@ -818,34 +907,21 @@ Driver's private mobile number will not be displayed.
 
 <div class="map">
 
-📍 Live Driver Location
+🔴 DRIVER LIVE LOCATION
 
 <br><br>
 
-Live GPS will appear here after
-the trip starts and GPS permissions
-are connected.
+Trip start होने के बाद driver का
+real-time GPS location यहाँ दिखाई देगा।
 
 </div>
 
 
-<div class="notice">
+<h3>🚗 Trip Status</h3>
 
-🔐 Customer privacy:
-Driver/Owner mobile number is not
-publicly displayed.
-
-</div>
-
-<br>
-
-<button
-class="primary green"
-onclick="openBooking()">
-
-🚕 Book This Cab
-
-</button>
+<span class="badge">
+Trip Active
+</span>
 
 </section>
 
@@ -856,7 +932,9 @@ onclick="openBooking()">
 class="card hidden"
 id="bookingPanel">
 
-<h2>📋 Cab Booking</h2>
+<h2>
+📋 Cab Booking Details
+</h2>
 
 <label>Your Name</label>
 
@@ -916,11 +994,12 @@ placeholder="Destination">
 
 </select>
 
+
 <button
 class="primary green"
 onclick="submitBooking()">
 
-🚕 Confirm Cab Booking Request
+🚕 Submit Cab Booking
 
 </button>
 
@@ -935,24 +1014,34 @@ onclick="submitBooking()">
 class="card hidden"
 id="tripPanel">
 
-<h2>🚗 My Active Trip</h2>
+<h2>
+🚗 My Active Trip
+</h2>
 
-<p>
-<b>Vehicle:</b>
-Toyota Innova Crysta
-</p>
+<div class="driver-box">
 
-<p>
-<b>Driver:</b>
-Verified Driver
-</p>
+<img
+class="driver-photo"
+src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80"
+alt="Driver">
 
-<p>
-<b>Status:</b>
+<div>
+
+<b>Verified Driver</b>
+
+<p>⭐ 4.8 Rating</p>
+
+<p>🚗 Toyota Innova Crysta</p>
+
+</div>
+
+</div>
+
+<br>
+
 <span class="badge">
 Trip Active
 </span>
-</p>
 
 <h3>📍 Live Location</h3>
 
@@ -963,20 +1052,12 @@ Trip Active
 <br><br>
 
 Real-time GPS location will appear
-after the trip starts.
-
-</div>
-
-<br>
-
-<div class="notice">
-
-Live tracking is intended to remain active
-only during the customer's active trip.
+here after the trip starts.
 
 </div>
 
 </section>
+
 
 </main>
 
@@ -1022,7 +1103,7 @@ English • हिंदी • తెలుగు
 
 
 <!-- =====================================================
-     FIREBASE
+     FIREBASE - CAR SET U WEB
      ===================================================== -->
 
 <script type="module">
@@ -1067,6 +1148,7 @@ const app = initializeApp(firebaseConfig);
 
 window.carSetUFirebaseApp = app;
 
+
 isSupported()
 .then(function(supported){
 
@@ -1098,8 +1180,34 @@ isSupported()
 let currentMode="buy";
 
 let selectedCabType="Local";
+
 let selectedDuration="4 Hours";
+
 let selectedCabVehicle="Hatchback";
+
+
+function hideAllPanels(){
+
+  const panels=[
+    "buyPanel",
+    "sellPanel",
+    "cabPanel",
+    "cabResult",
+    "cabDetails",
+    "bookingPanel",
+    "driverPanel",
+    "tripPanel"
+  ];
+
+  panels.forEach(function(id){
+
+    document
+    .getElementById(id)
+    .classList.add("hidden");
+
+  });
+
+}
 
 
 function setMode(mode,button){
@@ -1116,30 +1224,7 @@ function setMode(mode,button){
 
   button.classList.add("active");
 
-
-  document
-  .getElementById("buyPanel")
-  .classList.add("hidden");
-
-  document
-  .getElementById("sellPanel")
-  .classList.add("hidden");
-
-  document
-  .getElementById("cabPanel")
-  .classList.add("hidden");
-
-  document
-  .getElementById("cabResult")
-  .classList.add("hidden");
-
-  document
-  .getElementById("cabDetails")
-  .classList.add("hidden");
-
-  document
-  .getElementById("bookingPanel")
-  .classList.add("hidden");
+  hideAllPanels();
 
 
   if(mode==="buy"){
@@ -1191,7 +1276,7 @@ function selectCabType(button,type){
 function selectDuration(button,duration){
 
   document
-  .querySelectorAll(".package button")
+  .querySelectorAll("#cabPanel .package button")
   .forEach(function(b){
 
     b.classList.remove("selected");
@@ -1222,7 +1307,7 @@ function selectCabVehicle(button,type){
 }
 
 
-function selectCategory(button,type){
+function selectBuyCategory(button,type){
 
   document
   .querySelectorAll("#buyPanel .category")
@@ -1249,17 +1334,31 @@ function searchBuyCars(){
 function submitSell(){
 
   const name=
-  document.getElementById("sellerName").value.trim();
+  document.getElementById("sellerName")
+  .value.trim();
 
   const mobile=
-  document.getElementById("sellerMobile").value.trim();
+  document.getElementById("sellerMobile")
+  .value.trim();
 
   const car=
-  document.getElementById("sellerCar").value.trim();
+  document.getElementById("sellerCar")
+  .value.trim();
+
+
+  const photos=
+  document.getElementById("sellerPhotos")
+  .files.length;
+
+  const video=
+  document.getElementById("sellerVideo")
+  .files.length;
+
 
   if(!name || !mobile || !car){
 
-    document.getElementById("sellStatus")
+    document
+    .getElementById("sellStatus")
     .textContent=
     "Please enter Name, Mobile Number and Car details.";
 
@@ -1267,10 +1366,25 @@ function submitSell(){
 
   }
 
-  document.getElementById("sellStatus")
+
+  if(photos>6){
+
+    document
+    .getElementById("sellStatus")
+    .textContent=
+    "Maximum 6 car photos are allowed.";
+
+    return;
+
+  }
+
+
+  document
+  .getElementById("sellStatus")
   .innerHTML=
   "✅ Car selling request prepared.<br>"+
-  "Firebase database connection will be added in the next step.";
+  "6 Photos + 1 Video can be submitted.<br>"+
+  "Firebase storage/database will be connected in the next step.";
 
 }
 
@@ -1329,6 +1443,7 @@ function openBooking(){
   .getElementById("bookingVehicle")
   .value=selectedCabVehicle;
 
+
   window.scrollTo({
 
     top:
@@ -1344,19 +1459,23 @@ function openBooking(){
 function submitBooking(){
 
   const name=
-  document.getElementById("customerName")
+  document
+  .getElementById("customerName")
   .value.trim();
 
   const mobile=
-  document.getElementById("customerMobile")
+  document
+  .getElementById("customerMobile")
   .value.trim();
 
   const pickup=
-  document.getElementById("bookingPickup")
+  document
+  .getElementById("bookingPickup")
   .value.trim();
 
   const destination=
-  document.getElementById("bookingDestination")
+  document
+  .getElementById("bookingDestination")
   .value.trim();
 
 
@@ -1375,8 +1494,8 @@ function submitBooking(){
   document
   .getElementById("bookingStatus")
   .innerHTML=
-  "✅ Booking request received.<br>"+
-  "Firebase booking database will be connected in the next step.";
+  "✅ Booking request submitted.<br>"+
+  "Admin will assign the vehicle and verified driver.";
 
 }
 
@@ -1415,6 +1534,8 @@ function showCab(){
 
 function showTrip(){
 
+  hideAllPanels();
+
   document
   .getElementById("tripPanel")
   .classList.remove("hidden");
@@ -1432,6 +1553,24 @@ function showTrip(){
 
 
 function goHome(){
+
+  hideAllPanels();
+
+  document
+  .getElementById("buyPanel")
+  .classList.remove("hidden");
+
+  document
+  .querySelectorAll(".main-tab")
+  .forEach(function(tab){
+
+    tab.classList.remove("active");
+
+  });
+
+  document
+  .getElementById("buyTab")
+  .classList.add("active");
 
   window.scrollTo({
 
