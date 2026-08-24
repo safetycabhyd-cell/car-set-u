@@ -175,6 +175,11 @@ font-weight:bold;
 margin-top:10px;
 }
 
+.primary:disabled{
+opacity:.7;
+cursor:not-allowed;
+}
+
 .green{
 background:#159447;
 }
@@ -1001,7 +1006,7 @@ class="route-summary hidden">
 </div>
 
 
-<!-- AVAILABLE CAB -->
+<!-- ================= AVAILABLE CAB ================= -->
 
 <div class="card">
 
@@ -1041,6 +1046,7 @@ MUV • 2022 • Diesel • Automatic • 7 Seater
 
 <button
 class="primary green"
+id="bookCabButton"
 onclick="bookCab()">
 
 🚕 Book Cab
@@ -1284,7 +1290,10 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
 import {
-getFirestore
+getFirestore,
+collection,
+addDoc,
+serverTimestamp
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
@@ -1323,6 +1332,7 @@ getAuth(app);
 
 const db=
 getFirestore(app);
+
 
 let confirmationResult=null;
 
@@ -1601,6 +1611,21 @@ if(button)
 button.classList.add("active");
 
 
+if(section==="cab"){
+
+setTimeout(()=>{
+
+if(routeMap){
+
+routeMap.invalidateSize();
+
+}
+
+},300);
+
+}
+
+
 window.scrollTo({
 top:0,
 behavior:"smooth"
@@ -1632,7 +1657,9 @@ buttons[index]
 
 window.showHome=
 function(){
+
 showSectionByName("buy");
+
 };
 
 
@@ -1644,9 +1671,14 @@ function(){
 "sell",
 "cab"
 ].forEach(x=>
+
 document
-.getElementById(x+"Section")
-.classList.add("hidden")
+.getElementById(
+x+"Section"
+)
+.classList
+.add("hidden")
+
 );
 
 
@@ -1655,10 +1687,12 @@ document
 .classList
 .remove("hidden");
 
+
 window.scrollTo({
 top:0,
 behavior:"smooth"
 });
+
 
 setupRecaptcha();
 
@@ -1686,6 +1720,7 @@ size:"normal"
 }
 );
 
+
 recaptchaVerifier.render();
 
 }
@@ -1705,6 +1740,7 @@ try{
 
 setupRecaptcha();
 
+
 let phone=
 document
 .getElementById("phoneNumber")
@@ -1714,7 +1750,9 @@ document
 
 if(!phone){
 
-alert("Please enter mobile number.");
+alert(
+"Please enter mobile number."
+);
 
 return;
 
@@ -1722,7 +1760,9 @@ return;
 
 
 if(!phone.startsWith("+")){
+
 phone="+91"+phone;
+
 }
 
 
@@ -1740,12 +1780,15 @@ document
 .remove("hidden");
 
 
-alert("OTP sent successfully.");
+alert(
+"OTP sent successfully."
+);
 
 }
 catch(error){
 
 console.error(error);
+
 
 alert(
 "OTP could not be sent.\n\n"+
@@ -1771,7 +1814,9 @@ document
 
 if(otp.length!==6){
 
-alert("Please enter 6 digit OTP.");
+alert(
+"Please enter 6 digit OTP."
+);
 
 return;
 
@@ -1780,21 +1825,29 @@ return;
 
 if(!confirmationResult){
 
-alert("Please request OTP first.");
+alert(
+"Please request OTP first."
+);
 
 return;
 
 }
 
 
-await confirmationResult.confirm(otp);
+await confirmationResult.confirm(
+otp
+);
 
-alert("Login successful.");
+
+alert(
+"Login successful."
+);
 
 }
 catch(error){
 
 console.error(error);
+
 
 alert(
 "Invalid OTP.\n\n"+
@@ -1819,27 +1872,44 @@ auth,
 user=>{
 
 const loginBox=
-document.getElementById("loginBox");
+document.getElementById(
+"loginBox"
+);
 
 const otpBox=
-document.getElementById("otpBox");
+document.getElementById(
+"otpBox"
+);
 
 const status=
-document.getElementById("loginStatus");
+document.getElementById(
+"loginStatus"
+);
 
 const logout=
-document.getElementById("logoutBtn");
+document.getElementById(
+"logoutBtn"
+);
 
 
 if(user){
 
-loginBox.classList.add("hidden");
+loginBox
+.classList
+.add("hidden");
 
-otpBox.classList.add("hidden");
+otpBox
+.classList
+.add("hidden");
 
-status.classList.remove("hidden");
+status
+.classList
+.remove("hidden");
 
-logout.classList.remove("hidden");
+logout
+.classList
+.remove("hidden");
+
 
 status.textContent=
 "✅ Customer logged in: "+
@@ -1848,11 +1918,17 @@ status.textContent=
 }
 else{
 
-loginBox.classList.remove("hidden");
+loginBox
+.classList
+.remove("hidden");
 
-status.classList.add("hidden");
+status
+.classList
+.add("hidden");
 
-logout.classList.add("hidden");
+logout
+.classList
+.add("hidden");
 
 }
 
@@ -1866,7 +1942,9 @@ logout.classList.add("hidden");
 function renderBuyCars(list){
 
 const box=
-document.getElementById("buyListings");
+document.getElementById(
+"buyListings"
+);
 
 
 box.innerHTML=
@@ -1890,6 +1968,7 @@ document.createElement("div");
 
 card.className="property";
 
+
 const photo=
 car.photos&&car.photos.length
 ?car.photos[0]
@@ -1898,34 +1977,50 @@ car.photos&&car.photos.length
 
 card.innerHTML=`
 
-<img src="${photo}"
+<img
+src="${photo}"
 alt="${car.title}">
 
 <div class="property-body">
 
 <div class="photo-count">
+
 📸 ${(car.photos||[]).length} Photo
+
 </div>
 
 <div class="property-title">
+
 🚘 ${car.title}
+
 </div>
 
 <span class="badge">
+
 ${car.status}
+
 </span>
 
 <div class="spec">
-${car.type} • ${car.year} • ${car.fuel}
-• ${car.transmission} • ${car.seats}
+
+${car.type} •
+${car.year} •
+${car.fuel} •
+${car.transmission} •
+${car.seats}
+
 </div>
 
 <div class="spec">
+
 📍 ${car.location||"Hyderabad, Telangana"}
+
 </div>
 
 <div class="price">
+
 ${car.price}
+
 </div>
 
 <button
@@ -1938,6 +2033,7 @@ View Car
 
 </div>
 `;
+
 
 box.appendChild(card);
 
@@ -1960,9 +2056,16 @@ document
 const filtered=
 buyCars.filter(car=>
 
-car.title.toLowerCase().includes(search)
+car.title
+.toLowerCase()
+.includes(search)
+
 ||
-car.type.toLowerCase().includes(search)
+
+car.type
+.toLowerCase()
+.includes(search)
+
 );
 
 
@@ -1993,9 +2096,11 @@ return;
 
 const filtered=
 buyCars.filter(car=>
+
 (car.location||"")
 .toLowerCase()
 .includes(location)
+
 );
 
 
@@ -2012,10 +2117,14 @@ window.previewPhotos=
 function(){
 
 const input=
-document.getElementById("carPhotos");
+document.getElementById(
+"carPhotos"
+);
 
 const preview=
-document.getElementById("photoPreview");
+document.getElementById(
+"photoPreview"
+);
 
 
 preview.innerHTML="";
@@ -2081,13 +2190,15 @@ function(){
 const brand=
 document
 .getElementById("sellBrand")
-.value.trim();
+.value
+.trim();
 
 
 const model=
 document
 .getElementById("sellModel")
-.value.trim();
+.value
+.trim();
 
 
 if(!brand||!model){
@@ -2124,7 +2235,8 @@ const car={
 
 id:"sell-"+Date.now(),
 
-title:brand+" "+model,
+title:
+brand+" "+model,
 
 year:
 document
@@ -2179,7 +2291,10 @@ alert(
 function renderSellCars(){
 
 const box=
-document.getElementById("sellListings");
+document.getElementById(
+"sellListings"
+);
+
 
 box.innerHTML="";
 
@@ -2191,34 +2306,46 @@ document.createElement("div");
 
 card.className="property";
 
+
 card.innerHTML=`
 
 <div class="property-body">
 
 <div class="property-title">
+
 🚘 ${car.title}
+
 </div>
 
 <span class="badge">
+
 ${car.status}
+
 </span>
 
 <div class="spec">
+
 ${car.year||""} •
 ${car.fuel||""} •
 ${car.transmission||""}
+
 </div>
 
 <div class="spec">
+
 📍 Hyderabad, Telangana
+
 </div>
 
 <div class="price">
+
 ${car.price||""}
+
 </div>
 
 </div>
 `;
+
 
 box.appendChild(card);
 
@@ -2247,7 +2374,9 @@ type==="buy"
 
 if(!car){
 
-alert("Car details not found.");
+alert(
+"Car details not found."
+);
 
 return;
 
@@ -2270,7 +2399,9 @@ src:photo
 
 if(!currentMedia.length){
 
-alert("No photos available.");
+alert(
+"No photos available."
+);
 
 return;
 
@@ -2288,7 +2419,8 @@ document
 
 document
 .getElementById("viewerTitle")
-.textContent=car.title;
+.textContent=
+car.title;
 
 
 renderViewer();
@@ -2299,13 +2431,19 @@ renderViewer();
 function renderViewer(){
 
 const image=
-document.getElementById("viewerImage");
+document.getElementById(
+"viewerImage"
+);
 
 const video=
-document.getElementById("viewerVideo");
+document.getElementById(
+"viewerVideo"
+);
 
 const thumbs=
-document.getElementById("viewerThumbs");
+document.getElementById(
+"viewerThumbs"
+);
 
 
 image.classList.add("hidden");
@@ -2327,16 +2465,22 @@ return;
 
 if(media.type==="image"){
 
-image.src=media.src;
+image.src=
+media.src;
 
-image.classList.remove("hidden");
+image.classList.remove(
+"hidden"
+);
 
 }
 else{
 
-video.src=media.src;
+video.src=
+media.src;
 
-video.classList.remove("hidden");
+video.classList.remove(
+"hidden"
+);
 
 }
 
@@ -2348,11 +2492,16 @@ currentMedia.forEach(
 (item,index)=>{
 
 const button=
-document.createElement("button");
+document.createElement(
+"button"
+);
+
 
 button.className=
 "thumb"+
-(index===currentIndex?" active":"");
+(index===currentIndex
+?" active"
+:"");
 
 
 if(item.type==="image"){
@@ -2433,7 +2582,9 @@ document
 
 
 const video=
-document.getElementById("viewerVideo");
+document.getElementById(
+"viewerVideo"
+);
 
 video.pause();
 
@@ -2451,12 +2602,19 @@ function(button){
 
 button
 .parentElement
-.querySelectorAll(".vehicle-btn")
+.querySelectorAll(
+".vehicle-btn"
+)
 .forEach(b=>
-b.classList.remove("active")
+b.classList.remove(
+"active"
+)
 );
 
-button.classList.add("active");
+
+button.classList.add(
+"active"
+);
 
 };
 
@@ -2492,7 +2650,8 @@ L.tileLayer(
 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
 {
 maxZoom:19,
-attribution:"© OpenStreetMap contributors"
+attribution:
+"© OpenStreetMap contributors"
 }
 )
 .addTo(routeMap);
@@ -2533,52 +2692,62 @@ clean
 .trim();
 
 
-/* DIRECT HYDERABAD MATCH */
-
-if(HYDERABAD_LOCATIONS[key]){
+if(
+HYDERABAD_LOCATIONS[key]
+){
 
 const location=
 HYDERABAD_LOCATIONS[key];
 
+
 return{
 
-lat:Number(location.lat),
+lat:
+Number(location.lat),
 
-lon:Number(location.lon),
+lon:
+Number(location.lon),
 
-name:location.name
+name:
+location.name
 
 };
 
 }
 
 
-/* PARTIAL MATCH */
-
 const matchedKey=
-Object.keys(HYDERABAD_LOCATIONS)
-.find(k=>key.includes(k));
+Object.keys(
+HYDERABAD_LOCATIONS
+)
+.find(k=>
+key.includes(k)
+);
 
 
 if(matchedKey){
 
 const location=
-HYDERABAD_LOCATIONS[matchedKey];
+HYDERABAD_LOCATIONS[
+matchedKey
+];
+
 
 return{
 
-lat:Number(location.lat),
+lat:
+Number(location.lat),
 
-lon:Number(location.lon),
+lon:
+Number(location.lon),
 
-name:location.name
+name:
+location.name
 
 };
 
 }
 
-
-/* ONLINE SEARCH */
 
 let query=clean;
 
@@ -2760,11 +2929,15 @@ document
 
 
 const status=
-document.getElementById("mapStatus");
+document.getElementById(
+"mapStatus"
+);
 
 
 const summary=
-document.getElementById("routeSummary");
+document.getElementById(
+"routeSummary"
+);
 
 
 if(!pickup||!destination){
@@ -2780,14 +2953,19 @@ return;
 
 initRouteMap();
 
+
 setTimeout(()=>{
+
 routeMap.invalidateSize();
+
 },100);
 
 
 clearRoute();
 
-summary.classList.add("hidden");
+summary.classList.add(
+"hidden"
+);
 
 
 status.textContent=
@@ -2797,13 +2975,15 @@ status.textContent=
 try{
 
 const from=
-await geocodePlace(pickup);
+await geocodePlace(
+pickup
+);
 
 const to=
-await geocodePlace(destination);
+await geocodePlace(
+destination
+);
 
-
-/* SAFETY CHECK */
 
 if(
 !from||
@@ -2970,18 +3150,24 @@ hours
 
 
 document
-.getElementById("routeDistance")
+.getElementById(
+"routeDistance"
+)
 .textContent=
 km+" KM";
 
 
 document
-.getElementById("routeDuration")
+.getElementById(
+"routeDuration"
+)
 .textContent=
 time;
 
 
-summary.classList.remove("hidden");
+summary.classList.remove(
+"hidden"
+);
 
 
 status.textContent=
@@ -2991,6 +3177,7 @@ status.textContent=
 catch(error){
 
 console.error(error);
+
 
 status.textContent=
 "❌ "+error.message;
@@ -3010,16 +3197,349 @@ error.message+
 
 
 /* =========================================================
-   BOOK CAB
+   FINAL CAB BOOKING
+   CUSTOMER → FIRESTORE → ADMIN PANEL
 ========================================================= */
 
+let bookingInProgress=false;
+
+
 window.bookCab=
-function(){
+async function(){
+
+/* Double click रोकना */
+
+if(bookingInProgress){
+
+return;
+
+}
+
+
+/* Pickup */
+
+const pickup=
+document
+.getElementById("pickup")
+.value
+.trim();
+
+
+/* Destination */
+
+const destination=
+document
+.getElementById("destination")
+.value
+.trim();
+
+
+/* Distance */
+
+const distance=
+document
+.getElementById("routeDistance")
+.textContent
+.trim();
+
+
+/* Estimated time */
+
+const estimatedTime=
+document
+.getElementById("routeDuration")
+.textContent
+.trim();
+
+
+/* Pickup / Destination required */
+
+if(
+!pickup||
+!destination
+){
 
 alert(
-"Cab booking request received.\n"+
-"Available driver will be assigned by Admin."
+"Please enter Pickup Point and Destination first."
 );
+
+return;
+
+}
+
+
+/* =====================================================
+   CUSTOMER MOBILE
+===================================================== */
+
+const user=
+auth.currentUser;
+
+
+let customerPhone=
+user?.phoneNumber||"";
+
+
+/*
+अगर customer login है
+तो उसका Firebase mobile number
+automatically लिया जाएगा.
+
+अगर login नहीं है,
+तो mobile number पूछा जाएगा.
+*/
+
+if(!customerPhone){
+
+customerPhone=
+prompt(
+"Please enter your mobile number:"
+);
+
+
+if(customerPhone===null){
+
+return;
+
+}
+
+
+customerPhone=
+customerPhone
+.trim();
+
+
+if(
+customerPhone &&
+!customerPhone.startsWith("+")
+){
+
+customerPhone=
+"+91"+
+customerPhone;
+
+}
+
+}
+
+
+if(!customerPhone){
+
+alert(
+"Please enter customer mobile number."
+);
+
+return;
+
+}
+
+
+/* =====================================================
+   BOOKING START
+===================================================== */
+
+bookingInProgress=true;
+
+
+const button=
+document.getElementById(
+"bookCabButton"
+);
+
+
+if(button){
+
+button.disabled=true;
+
+button.textContent=
+"⏳ Booking...";
+
+}
+
+
+/* =====================================================
+   FIRESTORE DATA
+===================================================== */
+
+try{
+
+const bookingData={
+
+/*
+Cab selected by customer
+*/
+
+cabId:
+"cab1",
+
+
+/*
+Firebase server time
+*/
+
+createdAt:
+serverTimestamp(),
+
+
+/*
+Customer mobile
+*/
+
+customerPhone:
+customerPhone,
+
+
+/*
+Destination
+*/
+
+destination:
+destination,
+
+
+/*
+Distance
+*/
+
+distanceKm:
+
+distance!=="—"
+
+?Number.parseFloat(
+distance.replace(
+/[^\d.]/g,
+""
+)
+)
+
+:0,
+
+
+/*
+Driver fields खाली रहेंगे.
+Admin Assign Driver के समय
+इनमें data भरेगा.
+*/
+
+driverCar:
+"",
+
+driverId:
+"",
+
+driverMobile:
+"",
+
+driverName:
+"",
+
+driverVehicleNumber:
+"",
+
+
+/*
+Estimated route time
+*/
+
+estimatedTime:
+
+estimatedTime!=="—"
+
+?estimatedTime
+
+:"",
+
+
+/*
+Pickup
+*/
+
+pickup:
+pickup,
+
+
+/*
+IMPORTANT:
+Admin Panel pending booking
+इसी status से पहचान सकता है.
+*/
+
+status:
+"pending"
+
+};
+
+
+/* =====================================================
+   FIRESTORE
+===================================================== */
+
+const docRef=
+await addDoc(
+collection(
+db,
+"cabBookings"
+),
+bookingData
+);
+
+
+/* Console */
+
+console.log(
+"Cab booking created:",
+docRef.id
+);
+
+
+/* =====================================================
+   CUSTOMER SUCCESS
+===================================================== */
+
+alert(
+
+"Cab booking request received successfully.\n\n"+
+
+"Booking ID: "+
+docRef.id+
+
+"\n\nAvailable driver will be assigned by Admin."
+
+);
+
+
+}
+catch(error){
+
+console.error(
+"Cab booking error:",
+error
+);
+
+
+alert(
+
+"Cab booking failed.\n\n"+
+error.message
+
+);
+
+}
+finally{
+
+bookingInProgress=false;
+
+
+if(button){
+
+button.disabled=false;
+
+button.textContent=
+"🚕 Book Cab";
+
+}
+
+}
 
 };
 
@@ -3035,4 +3555,5 @@ buyCars
 </script>
 
 </body>
+
 </html>
