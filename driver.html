@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>Car Set U - Driver Panel</title>
 
-<link
-rel="stylesheet"
+<link rel="stylesheet"
 href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <style>
@@ -136,8 +132,9 @@ background:#111827;
 color:white;
 }
 
-.info{
-line-height:1.8;
+.purple{
+background:#7c3aed;
+color:white;
 }
 
 #message{
@@ -267,7 +264,15 @@ font-weight:bold;
 margin-bottom:12px;
 }
 
-.pickup-near{
+.trip-point{
+padding:12px;
+background:#f8fafc;
+border-radius:10px;
+margin:8px 0;
+line-height:1.5;
+}
+
+.near{
 background:#dcfce7;
 color:#166534;
 padding:14px;
@@ -277,19 +282,9 @@ text-align:center;
 margin-top:10px;
 }
 
-.pickup-far{
+.far{
 background:#fff7ed;
 color:#9a3412;
-padding:14px;
-border-radius:12px;
-font-weight:bold;
-text-align:center;
-margin-top:10px;
-}
-
-.destination-near{
-background:#dcfce7;
-color:#166534;
 padding:14px;
 border-radius:12px;
 font-weight:bold;
@@ -300,7 +295,7 @@ margin-top:10px;
 .map-modal{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.72);
+background:white;
 z-index:99999;
 display:none;
 }
@@ -311,28 +306,26 @@ display:block;
 
 .map-panel{
 position:absolute;
-left:10px;
-right:10px;
-top:10px;
-bottom:10px;
-background:white;
-border-radius:20px;
-overflow:hidden;
+inset:0;
+background:#f8fafc;
 display:flex;
 flex-direction:column;
 }
 
 .map-header{
-background:#111827;
-color:white;
-padding:13px;
+background:#ffffff;
+color:#172033;
+padding:12px;
 display:flex;
 align-items:center;
 justify-content:space-between;
 gap:8px;
+border-bottom:1px solid #d9dee7;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+z-index:1000;
 }
 
-.map-header-title{
+.map-title{
 font-size:18px;
 font-weight:bold;
 }
@@ -340,21 +333,23 @@ font-weight:bold;
 .map-close{
 width:auto;
 margin:0;
-padding:9px 14px;
-background:#dc2626;
+padding:10px 14px;
+background:#111827;
 color:white;
 font-size:14px;
 }
 
 #tripMap{
 flex:1;
-min-height:300px;
+width:100%;
+background:#f1f5f9;
 }
 
 .map-bottom{
-background:white;
+background:#ffffff;
 padding:12px;
 box-shadow:0 -3px 15px rgba(0,0,0,.12);
+z-index:1000;
 }
 
 .map-message{
@@ -362,25 +357,6 @@ text-align:center;
 font-weight:bold;
 color:#475569;
 margin-bottom:8px;
-}
-
-.map-action{
-margin-top:8px;
-}
-
-.start-ride{
-background:#16a34a;
-color:white;
-}
-
-.complete-trip{
-background:#7c3aed;
-color:white;
-}
-
-.back-button{
-background:#111827;
-color:white;
 }
 
 .route-info{
@@ -391,7 +367,7 @@ margin-bottom:8px;
 }
 
 .route-box{
-background:#eff6ff;
+background:#eef4ff;
 border-radius:10px;
 padding:10px;
 text-align:center;
@@ -404,106 +380,69 @@ font-size:18px;
 margin-top:3px;
 }
 
-.trip-point{
-padding:12px;
-background:#f8fafc;
-border-radius:10px;
-margin:8px 0;
-line-height:1.5;
+.map-action{
+margin-top:8px;
 }
 
-@media(max-width:560px){
-
-.container{
-padding:10px;
+.back-button{
+background:#111827;
+color:white;
 }
 
-.card{
-padding:16px;
+.start-button{
+background:#16a34a;
+color:white;
 }
 
-.header h1{
-font-size:25px;
-}
-
-.map-panel{
-left:5px;
-right:5px;
-top:5px;
-bottom:5px;
-}
-
+.complete-button{
+background:#7c3aed;
+color:white;
 }
 
 </style>
-
 </head>
 
 <body>
 
-
 <header class="header">
 
 <h1>🚕 Car Set U</h1>
-
 <p>Driver Panel</p>
 
 </header>
 
-
 <div class="container">
 
-
-<!-- =====================================================
-     DRIVER CONTROL
-===================================================== -->
+<!-- DRIVER CONTROL -->
 
 <div class="card">
 
-<div
-id="statusBox"
+<div id="statusBox"
 class="status offline">
-
 DRIVER OFFLINE
-
 </div>
 
-
-<label>
-Driver ID
-</label>
+<label>Driver ID</label>
 
 <input
 id="driverId"
 value="DRIVER001"
 autocomplete="off">
 
-
-<label>
-Driver Name
-</label>
+<label>Driver Name</label>
 
 <input
 id="driverName"
 value="Driver 001">
 
-
-<label>
-Duty Status
-</label>
+<label>Duty Status</label>
 
 <select id="dutyStatus">
 
-<option value="OFF">
-OFF
-</option>
-
-<option value="ON">
-ON
-</option>
+<option value="OFF">OFF</option>
+<option value="ON">ON</option>
 
 </select>
-
 
 <button
 class="green"
@@ -513,7 +452,6 @@ GO ONLINE
 
 </button>
 
-
 <button
 class="red"
 onclick="goOffline()">
@@ -521,7 +459,6 @@ onclick="goOffline()">
 GO OFFLINE
 
 </button>
-
 
 <button
 class="blue"
@@ -531,26 +468,19 @@ UPDATE MY LOCATION
 
 </button>
 
-
 <div id="message"></div>
 
 </div>
 
 
+<!-- SOUND -->
 
-<!-- =====================================================
-     SOUND
-===================================================== -->
+<div class="alert-enable">
 
-<div
-class="alert-enable">
-
-<h3>
-🔊 Booking Alert Sound
-</h3>
+<h3>🔊 Booking Alert Sound</h3>
 
 <p>
-नई booking आने पर जोरदार alert sound बजेगा।
+नई booking आते ही जोरदार alert sound और vibration आएगा।
 </p>
 
 <button
@@ -565,19 +495,14 @@ onclick="enableBookingSound()">
 </div>
 
 
-
-<!-- =====================================================
-     ACTIVE TRIP
-===================================================== -->
+<!-- ACTIVE TRIP -->
 
 <div
 id="activeTripBox"
 class="active-trip"
 style="display:none">
 
-<h2>
-🚕 Active Trip
-</h2>
+<h2>🚕 Active Booking</h2>
 
 <div
 id="activeTripStatus"
@@ -587,58 +512,38 @@ BOOKING ACCEPTED
 
 </div>
 
+<div id="activeTripDetails"></div>
 
-<div
-id="activeTripDetails">
-</div>
-
-
-<div
-id="distanceStatus">
-</div>
-
+<div id="distanceStatus"></div>
 
 <button
-id="openTripMapButton"
 class="blue"
 onclick="openCurrentTripMap()">
 
-🗺️ OPEN TRIP MAP
+🗺️ OPEN MAP
 
 </button>
 
+<div id="startButtonBox"></div>
 
-<div
-id="activeStartButtonBox">
-</div>
-
-
-<div
-id="activeCompleteButtonBox">
-</div>
+<div id="completeButtonBox"></div>
 
 </div>
 
 
-
-<!-- =====================================================
-     BOOKING REQUESTS
-===================================================== -->
+<!-- BOOKINGS -->
 
 <div class="card">
 
-<h2>
-🚨 Booking Requests
-</h2>
+<h2>🚨 Booking Requests</h2>
 
 <div
-class="small"
-id="bookingStatus">
+id="bookingStatus"
+class="small">
 
 Booking requests check की जा रही हैं...
 
 </div>
-
 
 <div
 id="bookingList"
@@ -655,56 +560,31 @@ style="margin-top:15px">
 </div>
 
 
+<!-- DRIVER INFORMATION -->
 
-<!-- =====================================================
-     DRIVER INFORMATION
-===================================================== -->
+<div class="card">
 
-<div class="card info">
-
-<h2>
-Driver Information
-</h2>
+<h2>Driver Information</h2>
 
 <div>
-
 <b>Driver:</b>
-<span id="showName">
-Driver 001
-</span>
-
+<span id="showName">Driver 001</span>
 </div>
 
-
 <div>
-
 <b>Duty:</b>
-<span id="showDuty">
-OFF
-</span>
-
+<span id="showDuty">OFF</span>
 </div>
 
-
 <div>
-
 <b>Latitude:</b>
-<span id="showLat">
--
-</span>
-
+<span id="showLat">-</span>
 </div>
-
 
 <div>
-
 <b>Longitude:</b>
-<span id="showLng">
--
-</span>
-
+<span id="showLng">-</span>
 </div>
-
 
 <div
 id="locationBox"
@@ -716,14 +596,10 @@ class="location-box">
 
 </div>
 
-
 </div>
 
 
-
-<!-- =====================================================
-     MAP MODAL
-===================================================== -->
+<!-- MAP -->
 
 <div
 id="mapModal"
@@ -731,17 +607,15 @@ class="map-modal">
 
 <div class="map-panel">
 
-
 <div class="map-header">
 
 <div
 id="mapTitle"
-class="map-header-title">
+class="map-title">
 
 🗺️ Trip Map
 
 </div>
-
 
 <button
 class="map-close"
@@ -753,14 +627,9 @@ onclick="closeTripMap()">
 
 </div>
 
-
-<div
-id="tripMap">
-</div>
-
+<div id="tripMap"></div>
 
 <div class="map-bottom">
-
 
 <div
 id="mapMessage"
@@ -769,7 +638,6 @@ class="map-message">
 Map loading...
 
 </div>
-
 
 <div
 id="mapRouteInfo"
@@ -786,7 +654,6 @@ style="display:none">
 
 </div>
 
-
 <div class="route-box">
 
 ⏱️ Time
@@ -799,11 +666,7 @@ style="display:none">
 
 </div>
 
-
-<div
-id="mapActionBox">
-</div>
-
+<div id="mapActionBox"></div>
 
 <button
 class="back-button"
@@ -815,42 +678,25 @@ onclick="closeTripMap()">
 
 </div>
 
-
 </div>
 
 </div>
 
-
-
-<!-- =====================================================
-     LEAFLET
-===================================================== -->
 
 <script
 src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 </script>
 
 
-
-<!-- =====================================================
-     FIREBASE
-===================================================== -->
-
 <script type="module">
 
 import {
-
 initializeApp
-
 }
-
 from
-
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-
 import {
-
 getFirestore,
 collection,
 query,
@@ -859,19 +705,16 @@ onSnapshot,
 doc,
 updateDoc,
 serverTimestamp
-
 }
-
 from
-
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 /* =====================================================
-   FIREBASE CONFIG
+FIREBASE
 ===================================================== */
 
-const firebaseConfig = {
+const firebaseConfig={
 
 apiKey:
 "AIzaSyDFCvXr8h-sZAxBUZNThtgNxEOwrOQWvrI",
@@ -896,29 +739,72 @@ measurementId:
 
 };
 
-
-const app =
+const app=
 initializeApp(firebaseConfig);
 
-
-const db =
+const db=
 getFirestore(app);
 
 
-/* =====================================================
-   REALTIME DATABASE
-===================================================== */
-
-const DATABASE_URL =
+const DATABASE_URL=
 "https://car-set-u-default-rtdb.asia-southeast1.firebasedatabase.app";
 
 
+/* =====================================================
+SETTINGS
+===================================================== */
+
+const PICKUP_RADIUS=100;
+
+const DESTINATION_RADIUS=100;
+
+
+/* =====================================================
+GLOBAL
+===================================================== */
+
+let activeTrip=null;
+
+let currentPosition=null;
+
+let unsubscribeBookings=null;
+
+let unsubscribeActive=null;
+
+let previousBookingIds=new Set();
+
+let firstLoad=true;
+
+let locationWatchId=null;
+
+let audioContext=null;
+
+let soundEnabled=false;
+
+let tripMap=null;
+
+let driverMarker=null;
+
+let pickupMarker=null;
+
+let destinationMarker=null;
+
+let routeLine=null;
+
+let mapMode=null;
+
+
+/* =====================================================
+DRIVER PATH
+===================================================== */
+
 function driverPath(){
 
-const id =
-document.getElementById(
-"driverId"
-).value.trim().toUpperCase();
+const id=
+document.getElementById("driverId")
+.value
+.trim()
+.toUpperCase();
 
 return DATABASE_URL+
 "/drivers/"+
@@ -929,82 +815,31 @@ encodeURIComponent(id)+
 
 
 /* =====================================================
-   TRIP SETTINGS
+MESSAGE
 ===================================================== */
 
-const PICKUP_RADIUS_METERS = 100;
+function showMessage(text,success=true){
 
-const DESTINATION_RADIUS_METERS = 100;
+const box=
+document.getElementById("message");
 
+box.textContent=text;
 
-/* =====================================================
-   GLOBAL VARIABLES
-===================================================== */
-
-let unsubscribeBookings = null;
-
-let unsubscribeActiveTrip = null;
-
-let previousBookingIds = new Set();
-
-let firstBookingLoad = true;
-
-let activeTrip = null;
-
-let currentPosition = null;
-
-let locationWatchId = null;
-
-let tripMap = null;
-
-let driverMarker = null;
-
-let pickupMarker = null;
-
-let destinationMarker = null;
-
-let routeLine = null;
-
-let currentMapMode = null;
-
-let audioContext = null;
-
-let soundEnabled = false;
-
-
-/* =====================================================
-   MESSAGE
-===================================================== */
-
-function showMessage(
-text,
-success=true
-){
-
-const box =
-document.getElementById(
-"message"
-);
-
-box.textContent = text;
-
-box.style.color =
+box.style.color=
 success
-? "#15803d"
-: "#dc2626";
+?"#15803d"
+:"#dc2626";
 
 }
 
 
 /* =====================================================
-   HTML ESCAPE
+ESCAPE
 ===================================================== */
 
 function escapeHtml(value){
 
-return String(
-value ?? ""
-)
+return String(value??"")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -1015,66 +850,51 @@ value ?? ""
 
 
 /* =====================================================
-   DRIVER UPDATE - REALTIME DATABASE
+UPDATE DRIVER
 ===================================================== */
 
 async function updateDriver(data){
 
 try{
 
-const response =
+const response=
 await fetch(
 driverPath(),
 {
-
 method:"PATCH",
-
 headers:{
 "Content-Type":
 "application/json"
 },
-
-body:
-JSON.stringify(data)
-
+body:JSON.stringify(data)
 }
 );
 
-
-if(!response.ok){
-
+if(!response.ok)
 throw new Error(
 "Firebase driver update failed"
 );
 
-}
-
-
 document.getElementById(
 "showName"
-).textContent =
+).textContent=
 document.getElementById(
 "driverName"
 ).value;
 
-
 document.getElementById(
 "showDuty"
-).textContent =
+).textContent=
 document.getElementById(
 "dutyStatus"
 ).value;
 
-
 }catch(error){
 
-console.error(
-"Driver update error:",
-error
-);
+console.error(error);
 
 showMessage(
-"Firebase driver update failed",
+"Firebase update failed",
 false
 );
 
@@ -1084,29 +904,23 @@ false
 
 
 /* =====================================================
-   GO ONLINE
+ONLINE
 ===================================================== */
 
-window.goOnline =
-function(){
+window.goOnline=function(){
 
 document.getElementById(
 "statusBox"
-).className =
-"status online";
-
+).className="status online";
 
 document.getElementById(
 "statusBox"
-).textContent =
+).textContent=
 "DRIVER ONLINE";
-
 
 document.getElementById(
 "dutyStatus"
-).value =
-"ON";
-
+).value="ON";
 
 updateDriver({
 
@@ -1121,12 +935,11 @@ document.getElementById(
 
 });
 
-
 startLocationTracking();
 
 startBookingListener();
 
-startActiveTripListener();
+startActiveListener();
 
 getLocation();
 
@@ -1134,41 +947,33 @@ getLocation();
 
 
 /* =====================================================
-   GO OFFLINE
+OFFLINE
 ===================================================== */
 
-window.goOffline =
-function(){
+window.goOffline=function(){
 
 if(activeTrip){
 
 alert(
-"पहले current trip complete करें।\n\n"+
-"Active booking के दौरान Driver OFFLINE नहीं हो सकता।"
+"Active booking के दौरान OFFLINE नहीं हो सकते।"
 );
 
 return;
 
 }
 
+document.getElementById(
+"statusBox"
+).className="status offline";
 
 document.getElementById(
 "statusBox"
-).className =
-"status offline";
-
-
-document.getElementById(
-"statusBox"
-).textContent =
+).textContent=
 "DRIVER OFFLINE";
-
 
 document.getElementById(
 "dutyStatus"
-).value =
-"OFF";
-
+).value="OFF";
 
 updateDriver({
 
@@ -1187,11 +992,10 @@ document.getElementById(
 
 
 /* =====================================================
-   LOCATION
+GPS
 ===================================================== */
 
-window.getLocation =
-function(){
+window.getLocation=function(){
 
 if(!navigator.geolocation){
 
@@ -1204,44 +1008,27 @@ return;
 
 }
 
-
 showMessage(
-"Getting your location..."
+"Getting current location..."
 );
-
 
 navigator.geolocation.getCurrentPosition(
 
-function(position){
-
-handleLocation(
-position
-);
-
+position=>{
+handleLocation(position);
 },
 
-function(error){
-
-console.error(
-"Location error:",
-error
-);
-
+()=>{
 showMessage(
 "Please allow location permission",
 false
 );
-
 },
 
 {
-
 enableHighAccuracy:true,
-
 timeout:15000,
-
 maximumAge:0
-
 }
 
 );
@@ -1250,53 +1037,35 @@ maximumAge:0
 
 
 /* =====================================================
-   CONTINUOUS LOCATION
+LIVE GPS
 ===================================================== */
 
 function startLocationTracking(){
 
-if(!navigator.geolocation){
-
+if(!navigator.geolocation)
 return;
 
-}
-
-
-if(locationWatchId !== null){
-
+if(locationWatchId!==null)
 return;
 
-}
-
-
-locationWatchId =
+locationWatchId=
 navigator.geolocation.watchPosition(
 
-function(position){
-
-handleLocation(
-position
-);
-
+position=>{
+handleLocation(position);
 },
 
-function(error){
-
+error=>{
 console.error(
-"Location watch error:",
+"GPS watch error",
 error
 );
-
 },
 
 {
-
 enableHighAccuracy:true,
-
 timeout:15000,
-
 maximumAge:3000
-
 }
 
 );
@@ -1305,79 +1074,56 @@ maximumAge:3000
 
 
 /* =====================================================
-   LOCATION HANDLER
+LOCATION HANDLER
 ===================================================== */
 
-function handleLocation(
-position
-){
+function handleLocation(position){
 
-const latitude =
+const lat=
 position.coords.latitude;
 
-const longitude =
+const lng=
 position.coords.longitude;
 
-
-currentPosition = {
-
-lat:latitude,
-
-lng:longitude
-
+currentPosition={
+lat:lat,
+lng:lng
 };
-
 
 document.getElementById(
 "showLat"
-).textContent =
-latitude.toFixed(6);
-
+).textContent=
+lat.toFixed(6);
 
 document.getElementById(
 "showLng"
-).textContent =
-longitude.toFixed(6);
-
+).textContent=
+lng.toFixed(6);
 
 document.getElementById(
 "locationBox"
-).innerHTML =
-
+).innerHTML=
 "📍 <b>Current Location</b><br>"+
-"Latitude: "+
-latitude.toFixed(6)+
+"Latitude: "+lat.toFixed(6)+
 "<br>"+
-"Longitude: "+
-longitude.toFixed(6);
-
+"Longitude: "+lng.toFixed(6);
 
 updateDriver({
 
 location:{
-
-latitude:latitude,
-
-longitude:longitude
-
+latitude:lat,
+longitude:lng
 },
 
-locationUpdatedAt:
-Date.now()
+locationUpdatedAt:Date.now()
 
 });
 
-
-/*
-  Important:
-  active trip distance continuously update
-*/
-
 if(activeTrip){
 
-updateActiveTripDistance();
+checkTripDistance();
 
-updateMapDriverMarker();
+updateDriverMarker();
 
 }
 
@@ -1385,7 +1131,7 @@ updateMapDriverMarker();
 
 
 /* =====================================================
-   DUTY CHANGE
+DUTY
 ===================================================== */
 
 document
@@ -1394,65 +1140,34 @@ document
 "change",
 function(){
 
-const value =
-this.value;
-
-
-if(activeTrip && value==="OFF"){
+if(activeTrip && this.value==="OFF"){
 
 this.value="ON";
 
 alert(
-"Active trip के दौरान Driver OFF नहीं किया जा सकता।"
+"Active booking के दौरान Driver OFF नहीं किया जा सकता।"
 );
 
 return;
 
 }
 
-
 updateDriver({
 
-dutyStatus:value,
+dutyStatus:this.value,
 
 online:
-value==="ON"
+this.value==="ON"
 
 });
 
-
-if(value==="ON"){
-
-document.getElementById(
-"statusBox"
-).className =
-"status online";
-
-
-document.getElementById(
-"statusBox"
-).textContent =
-"DRIVER ONLINE";
-
+if(this.value==="ON"){
 
 startLocationTracking();
 
 startBookingListener();
 
-startActiveTripListener();
-
-}else{
-
-document.getElementById(
-"statusBox"
-).className =
-"status offline";
-
-
-document.getElementById(
-"statusBox"
-).textContent =
-"DRIVER OFFLINE";
+startActiveListener();
 
 }
 
@@ -1460,59 +1175,44 @@ document.getElementById(
 
 
 /* =====================================================
-   SOUND
+SOUND
 ===================================================== */
 
-window.enableBookingSound =
+window.enableBookingSound=
 async function(){
 
 try{
 
-audioContext =
+audioContext=
 new(
-window.AudioContext ||
+window.AudioContext||
 window.webkitAudioContext
 )();
 
-
-if(
-audioContext.state==="suspended"
-){
-
+if(audioContext.state==="suspended")
 await audioContext.resume();
-
-}
-
 
 soundEnabled=true;
 
-
-const button =
+const button=
 document.getElementById(
 "soundButton"
 );
 
+button.textContent=
+"✅ BOOKING ALERT ENABLED";
 
-button.textContent =
-"✅ BOOKING ALERT SOUND ENABLED";
-
-
-button.style.background =
+button.style.background=
 "#16a34a";
-
 
 button.disabled=true;
 
-
 playTestSound();
-
 
 }catch(error){
 
-console.error(error);
-
 alert(
-"Sound enable नहीं हो पाया। Phone media volume check करें."
+"Sound enable नहीं हुआ। Phone media volume check करें।"
 );
 
 }
@@ -1520,130 +1220,23 @@ alert(
 };
 
 
-/* =====================================================
-   BOOKING ALERT
-===================================================== */
-
-function playBookingAlert(){
-
-if(
-!soundEnabled ||
-!audioContext
-){
-
-return;
-
-}
-
-
-if(
-audioContext.state==="suspended"
-){
-
-audioContext.resume();
-
-}
-
-
-const now =
-audioContext.currentTime;
-
-
-const pattern = [
-
-[880,0.00,0.18],
-
-[440,0.20,0.18],
-
-[880,0.40,0.18],
-
-[440,0.60,0.18],
-
-[1040,0.85,0.22],
-
-[520,1.10,0.22],
-
-[1040,1.35,0.22]
-
-];
-
-
-pattern.forEach(
-item=>{
-
-const oscillator =
-audioContext.createOscillator();
-
-const gain =
-audioContext.createGain();
-
-oscillator.type="square";
-
-oscillator.frequency.value =
-item[0];
-
-gain.gain.setValueAtTime(
-0.0001,
-now+item[1]
-);
-
-gain.gain.exponentialRampToValueAtTime(
-0.35,
-now+item[1]+0.02
-);
-
-gain.gain.exponentialRampToValueAtTime(
-0.0001,
-now+item[1]+item[2]
-);
-
-oscillator.connect(gain);
-
-gain.connect(
-audioContext.destination
-);
-
-oscillator.start(
-now+item[1]
-);
-
-oscillator.stop(
-now+item[1]+item[2]
-);
-
-});
-
-}
-
-
-/* =====================================================
-   TEST SOUND
-===================================================== */
-
 function playTestSound(){
 
-if(!audioContext){
-
+if(!audioContext)
 return;
 
-}
-
-
-const now =
+const now=
 audioContext.currentTime;
 
-
-const oscillator =
+const oscillator=
 audioContext.createOscillator();
 
-const gain =
+const gain=
 audioContext.createGain();
-
 
 oscillator.type="sine";
 
 oscillator.frequency.value=700;
-
 
 gain.gain.setValueAtTime(
 0.0001,
@@ -1652,14 +1245,13 @@ now
 
 gain.gain.exponentialRampToValueAtTime(
 0.18,
-now+0.03
+now+.03
 );
 
 gain.gain.exponentialRampToValueAtTime(
-0.0001,
-now+0.30
+.0001,
+now+.30
 );
-
 
 oscillator.connect(gain);
 
@@ -1667,30 +1259,92 @@ gain.connect(
 audioContext.destination
 );
 
-
 oscillator.start(now);
 
 oscillator.stop(
-now+0.32
+now+.32
 );
 
 }
 
 
-/* =====================================================
-   VIBRATION
-===================================================== */
+function playBookingAlert(){
+
+if(
+!soundEnabled||
+!audioContext
+)
+return;
+
+if(audioContext.state==="suspended")
+audioContext.resume();
+
+const now=
+audioContext.currentTime;
+
+const pattern=[
+[880,0,.18],
+[440,.2,.18],
+[880,.4,.18],
+[440,.6,.18],
+[1040,.85,.22],
+[520,1.1,.22],
+[1040,1.35,.22]
+];
+
+pattern.forEach(item=>{
+
+const osc=
+audioContext.createOscillator();
+
+const gain=
+audioContext.createGain();
+
+osc.type="square";
+
+osc.frequency.value=
+item[0];
+
+gain.gain.setValueAtTime(
+.0001,
+now+item[1]
+);
+
+gain.gain.exponentialRampToValueAtTime(
+.35,
+now+item[1]+.02
+);
+
+gain.gain.exponentialRampToValueAtTime(
+.0001,
+now+item[1]+item[2]
+);
+
+osc.connect(gain);
+
+gain.connect(
+audioContext.destination
+);
+
+osc.start(
+now+item[1]
+);
+
+osc.stop(
+now+item[1]+item[2]
+);
+
+});
+
+}
+
 
 function vibrateBooking(){
 
 if(navigator.vibrate){
 
 navigator.vibrate([
-500,
-200,
-500,
-200,
-800
+500,200,500,200,800
 ]);
 
 }
@@ -1699,42 +1353,33 @@ navigator.vibrate([
 
 
 /* =====================================================
-   PENDING BOOKING LISTENER
+BOOKING LISTENER
 ===================================================== */
 
 function startBookingListener(){
 
-const driverId =
+const driverId=
 document.getElementById(
 "driverId"
-).value
+)
+.value
 .trim()
 .toUpperCase();
 
-
-if(!driverId){
-
+if(!driverId)
 return;
-
-}
-
 
 if(unsubscribeBookings){
 
 unsubscribeBookings();
-
 unsubscribeBookings=null;
 
 }
 
-
-const bookingQuery =
+const q=
 query(
 
-collection(
-db,
-"cabBookings"
-),
+collection(db,"cabBookings"),
 
 where(
 "driverId",
@@ -1750,11 +1395,9 @@ where(
 
 );
 
-
-unsubscribeBookings =
+unsubscribeBookings=
 onSnapshot(
-
-bookingQuery,
+q,
 
 snapshot=>{
 
@@ -1762,33 +1405,22 @@ const bookings=[];
 
 let newBooking=false;
 
-
 snapshot.forEach(
-docSnapshot=>{
-
-const data =
-docSnapshot.data();
-
+d=>{
 
 const booking={
-
-id:
-docSnapshot.id,
-
-...data
-
+id:d.id,
+...d.data()
 };
-
 
 bookings.push(
 booking
 );
 
-
 if(
-!firstBookingLoad &&
+!firstLoad &&
 !previousBookingIds.has(
-docSnapshot.id
+d.id
 )
 ){
 
@@ -1796,36 +1428,22 @@ newBooking=true;
 
 }
 
-
-previousBookingIds.add(
-docSnapshot.id
-);
+previousBookingIds.add(d.id);
 
 });
 
-
-firstBookingLoad=false;
-
+firstLoad=false;
 
 renderBookings(
 bookings
 );
 
-
 document.getElementById(
 "bookingStatus"
-).textContent =
-
+).textContent=
 bookings.length+
-" pending booking"+
-(
-bookings.length===1
-? ""
-: "s"
-)+
-" for "+
+" pending booking(s) for "+
 driverId;
-
 
 if(newBooking){
 
@@ -1841,36 +1459,13 @@ showNewBookingNotice();
 
 error=>{
 
-console.error(
-"Booking listener error:",
-error
-);
-
+console.error(error);
 
 document.getElementById(
 "bookingStatus"
-).textContent =
-"❌ Booking read failed";
-
-document.getElementById(
-"bookingList"
-).innerHTML = `
-
-<div class="empty-booking"
-style="color:#b91c1c">
-
-❌ <b>Booking read failed</b>
-
-<br><br>
-
-${escapeHtml(
-error.message ||
-"Please check Firestore Rules."
-)}
-
-</div>
-
-`;
+).textContent=
+"❌ Booking read failed: "+
+error.message;
 
 }
 
@@ -1880,42 +1475,33 @@ error.message ||
 
 
 /* =====================================================
-   ACTIVE TRIP LISTENER
+ACTIVE BOOKING LISTENER
 ===================================================== */
 
-function startActiveTripListener(){
+function startActiveListener(){
 
-const driverId =
+const driverId=
 document.getElementById(
 "driverId"
-).value
+)
+.value
 .trim()
 .toUpperCase();
 
-
-if(!driverId){
-
+if(!driverId)
 return;
 
-}
+if(unsubscribeActive){
 
-
-if(unsubscribeActiveTrip){
-
-unsubscribeActiveTrip();
-
-unsubscribeActiveTrip=null;
+unsubscribeActive();
+unsubscribeActive=null;
 
 }
 
-
-const activeQuery =
+const q=
 query(
 
-collection(
-db,
-"cabBookings"
-),
+collection(db,"cabBookings"),
 
 where(
 "driverId",
@@ -1930,56 +1516,39 @@ where(
 "accepted",
 "started"
 ]
-
 )
 
 );
 
-
-unsubscribeActiveTrip =
+unsubscribeActive=
 onSnapshot(
-
-activeQuery,
+q,
 
 snapshot=>{
 
 if(snapshot.empty){
 
-if(activeTrip){
+if(!activeTrip){
+
+document.getElementById(
+"activeTripBox"
+).style.display="none";
+
+}
 
 return;
 
 }
-
-return;
-
-}
-
-
-/*
-  There should normally be only one active trip.
-  Use the latest document.
-*/
 
 let latest=null;
 
-
 snapshot.forEach(
-docSnapshot=>{
-
-const data =
-docSnapshot.data();
-
+d=>{
 
 const item={
-
-id:
-docSnapshot.id,
-
-...data
-
+id:d.id,
+...d.data()
 };
-
 
 if(!latest){
 
@@ -1989,68 +1558,44 @@ return;
 
 }
 
+const a=
+latest.createdAt?.seconds||0;
 
-const a =
-latest.createdAt &&
-latest.createdAt.seconds
-? latest.createdAt.seconds
-:0;
+const b=
+item.createdAt?.seconds||0;
 
-
-const b =
-item.createdAt &&
-item.createdAt.seconds
-? item.createdAt.seconds
-:0;
-
-
-if(b>a){
-
+if(b>a)
 latest=item;
-
-}
 
 });
 
-
 if(latest){
 
-const oldId =
-activeTrip &&
-activeTrip.id;
+const oldId=
+activeTrip?.id;
 
-
-const oldStatus =
-activeTrip &&
-activeTrip.status;
-
+const oldStatus=
+activeTrip?.status;
 
 activeTrip=latest;
 
-
 renderActiveTrip();
 
-
-/*
-  If restored after refresh,
-  automatically open correct map.
-*/
-
 if(
-oldId!==latest.id ||
+oldId!==latest.id||
 oldStatus!==latest.status
 ){
 
 setTimeout(
 ()=>{
 
-if(latest.status==="accepted"){
+if(
+latest.status==="accepted"
+){
 
 openTripMap("pickup");
 
-}else if(
-latest.status==="started"
-){
+}else{
 
 openTripMap("destination");
 
@@ -2067,12 +1612,10 @@ openTripMap("destination");
 },
 
 error=>{
-
 console.error(
-"Active trip listener error:",
+"Active listener error",
 error
 );
-
 }
 
 );
@@ -2081,25 +1624,21 @@ error
 
 
 /* =====================================================
-   RENDER PENDING BOOKINGS
+RENDER BOOKINGS
 ===================================================== */
 
-function renderBookings(
-bookings
-){
+function renderBookings(bookings){
 
-const box =
+const box=
 document.getElementById(
 "bookingList"
 );
 
-
 box.innerHTML="";
-
 
 if(!bookings.length){
 
-box.innerHTML = `
+box.innerHTML=`
 
 <div class="empty-booking">
 
@@ -2108,8 +1647,7 @@ box.innerHTML = `
 <br><br>
 
 Driver Online रखें।
-नई booking आते ही
-यहाँ दिखाई देगी और alert sound बजेगा।
+नई booking आते ही alert आएगा।
 
 </div>
 
@@ -2119,45 +1657,24 @@ return;
 
 }
 
-
 bookings.sort(
-(a,b)=>{
-
-const ta =
-a.createdAt &&
-a.createdAt.seconds
-? a.createdAt.seconds
-:0;
-
-const tb =
-b.createdAt &&
-b.createdAt.seconds
-? b.createdAt.seconds
-:0;
-
-return tb-ta;
-
-});
-
+(a,b)=>
+(b.createdAt?.seconds||0)-
+(a.createdAt?.seconds||0)
+);
 
 bookings.forEach(
 booking=>{
 
-const card =
+const card=
 document.createElement(
 "div"
 );
 
-
 card.className=
 "booking-card";
 
-
-card.id=
-"booking-"+booking.id;
-
-
-card.innerHTML = `
+card.innerHTML=`
 
 <div class="new-badge">
 🚨 NEW BOOKING
@@ -2166,124 +1683,58 @@ card.innerHTML = `
 <div class="booking-id">
 Booking ID:
 <b>${escapeHtml(
-booking.bookingId ||
+booking.bookingId||
 booking.id
 )}</b>
 </div>
 
-
 <div class="booking-row">
-
-<strong>
-👤 CUSTOMER
-</strong>
-
-<span>
-${escapeHtml(
-booking.customerName ||
+<strong>👤 CUSTOMER</strong>
+<span>${escapeHtml(
+booking.customerName||
 "Customer"
-)}
-</span>
-
+)}</span>
 </div>
 
-
 <div class="booking-row">
-
-<strong>
-📞 CUSTOMER MOBILE
-</strong>
-
-<span>
-${escapeHtml(
-booking.customerPhone ||
+<strong>📞 CUSTOMER MOBILE</strong>
+<span>${escapeHtml(
+booking.customerPhone||
 "Not available"
-)}
-</span>
-
+)}</span>
 </div>
 
-
 <div class="booking-row">
-
-<strong>
-📍 PICKUP
-</strong>
-
-<span>
-${escapeHtml(
-booking.pickup ||
+<strong>📍 PICKUP</strong>
+<span>${escapeHtml(
+booking.pickup||
 "-"
-)}
-</span>
-
+)}</span>
 </div>
 
-
 <div class="booking-row">
-
-<strong>
-🏁 FINAL DESTINATION
-</strong>
-
-<span>
-${escapeHtml(
-booking.destination ||
+<strong>🏁 DESTINATION</strong>
+<span>${escapeHtml(
+booking.destination||
 "-"
-)}
-</span>
-
+)}</span>
 </div>
 
-
 <div class="booking-row">
-
-<strong>
-📏 DISTANCE
-</strong>
-
-<span>
-${escapeHtml(
-booking.distance ||
+<strong>📏 DISTANCE</strong>
+<span>${escapeHtml(
+booking.distance||
 "-"
-)}
-</span>
-
+)}</span>
 </div>
 
-
 <div class="booking-row">
-
-<strong>
-⏱️ ESTIMATED TIME
-</strong>
-
-<span>
-${escapeHtml(
-booking.estimatedTime ||
+<strong>⏱️ TIME</strong>
+<span>${escapeHtml(
+booking.estimatedTime||
 "-"
-)}
-</span>
-
+)}</span>
 </div>
-
-
-<div class="booking-row">
-
-<strong>
-🚕 VEHICLE
-</strong>
-
-<span>
-${escapeHtml(
-booking.driverCar ||
-booking.vehicleNumber ||
-"Vehicle"
-)}
-</span>
-
-</div>
-
 
 <button
 class="accept"
@@ -2292,7 +1743,6 @@ onclick="acceptBooking('${booking.id}')">
 ✅ ACCEPT BOOKING
 
 </button>
-
 
 <button
 class="reject"
@@ -2304,7 +1754,6 @@ onclick="rejectBooking('${booking.id}')">
 
 `;
 
-
 box.appendChild(card);
 
 });
@@ -2313,78 +1762,53 @@ box.appendChild(card);
 
 
 /* =====================================================
-   NEW BOOKING NOTICE
+NEW BOOKING NOTICE
 ===================================================== */
 
 function showNewBookingNotice(){
 
-const old =
+const old=
 document.getElementById(
 "newBookingNotice"
 );
 
-
-if(old){
-
+if(old)
 old.remove();
 
-}
-
-
-const notice =
+const notice=
 document.createElement(
 "div"
 );
-
 
 notice.id=
 "newBookingNotice";
 
 notice.style.position="fixed";
-
 notice.style.top="15px";
-
 notice.style.left="15px";
-
 notice.style.right="15px";
-
 notice.style.zIndex="999999";
-
 notice.style.background="#dc2626";
-
 notice.style.color="white";
-
 notice.style.padding="18px";
-
 notice.style.borderRadius="15px";
-
 notice.style.textAlign="center";
-
 notice.style.fontWeight="bold";
-
 notice.style.fontSize="19px";
-
 notice.style.boxShadow=
 "0 8px 25px rgba(0,0,0,.3)";
 
-
 notice.innerHTML=
-
-"🚨 NEW CAB BOOKING! 🚨"+
-"<br>"+
+"🚨 NEW CAB BOOKING 🚨<br>"+
 "🔊 BOOKING ALERT";
-
 
 document.body.appendChild(
 notice
 );
 
-
 setTimeout(
 ()=>{
-
 notice.remove();
-
 },
 6000
 );
@@ -2393,43 +1817,36 @@ notice.remove();
 
 
 /* =====================================================
-   ACCEPT BOOKING
+ACCEPT
 ===================================================== */
 
-window.acceptBooking =
-async function(
-bookingId
-){
+window.acceptBooking=
+async function(bookingId){
 
 if(activeTrip){
 
 alert(
-"एक समय में एक ही active trip रखी जा सकती है।"
+"एक समय में एक ही active booking रखी जा सकती है।"
 );
 
 return;
 
 }
 
-
 if(!confirm(
 "क्या आप यह booking ACCEPT करना चाहते हैं?"
-)){
-
+))
 return;
-
-}
-
 
 try{
 
-const driverId =
+const driverId=
 document.getElementById(
 "driverId"
-).value
+)
+.value
 .trim()
 .toUpperCase();
-
 
 await updateDoc(
 
@@ -2441,8 +1858,7 @@ bookingId
 
 {
 
-status:
-"accepted",
+status:"accepted",
 
 acceptedAt:
 serverTimestamp(),
@@ -2454,32 +1870,16 @@ driverId
 
 );
 
-
 alert(
-"✅ BOOKING ACCEPTED!\n\n"+
-"अब Pickup Location का Map खुलेगा."
+"✅ BOOKING ACCEPTED\n\n"+
+"अब Driver की current location से Pickup का map खुलेगा।"
 );
-
-
-/*
-  Active listener will receive
-  accepted booking and auto-open map.
-*/
 
 }catch(error){
 
-console.error(
-"Accept error:",
-error
-);
-
-
 alert(
-
 "❌ Booking accept नहीं हुई.\n\n"+
-(error.message ||
-"Please try again.")
-
+error.message
 );
 
 }
@@ -2488,22 +1888,16 @@ alert(
 
 
 /* =====================================================
-   REJECT BOOKING
+REJECT
 ===================================================== */
 
-window.rejectBooking =
-async function(
-bookingId
-){
+window.rejectBooking=
+async function(bookingId){
 
 if(!confirm(
 "क्या आप यह booking REJECT करना चाहते हैं?"
-)){
-
+))
 return;
-
-}
-
 
 try{
 
@@ -2517,8 +1911,7 @@ bookingId
 
 {
 
-status:
-"rejected",
+status:"rejected",
 
 rejectedAt:
 serverTimestamp(),
@@ -2526,7 +1919,8 @@ serverTimestamp(),
 rejectedByDriverId:
 document.getElementById(
 "driverId"
-).value
+)
+.value
 .trim()
 .toUpperCase()
 
@@ -2534,23 +1928,15 @@ document.getElementById(
 
 );
 
-
 alert(
-"❌ BOOKING REJECTED."
+"❌ BOOKING REJECTED"
 );
-
 
 }catch(error){
 
-console.error(error);
-
-
 alert(
-
 "❌ Booking reject नहीं हुई.\n\n"+
-(error.message ||
-"Please try again.")
-
+error.message
 );
 
 }
@@ -2559,16 +1945,15 @@ alert(
 
 
 /* =====================================================
-   ACTIVE TRIP RENDER
+ACTIVE TRIP UI
 ===================================================== */
 
 function renderActiveTrip(){
 
-const box =
+const box=
 document.getElementById(
 "activeTripBox"
 );
-
 
 if(!activeTrip){
 
@@ -2578,126 +1963,87 @@ return;
 
 }
 
-
 box.style.display="block";
-
-
-const status =
-activeTrip.status;
-
 
 document.getElementById(
 "activeTripStatus"
-).textContent =
+).textContent=
 
-status==="accepted"
-? "📍 GOING TO PICKUP"
-
-: "🚕 RIDE STARTED";
-
+activeTrip.status==="accepted"
+?
+"📍 GOING TO PICKUP"
+:
+"🚕 BOOKING STARTED";
 
 document.getElementById(
 "activeTripDetails"
-).innerHTML = `
+).innerHTML=`
 
 <div class="trip-point">
-
 🆔 <b>Booking ID:</b>
 ${escapeHtml(
-activeTrip.bookingId ||
 activeTrip.id
 )}
-
 </div>
 
-
 <div class="trip-point">
-
 👤 <b>Customer:</b>
 ${escapeHtml(
-activeTrip.customerName ||
+activeTrip.customerName||
 "Customer"
 )}
-
 </div>
 
-
 <div class="trip-point">
-
-📞 <b>Mobile:</b>
-${escapeHtml(
-activeTrip.customerPhone ||
-"-"
-)}
-
-</div>
-
-
-<div class="trip-point">
-
 📍 <b>Pickup:</b>
 ${escapeHtml(
-activeTrip.pickup ||
+activeTrip.pickup||
 "-"
 )}
-
 </div>
 
-
 <div class="trip-point">
-
 🏁 <b>Destination:</b>
 ${escapeHtml(
-activeTrip.destination ||
+activeTrip.destination||
 "-"
 )}
-
 </div>
 
 `;
 
-
-updateActiveTripDistance();
+checkTripDistance();
 
 }
 
 
 /* =====================================================
-   ACTIVE TRIP DISTANCE
+CHECK DISTANCE
 ===================================================== */
 
-function updateActiveTripDistance(){
+async function checkTripDistance(){
 
 if(
-!activeTrip ||
+!activeTrip||
 !currentPosition
-){
-
-return;
-
-}
-
-
-const targetText =
-activeTrip.status==="accepted"
-? activeTrip.pickup
-: activeTrip.destination;
-
-
-if(!targetText){
-
-return;
-
-}
-
-
-getPlaceCoordinates(
-targetText
 )
-.then(
-point=>{
+return;
 
-const distance =
+const target=
+activeTrip.status==="accepted"
+?
+activeTrip.pickup
+:
+activeTrip.destination;
+
+try{
+
+const point=
+await getPlaceCoordinates(
+target
+);
+
+const distance=
 calculateDistanceMeters(
 
 currentPosition.lat,
@@ -2708,46 +2054,38 @@ point.lon
 
 );
 
-
-const rounded =
+const rounded=
 Math.round(distance);
 
-
-const box =
+const statusBox=
 document.getElementById(
 "distanceStatus"
 );
-
 
 if(
 activeTrip.status==="accepted"
 ){
 
-if(
-distance <= PICKUP_RADIUS_METERS
-){
+if(distance<=PICKUP_RADIUS){
 
-box.className=
-"pickup-near";
+statusBox.className="near";
 
-box.innerHTML=
-
-"📍 <b>आप Pickup Point के पास पहुँच गए हैं!</b>"+
+statusBox.innerHTML=
+"📍 <b>आप Pickup Point पर पहुँच गए हैं!</b>"+
 "<br>"+
 "Distance: "+
 rounded+
 " meters";
 
-
 document.getElementById(
-"activeStartButtonBox"
-).innerHTML = `
+"startButtonBox"
+).innerHTML=`
 
 <button
-class="start-ride"
-onclick="startRide()">
+class="start-button"
+onclick="startBooking()">
 
-🚕 START RIDE
+🚕 START BOOKING
 
 </button>
 
@@ -2755,55 +2093,43 @@ onclick="startRide()">
 
 }else{
 
-box.className=
-"pickup-far";
+statusBox.className="far";
 
-box.innerHTML=
-
-"📍 Pickup तक पहुँचें"+
-"<br>"+
+statusBox.innerHTML=
+"📍 Pickup तक जाएँ<br>"+
 "Current distance: "+
 rounded+
-" meters"+
-"<br>"+
-"START RIDE pickup के 100 meters के अंदर आएगा।";
-
+" meters";
 
 document.getElementById(
-"activeStartButtonBox"
+"startButtonBox"
 ).innerHTML="";
 
 }
 
 document.getElementById(
-"activeCompleteButtonBox"
+"completeButtonBox"
 ).innerHTML="";
 
 }else{
 
+if(distance<=DESTINATION_RADIUS){
 
-if(
-distance <= DESTINATION_RADIUS_METERS
-){
+statusBox.className="near";
 
-box.className=
-"destination-near";
-
-box.innerHTML=
-
+statusBox.innerHTML=
 "🏁 <b>Destination के पास पहुँच गए हैं!</b>"+
 "<br>"+
 "Distance: "+
 rounded+
 " meters";
 
-
 document.getElementById(
-"activeCompleteButtonBox"
-).innerHTML = `
+"completeButtonBox"
+).innerHTML=`
 
 <button
-class="complete-trip"
+class="complete-button"
 onclick="completeTrip()">
 
 🏁 COMPLETE TRIP
@@ -2814,50 +2140,303 @@ onclick="completeTrip()">
 
 }else{
 
-box.className=
-"pickup-far";
+statusBox.className="far";
 
-box.innerHTML=
-
-"🏁 Destination तक जाएँ"+
-"<br>"+
+statusBox.innerHTML=
+"🏁 Destination तक जाएँ<br>"+
 "Current distance: "+
 rounded+
 " meters";
 
-
 document.getElementById(
-"activeCompleteButtonBox"
+"completeButtonBox"
 ).innerHTML="";
 
 }
 
 document.getElementById(
-"activeStartButtonBox"
+"startButtonBox"
 ).innerHTML="";
 
 }
 
-})
-.catch(
-error=>{
+}catch(error){
 
-console.error(
-"Distance check error:",
-error
-);
+console.error(error);
 
-});
+}
 
 }
 
 
 /* =====================================================
-   START RIDE
+START BOOKING
 ===================================================== */
 
-window.startRide =
+window.startBooking=
 async function(){
+
+if(!activeTrip)
+return;
+
+if(activeTrip.status!=="accepted")
+return;
+
+if(!currentPosition){
+
+alert(
+"पहले GPS location चालू करें।"
+);
+
+getLocation();
+
+return;
+
+}
+
+try{
+
+const pickup=
+await getPlaceCoordinates(
+activeTrip.pickup
+);
+
+const distance=
+calculateDistanceMeters(
+
+currentPosition.lat,
+currentPosition.lng,
+
+pickup.lat,
+pickup.lon
+
+);
+
+if(distance>PICKUP_RADIUS){
+
+alert(
+"आप Pickup से "+
+Math.round(distance)+
+" meters दूर हैं।\n\n"+
+"Pickup के 100 meters के अंदर आने पर START BOOKING आएगा।"
+);
+
+return;
+
+}
+
+if(!confirm(
+"क्या आप Customer को Pickup कर चुके हैं और Booking START करना चाहते हैं?"
+))
+return;
+
+await updateDoc(
+
+doc(
+db,
+"cabBookings",
+activeTrip.id
+),
+
+{
+
+status:"started",
+
+startedAt:
+serverTimestamp(),
+
+startedByDriverId:
+document.getElementById(
+"driverId"
+)
+.value
+.trim()
+.toUpperCase()
+
+}
+
+);
+
+activeTrip.status="started";
+
+renderActiveTrip();
+
+alert(
+"🚕 BOOKING STARTED!\n\n"+
+"अब Customer के Final Destination का map खुलेगा।"
+);
+
+setTimeout(
+()=>{
+openTripMap(
+"destination"
+);
+},
+300
+);
+
+}catch(error){
+
+alert(
+"❌ Booking start नहीं हुई.\n\n"+
+error.message
+);
+
+}
+
+};
+
+
+/* =====================================================
+COMPLETE
+===================================================== */
+
+window.completeTrip=
+async function(){
+
+if(
+!activeTrip||
+activeTrip.status!=="started"
+)
+return;
+
+if(!currentPosition){
+
+alert(
+"GPS location चाहिए।"
+);
+
+return;
+
+}
+
+try{
+
+const destination=
+await getPlaceCoordinates(
+activeTrip.destination
+);
+
+const distance=
+calculateDistanceMeters(
+
+currentPosition.lat,
+currentPosition.lng,
+
+destination.lat,
+destination.lon
+
+);
+
+if(distance>DESTINATION_RADIUS){
+
+alert(
+"Destination से "+
+Math.round(distance)+
+" meters दूर हैं।\n\n"+
+"Destination के 100 meters के अंदर आने पर Complete Trip आएगा।"
+);
+
+return;
+
+}
+
+if(!confirm(
+"क्या आप Trip COMPLETE करना चाहते हैं?"
+))
+return;
+
+await updateDoc(
+
+doc(
+db,
+"cabBookings",
+activeTrip.id
+),
+
+{
+
+status:"completed",
+
+completedAt:
+serverTimestamp(),
+
+completedByDriverId:
+document.getElementById(
+"driverId"
+)
+.value
+.trim()
+.toUpperCase()
+
+}
+
+);
+
+activeTrip=null;
+
+document.getElementById(
+"activeTripBox"
+).style.display="none";
+
+closeTripMap();
+
+alert(
+"✅ TRIP COMPLETED SUCCESSFULLY"
+);
+
+}catch(error){
+
+alert(
+"❌ Trip complete नहीं हुई.\n\n"+
+error.message
+);
+
+}
+
+};
+
+
+/* =====================================================
+MAP INITIALIZE
+===================================================== */
+
+function initMap(){
+
+if(tripMap)
+return;
+
+tripMap=
+L.map(
+"tripMap",
+{
+zoomControl:true
+}
+);
+
+/*
+  Normal light OpenStreetMap.
+  कोई black map background नहीं।
+*/
+
+L.tileLayer(
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+{
+maxZoom:19,
+attribution:
+"© OpenStreetMap contributors"
+}
+).addTo(tripMap);
+
+}
+
+
+/* =====================================================
+OPEN MAP
+===================================================== */
+
+window.openCurrentTripMap=
+function(){
 
 if(!activeTrip){
 
@@ -2869,566 +2448,168 @@ return;
 
 }
 
-
-if(
-activeTrip.status!=="accepted"
-){
-
-return;
-
-}
-
-
-if(!currentPosition){
-
-alert(
-"पहले अपनी location update करें।"
-);
-
-getLocation();
-
-return;
-
-}
-
-
-try{
-
-const pickupPoint =
-await getPlaceCoordinates(
-activeTrip.pickup
-);
-
-
-const distance =
-calculateDistanceMeters(
-
-currentPosition.lat,
-currentPosition.lng,
-
-pickupPoint.lat,
-pickupPoint.lon
-
-);
-
-
-if(
-distance > PICKUP_RADIUS_METERS
-){
-
-alert(
-
-"आप अभी Pickup Point से "+
-Math.round(distance)+
-" meters दूर हैं.\n\n"+
-"Pickup के 100 meters के अंदर पहुँचने पर START RIDE button आएगा."
-
-);
-
-return;
-
-}
-
-
-if(!confirm(
-"क्या आप Pickup पर पहुँच गए हैं और Ride START करना चाहते हैं?"
-)){
-
-return;
-
-}
-
-
-await updateDoc(
-
-doc(
-db,
-"cabBookings",
-activeTrip.id
-),
-
-{
-
-status:
-"started",
-
-startedAt:
-serverTimestamp(),
-
-startedByDriverId:
-document.getElementById(
-"driverId"
-).value
-.trim()
-.toUpperCase()
-
-}
-
-);
-
-
-activeTrip.status="started";
-
-
-renderActiveTrip();
-
-
-alert(
-"🚕 RIDE STARTED!\n\n"+
-"अब Final Destination का Map खुलेगा."
-);
-
-
-/*
-  AUTO OPEN DESTINATION MAP
-*/
-
-setTimeout(
-()=>{
-
 openTripMap(
-"destination"
-);
-
-},
-300
-);
-
-
-}catch(error){
-
-console.error(
-"Start ride error:",
-error
-);
-
-
-alert(
-
-"❌ Ride start नहीं हुई.\n\n"+
-(error.message ||
-"Please try again.")
-
-);
-
-}
-
-};
-
-
-/* =====================================================
-   COMPLETE TRIP
-===================================================== */
-
-window.completeTrip =
-async function(){
-
-if(!activeTrip){
-
-return;
-
-}
-
-
-if(
-activeTrip.status!=="started"
-){
-
-return;
-
-}
-
-
-if(!currentPosition){
-
-alert(
-"पहले अपनी location update करें।"
-);
-
-return;
-
-}
-
-
-try{
-
-const destinationPoint =
-await getPlaceCoordinates(
-activeTrip.destination
-);
-
-
-const distance =
-calculateDistanceMeters(
-
-currentPosition.lat,
-currentPosition.lng,
-
-destinationPoint.lat,
-destinationPoint.lon
-
-);
-
-
-if(
-distance > DESTINATION_RADIUS_METERS
-){
-
-alert(
-
-"आप अभी Final Destination से "+
-Math.round(distance)+
-" meters दूर हैं.\n\n"+
-"Destination के 100 meters के अंदर पहुँचने पर COMPLETE TRIP button आएगा."
-
-);
-
-return;
-
-}
-
-
-if(!confirm(
-"क्या आप यह trip COMPLETE करना चाहते हैं?"
-)){
-
-return;
-
-}
-
-
-await updateDoc(
-
-doc(
-db,
-"cabBookings",
-activeTrip.id
-),
-
-{
-
-status:
-"completed",
-
-completedAt:
-serverTimestamp(),
-
-completedByDriverId:
-document.getElementById(
-"driverId"
-).value
-.trim()
-.toUpperCase()
-
-}
-
-);
-
-
-activeTrip=null;
-
-
-document.getElementById(
-"activeTripBox"
-).style.display="none";
-
-
-closeTripMap();
-
-
-alert(
-"✅ TRIP COMPLETED SUCCESSFULLY!"
-);
-
-
-}catch(error){
-
-console.error(
-"Complete trip error:",
-error
-);
-
-
-alert(
-
-"❌ Trip complete नहीं हुई.\n\n"+
-(error.message ||
-"Please try again.")
-
-);
-
-}
-
-};
-
-
-/* =====================================================
-   OPEN CURRENT TRIP MAP
-===================================================== */
-
-window.openCurrentTripMap =
-function(){
-
-if(!activeTrip){
-
-alert(
-"कोई active trip नहीं है।"
-);
-
-return;
-
-}
-
-
-if(
 activeTrip.status==="accepted"
-){
-
-openTripMap(
+?
 "pickup"
-);
-
-}else{
-
-openTripMap(
+:
 "destination"
 );
-
-}
 
 };
 
 
-/* =====================================================
-   MAP INITIALIZE
-===================================================== */
+async function openTripMap(mode){
 
-function initTripMap(){
-
-if(tripMap){
-
+if(!activeTrip)
 return;
 
-}
+mapMode=mode;
 
-
-tripMap =
-L.map(
-"tripMap"
-);
-
-
-L.tileLayer(
-
-"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-
-{
-
-maxZoom:19,
-
-attribution:
-"© OpenStreetMap contributors"
-
-}
-
-).addTo(
-tripMap
-);
-
-}
-
-
-/* =====================================================
-   OPEN MAP
-===================================================== */
-
-async function openTripMap(
-mode
-){
-
-if(!activeTrip){
-
-return;
-
-}
-
-
-currentMapMode=mode;
-
-
-const modal =
 document.getElementById(
 "mapModal"
-);
+).classList.add("show");
 
-
-modal.classList.add(
-"show"
-);
-
-
-initTripMap();
-
+initMap();
 
 setTimeout(
 ()=>{
-
 tripMap.invalidateSize();
-
 },
-100
+150
 );
 
+clearMap();
 
 document.getElementById(
 "mapRouteInfo"
 ).style.display="none";
 
-
 document.getElementById(
 "mapActionBox"
 ).innerHTML="";
-
 
 if(mode==="pickup"){
 
 document.getElementById(
 "mapTitle"
 ).textContent=
-"📍 Map to Pickup Point";
+"📍 Driver → Customer Pickup";
 
 document.getElementById(
 "mapMessage"
 ).textContent=
-"Pickup Location का route बनाया जा रहा है...";
+"Driver की current location से Pickup का route बनाया जा रहा है...";
 
 }else{
 
 document.getElementById(
 "mapTitle"
 ).textContent=
-"🏁 Map to Final Destination";
+"🏁 Driver → Customer Destination";
 
 document.getElementById(
 "mapMessage"
 ).textContent=
-"Final Destination का route बनाया जा रहा है...";
+"Current location से Customer Destination का route बनाया जा रहा है...";
 
 }
 
-
-clearMapLayers();
-
-
 try{
 
-const targetText =
+const targetText=
 mode==="pickup"
-? activeTrip.pickup
-: activeTrip.destination;
+?
+activeTrip.pickup
+:
+activeTrip.destination;
 
-
-const target =
+const target=
 await getPlaceCoordinates(
 targetText
 );
 
 
-if(
-currentPosition
-){
+/*
+  DRIVER CURRENT LOCATION
+*/
 
-addDriverMarker(
+if(currentPosition){
+
+driverMarker=
+L.marker([
 currentPosition.lat,
 currentPosition.lng
+])
+.addTo(tripMap)
+.bindPopup(
+"🚕 <b>YOUR CURRENT LOCATION</b>"
 );
 
 }
 
 
+/*
+  PICKUP
+*/
+
 if(mode==="pickup"){
 
-pickupMarker =
+pickupMarker=
 L.marker([
 target.lat,
 target.lon
 ])
 .addTo(tripMap)
 .bindPopup(
-"📍 PICKUP POINT<br>"+
+"📍 <b>CUSTOMER PICKUP</b><br>"+
 escapeHtml(targetText)
-)
-.openPopup();
+);
 
 }else{
 
-destinationMarker =
+destinationMarker=
 L.marker([
 target.lat,
 target.lon
 ])
 .addTo(tripMap)
 .bindPopup(
-"🏁 FINAL DESTINATION<br>"+
+"🏁 <b>CUSTOMER DESTINATION</b><br>"+
 escapeHtml(targetText)
-)
-.openPopup();
+);
 
 }
 
 
-if(
-currentPosition
-){
+/*
+  DRIVER → TARGET
+*/
 
-const route =
-await getDrivingRoute(
+if(currentPosition){
+
+const route=
+await getRoute(
 
 {
-
 lat:currentPosition.lat,
 lon:currentPosition.lng
-
 },
 
 target
 
 );
 
+drawRoute(route);
 
-drawRoute(
-route
-);
-
-
-showRouteInfo(
-route
-);
-
+showRouteInfo(route);
 
 tripMap.fitBounds(
 routeLine.getBounds(),
 {
-padding:[30,30]
+padding:[35,35]
 }
 );
-
-
-if(mode==="pickup"){
-
-document.getElementById(
-"mapMessage"
-).textContent=
-"📍 Pickup तक जाएँ। 100 meters के अंदर START RIDE button आएगा.";
-
-}else{
-
-document.getElementById(
-"mapMessage"
-).textContent=
-"🏁 Final Destination तक जाएँ.";
-
-}
 
 }else{
 
@@ -3437,41 +2618,38 @@ tripMap.setView(
 target.lat,
 target.lon
 ],
-15
+14
 );
 
+}
+
+if(mode==="pickup"){
 
 document.getElementById(
 "mapMessage"
 ).textContent=
-"📍 Driver location उपलब्ध होते ही पूरा route दिखाई देगा।";
+"📍 अपने current location से Customer Pickup Point तक जाएँ।";
+
+}else{
+
+document.getElementById(
+"mapMessage"
+).textContent=
+"🏁 Customer के Final Destination तक जाएँ।";
 
 }
 
-
 renderMapAction();
-
 
 }catch(error){
 
-console.error(
-"Map error:",
-error
-);
-
+console.error(error);
 
 document.getElementById(
 "mapMessage"
 ).textContent=
-"❌ Map route नहीं बन पाया: "+
+"❌ Route नहीं बन पाया: "+
 error.message;
-
-
-if(activeTrip){
-
-renderMapAction();
-
-}
 
 }
 
@@ -3479,35 +2657,28 @@ renderMapAction();
 
 
 /* =====================================================
-   MAP ACTION BUTTONS
+MAP ACTION
 ===================================================== */
 
 function renderMapAction(){
 
-const box =
+const box=
 document.getElementById(
 "mapActionBox"
 );
 
-
 box.innerHTML="";
 
-
 if(
-!activeTrip
-){
-
+!activeTrip||
+!currentPosition
+)
 return;
 
-}
-
-
 if(
-currentMapMode==="pickup" &&
+mapMode==="pickup"&&
 activeTrip.status==="accepted"
 ){
-
-if(currentPosition){
 
 getPlaceCoordinates(
 activeTrip.pickup
@@ -3515,7 +2686,7 @@ activeTrip.pickup
 .then(
 point=>{
 
-const distance =
+const distance=
 calculateDistanceMeters(
 
 currentPosition.lat,
@@ -3526,18 +2697,15 @@ point.lon
 
 );
 
+if(distance<=PICKUP_RADIUS){
 
-if(
-distance <= PICKUP_RADIUS_METERS
-){
-
-box.innerHTML = `
+box.innerHTML=`
 
 <button
-class="start-ride map-action"
-onclick="startRide()">
+class="start-button map-action"
+onclick="startBooking()">
 
-🚕 START RIDE
+🚕 START BOOKING
 
 </button>
 
@@ -3545,18 +2713,17 @@ onclick="startRide()">
 
 }else{
 
-box.innerHTML = `
+box.innerHTML=`
 
-<div class="pickup-far">
+<div class="far">
 
 📍 Pickup से
 ${Math.round(distance)}
-meters दूर
+meters दूर हैं।
 
 <br>
 
-100 meters के अंदर आने पर
-START RIDE आएगा।
+100 meters के अंदर START BOOKING आएगा।
 
 </div>
 
@@ -3564,19 +2731,15 @@ START RIDE आएगा।
 
 }
 
-})
-.catch(
-()=>{}
+}
 );
 
 }
 
-}else if(
-currentMapMode==="destination" &&
+if(
+mapMode==="destination"&&
 activeTrip.status==="started"
 ){
-
-if(currentPosition){
 
 getPlaceCoordinates(
 activeTrip.destination
@@ -3584,7 +2747,7 @@ activeTrip.destination
 .then(
 point=>{
 
-const distance =
+const distance=
 calculateDistanceMeters(
 
 currentPosition.lat,
@@ -3595,15 +2758,12 @@ point.lon
 
 );
 
+if(distance<=DESTINATION_RADIUS){
 
-if(
-distance <= DESTINATION_RADIUS_METERS
-){
-
-box.innerHTML = `
+box.innerHTML=`
 
 <button
-class="complete-trip map-action"
+class="complete-button map-action"
 onclick="completeTrip()">
 
 🏁 COMPLETE TRIP
@@ -3612,28 +2772,10 @@ onclick="completeTrip()">
 
 `;
 
-}else{
-
-box.innerHTML = `
-
-<div class="pickup-far">
-
-🏁 Destination से
-${Math.round(distance)}
-meters दूर
-
-</div>
-
-`;
-
 }
 
-})
-.catch(
-()=>{}
+}
 );
-
-}
 
 }
 
@@ -3641,33 +2783,27 @@ meters दूर
 
 
 /* =====================================================
-   CLOSE MAP
+CLOSE MAP
 ===================================================== */
 
-window.closeTripMap =
+window.closeTripMap=
 function(){
 
 document.getElementById(
 "mapModal"
-).classList.remove(
-"show"
-);
+).classList.remove("show");
 
 };
 
 
 /* =====================================================
-   CLEAR MAP
+CLEAR MAP
 ===================================================== */
 
-function clearMapLayers(){
+function clearMap(){
 
-if(!tripMap){
-
+if(!tripMap)
 return;
-
-}
-
 
 if(driverMarker){
 
@@ -3679,7 +2815,6 @@ driverMarker=null;
 
 }
 
-
 if(pickupMarker){
 
 tripMap.removeLayer(
@@ -3690,7 +2825,6 @@ pickupMarker=null;
 
 }
 
-
 if(destinationMarker){
 
 tripMap.removeLayer(
@@ -3700,7 +2834,6 @@ destinationMarker
 destinationMarker=null;
 
 }
-
 
 if(routeLine){
 
@@ -3716,65 +2849,26 @@ routeLine=null;
 
 
 /* =====================================================
-   DRIVER MAP MARKER
+UPDATE DRIVER MAP
 ===================================================== */
 
-function addDriverMarker(
-lat,
-lng
-){
-
-if(!tripMap){
-
-return;
-
-}
-
-
-driverMarker =
-L.marker([
-lat,
-lng
-])
-.addTo(tripMap)
-.bindPopup(
-"🚕 YOUR CURRENT LOCATION"
-);
-
-}
-
-
-/* =====================================================
-   UPDATE DRIVER MAP MARKER
-===================================================== */
-
-function updateMapDriverMarker(){
+function updateDriverMarker(){
 
 if(
-!tripMap ||
-!currentPosition ||
-!document
-.getElementById(
-"mapModal"
+!tripMap||
+!currentPosition
 )
-.classList.contains("show")
-){
-
 return;
 
-}
-
-
 if(
-!driverMarker
-){
+!document
+.getElementById("mapModal")
+.classList
+.contains("show")
+)
+return;
 
-addDriverMarker(
-currentPosition.lat,
-currentPosition.lng
-);
-
-}else{
+if(driverMarker){
 
 driverMarker.setLatLng([
 currentPosition.lat,
@@ -3783,186 +2877,108 @@ currentPosition.lng
 
 }
 
-
-/*
-  Refresh route/action periodically
-  so driver movement is reflected.
-*/
-
-if(
-activeTrip
-){
-
-refreshOpenMap();
-
-}
-
-}
-
-
-/* =====================================================
-   REFRESH OPEN MAP
-===================================================== */
-
-let mapRefreshBusy=false;
-
-
-async function refreshOpenMap(){
-
-if(
-mapRefreshBusy ||
-!currentMapMode ||
-!activeTrip ||
-!currentPosition
-){
-
-return;
-
-}
-
-
-if(
-!document
-.getElementById(
-"mapModal"
-)
-.classList.contains("show")
-){
-
-return;
-
-}
-
-
-mapRefreshBusy=true;
-
-
-try{
-
-const targetText =
-currentMapMode==="pickup"
-? activeTrip.pickup
-: activeTrip.destination;
-
-
-const target =
-await getPlaceCoordinates(
-targetText
-);
-
-
-const route =
-await getDrivingRoute(
-
-{
-
-lat:
-currentPosition.lat,
-
-lon:
-currentPosition.lng
-
-},
-
-target
-
-);
-
-
-if(routeLine){
-
-tripMap.removeLayer(
-routeLine
-);
-
-}
-
-
-drawRoute(
-route
-);
-
-
-showRouteInfo(
-route
-);
-
-
 renderMapAction();
 
-}catch(error){
+}
 
-console.error(
-"Map refresh error:",
-error
+
+/* =====================================================
+ROUTE
+===================================================== */
+
+async function getRoute(from,to){
+
+const coordinates=
+from.lon+
+","+
+from.lat+
+";"+
+to.lon+
+","+
+to.lat;
+
+const url=
+"https://router.project-osrm.org/route/v1/driving/"+
+coordinates+
+"?overview=full&geometries=geojson";
+
+const response=
+await fetch(url);
+
+if(!response.ok){
+
+throw new Error(
+"Route service failed."
 );
 
-}finally{
+}
 
-mapRefreshBusy=false;
+const data=
+await response.json();
+
+if(
+!data.routes||
+!data.routes.length
+){
+
+throw new Error(
+"Driving route not found."
+);
 
 }
+
+return data.routes[0];
 
 }
 
 
 /* =====================================================
-   ROUTE DRAW
+DRAW ROUTE
 ===================================================== */
 
-function drawRoute(
-route
-){
+function drawRoute(route){
 
-routeLine =
+routeLine=
 L.geoJSON(
 route.geometry,
 {
-
 style:{
+color:"#1769df",
 weight:6,
-opacity:.85
+opacity:.9
 }
-
 }
-).addTo(
-tripMap
-);
+).addTo(tripMap);
 
 }
 
 
 /* =====================================================
-   ROUTE INFO
+ROUTE INFO
 ===================================================== */
 
-function showRouteInfo(
-route
-){
+function showRouteInfo(route){
 
-const km =
+const km=
 (route.distance/1000)
 .toFixed(1);
 
-
-const minutes =
+const minutes=
 Math.round(
 route.duration/60
 );
 
-
 let time;
-
 
 if(minutes>=60){
 
-const hours =
+const hours=
 Math.floor(minutes/60);
 
-const mins =
+const mins=
 minutes%60;
 
-time =
+time=
 hours+
 " hr "+
 mins+
@@ -3970,24 +2986,21 @@ mins+
 
 }else{
 
-time =
+time=
 minutes+
 " min";
 
 }
-
 
 document.getElementById(
 "mapDistance"
 ).textContent=
 km+" KM";
 
-
 document.getElementById(
 "mapTime"
 ).textContent=
 time;
-
 
 document.getElementById(
 "mapRouteInfo"
@@ -3998,17 +3011,10 @@ document.getElementById(
 
 
 /* =====================================================
-   GEOCODE CACHE
+LOCATIONS
 ===================================================== */
 
-const geocodeCache = {};
-
-
-/* =====================================================
-   PLACE COORDINATES
-===================================================== */
-
-const HYDERABAD_LOCATIONS = {
+const HYDERABAD_LOCATIONS={
 
 "nampally metro station":
 [17.3930,78.4668],
@@ -4070,23 +3076,23 @@ const HYDERABAD_LOCATIONS = {
 "shamshabad":
 [17.2510,78.4294],
 
-"airport shamshabad":
-[17.2403,78.4294]
+"uppal":
+[17.4010,78.5591]
 
 };
 
 
+const locationCache={};
+
+
 /* =====================================================
-   GEOCODE
+GEOCODE
 ===================================================== */
 
-async function getPlaceCoordinates(
-place
-){
+async function getPlaceCoordinates(place){
 
-const original =
-(place || "").trim();
-
+const original=
+(place||"").trim();
 
 if(!original){
 
@@ -4096,110 +3102,79 @@ throw new Error(
 
 }
 
-
-const clean =
+const clean=
 original.toLowerCase();
 
-
-if(
-geocodeCache[clean]
-){
-
-return geocodeCache[clean];
-
-}
-
+if(locationCache[clean])
+return locationCache[clean];
 
 if(
 HYDERABAD_LOCATIONS[clean]
 ){
 
-const p =
+const p=
 HYDERABAD_LOCATIONS[clean];
 
-
 const result={
-
 lat:p[0],
-
 lon:p[1],
-
 name:original
-
 };
 
-
-geocodeCache[clean]=result;
+locationCache[clean]=result;
 
 return result;
 
 }
 
-
-const match =
+const match=
 Object.keys(
 HYDERABAD_LOCATIONS
-).find(
-key=>
-clean.includes(key)
+)
+.find(
+key=>clean.includes(key)
 );
-
 
 if(match){
 
-const p =
+const p=
 HYDERABAD_LOCATIONS[match];
 
-
 const result={
-
 lat:p[0],
-
 lon:p[1],
-
 name:original
-
 };
 
-
-geocodeCache[clean]=result;
+locationCache[clean]=result;
 
 return result;
 
 }
 
-
-let queryText =
+let searchText=
 original;
 
-
 if(
-!clean.includes("hyderabad") &&
+!clean.includes("hyderabad")&&
 !clean.includes("telangana")
 ){
 
-queryText +=
+searchText+=
 ", Hyderabad, Telangana, India";
 
 }
 
-
-const url =
+const url=
 "https://nominatim.openstreetmap.org/search"+
 "?format=jsonv2"+
 "&limit=1"+
 "&countrycodes=in"+
 "&q="+
-encodeURIComponent(
-queryText
-);
+encodeURIComponent(searchText);
 
-
-const response =
-await fetch(
-url
-);
-
+const response=
+await fetch(url);
 
 if(!response.ok){
 
@@ -4209,10 +3184,8 @@ throw new Error(
 
 }
 
-
-const data =
+const data=
 await response.json();
-
 
 if(!data.length){
 
@@ -4222,7 +3195,6 @@ original
 );
 
 }
-
 
 const result={
 
@@ -4239,8 +3211,7 @@ data[0].display_name
 
 };
 
-
-geocodeCache[clean]=result;
+locationCache[clean]=result;
 
 return result;
 
@@ -4248,68 +3219,7 @@ return result;
 
 
 /* =====================================================
-   OSRM ROUTE
-===================================================== */
-
-async function getDrivingRoute(
-from,
-to
-){
-
-const coordinates =
-from.lon+
-","+
-from.lat+
-";"+
-to.lon+
-","+
-to.lat;
-
-
-const url =
-"https://router.project-osrm.org/route/v1/driving/"+
-coordinates+
-"?overview=full&geometries=geojson";
-
-
-const response =
-await fetch(
-url
-);
-
-
-if(!response.ok){
-
-throw new Error(
-"Route service failed."
-);
-
-}
-
-
-const data =
-await response.json();
-
-
-if(
-!data.routes ||
-!data.routes.length
-){
-
-throw new Error(
-"Driving route not found."
-);
-
-}
-
-
-return data.routes[0];
-
-}
-
-
-/* =====================================================
-   DISTANCE CALCULATION
+DISTANCE
 ===================================================== */
 
 function calculateDistanceMeters(
@@ -4321,40 +3231,32 @@ lon2
 
 const R=6371000;
 
-const p1 =
-lat1*
-Math.PI/180;
+const p1=
+lat1*Math.PI/180;
 
-const p2 =
-lat2*
-Math.PI/180;
+const p2=
+lat2*Math.PI/180;
 
-const dp =
-(lat2-lat1)*
-Math.PI/180;
+const dp=
+(lat2-lat1)*Math.PI/180;
 
-const dl =
-(lon2-lon1)*
-Math.PI/180;
+const dl=
+(lon2-lon1)*Math.PI/180;
 
-
-const a =
+const a=
 Math.sin(dp/2)*
-Math.sin(dp/2)
-+
+Math.sin(dp/2)+
 Math.cos(p1)*
 Math.cos(p2)*
 Math.sin(dl/2)*
 Math.sin(dl/2);
 
-
-const c =
+const c=
 2*
 Math.atan2(
 Math.sqrt(a),
 Math.sqrt(1-a)
 );
-
 
 return R*c;
 
@@ -4362,7 +3264,7 @@ return R*c;
 
 
 /* =====================================================
-   DRIVER ID CHANGE
+DRIVER ID CHANGE
 ===================================================== */
 
 document
@@ -4371,21 +3273,22 @@ document
 "change",
 function(){
 
-firstBookingLoad=true;
+firstLoad=true;
 
 previousBookingIds=
 new Set();
 
-
 startBookingListener();
 
-startActiveTripListener();
+startActiveListener();
+
+loadDriver();
 
 });
 
 
 /* =====================================================
-   DRIVER NAME CHANGE
+NAME CHANGE
 ===================================================== */
 
 document
@@ -4395,45 +3298,33 @@ document
 function(){
 
 updateDriver({
-
 name:this.value
-
 });
 
 });
 
 
 /* =====================================================
-   LOAD DRIVER
+LOAD DRIVER
 ===================================================== */
 
 async function loadDriver(){
 
 try{
 
-const response =
+const response=
 await fetch(
 driverPath()
 );
 
-
-if(!response.ok){
-
+if(!response.ok)
 return;
 
-}
-
-
-const data =
+const data=
 await response.json();
 
-
-if(!data){
-
+if(!data)
 return;
-
-}
-
 
 if(data.name){
 
@@ -4449,7 +3340,6 @@ data.name;
 
 }
 
-
 if(data.dutyStatus){
 
 document.getElementById(
@@ -4464,7 +3354,6 @@ data.dutyStatus;
 
 }
 
-
 if(data.online===true){
 
 document.getElementById(
@@ -4477,18 +3366,16 @@ document.getElementById(
 ).textContent=
 "DRIVER ONLINE";
 
-
 startLocationTracking();
 
 startBookingListener();
 
-startActiveTripListener();
+startActiveListener();
 
 }
 
-
 if(
-data.location &&
+data.location&&
 typeof data.location.latitude==="number"
 ){
 
@@ -4502,36 +3389,36 @@ data.location.longitude
 
 };
 
-
 document.getElementById(
 "showLat"
 ).textContent=
-data.location.latitude.toFixed(6);
-
+data.location.latitude
+.toFixed(6);
 
 document.getElementById(
 "showLng"
 ).textContent=
-data.location.longitude.toFixed(6);
-
+data.location.longitude
+.toFixed(6);
 
 document.getElementById(
 "locationBox"
 ).innerHTML=
-
 "📍 <b>Current Location</b><br>"+
 "Latitude: "+
-data.location.latitude.toFixed(6)+
+data.location.latitude
+.toFixed(6)+
 "<br>"+
 "Longitude: "+
-data.location.longitude.toFixed(6);
+data.location.longitude
+.toFixed(6);
 
 }
 
 }catch(error){
 
 console.error(
-"Driver load error:",
+"Load driver error:",
 error
 );
 
@@ -4541,10 +3428,12 @@ error
 
 
 /* =====================================================
-   START
+START
 ===================================================== */
 
 startBookingListener();
+
+startActiveListener();
 
 loadDriver();
 
