@@ -9,6 +9,10 @@ content="width=device-width,initial-scale=1.0">
 
 <title>Car Set U - Driver Panel</title>
 
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
 <style>
 
 *{
@@ -19,7 +23,7 @@ body{
 margin:0;
 font-family:Arial,Helvetica,sans-serif;
 background:#f5f7fa;
-color:#222;
+color:#172033;
 padding-bottom:30px;
 }
 
@@ -162,30 +166,6 @@ color:#78350f;
 line-height:1.5;
 }
 
-.booking-header{
-background:#fee2e2;
-color:#991b1b;
-padding:17px;
-border-radius:14px;
-font-size:21px;
-font-weight:bold;
-text-align:center;
-margin-bottom:15px;
-animation:flash 1s infinite alternate;
-}
-
-@keyframes flash{
-
-from{
-box-shadow:0 0 0 rgba(220,38,38,0);
-}
-
-to{
-box-shadow:0 0 20px rgba(220,38,38,.55);
-}
-
-}
-
 .booking-card{
 border:3px solid #dc2626;
 background:#fffafa;
@@ -250,16 +230,6 @@ font-size:13px;
 margin-bottom:10px;
 }
 
-.accepted{
-background:#dcfce7;
-border-color:#16a34a;
-}
-
-.rejected{
-background:#fee2e2;
-border-color:#dc2626;
-}
-
 .small{
 font-size:14px;
 color:#64748b;
@@ -273,11 +243,204 @@ margin-top:12px;
 line-height:1.7;
 }
 
+.active-trip{
+background:#ecfdf5;
+border:3px solid #16a34a;
+border-radius:18px;
+padding:18px;
+margin-bottom:18px;
+}
+
+.active-trip h2{
+margin-top:0;
+color:#166534;
+}
+
+.trip-status{
+text-align:center;
+background:#d1fae5;
+color:#065f46;
+padding:14px;
+border-radius:12px;
+font-size:20px;
+font-weight:bold;
+margin-bottom:12px;
+}
+
+.pickup-near{
+background:#dcfce7;
+color:#166534;
+padding:14px;
+border-radius:12px;
+font-weight:bold;
+text-align:center;
+margin-top:10px;
+}
+
+.pickup-far{
+background:#fff7ed;
+color:#9a3412;
+padding:14px;
+border-radius:12px;
+font-weight:bold;
+text-align:center;
+margin-top:10px;
+}
+
+.destination-near{
+background:#dcfce7;
+color:#166534;
+padding:14px;
+border-radius:12px;
+font-weight:bold;
+text-align:center;
+margin-top:10px;
+}
+
+.map-modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.72);
+z-index:99999;
+display:none;
+}
+
+.map-modal.show{
+display:block;
+}
+
+.map-panel{
+position:absolute;
+left:10px;
+right:10px;
+top:10px;
+bottom:10px;
+background:white;
+border-radius:20px;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+}
+
+.map-header{
+background:#111827;
+color:white;
+padding:13px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:8px;
+}
+
+.map-header-title{
+font-size:18px;
+font-weight:bold;
+}
+
+.map-close{
+width:auto;
+margin:0;
+padding:9px 14px;
+background:#dc2626;
+color:white;
+font-size:14px;
+}
+
+#tripMap{
+flex:1;
+min-height:300px;
+}
+
+.map-bottom{
+background:white;
+padding:12px;
+box-shadow:0 -3px 15px rgba(0,0,0,.12);
+}
+
+.map-message{
+text-align:center;
+font-weight:bold;
+color:#475569;
+margin-bottom:8px;
+}
+
+.map-action{
+margin-top:8px;
+}
+
+.start-ride{
+background:#16a34a;
+color:white;
+}
+
+.complete-trip{
+background:#7c3aed;
+color:white;
+}
+
+.back-button{
+background:#111827;
+color:white;
+}
+
+.route-info{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-bottom:8px;
+}
+
+.route-box{
+background:#eff6ff;
+border-radius:10px;
+padding:10px;
+text-align:center;
+}
+
+.route-box strong{
+display:block;
+color:#1769df;
+font-size:18px;
+margin-top:3px;
+}
+
+.trip-point{
+padding:12px;
+background:#f8fafc;
+border-radius:10px;
+margin:8px 0;
+line-height:1.5;
+}
+
+@media(max-width:560px){
+
+.container{
+padding:10px;
+}
+
+.card{
+padding:16px;
+}
+
+.header h1{
+font-size:25px;
+}
+
+.map-panel{
+left:5px;
+right:5px;
+top:5px;
+bottom:5px;
+}
+
+}
+
 </style>
 
 </head>
 
 <body>
+
 
 <header class="header">
 
@@ -291,7 +454,9 @@ line-height:1.7;
 <div class="container">
 
 
-<!-- ================= DRIVER CONTROL ================= -->
+<!-- =====================================================
+     DRIVER CONTROL
+===================================================== -->
 
 <div class="card">
 
@@ -373,11 +538,12 @@ UPDATE MY LOCATION
 
 
 
-<!-- ================= SOUND ================= -->
+<!-- =====================================================
+     SOUND
+===================================================== -->
 
 <div
-class="alert-enable"
-id="soundBox">
+class="alert-enable">
 
 <h3>
 🔊 Booking Alert Sound
@@ -400,7 +566,64 @@ onclick="enableBookingSound()">
 
 
 
-<!-- ================= BOOKINGS ================= -->
+<!-- =====================================================
+     ACTIVE TRIP
+===================================================== -->
+
+<div
+id="activeTripBox"
+class="active-trip"
+style="display:none">
+
+<h2>
+🚕 Active Trip
+</h2>
+
+<div
+id="activeTripStatus"
+class="trip-status">
+
+BOOKING ACCEPTED
+
+</div>
+
+
+<div
+id="activeTripDetails">
+</div>
+
+
+<div
+id="distanceStatus">
+</div>
+
+
+<button
+id="openTripMapButton"
+class="blue"
+onclick="openCurrentTripMap()">
+
+🗺️ OPEN TRIP MAP
+
+</button>
+
+
+<div
+id="activeStartButtonBox">
+</div>
+
+
+<div
+id="activeCompleteButtonBox">
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     BOOKING REQUESTS
+===================================================== -->
 
 <div class="card">
 
@@ -412,7 +635,7 @@ onclick="enableBookingSound()">
 class="small"
 id="bookingStatus">
 
-Driver ID की booking check की जा रही है...
+Booking requests check की जा रही हैं...
 
 </div>
 
@@ -433,7 +656,9 @@ style="margin-top:15px">
 
 
 
-<!-- ================= DRIVER INFORMATION ================= -->
+<!-- =====================================================
+     DRIVER INFORMATION
+===================================================== -->
 
 <div class="card info">
 
@@ -495,7 +720,121 @@ class="location-box">
 </div>
 
 
-<!-- ================= FIREBASE ================= -->
+
+<!-- =====================================================
+     MAP MODAL
+===================================================== -->
+
+<div
+id="mapModal"
+class="map-modal">
+
+<div class="map-panel">
+
+
+<div class="map-header">
+
+<div
+id="mapTitle"
+class="map-header-title">
+
+🗺️ Trip Map
+
+</div>
+
+
+<button
+class="map-close"
+onclick="closeTripMap()">
+
+↩️ GO BACK
+
+</button>
+
+</div>
+
+
+<div
+id="tripMap">
+</div>
+
+
+<div class="map-bottom">
+
+
+<div
+id="mapMessage"
+class="map-message">
+
+Map loading...
+
+</div>
+
+
+<div
+id="mapRouteInfo"
+class="route-info"
+style="display:none">
+
+<div class="route-box">
+
+📏 Distance
+
+<strong id="mapDistance">
+—
+</strong>
+
+</div>
+
+
+<div class="route-box">
+
+⏱️ Time
+
+<strong id="mapTime">
+—
+</strong>
+
+</div>
+
+</div>
+
+
+<div
+id="mapActionBox">
+</div>
+
+
+<button
+class="back-button"
+onclick="closeTripMap()">
+
+↩️ GO BACK TO DRIVER PANEL
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     LEAFLET
+===================================================== -->
+
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
 
 <script type="module">
 
@@ -579,7 +918,7 @@ function driverPath(){
 const id =
 document.getElementById(
 "driverId"
-).value.trim();
+).value.trim().toUpperCase();
 
 return DATABASE_URL+
 "/drivers/"+
@@ -587,6 +926,50 @@ encodeURIComponent(id)+
 ".json";
 
 }
+
+
+/* =====================================================
+   TRIP SETTINGS
+===================================================== */
+
+const PICKUP_RADIUS_METERS = 100;
+
+const DESTINATION_RADIUS_METERS = 100;
+
+
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
+
+let unsubscribeBookings = null;
+
+let unsubscribeActiveTrip = null;
+
+let previousBookingIds = new Set();
+
+let firstBookingLoad = true;
+
+let activeTrip = null;
+
+let currentPosition = null;
+
+let locationWatchId = null;
+
+let tripMap = null;
+
+let driverMarker = null;
+
+let pickupMarker = null;
+
+let destinationMarker = null;
+
+let routeLine = null;
+
+let currentMapMode = null;
+
+let audioContext = null;
+
+let soundEnabled = false;
 
 
 /* =====================================================
@@ -603,7 +986,7 @@ document.getElementById(
 "message"
 );
 
-box.textContent=text;
+box.textContent = text;
 
 box.style.color =
 success
@@ -614,7 +997,25 @@ success
 
 
 /* =====================================================
-   UPDATE DRIVER
+   HTML ESCAPE
+===================================================== */
+
+function escapeHtml(value){
+
+return String(
+value ?? ""
+)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   DRIVER UPDATE - REALTIME DATABASE
 ===================================================== */
 
 async function updateDriver(data){
@@ -643,15 +1044,10 @@ JSON.stringify(data)
 if(!response.ok){
 
 throw new Error(
-"Firebase update failed"
+"Firebase driver update failed"
 );
 
 }
-
-
-showMessage(
-"Updated successfully"
-);
 
 
 document.getElementById(
@@ -672,10 +1068,13 @@ document.getElementById(
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Driver update error:",
+error
+);
 
 showMessage(
-"Firebase update failed",
+"Firebase driver update failed",
 false
 );
 
@@ -705,7 +1104,8 @@ document.getElementById(
 
 document.getElementById(
 "dutyStatus"
-).value="ON";
+).value =
+"ON";
 
 
 updateDriver({
@@ -722,8 +1122,11 @@ document.getElementById(
 });
 
 
+startLocationTracking();
+
 startBookingListener();
 
+startActiveTripListener();
 
 getLocation();
 
@@ -736,6 +1139,18 @@ getLocation();
 
 window.goOffline =
 function(){
+
+if(activeTrip){
+
+alert(
+"पहले current trip complete करें।\n\n"+
+"Active booking के दौरान Driver OFFLINE नहीं हो सकता।"
+);
+
+return;
+
+}
+
 
 document.getElementById(
 "statusBox"
@@ -751,7 +1166,8 @@ document.getElementById(
 
 document.getElementById(
 "dutyStatus"
-).value="OFF";
+).value =
+"OFF";
 
 
 updateDriver({
@@ -798,12 +1214,118 @@ navigator.geolocation.getCurrentPosition(
 
 function(position){
 
+handleLocation(
+position
+);
+
+},
+
+function(error){
+
+console.error(
+"Location error:",
+error
+);
+
+showMessage(
+"Please allow location permission",
+false
+);
+
+},
+
+{
+
+enableHighAccuracy:true,
+
+timeout:15000,
+
+maximumAge:0
+
+}
+
+);
+
+};
+
+
+/* =====================================================
+   CONTINUOUS LOCATION
+===================================================== */
+
+function startLocationTracking(){
+
+if(!navigator.geolocation){
+
+return;
+
+}
+
+
+if(locationWatchId !== null){
+
+return;
+
+}
+
+
+locationWatchId =
+navigator.geolocation.watchPosition(
+
+function(position){
+
+handleLocation(
+position
+);
+
+},
+
+function(error){
+
+console.error(
+"Location watch error:",
+error
+);
+
+},
+
+{
+
+enableHighAccuracy:true,
+
+timeout:15000,
+
+maximumAge:3000
+
+}
+
+);
+
+}
+
+
+/* =====================================================
+   LOCATION HANDLER
+===================================================== */
+
+function handleLocation(
+position
+){
+
 const latitude =
 position.coords.latitude;
 
-
 const longitude =
 position.coords.longitude;
+
+
+currentPosition = {
+
+lat:latitude,
+
+lng:longitude
+
+};
 
 
 document.getElementById(
@@ -838,36 +1360,28 @@ latitude:latitude,
 
 longitude:longitude
 
-}
+},
+
+locationUpdatedAt:
+Date.now()
 
 });
 
-},
 
+/*
+  Important:
+  active trip distance continuously update
+*/
 
-function(){
+if(activeTrip){
 
-showMessage(
-"Please allow location permission",
-false
-);
+updateActiveTripDistance();
 
-},
-
-
-{
-
-enableHighAccuracy:true,
-
-timeout:15000,
-
-maximumAge:0
+updateMapDriverMarker();
 
 }
 
-);
-
-};
+}
 
 
 /* =====================================================
@@ -882,6 +1396,19 @@ function(){
 
 const value =
 this.value;
+
+
+if(activeTrip && value==="OFF"){
+
+this.value="ON";
+
+alert(
+"Active trip के दौरान Driver OFF नहीं किया जा सकता।"
+);
+
+return;
+
+}
 
 
 updateDriver({
@@ -908,7 +1435,11 @@ document.getElementById(
 "DRIVER ONLINE";
 
 
+startLocationTracking();
+
 startBookingListener();
+
+startActiveTripListener();
 
 }else{
 
@@ -929,13 +1460,8 @@ document.getElementById(
 
 
 /* =====================================================
-   SOUND SYSTEM
+   SOUND
 ===================================================== */
-
-let audioContext=null;
-
-let soundEnabled=false;
-
 
 window.enableBookingSound =
 async function(){
@@ -943,7 +1469,7 @@ async function(){
 try{
 
 audioContext =
-new (
+new(
 window.AudioContext ||
 window.webkitAudioContext
 )();
@@ -983,14 +1509,10 @@ playTestSound();
 
 }catch(error){
 
-console.error(
-"Audio error:",
-error
-);
-
+console.error(error);
 
 alert(
-"Sound enable नहीं हो पाया। Phone का media volume check करें."
+"Sound enable नहीं हो पाया। Phone media volume check करें."
 );
 
 }
@@ -999,13 +1521,15 @@ alert(
 
 
 /* =====================================================
-   URGENT BOOKING SOUND
+   BOOKING ALERT
 ===================================================== */
 
 function playBookingAlert(){
 
-if(!soundEnabled ||
-!audioContext){
+if(
+!soundEnabled ||
+!audioContext
+){
 
 return;
 
@@ -1025,12 +1549,7 @@ const now =
 audioContext.currentTime;
 
 
-/*
-  Urgent danger style:
-  High-low-high repeated tones
-*/
-
-const pattern=[
+const pattern = [
 
 [880,0.00,0.18],
 
@@ -1052,47 +1571,31 @@ const pattern=[
 pattern.forEach(
 item=>{
 
-const frequency =
-item[0];
-
-const start =
-item[1];
-
-const duration =
-item[2];
-
-
 const oscillator =
 audioContext.createOscillator();
-
 
 const gain =
 audioContext.createGain();
 
-
 oscillator.type="square";
 
 oscillator.frequency.value =
-frequency;
-
+item[0];
 
 gain.gain.setValueAtTime(
 0.0001,
-now+start
+now+item[1]
 );
-
 
 gain.gain.exponentialRampToValueAtTime(
 0.35,
-now+start+0.02
+now+item[1]+0.02
 );
-
 
 gain.gain.exponentialRampToValueAtTime(
 0.0001,
-now+start+duration
+now+item[1]+item[2]
 );
-
 
 oscillator.connect(gain);
 
@@ -1100,14 +1603,12 @@ gain.connect(
 audioContext.destination
 );
 
-
 oscillator.start(
-now+start
+now+item[1]
 );
 
-
 oscillator.stop(
-now+start+duration
+now+item[1]+item[2]
 );
 
 });
@@ -1135,7 +1636,6 @@ audioContext.currentTime;
 const oscillator =
 audioContext.createOscillator();
 
-
 const gain =
 audioContext.createGain();
 
@@ -1150,12 +1650,10 @@ gain.gain.setValueAtTime(
 now
 );
 
-
 gain.gain.exponentialRampToValueAtTime(
 0.18,
 now+0.03
 );
-
 
 gain.gain.exponentialRampToValueAtTime(
 0.0001,
@@ -1185,18 +1683,14 @@ now+0.32
 
 function vibrateBooking(){
 
-if(
-navigator.vibrate
-){
+if(navigator.vibrate){
 
 navigator.vibrate([
-
 500,
 200,
 500,
 200,
 800
-
 ]);
 
 }
@@ -1205,19 +1699,7 @@ navigator.vibrate([
 
 
 /* =====================================================
-   FIRESTORE BOOKING LISTENER
-===================================================== */
-
-let unsubscribeBookings=null;
-
-let previousBookingIds=
-new Set();
-
-let firstBookingLoad=true;
-
-
-/* =====================================================
-   START BOOKING LISTENER
+   PENDING BOOKING LISTENER
 ===================================================== */
 
 function startBookingListener(){
@@ -1225,7 +1707,9 @@ function startBookingListener(){
 const driverId =
 document.getElementById(
 "driverId"
-).value.trim().toUpperCase();
+).value
+.trim()
+.toUpperCase();
 
 
 if(!driverId){
@@ -1234,10 +1718,6 @@ return;
 
 }
 
-
-/*
-  Stop old listener
-*/
 
 if(unsubscribeBookings){
 
@@ -1270,10 +1750,6 @@ where(
 
 );
 
-
-/*
-  Listen continuously
-*/
 
 unsubscribeBookings =
 onSnapshot(
@@ -1309,10 +1785,6 @@ booking
 );
 
 
-/*
-  New booking detection
-*/
-
 if(
 !firstBookingLoad &&
 !previousBookingIds.has(
@@ -1323,6 +1795,7 @@ docSnapshot.id
 newBooking=true;
 
 }
+
 
 previousBookingIds.add(
 docSnapshot.id
@@ -1344,7 +1817,6 @@ document.getElementById(
 ).textContent =
 
 bookings.length+
-
 " pending booking"+
 (
 bookings.length===1
@@ -1378,9 +1850,7 @@ error
 document.getElementById(
 "bookingStatus"
 ).textContent =
-"❌ Booking read failed: "+
-(error.message || "Permission denied");
-
+"❌ Booking read failed";
 
 document.getElementById(
 "bookingList"
@@ -1393,14 +1863,10 @@ style="color:#b91c1c">
 
 <br><br>
 
-${error.message || "Please check Firestore Rules."}
-
-<br><br>
-
-अगर यहाँ
-<b>Missing or insufficient permissions</b>
-आता है तो Firebase Firestore Rules में Driver Panel को
-cabBookings read करने की permission देनी होगी।
+${escapeHtml(
+error.message ||
+"Please check Firestore Rules."
+)}
 
 </div>
 
@@ -1414,88 +1880,208 @@ cabBookings read करने की permission देनी होगी।
 
 
 /* =====================================================
-   NEW BOOKING NOTICE
+   ACTIVE TRIP LISTENER
 ===================================================== */
 
-function showNewBookingNotice(){
+function startActiveTripListener(){
 
-const old =
+const driverId =
 document.getElementById(
-"newBookingNotice"
-);
+"driverId"
+).value
+.trim()
+.toUpperCase();
 
 
-if(old){
+if(!driverId){
 
-old.remove();
+return;
 
 }
 
 
-const notice =
-document.createElement(
-"div"
+if(unsubscribeActiveTrip){
+
+unsubscribeActiveTrip();
+
+unsubscribeActiveTrip=null;
+
+}
+
+
+const activeQuery =
+query(
+
+collection(
+db,
+"cabBookings"
+),
+
+where(
+"driverId",
+"==",
+driverId
+),
+
+where(
+"status",
+"in",
+[
+"accepted",
+"started"
+]
+
+)
+
 );
 
 
-notice.id=
-"newBookingNotice";
+unsubscribeActiveTrip =
+onSnapshot(
+
+activeQuery,
+
+snapshot=>{
+
+if(snapshot.empty){
+
+if(activeTrip){
+
+return;
+
+}
+
+return;
+
+}
 
 
-notice.style.position="fixed";
+/*
+  There should normally be only one active trip.
+  Use the latest document.
+*/
 
-notice.style.top="15px";
-
-notice.style.left="15px";
-
-notice.style.right="15px";
-
-notice.style.zIndex="99999";
-
-notice.style.background="#dc2626";
-
-notice.style.color="white";
-
-notice.style.padding="18px";
-
-notice.style.borderRadius="15px";
-
-notice.style.textAlign="center";
-
-notice.style.fontWeight="bold";
-
-notice.style.fontSize="19px";
-
-notice.style.boxShadow=
-"0 8px 25px rgba(0,0,0,.3)";
+let latest=null;
 
 
-notice.innerHTML=
+snapshot.forEach(
+docSnapshot=>{
 
-"🚨 NEW CAB BOOKING! 🚨"+
-"<br>"+
-"🔊 BOOKING ALERT";
+const data =
+docSnapshot.data();
 
 
-document.body.appendChild(
-notice
-);
+const item={
 
+id:
+docSnapshot.id,
+
+...data
+
+};
+
+
+if(!latest){
+
+latest=item;
+
+return;
+
+}
+
+
+const a =
+latest.createdAt &&
+latest.createdAt.seconds
+? latest.createdAt.seconds
+:0;
+
+
+const b =
+item.createdAt &&
+item.createdAt.seconds
+? item.createdAt.seconds
+:0;
+
+
+if(b>a){
+
+latest=item;
+
+}
+
+});
+
+
+if(latest){
+
+const oldId =
+activeTrip &&
+activeTrip.id;
+
+
+const oldStatus =
+activeTrip &&
+activeTrip.status;
+
+
+activeTrip=latest;
+
+
+renderActiveTrip();
+
+
+/*
+  If restored after refresh,
+  automatically open correct map.
+*/
+
+if(
+oldId!==latest.id ||
+oldStatus!==latest.status
+){
 
 setTimeout(
 ()=>{
 
-notice.remove();
+if(latest.status==="accepted"){
+
+openTripMap("pickup");
+
+}else if(
+latest.status==="started"
+){
+
+openTripMap("destination");
+
+}
 
 },
-6000
+400
+);
+
+}
+
+}
+
+},
+
+error=>{
+
+console.error(
+"Active trip listener error:",
+error
+);
+
+}
+
 );
 
 }
 
 
 /* =====================================================
-   RENDER BOOKINGS
+   RENDER PENDING BOOKINGS
 ===================================================== */
 
 function renderBookings(
@@ -1534,10 +2120,6 @@ return;
 }
 
 
-/*
-  Latest first
-*/
-
 bookings.sort(
 (a,b)=>{
 
@@ -1545,20 +2127,17 @@ const ta =
 a.createdAt &&
 a.createdAt.seconds
 ? a.createdAt.seconds
-: 0;
-
+:0;
 
 const tb =
 b.createdAt &&
 b.createdAt.seconds
 ? b.createdAt.seconds
-: 0;
-
+:0;
 
 return tb-ta;
 
-}
-);
+});
 
 
 bookings.forEach(
@@ -1734,33 +2313,80 @@ box.appendChild(card);
 
 
 /* =====================================================
-   HTML ESCAPE
+   NEW BOOKING NOTICE
 ===================================================== */
 
-function escapeHtml(value){
+function showNewBookingNotice(){
 
-return String(
-value ?? ""
-)
-.replace(
-/&/g,
-"&amp;"
-)
-.replace(
-/</g,
-"&lt;"
-)
-.replace(
-/>/g,
-"&gt;"
-)
-.replace(
-/"/g,
-"&quot;"
-)
-.replace(
-/'/g,
-"&#039;"
+const old =
+document.getElementById(
+"newBookingNotice"
+);
+
+
+if(old){
+
+old.remove();
+
+}
+
+
+const notice =
+document.createElement(
+"div"
+);
+
+
+notice.id=
+"newBookingNotice";
+
+notice.style.position="fixed";
+
+notice.style.top="15px";
+
+notice.style.left="15px";
+
+notice.style.right="15px";
+
+notice.style.zIndex="999999";
+
+notice.style.background="#dc2626";
+
+notice.style.color="white";
+
+notice.style.padding="18px";
+
+notice.style.borderRadius="15px";
+
+notice.style.textAlign="center";
+
+notice.style.fontWeight="bold";
+
+notice.style.fontSize="19px";
+
+notice.style.boxShadow=
+"0 8px 25px rgba(0,0,0,.3)";
+
+
+notice.innerHTML=
+
+"🚨 NEW CAB BOOKING! 🚨"+
+"<br>"+
+"🔊 BOOKING ALERT";
+
+
+document.body.appendChild(
+notice
+);
+
+
+setTimeout(
+()=>{
+
+notice.remove();
+
+},
+6000
 );
 
 }
@@ -1775,6 +2401,17 @@ async function(
 bookingId
 ){
 
+if(activeTrip){
+
+alert(
+"एक समय में एक ही active trip रखी जा सकती है।"
+);
+
+return;
+
+}
+
+
 if(!confirm(
 "क्या आप यह booking ACCEPT करना चाहते हैं?"
 )){
@@ -1785,6 +2422,14 @@ return;
 
 
 try{
+
+const driverId =
+document.getElementById(
+"driverId"
+).value
+.trim()
+.toUpperCase();
+
 
 await updateDoc(
 
@@ -1803,9 +2448,7 @@ acceptedAt:
 serverTimestamp(),
 
 acceptedByDriverId:
-document.getElementById(
-"driverId"
-).value.trim().toUpperCase()
+driverId
 
 }
 
@@ -1814,13 +2457,21 @@ document.getElementById(
 
 alert(
 "✅ BOOKING ACCEPTED!\n\n"+
-"Customer को booking accept कर दी गई है."
+"अब Pickup Location का Map खुलेगा."
 );
 
 
+/*
+  Active listener will receive
+  accepted booking and auto-open map.
+*/
+
 }catch(error){
 
-console.error(error);
+console.error(
+"Accept error:",
+error
+);
 
 
 alert(
@@ -1875,7 +2526,9 @@ serverTimestamp(),
 rejectedByDriverId:
 document.getElementById(
 "driverId"
-).value.trim().toUpperCase()
+).value
+.trim()
+.toUpperCase()
 
 }
 
@@ -1906,6 +2559,1809 @@ alert(
 
 
 /* =====================================================
+   ACTIVE TRIP RENDER
+===================================================== */
+
+function renderActiveTrip(){
+
+const box =
+document.getElementById(
+"activeTripBox"
+);
+
+
+if(!activeTrip){
+
+box.style.display="none";
+
+return;
+
+}
+
+
+box.style.display="block";
+
+
+const status =
+activeTrip.status;
+
+
+document.getElementById(
+"activeTripStatus"
+).textContent =
+
+status==="accepted"
+? "📍 GOING TO PICKUP"
+
+: "🚕 RIDE STARTED";
+
+
+document.getElementById(
+"activeTripDetails"
+).innerHTML = `
+
+<div class="trip-point">
+
+🆔 <b>Booking ID:</b>
+${escapeHtml(
+activeTrip.bookingId ||
+activeTrip.id
+)}
+
+</div>
+
+
+<div class="trip-point">
+
+👤 <b>Customer:</b>
+${escapeHtml(
+activeTrip.customerName ||
+"Customer"
+)}
+
+</div>
+
+
+<div class="trip-point">
+
+📞 <b>Mobile:</b>
+${escapeHtml(
+activeTrip.customerPhone ||
+"-"
+)}
+
+</div>
+
+
+<div class="trip-point">
+
+📍 <b>Pickup:</b>
+${escapeHtml(
+activeTrip.pickup ||
+"-"
+)}
+
+</div>
+
+
+<div class="trip-point">
+
+🏁 <b>Destination:</b>
+${escapeHtml(
+activeTrip.destination ||
+"-"
+)}
+
+</div>
+
+`;
+
+
+updateActiveTripDistance();
+
+}
+
+
+/* =====================================================
+   ACTIVE TRIP DISTANCE
+===================================================== */
+
+function updateActiveTripDistance(){
+
+if(
+!activeTrip ||
+!currentPosition
+){
+
+return;
+
+}
+
+
+const targetText =
+activeTrip.status==="accepted"
+? activeTrip.pickup
+: activeTrip.destination;
+
+
+if(!targetText){
+
+return;
+
+}
+
+
+getPlaceCoordinates(
+targetText
+)
+.then(
+point=>{
+
+const distance =
+calculateDistanceMeters(
+
+currentPosition.lat,
+currentPosition.lng,
+
+point.lat,
+point.lon
+
+);
+
+
+const rounded =
+Math.round(distance);
+
+
+const box =
+document.getElementById(
+"distanceStatus"
+);
+
+
+if(
+activeTrip.status==="accepted"
+){
+
+if(
+distance <= PICKUP_RADIUS_METERS
+){
+
+box.className=
+"pickup-near";
+
+box.innerHTML=
+
+"📍 <b>आप Pickup Point के पास पहुँच गए हैं!</b>"+
+"<br>"+
+"Distance: "+
+rounded+
+" meters";
+
+
+document.getElementById(
+"activeStartButtonBox"
+).innerHTML = `
+
+<button
+class="start-ride"
+onclick="startRide()">
+
+🚕 START RIDE
+
+</button>
+
+`;
+
+}else{
+
+box.className=
+"pickup-far";
+
+box.innerHTML=
+
+"📍 Pickup तक पहुँचें"+
+"<br>"+
+"Current distance: "+
+rounded+
+" meters"+
+"<br>"+
+"START RIDE pickup के 100 meters के अंदर आएगा।";
+
+
+document.getElementById(
+"activeStartButtonBox"
+).innerHTML="";
+
+}
+
+document.getElementById(
+"activeCompleteButtonBox"
+).innerHTML="";
+
+}else{
+
+
+if(
+distance <= DESTINATION_RADIUS_METERS
+){
+
+box.className=
+"destination-near";
+
+box.innerHTML=
+
+"🏁 <b>Destination के पास पहुँच गए हैं!</b>"+
+"<br>"+
+"Distance: "+
+rounded+
+" meters";
+
+
+document.getElementById(
+"activeCompleteButtonBox"
+).innerHTML = `
+
+<button
+class="complete-trip"
+onclick="completeTrip()">
+
+🏁 COMPLETE TRIP
+
+</button>
+
+`;
+
+}else{
+
+box.className=
+"pickup-far";
+
+box.innerHTML=
+
+"🏁 Destination तक जाएँ"+
+"<br>"+
+"Current distance: "+
+rounded+
+" meters";
+
+
+document.getElementById(
+"activeCompleteButtonBox"
+).innerHTML="";
+
+}
+
+document.getElementById(
+"activeStartButtonBox"
+).innerHTML="";
+
+}
+
+})
+.catch(
+error=>{
+
+console.error(
+"Distance check error:",
+error
+);
+
+});
+
+}
+
+
+/* =====================================================
+   START RIDE
+===================================================== */
+
+window.startRide =
+async function(){
+
+if(!activeTrip){
+
+alert(
+"कोई active booking नहीं है।"
+);
+
+return;
+
+}
+
+
+if(
+activeTrip.status!=="accepted"
+){
+
+return;
+
+}
+
+
+if(!currentPosition){
+
+alert(
+"पहले अपनी location update करें।"
+);
+
+getLocation();
+
+return;
+
+}
+
+
+try{
+
+const pickupPoint =
+await getPlaceCoordinates(
+activeTrip.pickup
+);
+
+
+const distance =
+calculateDistanceMeters(
+
+currentPosition.lat,
+currentPosition.lng,
+
+pickupPoint.lat,
+pickupPoint.lon
+
+);
+
+
+if(
+distance > PICKUP_RADIUS_METERS
+){
+
+alert(
+
+"आप अभी Pickup Point से "+
+Math.round(distance)+
+" meters दूर हैं.\n\n"+
+"Pickup के 100 meters के अंदर पहुँचने पर START RIDE button आएगा."
+
+);
+
+return;
+
+}
+
+
+if(!confirm(
+"क्या आप Pickup पर पहुँच गए हैं और Ride START करना चाहते हैं?"
+)){
+
+return;
+
+}
+
+
+await updateDoc(
+
+doc(
+db,
+"cabBookings",
+activeTrip.id
+),
+
+{
+
+status:
+"started",
+
+startedAt:
+serverTimestamp(),
+
+startedByDriverId:
+document.getElementById(
+"driverId"
+).value
+.trim()
+.toUpperCase()
+
+}
+
+);
+
+
+activeTrip.status="started";
+
+
+renderActiveTrip();
+
+
+alert(
+"🚕 RIDE STARTED!\n\n"+
+"अब Final Destination का Map खुलेगा."
+);
+
+
+/*
+  AUTO OPEN DESTINATION MAP
+*/
+
+setTimeout(
+()=>{
+
+openTripMap(
+"destination"
+);
+
+},
+300
+);
+
+
+}catch(error){
+
+console.error(
+"Start ride error:",
+error
+);
+
+
+alert(
+
+"❌ Ride start नहीं हुई.\n\n"+
+(error.message ||
+"Please try again.")
+
+);
+
+}
+
+};
+
+
+/* =====================================================
+   COMPLETE TRIP
+===================================================== */
+
+window.completeTrip =
+async function(){
+
+if(!activeTrip){
+
+return;
+
+}
+
+
+if(
+activeTrip.status!=="started"
+){
+
+return;
+
+}
+
+
+if(!currentPosition){
+
+alert(
+"पहले अपनी location update करें।"
+);
+
+return;
+
+}
+
+
+try{
+
+const destinationPoint =
+await getPlaceCoordinates(
+activeTrip.destination
+);
+
+
+const distance =
+calculateDistanceMeters(
+
+currentPosition.lat,
+currentPosition.lng,
+
+destinationPoint.lat,
+destinationPoint.lon
+
+);
+
+
+if(
+distance > DESTINATION_RADIUS_METERS
+){
+
+alert(
+
+"आप अभी Final Destination से "+
+Math.round(distance)+
+" meters दूर हैं.\n\n"+
+"Destination के 100 meters के अंदर पहुँचने पर COMPLETE TRIP button आएगा."
+
+);
+
+return;
+
+}
+
+
+if(!confirm(
+"क्या आप यह trip COMPLETE करना चाहते हैं?"
+)){
+
+return;
+
+}
+
+
+await updateDoc(
+
+doc(
+db,
+"cabBookings",
+activeTrip.id
+),
+
+{
+
+status:
+"completed",
+
+completedAt:
+serverTimestamp(),
+
+completedByDriverId:
+document.getElementById(
+"driverId"
+).value
+.trim()
+.toUpperCase()
+
+}
+
+);
+
+
+activeTrip=null;
+
+
+document.getElementById(
+"activeTripBox"
+).style.display="none";
+
+
+closeTripMap();
+
+
+alert(
+"✅ TRIP COMPLETED SUCCESSFULLY!"
+);
+
+
+}catch(error){
+
+console.error(
+"Complete trip error:",
+error
+);
+
+
+alert(
+
+"❌ Trip complete नहीं हुई.\n\n"+
+(error.message ||
+"Please try again.")
+
+);
+
+}
+
+};
+
+
+/* =====================================================
+   OPEN CURRENT TRIP MAP
+===================================================== */
+
+window.openCurrentTripMap =
+function(){
+
+if(!activeTrip){
+
+alert(
+"कोई active trip नहीं है।"
+);
+
+return;
+
+}
+
+
+if(
+activeTrip.status==="accepted"
+){
+
+openTripMap(
+"pickup"
+);
+
+}else{
+
+openTripMap(
+"destination"
+);
+
+}
+
+};
+
+
+/* =====================================================
+   MAP INITIALIZE
+===================================================== */
+
+function initTripMap(){
+
+if(tripMap){
+
+return;
+
+}
+
+
+tripMap =
+L.map(
+"tripMap"
+);
+
+
+L.tileLayer(
+
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+
+{
+
+maxZoom:19,
+
+attribution:
+"© OpenStreetMap contributors"
+
+}
+
+).addTo(
+tripMap
+);
+
+}
+
+
+/* =====================================================
+   OPEN MAP
+===================================================== */
+
+async function openTripMap(
+mode
+){
+
+if(!activeTrip){
+
+return;
+
+}
+
+
+currentMapMode=mode;
+
+
+const modal =
+document.getElementById(
+"mapModal"
+);
+
+
+modal.classList.add(
+"show"
+);
+
+
+initTripMap();
+
+
+setTimeout(
+()=>{
+
+tripMap.invalidateSize();
+
+},
+100
+);
+
+
+document.getElementById(
+"mapRouteInfo"
+).style.display="none";
+
+
+document.getElementById(
+"mapActionBox"
+).innerHTML="";
+
+
+if(mode==="pickup"){
+
+document.getElementById(
+"mapTitle"
+).textContent=
+"📍 Map to Pickup Point";
+
+document.getElementById(
+"mapMessage"
+).textContent=
+"Pickup Location का route बनाया जा रहा है...";
+
+}else{
+
+document.getElementById(
+"mapTitle"
+).textContent=
+"🏁 Map to Final Destination";
+
+document.getElementById(
+"mapMessage"
+).textContent=
+"Final Destination का route बनाया जा रहा है...";
+
+}
+
+
+clearMapLayers();
+
+
+try{
+
+const targetText =
+mode==="pickup"
+? activeTrip.pickup
+: activeTrip.destination;
+
+
+const target =
+await getPlaceCoordinates(
+targetText
+);
+
+
+if(
+currentPosition
+){
+
+addDriverMarker(
+currentPosition.lat,
+currentPosition.lng
+);
+
+}
+
+
+if(mode==="pickup"){
+
+pickupMarker =
+L.marker([
+target.lat,
+target.lon
+])
+.addTo(tripMap)
+.bindPopup(
+"📍 PICKUP POINT<br>"+
+escapeHtml(targetText)
+)
+.openPopup();
+
+}else{
+
+destinationMarker =
+L.marker([
+target.lat,
+target.lon
+])
+.addTo(tripMap)
+.bindPopup(
+"🏁 FINAL DESTINATION<br>"+
+escapeHtml(targetText)
+)
+.openPopup();
+
+}
+
+
+if(
+currentPosition
+){
+
+const route =
+await getDrivingRoute(
+
+{
+
+lat:currentPosition.lat,
+lon:currentPosition.lng
+
+},
+
+target
+
+);
+
+
+drawRoute(
+route
+);
+
+
+showRouteInfo(
+route
+);
+
+
+tripMap.fitBounds(
+routeLine.getBounds(),
+{
+padding:[30,30]
+}
+);
+
+
+if(mode==="pickup"){
+
+document.getElementById(
+"mapMessage"
+).textContent=
+"📍 Pickup तक जाएँ। 100 meters के अंदर START RIDE button आएगा.";
+
+}else{
+
+document.getElementById(
+"mapMessage"
+).textContent=
+"🏁 Final Destination तक जाएँ.";
+
+}
+
+}else{
+
+tripMap.setView(
+[
+target.lat,
+target.lon
+],
+15
+);
+
+
+document.getElementById(
+"mapMessage"
+).textContent=
+"📍 Driver location उपलब्ध होते ही पूरा route दिखाई देगा।";
+
+}
+
+
+renderMapAction();
+
+
+}catch(error){
+
+console.error(
+"Map error:",
+error
+);
+
+
+document.getElementById(
+"mapMessage"
+).textContent=
+"❌ Map route नहीं बन पाया: "+
+error.message;
+
+
+if(activeTrip){
+
+renderMapAction();
+
+}
+
+}
+
+}
+
+
+/* =====================================================
+   MAP ACTION BUTTONS
+===================================================== */
+
+function renderMapAction(){
+
+const box =
+document.getElementById(
+"mapActionBox"
+);
+
+
+box.innerHTML="";
+
+
+if(
+!activeTrip
+){
+
+return;
+
+}
+
+
+if(
+currentMapMode==="pickup" &&
+activeTrip.status==="accepted"
+){
+
+if(currentPosition){
+
+getPlaceCoordinates(
+activeTrip.pickup
+)
+.then(
+point=>{
+
+const distance =
+calculateDistanceMeters(
+
+currentPosition.lat,
+currentPosition.lng,
+
+point.lat,
+point.lon
+
+);
+
+
+if(
+distance <= PICKUP_RADIUS_METERS
+){
+
+box.innerHTML = `
+
+<button
+class="start-ride map-action"
+onclick="startRide()">
+
+🚕 START RIDE
+
+</button>
+
+`;
+
+}else{
+
+box.innerHTML = `
+
+<div class="pickup-far">
+
+📍 Pickup से
+${Math.round(distance)}
+meters दूर
+
+<br>
+
+100 meters के अंदर आने पर
+START RIDE आएगा।
+
+</div>
+
+`;
+
+}
+
+})
+.catch(
+()=>{}
+);
+
+}
+
+}else if(
+currentMapMode==="destination" &&
+activeTrip.status==="started"
+){
+
+if(currentPosition){
+
+getPlaceCoordinates(
+activeTrip.destination
+)
+.then(
+point=>{
+
+const distance =
+calculateDistanceMeters(
+
+currentPosition.lat,
+currentPosition.lng,
+
+point.lat,
+point.lon
+
+);
+
+
+if(
+distance <= DESTINATION_RADIUS_METERS
+){
+
+box.innerHTML = `
+
+<button
+class="complete-trip map-action"
+onclick="completeTrip()">
+
+🏁 COMPLETE TRIP
+
+</button>
+
+`;
+
+}else{
+
+box.innerHTML = `
+
+<div class="pickup-far">
+
+🏁 Destination से
+${Math.round(distance)}
+meters दूर
+
+</div>
+
+`;
+
+}
+
+})
+.catch(
+()=>{}
+);
+
+}
+
+}
+
+}
+
+
+/* =====================================================
+   CLOSE MAP
+===================================================== */
+
+window.closeTripMap =
+function(){
+
+document.getElementById(
+"mapModal"
+).classList.remove(
+"show"
+);
+
+};
+
+
+/* =====================================================
+   CLEAR MAP
+===================================================== */
+
+function clearMapLayers(){
+
+if(!tripMap){
+
+return;
+
+}
+
+
+if(driverMarker){
+
+tripMap.removeLayer(
+driverMarker
+);
+
+driverMarker=null;
+
+}
+
+
+if(pickupMarker){
+
+tripMap.removeLayer(
+pickupMarker
+);
+
+pickupMarker=null;
+
+}
+
+
+if(destinationMarker){
+
+tripMap.removeLayer(
+destinationMarker
+);
+
+destinationMarker=null;
+
+}
+
+
+if(routeLine){
+
+tripMap.removeLayer(
+routeLine
+);
+
+routeLine=null;
+
+}
+
+}
+
+
+/* =====================================================
+   DRIVER MAP MARKER
+===================================================== */
+
+function addDriverMarker(
+lat,
+lng
+){
+
+if(!tripMap){
+
+return;
+
+}
+
+
+driverMarker =
+L.marker([
+lat,
+lng
+])
+.addTo(tripMap)
+.bindPopup(
+"🚕 YOUR CURRENT LOCATION"
+);
+
+}
+
+
+/* =====================================================
+   UPDATE DRIVER MAP MARKER
+===================================================== */
+
+function updateMapDriverMarker(){
+
+if(
+!tripMap ||
+!currentPosition ||
+!document
+.getElementById(
+"mapModal"
+)
+.classList.contains("show")
+){
+
+return;
+
+}
+
+
+if(
+!driverMarker
+){
+
+addDriverMarker(
+currentPosition.lat,
+currentPosition.lng
+);
+
+}else{
+
+driverMarker.setLatLng([
+currentPosition.lat,
+currentPosition.lng
+]);
+
+}
+
+
+/*
+  Refresh route/action periodically
+  so driver movement is reflected.
+*/
+
+if(
+activeTrip
+){
+
+refreshOpenMap();
+
+}
+
+}
+
+
+/* =====================================================
+   REFRESH OPEN MAP
+===================================================== */
+
+let mapRefreshBusy=false;
+
+
+async function refreshOpenMap(){
+
+if(
+mapRefreshBusy ||
+!currentMapMode ||
+!activeTrip ||
+!currentPosition
+){
+
+return;
+
+}
+
+
+if(
+!document
+.getElementById(
+"mapModal"
+)
+.classList.contains("show")
+){
+
+return;
+
+}
+
+
+mapRefreshBusy=true;
+
+
+try{
+
+const targetText =
+currentMapMode==="pickup"
+? activeTrip.pickup
+: activeTrip.destination;
+
+
+const target =
+await getPlaceCoordinates(
+targetText
+);
+
+
+const route =
+await getDrivingRoute(
+
+{
+
+lat:
+currentPosition.lat,
+
+lon:
+currentPosition.lng
+
+},
+
+target
+
+);
+
+
+if(routeLine){
+
+tripMap.removeLayer(
+routeLine
+);
+
+}
+
+
+drawRoute(
+route
+);
+
+
+showRouteInfo(
+route
+);
+
+
+renderMapAction();
+
+}catch(error){
+
+console.error(
+"Map refresh error:",
+error
+);
+
+}finally{
+
+mapRefreshBusy=false;
+
+}
+
+}
+
+
+/* =====================================================
+   ROUTE DRAW
+===================================================== */
+
+function drawRoute(
+route
+){
+
+routeLine =
+L.geoJSON(
+route.geometry,
+{
+
+style:{
+weight:6,
+opacity:.85
+}
+
+}
+).addTo(
+tripMap
+);
+
+}
+
+
+/* =====================================================
+   ROUTE INFO
+===================================================== */
+
+function showRouteInfo(
+route
+){
+
+const km =
+(route.distance/1000)
+.toFixed(1);
+
+
+const minutes =
+Math.round(
+route.duration/60
+);
+
+
+let time;
+
+
+if(minutes>=60){
+
+const hours =
+Math.floor(minutes/60);
+
+const mins =
+minutes%60;
+
+time =
+hours+
+" hr "+
+mins+
+" min";
+
+}else{
+
+time =
+minutes+
+" min";
+
+}
+
+
+document.getElementById(
+"mapDistance"
+).textContent=
+km+" KM";
+
+
+document.getElementById(
+"mapTime"
+).textContent=
+time;
+
+
+document.getElementById(
+"mapRouteInfo"
+).style.display=
+"grid";
+
+}
+
+
+/* =====================================================
+   GEOCODE CACHE
+===================================================== */
+
+const geocodeCache = {};
+
+
+/* =====================================================
+   PLACE COORDINATES
+===================================================== */
+
+const HYDERABAD_LOCATIONS = {
+
+"nampally metro station":
+[17.3930,78.4668],
+
+"nampally":
+[17.3930,78.4668],
+
+"ameerpet":
+[17.4375,78.4483],
+
+"kukatpally":
+[17.4849,78.4138],
+
+"miyapur":
+[17.4969,78.3498],
+
+"madhapur":
+[17.4483,78.3915],
+
+"gachibowli":
+[17.4401,78.3489],
+
+"hitech city":
+[17.4435,78.3772],
+
+"secunderabad":
+[17.4399,78.4983],
+
+"banjara hills":
+[17.4156,78.4347],
+
+"jubilee hills":
+[17.4325,78.4071],
+
+"lb nagar":
+[17.3457,78.5522],
+
+"uppal":
+[17.4010,78.5591],
+
+"dilsukhnagar":
+[17.3688,78.5247],
+
+"begumpet":
+[17.4439,78.4623],
+
+"mehdipatnam":
+[17.3949,78.4313],
+
+"tolichowki":
+[17.3970,78.4160],
+
+"attapur":
+[17.3699,78.4250],
+
+"manikonda":
+[17.4050,78.3830],
+
+"shamshabad":
+[17.2510,78.4294],
+
+"airport shamshabad":
+[17.2403,78.4294]
+
+};
+
+
+/* =====================================================
+   GEOCODE
+===================================================== */
+
+async function getPlaceCoordinates(
+place
+){
+
+const original =
+(place || "").trim();
+
+
+if(!original){
+
+throw new Error(
+"Location is empty."
+);
+
+}
+
+
+const clean =
+original.toLowerCase();
+
+
+if(
+geocodeCache[clean]
+){
+
+return geocodeCache[clean];
+
+}
+
+
+if(
+HYDERABAD_LOCATIONS[clean]
+){
+
+const p =
+HYDERABAD_LOCATIONS[clean];
+
+
+const result={
+
+lat:p[0],
+
+lon:p[1],
+
+name:original
+
+};
+
+
+geocodeCache[clean]=result;
+
+return result;
+
+}
+
+
+const match =
+Object.keys(
+HYDERABAD_LOCATIONS
+).find(
+key=>
+clean.includes(key)
+);
+
+
+if(match){
+
+const p =
+HYDERABAD_LOCATIONS[match];
+
+
+const result={
+
+lat:p[0],
+
+lon:p[1],
+
+name:original
+
+};
+
+
+geocodeCache[clean]=result;
+
+return result;
+
+}
+
+
+let queryText =
+original;
+
+
+if(
+!clean.includes("hyderabad") &&
+!clean.includes("telangana")
+){
+
+queryText +=
+", Hyderabad, Telangana, India";
+
+}
+
+
+const url =
+"https://nominatim.openstreetmap.org/search"+
+"?format=jsonv2"+
+"&limit=1"+
+"&countrycodes=in"+
+"&q="+
+encodeURIComponent(
+queryText
+);
+
+
+const response =
+await fetch(
+url
+);
+
+
+if(!response.ok){
+
+throw new Error(
+"Location search failed."
+);
+
+}
+
+
+const data =
+await response.json();
+
+
+if(!data.length){
+
+throw new Error(
+"Location not found: "+
+original
+);
+
+}
+
+
+const result={
+
+lat:Number(
+data[0].lat
+),
+
+lon:Number(
+data[0].lon
+),
+
+name:
+data[0].display_name
+
+};
+
+
+geocodeCache[clean]=result;
+
+return result;
+
+}
+
+
+/* =====================================================
+   OSRM ROUTE
+===================================================== */
+
+async function getDrivingRoute(
+from,
+to
+){
+
+const coordinates =
+from.lon+
+","+
+from.lat+
+";"+
+to.lon+
+","+
+to.lat;
+
+
+const url =
+"https://router.project-osrm.org/route/v1/driving/"+
+coordinates+
+"?overview=full&geometries=geojson";
+
+
+const response =
+await fetch(
+url
+);
+
+
+if(!response.ok){
+
+throw new Error(
+"Route service failed."
+);
+
+}
+
+
+const data =
+await response.json();
+
+
+if(
+!data.routes ||
+!data.routes.length
+){
+
+throw new Error(
+"Driving route not found."
+);
+
+}
+
+
+return data.routes[0];
+
+}
+
+
+/* =====================================================
+   DISTANCE CALCULATION
+===================================================== */
+
+function calculateDistanceMeters(
+lat1,
+lon1,
+lat2,
+lon2
+){
+
+const R=6371000;
+
+const p1 =
+lat1*
+Math.PI/180;
+
+const p2 =
+lat2*
+Math.PI/180;
+
+const dp =
+(lat2-lat1)*
+Math.PI/180;
+
+const dl =
+(lon2-lon1)*
+Math.PI/180;
+
+
+const a =
+Math.sin(dp/2)*
+Math.sin(dp/2)
++
+Math.cos(p1)*
+Math.cos(p2)*
+Math.sin(dl/2)*
+Math.sin(dl/2);
+
+
+const c =
+2*
+Math.atan2(
+Math.sqrt(a),
+Math.sqrt(1-a)
+);
+
+
+return R*c;
+
+}
+
+
+/* =====================================================
    DRIVER ID CHANGE
 ===================================================== */
 
@@ -1920,7 +4376,10 @@ firstBookingLoad=true;
 previousBookingIds=
 new Set();
 
+
 startBookingListener();
+
+startActiveTripListener();
 
 });
 
@@ -1945,15 +4404,8 @@ name:this.value
 
 
 /* =====================================================
-   START
+   LOAD DRIVER
 ===================================================== */
-
-startBookingListener();
-
-
-/*
-  Load current driver data
-*/
 
 async function loadDriver(){
 
@@ -2005,7 +4457,6 @@ document.getElementById(
 ).value=
 data.dutyStatus;
 
-
 document.getElementById(
 "showDuty"
 ).textContent=
@@ -2021,11 +4472,17 @@ document.getElementById(
 ).className=
 "status online";
 
-
 document.getElementById(
 "statusBox"
 ).textContent=
 "DRIVER ONLINE";
+
+
+startLocationTracking();
+
+startBookingListener();
+
+startActiveTripListener();
 
 }
 
@@ -2034,6 +4491,17 @@ if(
 data.location &&
 typeof data.location.latitude==="number"
 ){
+
+currentPosition={
+
+lat:
+data.location.latitude,
+
+lng:
+data.location.longitude
+
+};
+
 
 document.getElementById(
 "showLat"
@@ -2072,8 +4540,13 @@ error
 }
 
 
-loadDriver();
+/* =====================================================
+   START
+===================================================== */
 
+startBookingListener();
+
+loadDriver();
 
 </script>
 
