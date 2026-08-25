@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
 <title>Car Set U - Hyderabad</title>
 
 <link rel="stylesheet"
 href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
 body{
 font-family:Arial,Helvetica,sans-serif;
@@ -166,6 +175,7 @@ margin-top:9px;
 
 .primary:disabled{
 opacity:.6;
+cursor:not-allowed;
 }
 
 .green{
@@ -265,6 +275,37 @@ font-weight:bold;
 .vehicle-btn.active{
 background:#1769df;
 color:white;
+}
+
+.driver-search-box{
+background:#eef4ff;
+border:1px solid #d6e3f8;
+border-radius:18px;
+padding:17px;
+margin-top:15px;
+}
+
+.driver-result{
+background:#e9f8ee;
+border:1px solid #b9e2c7;
+border-radius:16px;
+padding:16px;
+margin-top:12px;
+}
+
+.driver-not-found{
+background:#fff1f1;
+border:1px solid #f0c2c2;
+color:#a12828;
+border-radius:16px;
+padding:16px;
+margin-top:12px;
+}
+
+.driver-title{
+font-size:21px;
+font-weight:800;
+margin-bottom:8px;
 }
 
 .property{
@@ -400,6 +441,15 @@ font-size:20px;
 margin-top:5px;
 }
 
+.booking-selected{
+background:#e9f8ee;
+border:1px solid #b9e2c7;
+border-radius:16px;
+padding:15px;
+margin-top:14px;
+font-weight:bold;
+}
+
 .bottom-nav{
 position:fixed;
 left:0;
@@ -445,36 +495,47 @@ height:190px;
 }
 
 }
+
 </style>
+
 </head>
 
 <body>
+
 
 <header class="header">
 
 <div class="header-top">
 
 <div class="logo">
+
 🚘 CAR<br>
 <span>SET U</span>
+
 </div>
 
 <select class="language">
+
 <option>English</option>
 <option>हिंदी</option>
 <option>తెలుగు</option>
+
 </select>
 
 </div>
 
 <div class="subtitle">
+
 Buy • Sell • Cab Booking • Hyderabad
+
 </div>
 
 </header>
 
 
+
 <main class="container">
+
 
 <section class="hero">
 
@@ -490,6 +551,7 @@ Car Sell करें या Cab Book करें.
 </section>
 
 
+
 <!-- ================= CUSTOMER LOGIN ================= -->
 
 <section id="customerGate">
@@ -502,7 +564,6 @@ Car Sell करें या Cab Book करें.
 
 <div class="login-help">
 
-Car Set U इस्तेमाल करने से पहले
 पहले अपना <b>Mobile Number</b> दें।
 
 <br><br>
@@ -512,13 +573,13 @@ Car Set U इस्तेमाल करने से पहले
 
 <br><br>
 
-Booking करने के लिए
-Mobile Number + Gmail दोनों जरूरी हैं।
+Booking के लिए Mobile Number + Gmail दोनों जरूरी हैं।
 
 </div>
 
 
-<!-- STEP 1 MOBILE -->
+
+<!-- MOBILE -->
 
 <div id="phoneStep">
 
@@ -557,7 +618,8 @@ Continue
 </div>
 
 
-<!-- STEP 2 GOOGLE -->
+
+<!-- GOOGLE -->
 
 <div id="googleStep" class="hidden">
 
@@ -609,9 +671,12 @@ Change Mobile Number
 </div>
 
 
+
 <!-- LOGGED IN -->
 
-<div id="loggedInBox" class="hidden">
+<div
+id="loggedInBox"
+class="hidden">
 
 <div
 class="logged"
@@ -674,7 +739,9 @@ Logout
 
 <!-- ================= MAIN APP ================= -->
 
-<div id="mainApp" class="hidden">
+<div
+id="mainApp"
+class="hidden">
 
 
 <div class="tabs">
@@ -989,7 +1056,7 @@ Submit Car for Sale
 
 
 
-<!-- ================= CAB BOOKING ================= -->
+<!-- ================= CAB ================= -->
 
 <section
 id="cabSection"
@@ -1003,10 +1070,11 @@ class="hidden">
 
 <p class="info">
 
-Hyderabad / Telangana में
-Local या Intercity Cab Book करें।
+Pickup और Final Destination डालें,
+फिर Driver ID search करके उसी Driver को booking भेजें।
 
 </p>
+
 
 
 <h3>
@@ -1069,7 +1137,7 @@ Vehicle Type
 
 
 
-<!-- ONLY PICKUP -->
+<!-- PICKUP -->
 
 <div class="stop-box">
 
@@ -1091,7 +1159,7 @@ placeholder="Nampally Metro Station">
 
 
 
-<!-- ONLY FINAL DESTINATION -->
+<!-- DESTINATION -->
 
 <div class="stop-box">
 
@@ -1110,6 +1178,7 @@ id="destination"
 placeholder="Miyapur">
 
 </div>
+
 
 
 <button
@@ -1164,25 +1233,90 @@ class="route-summary hidden">
 
 </div>
 
+
+
+<!-- ================= DRIVER SEARCH ================= -->
+
+<div class="driver-search-box">
+
+<h3>
+🆔 Search Driver ID
+</h3>
+
+<p class="info">
+
+जिस Driver को booking भेजनी है,
+उसका Driver ID डालें।
+
+<br>
+
+उदाहरण:
+<b>DRV1001</b>
+
+</p>
+
+
+<input
+id="driverIdSearch"
+placeholder="Enter Driver ID"
+autocomplete="off"
+style="text-transform:uppercase">
+
+
+<button
+id="searchDriverButton"
+class="primary"
+onclick="searchDriver()">
+
+🔎 Search Driver
+
+</button>
+
+
+<div
+id="driverSearchResult"
+class="hidden">
+</div>
+
+
+<div
+id="selectedDriverBox"
+class="booking-selected hidden">
+
+</div>
+
 </div>
 
 
 
-<!-- AVAILABLE CAB -->
+<!-- ================= BOOK ================= -->
+
+<button
+id="bookCabButton"
+class="primary green"
+onclick="bookCab()">
+
+🚕 Book Selected Driver
+
+</button>
+
+</div>
+
+
+
+<!-- ================= AVAILABLE CAB ================= -->
 
 <div class="card">
 
 <h2>
-🚕 Available Cab
+🚕 Example Vehicle
 </h2>
-
 
 <div class="property">
 
 <img
 src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=80"
 alt="Available Cab">
-
 
 <div class="property-body">
 
@@ -1205,16 +1339,6 @@ MUV • 2022 • Diesel • Automatic • 7 Seater
 <div class="price">
 ₹3,200 / 8 Hours
 </div>
-
-
-<button
-id="bookCabButton"
-class="primary green"
-onclick="bookCab()">
-
-🚕 Book Cab
-
-</button>
 
 </div>
 
@@ -1291,7 +1415,9 @@ src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 
 <script type="module">
 
-import { initializeApp }
+import {
+initializeApp
+}
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 
@@ -1299,8 +1425,7 @@ import {
 
 getAuth,
 GoogleAuthProvider,
-signInWithRedirect,
-getRedirectResult,
+signInWithPopup,
 onAuthStateChanged,
 signOut
 
@@ -1315,12 +1440,20 @@ doc,
 setDoc,
 addDoc,
 collection,
-serverTimestamp
+serverTimestamp,
+query,
+where,
+limit,
+getDocs
 
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
+
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
 
 const firebaseConfig = {
 
@@ -1348,7 +1481,6 @@ measurementId:
 };
 
 
-
 const app =
 initializeApp(firebaseConfig);
 
@@ -1373,7 +1505,17 @@ prompt:"select_account"
 
 
 
-/* ================= PHONE ================= */
+/* =========================================================
+   SELECTED DRIVER
+========================================================= */
+
+let selectedDriver=null;
+
+
+
+/* =========================================================
+   PHONE
+========================================================= */
 
 function normalizePhone(value){
 
@@ -1381,19 +1523,19 @@ const digits =
 (value || "").replace(/\D/g,"");
 
 
-if(digits.length === 10){
+if(digits.length===10){
 
-return "+91" + digits;
+return "+91"+digits;
 
 }
 
 
 if(
-digits.length === 12 &&
+digits.length===12 &&
 digits.startsWith("91")
 ){
 
-return "+" + digits;
+return "+"+digits;
 
 }
 
@@ -1408,7 +1550,9 @@ window.continueWithPhone =
 function(){
 
 const input =
-document.getElementById("phoneNumber");
+document.getElementById(
+"phoneNumber"
+);
 
 
 const phone =
@@ -1434,7 +1578,8 @@ phone
 
 document.getElementById(
 "savedPhone"
-).textContent = phone;
+).textContent =
+phone;
 
 
 document.getElementById(
@@ -1464,7 +1609,9 @@ document.getElementById(
 
 
 const saved =
-localStorage.getItem("carSetU_phone") || "";
+localStorage.getItem(
+"carSetU_phone"
+) || "";
 
 
 document.getElementById(
@@ -1476,13 +1623,18 @@ saved.replace("+91","");
 
 
 
-/* ================= GOOGLE ================= */
+/* =========================================================
+   GOOGLE LOGIN
+   POPUP - NO REDIRECT LOOP
+========================================================= */
 
 window.loginWithGoogle =
 async function(){
 
 const phone =
-localStorage.getItem("carSetU_phone");
+localStorage.getItem(
+"carSetU_phone"
+);
 
 
 if(!phone){
@@ -1504,29 +1656,70 @@ document.getElementById(
 
 button.disabled=true;
 
-button.textContent=
+button.textContent =
 "⏳ Opening Google...";
 
 
 try{
 
-await signInWithRedirect(
+const result =
+await signInWithPopup(
 auth,
 googleProvider
 );
 
+
+if(result && result.user){
+
+console.log(
+"Google login successful:",
+result.user.email
+);
+
+}
+
 }catch(error){
 
-console.error(error);
-
-alert(
-"Google login could not start.\n\n"+
-(error.message || "Please try again.")
+console.error(
+"Google login error:",
+error
 );
+
+
+let message =
+"Google login could not be completed.";
+
+
+if(error.code==="auth/popup-closed-by-user"){
+
+message =
+"Google login window was closed. Please try again.";
+
+}
+
+
+if(error.code==="auth/popup-blocked"){
+
+message =
+"Google popup was blocked by browser. Please allow popups and try again.";
+
+}
+
+
+if(error.code==="auth/unauthorized-domain"){
+
+message =
+"This website domain is not authorized in Firebase Authentication.";
+
+}
+
+
+alert(message);
+
 
 button.disabled=false;
 
-button.innerHTML=
+button.innerHTML =
 '<span class="google-dot">G</span> Continue with Google / Gmail';
 
 }
@@ -1535,33 +1728,16 @@ button.innerHTML=
 
 
 
-getRedirectResult(auth)
-.catch(error=>{
-
-if(error){
-
-console.error(
-"Google redirect error:",
-error
-);
-
-alert(
-"Google login failed.\n\n"+
-(error.message || "Please try again.")
-);
-
-}
-
-});
-
-
-
-/* ================= CUSTOMER PROFILE ================= */
+/* =========================================================
+   CUSTOMER PROFILE
+========================================================= */
 
 async function saveCustomerProfile(user){
 
 const phone =
-localStorage.getItem("carSetU_phone") || "";
+localStorage.getItem(
+"carSetU_phone"
+) || "";
 
 
 if(!phone){
@@ -1616,7 +1792,9 @@ return true;
 
 
 
-/* ================= LOGIN STATE ================= */
+/* =========================================================
+   LOGIN STATE
+========================================================= */
 
 onAuthStateChanged(
 auth,
@@ -1681,9 +1859,10 @@ user.email || "";
 
 console.error(error);
 
+
 alert(
 "Login हुआ लेकिन profile save नहीं हुआ.\n\n"+
-error.message
+(error.message || "Please try again.")
 );
 
 }
@@ -1701,7 +1880,9 @@ document.getElementById(
 
 
 const saved =
-localStorage.getItem("carSetU_phone");
+localStorage.getItem(
+"carSetU_phone"
+);
 
 
 if(saved){
@@ -1740,7 +1921,9 @@ document.getElementById(
 
 
 
-/* ================= LOGOUT ================= */
+/* =========================================================
+   LOGOUT
+========================================================= */
 
 window.logoutUser =
 async function(){
@@ -1754,9 +1937,27 @@ localStorage.removeItem(
 );
 
 
+selectedDriver=null;
+
+
 document.getElementById(
 "phoneNumber"
 ).value="";
+
+
+document.getElementById(
+"driverIdSearch"
+).value="";
+
+
+document.getElementById(
+"driverSearchResult"
+).classList.add("hidden");
+
+
+document.getElementById(
+"selectedDriverBox"
+).classList.add("hidden");
 
 
 document.getElementById(
@@ -1786,7 +1987,11 @@ behavior:"smooth"
 
 }catch(error){
 
-alert("Logout failed.");
+console.error(error);
+
+alert(
+"Logout failed."
+);
 
 }
 
@@ -1803,7 +2008,9 @@ showSectionByName("cab");
 
 
 
-/* ================= SECTION ================= */
+/* =========================================================
+   SECTION
+========================================================= */
 
 window.showSection =
 function(section,button){
@@ -1811,17 +2018,32 @@ function(section,button){
 ["buy","sell","cab"].forEach(
 name=>{
 
+const element =
 document.getElementById(
 name+"Section"
-).classList.add("hidden");
+);
+
+if(element){
+
+element.classList.add("hidden");
+
+}
 
 }
 );
 
 
+const selected =
 document.getElementById(
 section+"Section"
-).classList.remove("hidden");
+);
+
+
+if(selected){
+
+selected.classList.remove("hidden");
+
+}
 
 
 document.querySelectorAll(".tab")
@@ -1833,6 +2055,18 @@ b=>b.classList.remove("active")
 if(button){
 
 button.classList.add("active");
+
+}
+
+
+if(section==="cab" && routeMap){
+
+setTimeout(
+()=>{
+routeMap.invalidateSize();
+},
+300
+);
 
 }
 
@@ -1889,7 +2123,11 @@ buttons[index]
 window.showHome =
 function(){
 
-if(!auth.currentUser)return;
+if(!auth.currentUser){
+
+return;
+
+}
 
 showSectionByName("buy");
 
@@ -1900,6 +2138,17 @@ showSectionByName("buy");
 window.showAccount =
 function(){
 
+if(!auth.currentUser){
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+return;
+
+}
+
 window.scrollTo({
 top:0,
 behavior:"smooth"
@@ -1909,7 +2158,9 @@ behavior:"smooth"
 
 
 
-/* ================= BUY ================= */
+/* =========================================================
+   BUY
+========================================================= */
 
 const buyCars=[
 
@@ -1917,8 +2168,7 @@ const buyCars=[
 
 id:"buy1",
 
-title:
-"Toyota Innova Crysta",
+title:"Toyota Innova Crysta",
 
 year:"2022",
 
@@ -1934,8 +2184,7 @@ price:"₹12,50,000",
 
 status:"Available",
 
-location:
-"Hyderabad, Telangana",
+location:"Hyderabad, Telangana",
 
 photo:
 "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1200&q=80"
@@ -2003,14 +2252,6 @@ ${car.seats}
 <div class="price">
 ${car.price}
 </div>
-
-<button
-class="primary"
-onclick="bookCab()">
-
-Contact / Enquiry
-
-</button>
 
 </div>
 
@@ -2093,7 +2334,9 @@ car.location
 
 
 
-/* ================= SELL ================= */
+/* =========================================================
+   SELL
+========================================================= */
 
 const sellCars=[];
 
@@ -2133,8 +2376,11 @@ return;
 
 files.forEach(file=>{
 
-if(!file.type.startsWith("image/"))
+if(!file.type.startsWith("image/")){
+
 return;
+
+}
 
 
 const reader =
@@ -2245,7 +2491,9 @@ alert(
 
 
 
-/* ================= CAB TYPE ================= */
+/* =========================================================
+   CAB TYPE
+========================================================= */
 
 window.selectCabType =
 function(button){
@@ -2263,7 +2511,9 @@ button.classList.add("active");
 
 
 
-/* ================= ROUTE MAP ================= */
+/* =========================================================
+   ROUTE MAP
+========================================================= */
 
 let routeMap=null;
 
@@ -2341,7 +2591,11 @@ const HYDERABAD_LOCATIONS={
 
 function initRouteMap(){
 
-if(routeMap)return;
+if(routeMap){
+
+return;
+
+}
 
 
 routeMap =
@@ -2362,6 +2616,7 @@ attribution:
 "© OpenStreetMap contributors"
 
 }
+
 ).addTo(routeMap);
 
 }
@@ -2382,7 +2637,7 @@ const p =
 HYDERABAD_LOCATIONS[clean];
 
 
-return {
+return{
 
 lat:p[0],
 
@@ -2409,7 +2664,7 @@ const p =
 HYDERABAD_LOCATIONS[match];
 
 
-return {
+return{
 
 lat:p[0],
 
@@ -2426,9 +2681,13 @@ let query =
 place.trim();
 
 
+const lower =
+query.toLowerCase();
+
+
 if(
-!query.includes("hyderabad") &&
-!query.includes("telangana")
+!lower.includes("hyderabad") &&
+!lower.includes("telangana")
 ){
 
 query +=
@@ -2450,6 +2709,15 @@ const response =
 await fetch(url);
 
 
+if(!response.ok){
+
+throw new Error(
+"Location search failed."
+);
+
+}
+
+
 const data =
 await response.json();
 
@@ -2463,7 +2731,7 @@ throw new Error(
 }
 
 
-return {
+return{
 
 lat:Number(data[0].lat),
 
@@ -2498,6 +2766,15 @@ const response =
 await fetch(url);
 
 
+if(!response.ok){
+
+throw new Error(
+"Route service failed."
+);
+
+}
+
+
 const data =
 await response.json();
 
@@ -2519,6 +2796,10 @@ return data.routes[0];
 }
 
 
+
+/* =========================================================
+   SHOW ROUTE
+========================================================= */
 
 window.showRouteMap =
 async function(){
@@ -2583,19 +2864,16 @@ geocodePlace(destination)
 
 
 status.textContent =
-"🛣️ Calculating complete route...";
+"🛣️ Calculating route...";
 
-
-if(routeMarkers.length){
 
 routeMarkers.forEach(
-marker=>
-routeMap.removeLayer(marker)
+marker=>{
+routeMap.removeLayer(marker);
+}
 );
 
 routeMarkers=[];
-
-}
 
 
 if(routeLine){
@@ -2617,19 +2895,25 @@ points.forEach(
 (point,index)=>{
 
 const marker =
-L.marker(
-[
+L.marker([
 point.lat,
 point.lon
-]
-)
+])
 .addTo(routeMap)
 .bindPopup(
+
 index===0
+
 ?
-"📍 Pickup<br>"+point.name
+
+"📍 Pickup<br>"+
+point.name
+
 :
-"🏁 Final Destination<br>"+point.name
+
+"🏁 Final Destination<br>"+
+point.name
+
 );
 
 
@@ -2642,10 +2926,12 @@ routeLine =
 L.geoJSON(
 route.geometry,
 {
+
 style:{
 weight:6,
 opacity:.85
 }
+
 }
 ).addTo(routeMap);
 
@@ -2681,9 +2967,13 @@ totalMinutes%60;
 
 const time =
 hours>0
+
 ?
+
 hours+" hr "+mins+" min"
+
 :
+
 mins+" min";
 
 
@@ -2729,15 +3019,422 @@ error.message
 
 
 
-/* ================= BOOK CAB ================= */
+/* =========================================================
+   DRIVER ID SEARCH
+========================================================= */
 
-window.bookCab =
+window.searchDriver =
 async function(){
 
 if(!auth.currentUser){
 
 alert(
 "Please complete Phone Number → Google/Gmail Login first."
+);
+
+return;
+
+}
+
+
+const input =
+document.getElementById(
+"driverIdSearch"
+);
+
+
+const resultBox =
+document.getElementById(
+"driverSearchResult"
+);
+
+
+const searchButton =
+document.getElementById(
+"searchDriverButton"
+);
+
+
+const driverId =
+(input.value || "")
+.trim()
+.toUpperCase();
+
+
+if(!driverId){
+
+alert(
+"Please enter Driver ID."
+);
+
+return;
+
+}
+
+
+selectedDriver=null;
+
+
+document.getElementById(
+"selectedDriverBox"
+).classList.add("hidden");
+
+
+resultBox.classList.remove("hidden");
+
+
+resultBox.className="driver-result";
+
+
+resultBox.innerHTML =
+"🔎 Searching Driver...";
+
+
+searchButton.disabled=true;
+
+searchButton.textContent =
+"⏳ Searching...";
+
+
+try{
+
+const driversQuery =
+query(
+
+collection(
+db,
+"drivers"
+),
+
+where(
+"driverId",
+"==",
+driverId
+),
+
+limit(1)
+
+);
+
+
+const snapshot =
+await getDocs(
+driversQuery
+);
+
+
+if(snapshot.empty){
+
+resultBox.className =
+"driver-not-found";
+
+
+resultBox.innerHTML = `
+
+<strong>
+❌ Driver Not Found
+</strong>
+
+<div style="margin-top:7px">
+
+Driver ID <b>${driverId}</b>
+Firebase में नहीं मिला।
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+const driverDoc =
+snapshot.docs[0];
+
+
+const data =
+driverDoc.data();
+
+
+const blacklisted =
+data.blacklisted === true ||
+data.status === "blacklisted";
+
+
+if(blacklisted){
+
+resultBox.className =
+"driver-not-found";
+
+
+resultBox.innerHTML = `
+
+<strong>
+🚫 Driver Unavailable
+</strong>
+
+<div style="margin-top:7px">
+
+यह Driver अभी booking के लिए available नहीं है।
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+const active =
+data.active !== false &&
+data.status !== "inactive";
+
+
+if(!active){
+
+resultBox.className =
+"driver-not-found";
+
+
+resultBox.innerHTML = `
+
+<strong>
+⚠️ Driver Inactive
+</strong>
+
+<div style="margin-top:7px">
+
+यह Driver अभी active नहीं है।
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+selectedDriver={
+
+documentId:
+driverDoc.id,
+
+driverId:
+driverId,
+
+name:
+data.name ||
+data.driverName ||
+"Driver",
+
+mobile:
+data.mobile ||
+data.phone ||
+data.driverMobile ||
+"",
+
+vehicle:
+data.vehicleNumber ||
+data.car ||
+data.driverCar ||
+"Vehicle",
+
+vehicleType:
+data.vehicleType ||
+data.type ||
+"",
+
+dutyOn:
+data.dutyOn === true
+
+};
+
+
+resultBox.className =
+"driver-result";
+
+
+resultBox.innerHTML = `
+
+<div class="driver-title">
+✅ Driver Found
+</div>
+
+<div class="spec">
+🆔 Driver ID:
+<b>${selectedDriver.driverId}</b>
+</div>
+
+<div class="spec">
+👨‍✈️ Driver:
+${selectedDriver.name}
+</div>
+
+<div class="spec">
+🚕 Vehicle:
+${selectedDriver.vehicle}
+</div>
+
+<div class="spec">
+🚘 Type:
+${selectedDriver.vehicleType || "Cab"}
+</div>
+
+<div class="spec">
+🟢 Status:
+Available for Booking
+</div>
+
+<button
+class="primary green"
+onclick="selectDriverForBooking()">
+
+✅ Select This Driver
+
+</button>
+
+`;
+
+}catch(error){
+
+console.error(
+"Driver search error:",
+error
+);
+
+
+resultBox.className =
+"driver-not-found";
+
+
+resultBox.innerHTML = `
+
+<strong>
+❌ Driver Search Failed
+</strong>
+
+<div style="margin-top:7px">
+
+${error.message || "Please try again."}
+
+</div>
+
+`;
+
+}finally{
+
+searchButton.disabled=false;
+
+searchButton.textContent =
+"🔎 Search Driver";
+
+}
+
+};
+
+
+
+/* =========================================================
+   SELECT DRIVER
+========================================================= */
+
+window.selectDriverForBooking =
+function(){
+
+if(!selectedDriver){
+
+alert(
+"Please search and select a Driver first."
+);
+
+return;
+
+}
+
+
+const box =
+document.getElementById(
+"selectedDriverBox"
+);
+
+
+box.classList.remove(
+"hidden"
+);
+
+
+box.innerHTML = `
+
+🆔 Selected Driver:
+<b>${selectedDriver.driverId}</b>
+
+<br><br>
+
+👨‍✈️ Driver:
+${selectedDriver.name}
+
+<br>
+
+🚕 Vehicle:
+${selectedDriver.vehicle}
+
+<br><br>
+
+<span style="color:#18763b">
+✅ Booking इसी Driver को जाएगी।
+</span>
+
+`;
+
+window.scrollTo({
+top:
+box.getBoundingClientRect().top+
+window.scrollY-
+120,
+
+behavior:"smooth"
+
+});
+
+};
+
+
+
+/* =========================================================
+   BOOK CAB
+========================================================= */
+
+let bookingInProgress=false;
+
+
+window.bookCab =
+async function(){
+
+if(bookingInProgress){
+
+return;
+
+}
+
+
+if(!auth.currentUser){
+
+alert(
+"Please complete Phone Number → Google/Gmail Login first."
+);
+
+return;
+
+}
+
+
+if(!selectedDriver){
+
+alert(
+"पहले Driver ID Search करके Driver Select करें."
 );
 
 return;
@@ -2770,13 +3467,13 @@ document.getElementById(
 const distance =
 document.getElementById(
 "routeDistance"
-).textContent;
+).textContent.trim();
 
 
 const time =
 document.getElementById(
 "routeDuration"
-).textContent;
+).textContent.trim();
 
 
 if(!pickup || !destination){
@@ -2790,7 +3487,10 @@ return;
 }
 
 
-if(distance==="—" || time==="—"){
+if(
+distance==="—" ||
+time==="—"
+){
 
 alert(
 "पहले Show Complete Route दबाएँ."
@@ -2799,6 +3499,9 @@ alert(
 return;
 
 }
+
+
+bookingInProgress=true;
 
 
 const button =
@@ -2823,6 +3526,9 @@ bookingType:
 status:
 "pending",
 
+
+/* CUSTOMER */
+
 customerUid:
 user.uid,
 
@@ -2834,6 +3540,9 @@ user.email || "",
 
 customerPhone:
 phone,
+
+
+/* ROUTE */
 
 pickup:
 pickup,
@@ -2847,15 +3556,32 @@ distance,
 estimatedTime:
 time,
 
-driverId:"",
 
-driverName:"",
+/* SELECTED DRIVER */
 
-driverMobile:"",
+driverId:
+selectedDriver.driverId,
 
-driverCar:"",
+driverName:
+selectedDriver.name,
 
-vehicleNumber:"",
+driverMobile:
+selectedDriver.mobile,
+
+driverCar:
+selectedDriver.vehicle,
+
+vehicleNumber:
+selectedDriver.vehicle,
+
+
+/* DRIVER DOCUMENT */
+
+driverDocumentId:
+selectedDriver.documentId,
+
+
+/* CREATED */
 
 createdAt:
 serverTimestamp()
@@ -2883,7 +3609,14 @@ alert(
 "Booking ID: "+
 bookingRef.id+
 
-"\n\nMobile: "+
+"\n\n"+
+
+"Driver ID: "+
+selectedDriver.driverId+
+
+"\n\n"+
+
+"Mobile: "+
 phone+
 
 "\nGmail: "+
@@ -2895,14 +3628,17 @@ pickup+
 "\nDestination: "+
 destination+
 
-"\n\nDriver Admin द्वारा assign किया जाएगा."
+"\n\nBooking सीधे selected Driver ID को भेजी गई है."
 
 );
 
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Booking error:",
+error
+);
 
 
 alert(
@@ -2912,19 +3648,24 @@ alert(
 
 );
 
-}
+}finally{
 
+bookingInProgress=false;
 
 button.disabled=false;
 
 button.textContent =
-"🚕 Book Cab";
+"🚕 Book Selected Driver";
+
+}
 
 };
 
 
 
-/* ================= START ================= */
+/* =========================================================
+   START
+========================================================= */
 
 renderBuyCars(
 buyCars
