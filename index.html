@@ -1193,7 +1193,9 @@ from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
 
 
-/* FIREBASE */
+/* =====================================================
+FIREBASE
+===================================================== */
 
 const firebaseConfig={
 
@@ -1237,7 +1239,9 @@ googleProvider.setCustomParameters({
 });
 
 
-/* STATE */
+/* =====================================================
+STATE
+===================================================== */
 
 let unsubscribeBookings=null;
 
@@ -1271,7 +1275,9 @@ let eventState={
 };
 
 
-/* PHONE */
+/* =====================================================
+PHONE
+===================================================== */
 
 function normalizePhone(value){
 
@@ -1342,7 +1348,9 @@ document.getElementById(
 };
 
 
-/* GOOGLE */
+/* =====================================================
+GOOGLE
+===================================================== */
 
 window.loginWithGoogle=async function(){
 
@@ -1395,7 +1403,9 @@ button.innerHTML=
 };
 
 
-/* PROFILE */
+/* =====================================================
+CUSTOMER PROFILE
+===================================================== */
 
 async function saveCustomerProfile(user){
 
@@ -1420,7 +1430,9 @@ merge:true
 }
 
 
-/* AUTH */
+/* =====================================================
+AUTH
+===================================================== */
 
 onAuthStateChanged(
 auth,
@@ -1503,7 +1515,9 @@ alert(
 });
 
 
-/* LOGOUT */
+/* =====================================================
+LOGOUT
+===================================================== */
 
 window.logoutUser=async function(){
 
@@ -1533,7 +1547,9 @@ alert(
 };
 
 
-/* SCREEN */
+/* =====================================================
+SCREEN
+===================================================== */
 
 window.openScreen=function(screen){
 
@@ -1618,7 +1634,9 @@ behavior:"smooth"
 };
 
 
-/* BOOKING TYPE */
+/* =====================================================
+BOOKING TYPE
+===================================================== */
 
 window.openBookingType=function(type){
 
@@ -1631,7 +1649,9 @@ renderEventStart();
 };
 
 
-/* SINGLE BOOKING */
+/* =====================================================
+SINGLE BOOKING
+===================================================== */
 
 function renderSingleBooking(){
 
@@ -1858,7 +1878,9 @@ initMapFor("singleRouteMap");
 }
 
 
-/* LOCATION BLOCK */
+/* =====================================================
+LOCATION BLOCK
+===================================================== */
 
 function locationBlock(id,num,title){
 
@@ -1920,7 +1942,9 @@ class="map-status hidden">
 }
 
 
-/* RENTAL */
+/* =====================================================
+RENTAL
+===================================================== */
 
 window.selectRental=function(button,value){
 
@@ -1952,7 +1976,9 @@ selectedVehicle=value;
 };
 
 
-/* DATE */
+/* =====================================================
+DATE
+===================================================== */
 
 function getTodayString(){
 
@@ -2017,7 +2043,9 @@ String(later.getMinutes())
 }
 
 
-/* CURRENT LOCATION */
+/* =====================================================
+CURRENT LOCATION
+===================================================== */
 
 window.useCurrentLocation=
 function(inputId){
@@ -2101,7 +2129,9 @@ maximumAge:0
 };
 
 
-/* PASTE */
+/* =====================================================
+PASTE
+===================================================== */
 
 window.pasteLocation=
 async function(inputId){
@@ -2136,7 +2166,9 @@ alert(
 };
 
 
-/* MAP */
+/* =====================================================
+MAP
+===================================================== */
 
 let maps={};
 
@@ -2176,7 +2208,9 @@ return map;
 }
 
 
-/* HYDERABAD FALLBACK */
+/* =====================================================
+KNOWN LOCATIONS
+===================================================== */
 
 const knownLocations={
 
@@ -2195,24 +2229,14 @@ const knownLocations={
 };
 
 
+/* =====================================================
+GEOCODE
+===================================================== */
+
 async function geocodePlace(place){
 
 const clean=
 place.trim().toLowerCase();
-
-const match=
-Object.keys(knownLocations)
-.find(k=>clean.includes(k));
-
-if(match){
-
-return{
-lat:knownLocations[match][0],
-lon:knownLocations[match][1],
-name:place
-};
-
-}
 
 const gpsMatch=
 place.match(
@@ -2225,6 +2249,20 @@ return{
 lat:Number(gpsMatch[1]),
 lon:Number(gpsMatch[2]),
 name:"Current Location"
+};
+
+}
+
+const match=
+Object.keys(knownLocations)
+.find(k=>clean.includes(k));
+
+if(match){
+
+return{
+lat:knownLocations[match][0],
+lon:knownLocations[match][1],
+name:place
 };
 
 }
@@ -2270,6 +2308,10 @@ name:data[0].display_name
 }
 
 
+/* =====================================================
+ROUTE
+===================================================== */
+
 async function getRoute(points){
 
 const coords=
@@ -2306,7 +2348,9 @@ return data.routes[0];
 }
 
 
-/* SINGLE ROUTE */
+/* =====================================================
+SINGLE ROUTE
+===================================================== */
 
 window.showSingleRoute=
 async function(){
@@ -2457,7 +2501,9 @@ error.message
 };
 
 
-/* DRIVER ID */
+/* =====================================================
+DRIVER ID
+===================================================== */
 
 function normalizeDriverId(value){
 
@@ -2476,7 +2522,9 @@ return id;
 }
 
 
-/* DRIVER SEARCH */
+/* =====================================================
+DRIVER SEARCH
+===================================================== */
 
 window.searchDriver=
 async function(mode){
@@ -2687,7 +2735,9 @@ error.message||
 };
 
 
-/* SELECT DRIVER */
+/* =====================================================
+SELECT DRIVER
+===================================================== */
 
 window.selectDriver=function(){
 
@@ -2757,7 +2807,9 @@ selectedDriver.vehicle
 };
 
 
-/* VOICE UI */
+/* =====================================================
+VOICE UI
+===================================================== */
 
 function voiceBlock(prefix){
 
@@ -2815,7 +2867,9 @@ Voice Note Optional
 }
 
 
-/* VOICE */
+/* =====================================================
+VOICE
+===================================================== */
 
 window.startVoice=function(prefix){
 
@@ -2960,7 +3014,9 @@ alert(
 };
 
 
-/* UPLOAD VOICE */
+/* =====================================================
+UPLOAD VOICE
+===================================================== */
 
 async function uploadVoice(path){
 
@@ -2985,7 +3041,9 @@ voiceRef
 }
 
 
-/* SINGLE BOOKING */
+/* =====================================================
+SINGLE BOOKING SAVE
+===================================================== */
 
 window.confirmSingleBooking=
 async function(){
@@ -3200,7 +3258,9 @@ error.message
 };
 
 
-/* EVENT START */
+/* =====================================================
+EVENT START
+===================================================== */
 
 function renderEventStart(){
 
@@ -3370,7 +3430,9 @@ renderEventCar();
 };
 
 
-/* EVENT CAR */
+/* =====================================================
+EVENT CAR
+===================================================== */
 
 function renderEventCar(){
 
@@ -3611,7 +3673,9 @@ initMapFor("eventRouteMap");
 }
 
 
-/* EVENT ROUTE */
+/* =====================================================
+EVENT ROUTE
+===================================================== */
 
 window.showEventRoute=
 async function(){
@@ -3719,7 +3783,9 @@ error.message
 };
 
 
-/* EVENT SAVE */
+/* =====================================================
+EVENT SAVE
+===================================================== */
 
 window.saveEventCar=
 async function(){
@@ -3965,7 +4031,9 @@ error.message
 };
 
 
-/* BOOKINGS */
+/* =====================================================
+BOOKINGS
+===================================================== */
 
 function loadMyBookings(){
 
@@ -4044,7 +4112,9 @@ parts[0];
 }
 
 
-/* RENDER BOOKINGS */
+/* =====================================================
+RENDER BOOKINGS
+===================================================== */
 
 async function renderBookings(){
 
@@ -4427,7 +4497,9 @@ error.message
 }
 
 
-/* SETTINGS */
+/* =====================================================
+SETTINGS
+===================================================== */
 
 window.openSettings=function(type){
 
@@ -4664,7 +4736,9 @@ error.message
 };
 
 
-/* TRACKING */
+/* =====================================================
+TRACKING
+===================================================== */
 
 function renderTrackingSettings(box){
 
@@ -4723,6 +4797,10 @@ loadLiveDrivers(map);
 
 }
 
+
+/* =====================================================
+ACTIVE BOOKING ONLY TRACKING
+===================================================== */
 
 async function loadLiveDrivers(map){
 
@@ -4858,7 +4936,9 @@ console.error(error);
 }
 
 
-/* ACCOUNT */
+/* =====================================================
+ACCOUNT
+===================================================== */
 
 function renderAccountSettings(box){
 
@@ -4916,7 +4996,9 @@ Logout
 }
 
 
-/* ESCAPE */
+/* =====================================================
+ESCAPE
+===================================================== */
 
 function escapeHtml(value){
 
@@ -4932,7 +5014,9 @@ value??""
 }
 
 
-/* START */
+/* =====================================================
+START
+===================================================== */
 
 const saved=
 localStorage.getItem(
