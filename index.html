@@ -7,16 +7,11 @@
 <title>Car Set U - Customer</title>
 
 <link rel="manifest" href="manifest.json">
-
 <link rel="stylesheet"
 href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
 font-family:Arial,Helvetica,sans-serif;
@@ -25,19 +20,9 @@ color:#172033;
 padding-bottom:82px;
 }
 
-button,input,select,textarea{
-font:inherit;
-}
-
-button{
-cursor:pointer;
-}
-
-.hidden{
-display:none!important;
-}
-
-/* HEADER */
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
 
 .header{
 position:sticky;
@@ -75,15 +60,11 @@ color:white;
 font-size:28px;
 }
 
-/* CONTAINER */
-
 .container{
 width:min(100%,700px);
 margin:auto;
 padding:15px;
 }
-
-/* CARD */
 
 .card{
 background:white;
@@ -93,22 +74,14 @@ margin-bottom:16px;
 box-shadow:0 5px 20px #0000000d;
 }
 
-.card h2{
-font-size:23px;
-margin-bottom:13px;
-}
-
-.card h3{
-margin:17px 0 9px;
-}
+.card h2{font-size:23px;margin-bottom:13px}
+.card h3{margin:17px 0 9px}
 
 .info{
 color:#596273;
 line-height:1.55;
 margin-bottom:14px;
 }
-
-/* PAGE TITLE */
 
 .page-title{
 background:#123d72;
@@ -122,51 +95,122 @@ font-weight:bold;
 
 /* DASHBOARD */
 
-.dashboard-title{
-background:#123d72;
-color:white;
-padding:18px;
-border-radius:18px;
-font-size:23px;
-font-weight:bold;
-margin-bottom:15px;
-}
-
-.dashboard-grid{
+.dashboard-buttons{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:12px;
+margin-bottom:16px;
 }
 
-.dashboard-button{
-border:1px solid #d8dee8;
+.dashboard-main-btn{
+border:1px solid #d9dee7;
 background:white;
-min-height:150px;
-border-radius:22px;
-padding:20px 10px;
-font-weight:bold;
-font-size:20px;
-box-shadow:0 4px 16px #0000000d;
+min-height:125px;
+border-radius:20px;
+padding:18px 10px;
+font-size:19px;
+font-weight:800;
+color:#172033;
+box-shadow:0 3px 12px #0000000a;
 }
 
-.dashboard-button.active{
+.dashboard-main-btn.active{
 background:#1769df;
 color:white;
 border-color:#1769df;
 }
 
-.dashboard-icon{
-font-size:42px;
+.dashboard-main-btn span{
 display:block;
-margin-bottom:10px;
+font-size:38px;
+margin-bottom:8px;
 }
 
-.dashboard-sub{
+.daily-summary{
+background:linear-gradient(135deg,#123d72,#1769df);
+color:white;
+border-radius:20px;
+padding:20px;
+margin-bottom:15px;
+}
+
+.daily-summary .label{font-size:19px}
+.daily-summary .number{
+font-size:42px;
+font-weight:800;
+margin-top:5px;
+}
+.daily-summary .date{
+font-size:17px;
+margin-top:3px;
+}
+
+.upcoming-card{
+background:#eef4ff;
+border:1px solid #d6e3f8;
+border-radius:22px;
+padding:20px;
+margin-bottom:15px;
+}
+
+.upcoming-title{
+font-size:25px;
+font-weight:800;
+margin-bottom:13px;
+}
+
+.upcoming-status{
+display:inline-block;
+background:#e9f8ee;
+color:#16833e;
+padding:8px 13px;
+border-radius:20px;
+font-weight:bold;
+margin-bottom:12px;
+}
+
+.booking-row{
+padding:11px 0;
+border-bottom:1px solid #dfe7f2;
+line-height:1.4;
+}
+
+.booking-row:last-child{border-bottom:0}
+
+.booking-row strong{
 display:block;
-font-size:12px;
-font-weight:normal;
-margin-top:7px;
-opacity:.75;
+font-size:13px;
+color:#687386;
+margin-bottom:3px;
+}
+
+.booking-value{font-size:18px}
+
+.button-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:13px;
+}
+
+.map-button{
+border:0;
+background:#1769df;
+color:white;
+padding:15px;
+border-radius:14px;
+font-weight:bold;
+font-size:17px;
+}
+
+.details-button{
+border:0;
+background:#e4edfc;
+color:#1769df;
+padding:15px;
+border-radius:14px;
+font-weight:bold;
+font-size:17px;
 }
 
 /* LOGIN */
@@ -179,9 +223,7 @@ line-height:1.55;
 margin-bottom:16px;
 }
 
-.form-group{
-margin-bottom:14px;
-}
+.form-group{margin-bottom:14px}
 
 label{
 display:block;
@@ -219,9 +261,7 @@ border-radius:13px;
 font-weight:bold;
 }
 
-.phone-row input{
-flex:1;
-}
+.phone-row input{flex:1}
 
 .primary{
 width:100%;
@@ -234,65 +274,41 @@ font-weight:bold;
 margin-top:8px;
 }
 
-.green{
-background:#159447;
-}
+.green{background:#159447}
+.red{background:#df3535}
+.gray{background:#687386}
 
-.red{
-background:#df3535;
-}
-
-.gray{
-background:#687386;
-}
-
-.white-button{
+.google-btn{
 width:100%;
-border:1px solid #d6dce5;
+border:1px solid #d7dce5;
 background:white;
 padding:15px;
 border-radius:13px;
 font-weight:bold;
-margin-top:8px;
 }
 
-/* PROFILE */
+.google-dot{
+display:inline-flex;
+width:25px;
+height:25px;
+align-items:center;
+justify-content:center;
+color:#4285f4;
+font-weight:900;
+margin-right:7px;
+}
 
-.profile-box{
+/* SETTINGS */
+
+.settings-card{
 background:white;
 border-radius:20px;
-padding:18px;
+padding:0;
+overflow:hidden;
 margin-bottom:15px;
 }
 
-.profile-row{
-padding:13px 0;
-border-bottom:1px solid #edf0f4;
-}
-
-.profile-row:last-child{
-border-bottom:0;
-}
-
-.profile-label{
-font-size:12px;
-color:#687386;
-}
-
-.profile-value{
-font-weight:bold;
-margin-top:4px;
-word-break:break-word;
-}
-
-.profile-menu{
-background:white;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 5px 20px #0000000d;
-}
-
-.profile-menu button{
+.settings-item{
 width:100%;
 border:0;
 background:white;
@@ -304,11 +320,9 @@ border-bottom:1px solid #edf0f4;
 text-align:left;
 }
 
-.profile-menu button:last-child{
-border-bottom:0;
-}
+.settings-item:last-child{border-bottom:0}
 
-.profile-menu-left{
+.settings-left{
 display:flex;
 align-items:center;
 gap:12px;
@@ -316,16 +330,10 @@ font-weight:bold;
 font-size:16px;
 }
 
-.profile-menu-icon{
-font-size:25px;
-}
+.settings-icon{font-size:25px}
+.settings-arrow{font-size:22px;color:#687386}
 
-.profile-menu-arrow{
-font-size:23px;
-color:#687386;
-}
-
-/* BOOKING TYPE */
+/* BOOKING */
 
 .booking-type-grid{
 display:grid;
@@ -347,14 +355,25 @@ color:white;
 border-color:#1769df;
 }
 
-/* LOCATION */
-
-.location-box{
+.stop-box{
 background:#f8fbff;
 border:1px solid #dce5f0;
 border-radius:16px;
 padding:15px;
 margin-top:12px;
+}
+
+.stop-number{
+display:inline-flex;
+width:31px;
+height:31px;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+background:#1769df;
+color:white;
+font-weight:bold;
+margin-right:7px;
 }
 
 .location-buttons{
@@ -364,16 +383,14 @@ gap:8px;
 margin-top:8px;
 }
 
-.small-button{
+.small-location-btn{
 border:0;
-background:#e7effc;
+background:#e8f0fc;
 color:#1769df;
-padding:12px 8px;
-border-radius:12px;
+padding:11px 7px;
+border-radius:11px;
 font-weight:bold;
 }
-
-/* MAP */
 
 .map-box{
 height:320px;
@@ -448,119 +465,56 @@ border-radius:15px;
 margin-top:12px;
 }
 
-/* VOICE */
+.driver-photo{
+width:72px;
+height:72px;
+border-radius:50%;
+object-fit:cover;
+border:3px solid white;
+box-shadow:0 2px 8px #0002;
+background:#e7edf5;
+}
 
-.voice-box{
-background:#f7f9fc;
-border:1px solid #dce5f0;
-border-radius:15px;
-padding:14px;
+.driver-profile-box{
+display:flex;
+gap:13px;
+align-items:center;
+padding:10px 0;
+}
+
+.driver-photo-placeholder{
+width:72px;
+height:72px;
+border-radius:50%;
+background:#dfe8f5;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:32px;
+}
+
+/* CONTACT */
+
+.contact-box{
+background:#e9f8ee;
+border:1px solid #b9e2c7;
+border-radius:16px;
+padding:15px;
 margin-top:12px;
 }
 
-.voice-buttons{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:7px;
-margin-top:9px;
-}
-
-.voice-button{
-border:0;
-padding:12px 5px;
-border-radius:11px;
-background:#e7effc;
-color:#1769df;
-font-weight:bold;
-}
-
-.voice-button.recording{
-background:#df3535;
-color:white;
-}
-
-.voice-status{
-font-size:13px;
-color:#596273;
-margin-top:9px;
-line-height:1.4;
-}
-
-audio{
-width:100%;
-margin-top:10px;
-}
-
-/* EVENT */
-
-.event-info{
-background:#eef4ff;
-border:1px solid #d6e3f8;
-border-radius:17px;
-padding:16px;
-margin-bottom:15px;
-}
-
-.event-count{
-font-size:30px;
-font-weight:800;
-color:#1769df;
-margin-top:8px;
-}
-
-.event-car-card{
-background:white;
-border:1px solid #dce2ea;
-border-radius:19px;
-padding:17px;
-margin-top:13px;
-}
-
-.event-car-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-}
-
-.car-title{
-font-size:21px;
-font-weight:800;
-}
-
-.pending{
-background:#f0f2f5;
-color:#687386;
-padding:7px 11px;
-border-radius:18px;
-font-size:12px;
-font-weight:bold;
-}
-
-.confirmed{
-background:#e9f8ee;
-color:#16833e;
-padding:7px 11px;
-border-radius:18px;
-font-size:12px;
-font-weight:bold;
-}
-
-.event-list{
-margin-top:15px;
-}
-
-.event-saved-card{
-background:#f8fbff;
-border:1px solid #dce5f0;
-border-radius:15px;
-padding:14px;
-margin-top:10px;
-}
-
-.event-saved-card strong{
+.call-btn{
 display:block;
-margin-bottom:5px;
+width:100%;
+border:0;
+background:#159447;
+color:white;
+padding:13px;
+border-radius:12px;
+font-weight:bold;
+margin-top:9px;
+text-align:center;
+text-decoration:none;
 }
 
 /* BOOKINGS */
@@ -584,14 +538,15 @@ font-size:13px;
 margin-bottom:8px;
 }
 
-.status.accepted{
+.status.accepted,
+.status.running{
 background:#e9f8ee;
 color:#16833e;
 }
 
-.status.pending{
-background:#fff5dc;
-color:#9a6200;
+.status.rejected{
+background:#fff0f0;
+color:#b42318;
 }
 
 .status.completed{
@@ -599,30 +554,98 @@ background:#eef0f3;
 color:#596273;
 }
 
-.status.close-requested{
-background:#fff0d9;
-color:#a55b00;
+.status.close_requested{
+background:#fff5dc;
+color:#9a6200;
 }
 
-.booking-row{
-padding:10px 0;
-border-bottom:1px solid #edf0f4;
-line-height:1.4;
+/* EVENT */
+
+.event-header{
+background:#eef4ff;
+border:1px solid #d6e3f8;
+border-radius:17px;
+padding:16px;
+margin-bottom:15px;
 }
 
-.booking-row:last-child{
-border-bottom:0;
+.event-progress{
+background:#e9f8ee;
+border:1px solid #b9e2c7;
+color:#18763b;
+padding:12px;
+border-radius:13px;
+font-weight:bold;
+margin-bottom:12px;
 }
 
-.booking-row strong{
-display:block;
+.event-car-card{
+background:white;
+border:1px solid #dce2ea;
+border-radius:18px;
+padding:17px;
+margin-top:12px;
+}
+
+.car-number{
+font-size:21px;
+font-weight:800;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:8px;
+margin-bottom:12px;
+}
+
+.pending-badge{
+background:#eef0f3;
+color:#596273;
+padding:7px 10px;
+border-radius:18px;
 font-size:12px;
-color:#687386;
-margin-bottom:3px;
 }
 
-.booking-value{
-font-size:17px;
+.done-badge{
+background:#e9f8ee;
+color:#16833e;
+padding:7px 10px;
+border-radius:18px;
+font-size:12px;
+}
+
+.voice-box{
+background:#eef4ff;
+border:1px solid #d6e3f8;
+border-radius:15px;
+padding:13px;
+margin-top:12px;
+}
+
+.voice-buttons{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:7px;
+margin-top:9px;
+}
+
+.voice-buttons button{
+border:0;
+background:#e1ebfa;
+color:#1769df;
+padding:10px 5px;
+border-radius:10px;
+font-weight:bold;
+font-size:13px;
+}
+
+.voice-buttons button.recording{
+background:#df3535;
+color:white;
+}
+
+audio{
+width:100%;
+margin-top:10px;
 }
 
 /* TRACKING */
@@ -640,6 +663,59 @@ color:#18763b;
 border-radius:12px;
 padding:11px;
 margin-top:10px;
+font-weight:bold;
+}
+
+.warning-box{
+background:#fff5dc;
+border:1px solid #f0d59a;
+color:#7a5a15;
+padding:13px;
+border-radius:13px;
+margin-top:10px;
+line-height:1.5;
+}
+
+/* PROFILE */
+
+.profile-row{
+padding:13px 0;
+border-bottom:1px solid #edf0f4;
+}
+
+.profile-label{
+font-size:12px;
+color:#687386;
+}
+
+.profile-value{
+font-weight:bold;
+margin-top:4px;
+word-break:break-word;
+}
+
+/* NAVIGATION */
+
+.navigation-map{
+height:500px;
+border-radius:17px;
+overflow:hidden;
+margin-top:12px;
+}
+
+.navigation-top{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:12px;
+}
+
+.back-button{
+border:0;
+background:#e4edfc;
+color:#1769df;
+padding:12px 15px;
+border-radius:12px;
 font-weight:bold;
 }
 
@@ -667,11 +743,6 @@ background:#fff0f0;
 color:#a12828;
 }
 
-.notice.orange{
-background:#fff5df;
-color:#945c00;
-}
-
 /* BOTTOM NAV */
 
 .bottom-nav{
@@ -696,9 +767,7 @@ font-size:12px;
 font-weight:bold;
 }
 
-.bottom-nav button.active{
-color:#1769df;
-}
+.bottom-nav button.active{color:#1769df}
 
 .bottom-nav span{
 display:block;
@@ -706,42 +775,30 @@ font-size:24px;
 margin-bottom:2px;
 }
 
-.back-button{
-border:0;
-background:#e7effc;
-color:#1769df;
-padding:12px 15px;
-border-radius:12px;
-font-weight:bold;
-margin-bottom:12px;
-}
-
-.empty{
-padding:20px;
-text-align:center;
-color:#687386;
-background:#f7f9fc;
-border-radius:14px;
-}
-
 @media(max-width:480px){
 
-.container{
-padding:11px;
-}
+.container{padding:11px}
 
 .card{
 padding:16px;
 border-radius:18px;
 }
 
-.dashboard-button{
-min-height:135px;
-font-size:18px;
+.page-title{font-size:20px}
+
+.upcoming-title{font-size:22px}
+
+.dashboard-main-btn{
+min-height:110px;
+font-size:17px;
 }
 
-.dashboard-icon{
-font-size:36px;
+.dashboard-main-btn span{font-size:32px}
+
+.map-button,
+.details-button{
+padding:13px 8px;
+font-size:15px;
 }
 
 }
@@ -778,27 +835,19 @@ onclick="openScreen('profile')">
 <h2>📱 Customer Login</h2>
 
 <div class="login-help">
-
-Enter your <b>Mobile Number</b> first.
-
+पहले अपना <b>Mobile Number</b> डालें।
 <br><br>
-
-Then continue with <b>Google / Gmail</b>.
-
+उसके बाद <b>Google / Gmail Login</b> करें।
 <br><br>
-
-Mobile Number + Gmail are required for booking.
-
+Cab booking के लिए Mobile Number + Gmail दोनों जरूरी हैं।
 </div>
 
 <div id="phoneStep">
 
 <div class="form-group">
-
 <label>Mobile Number</label>
 
 <div class="phone-row">
-
 <div class="country-code">+91</div>
 
 <input
@@ -807,16 +856,12 @@ type="tel"
 inputmode="numeric"
 maxlength="10"
 placeholder="10 digit mobile number">
-
 </div>
-
 </div>
 
 <button class="primary"
 onclick="continueWithPhone()">
-
 Continue
-
 </button>
 
 </div>
@@ -824,36 +869,61 @@ Continue
 
 <div id="googleStep" class="hidden">
 
-<div class="notice blue">
+<div class="account-box">
 
-<strong>Mobile Number</strong>
+<strong>📱 Mobile Number</strong>
 
 <div id="savedPhone"
-style="margin-top:5px">
+style="margin-top:6px;color:#596273">
 </div>
 
 </div>
 
-<p class="info"
-style="margin-top:14px">
-
-Now continue with Google / Gmail.
-
+<p class="info" style="margin-top:14px">
+अब अपना Google / Gmail account चुनें।
 </p>
 
-<button class="primary"
-onclick="demoLogin()">
+<button id="googleLoginButton"
+class="google-btn"
+onclick="loginWithGoogle()">
 
-<span>G</span>
+<span class="google-dot">G</span>
 Continue with Google / Gmail
 
 </button>
 
 <button class="primary gray"
 onclick="changePhone()">
-
 Change Mobile Number
+</button>
 
+</div>
+
+
+<div id="loggedInBox" class="hidden">
+
+<div id="loginStatus"
+class="notice green">
+</div>
+
+<div class="account-box">
+<strong>📱 Mobile</strong>
+<div id="accountPhone" style="margin-top:6px"></div>
+</div>
+
+<div class="account-box" style="margin-top:12px">
+<strong>📧 Gmail</strong>
+<div id="accountEmail" style="margin-top:6px"></div>
+</div>
+
+<button class="primary green"
+onclick="openScreen('dashboard')">
+🚕 Continue
+</button>
+
+<button class="primary red"
+onclick="logoutUser()">
+Logout
 </button>
 
 </div>
@@ -867,48 +937,82 @@ Change Mobile Number
 
 <div id="mainApp" class="hidden">
 
-
 <!-- DASHBOARD -->
 
 <section id="dashboardScreen">
 
-<div class="dashboard-title">
+<div class="page-title">
 📅 Booking Dashboard
 </div>
 
-<div class="dashboard-grid">
+<!-- ONLY THESE TWO ON DASHBOARD -->
+
+<div class="dashboard-buttons">
 
 <button
-id="singleDashboardButton"
-class="dashboard-button active"
+id="singleCabDashboard"
+class="dashboard-main-btn active"
 onclick="openBookingType('single')">
 
-<span class="dashboard-icon">🚕</span>
-
+<span>🚕</span>
 Single Cab
-
-<span class="dashboard-sub">
-Book one cab
-</span>
 
 </button>
 
-
 <button
-class="dashboard-button"
+id="eventBookingDashboard"
+class="dashboard-main-btn"
 onclick="openBookingType('event')">
 
-<span class="dashboard-icon">🎉</span>
-
+<span>🎉</span>
 Event Booking
-
-<span class="dashboard-sub">
-Book multiple cars
-</span>
 
 </button>
 
 </div>
+
+
+<div class="daily-summary">
+
+<div class="label">
+Today's Bookings
+</div>
+
+<div id="todayBookingCount"
+class="number">
+0
+</div>
+
+<div id="todayDate"
+class="date"></div>
+
+</div>
+
+
+<div id="upcomingBookingContainer">
+
+<div class="upcoming-card">
+
+<div class="upcoming-title">
+🚕 Upcoming Booking
+</div>
+
+<div class="notice blue">
+अभी कोई Upcoming Booking नहीं है।
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- BOOKING WORK AREA -->
+
+<section id="bookingWorkScreen" class="hidden">
+
+<div id="bookingWorkContent"></div>
 
 </section>
 
@@ -918,53 +1022,31 @@ Book multiple cars
 <section id="profileScreen" class="hidden">
 
 <div class="page-title">
-👤 Profile
+👤 My Profile
 </div>
 
-
-<div class="profile-box">
+<div class="card">
 
 <h2>Account Information</h2>
 
 <div class="profile-row">
-
-<div class="profile-label">
-NAME
+<div class="profile-label">NAME</div>
+<div id="profileName" class="profile-value">-</div>
 </div>
-
-<div id="profileName"
-class="profile-value">
-Customer
-</div>
-
-</div>
-
 
 <div class="profile-row">
-
-<div class="profile-label">
-MOBILE
+<div class="profile-label">MOBILE</div>
+<div id="profilePhone" class="profile-value">-</div>
 </div>
-
-<div id="profilePhone"
-class="profile-value">
--
-</div>
-
-</div>
-
 
 <div class="profile-row">
-
-<div class="profile-label">
-GMAIL
+<div class="profile-label">GMAIL</div>
+<div id="profileEmail" class="profile-value">-</div>
 </div>
 
-<div id="profileEmail"
-class="profile-value">
--
-</div>
-
+<div class="profile-row">
+<div class="profile-label">USER ID</div>
+<div id="profileUid" class="profile-value">-</div>
 </div>
 
 </div>
@@ -974,133 +1056,73 @@ class="profile-value">
 
 <h2>⚙️ Settings</h2>
 
-<div class="profile-menu">
+<div class="settings-card">
 
-<button onclick="openBookingType('single')">
+<button class="settings-item"
+onclick="openSettings('bookings')">
 
-<div class="profile-menu-left">
-
-<span class="profile-menu-icon">
-🚕
-</span>
-
-<span>
-Single Cab
-</span>
-
+<div class="settings-left">
+<span class="settings-icon">📋</span>
+<span>My Bookings</span>
 </div>
 
-<span class="profile-menu-arrow">›</span>
+<span class="settings-arrow">›</span>
 
 </button>
 
 
-<button onclick="openBookingType('event')">
+<button class="settings-item"
+onclick="openSettings('driver')">
 
-<div class="profile-menu-left">
-
-<span class="profile-menu-icon">
-🎉
-</span>
-
-<span>
-Event Booking
-</span>
-
+<div class="settings-left">
+<span class="settings-icon">🆔</span>
+<span>Search Driver</span>
 </div>
 
-<span class="profile-menu-arrow">›</span>
+<span class="settings-arrow">›</span>
 
 </button>
 
 
-<button onclick="openSettings('bookings')">
+<button class="settings-item"
+onclick="openSettings('tracking')">
 
-<div class="profile-menu-left">
-
-<span class="profile-menu-icon">
-📋
-</span>
-
-<span>
-My Bookings
-</span>
-
+<div class="settings-left">
+<span class="settings-icon">📍</span>
+<span>Live Driver Tracking</span>
 </div>
 
-<span class="profile-menu-arrow">›</span>
+<span class="settings-arrow">›</span>
 
 </button>
 
-
-<button onclick="openSettings('driver')">
-
-<div class="profile-menu-left">
-
-<span class="profile-menu-icon">
-🆔
-</span>
-
-<span>
-Search Driver
-</span>
-
 </div>
 
-<span class="profile-menu-arrow">›</span>
 
-</button>
-
-
-<button onclick="openSettings('tracking')">
-
-<div class="profile-menu-left">
-
-<span class="profile-menu-icon">
-📍
-</span>
-
-<span>
-Live Driver Tracking
-</span>
-
-</div>
-
-<span class="profile-menu-arrow">›</span>
-
-</button>
-
-
-<button onclick="logoutUser()">
-
-<div class="profile-menu-left">
-
-<span class="profile-menu-icon">
-🚪
-</span>
-
-<span>
+<button class="primary red"
+onclick="logoutUser()">
 Logout
-</span>
-
-</div>
-
-<span class="profile-menu-arrow">›</span>
-
 </button>
-
-</div>
 
 </div>
 
 </section>
 
 
-<!-- CONTENT -->
+<!-- SETTINGS -->
 
-<section id="contentScreen" class="hidden">
+<section id="settingsScreen" class="hidden">
 
-<div id="content"></div>
+<div id="settingsContent"></div>
+
+</section>
+
+
+<!-- NAVIGATION -->
+
+<section id="navigationScreen" class="hidden">
+
+<div id="navigationContent"></div>
 
 </section>
 
@@ -1113,8 +1135,7 @@ Logout
 
 <nav class="bottom-nav">
 
-<button
-id="navDashboard"
+<button id="navDashboard"
 class="active"
 onclick="openScreen('dashboard')">
 
@@ -1123,8 +1144,7 @@ Dashboard
 
 </button>
 
-<button
-id="navProfile"
+<button id="navProfile"
 onclick="openScreen('profile')">
 
 <span>👤</span>
@@ -1135,164 +1155,195 @@ Profile
 </nav>
 
 
-<script
-src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 
-<script>
+<script type="module">
 
-/* =========================================================
-   CAR SET U CUSTOMER PANEL
-   TESTING VERSION
-   FIREBASE WILL BE ADDED LATER
-========================================================= */
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+getAuth,
+GoogleAuthProvider,
+signInWithPopup,
+onAuthStateChanged,
+signOut
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+getFirestore,
+doc,
+setDoc,
+addDoc,
+collection,
+serverTimestamp,
+query,
+where,
+limit,
+getDocs,
+onSnapshot,
+updateDoc,
+getDoc
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+import {
+getStorage,
+ref,
+uploadBytes,
+getDownloadURL
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+
+
+/* FIREBASE */
+
+const firebaseConfig={
+apiKey:"AIzaSyDFCvXr8h-sZAxBUZNThtgNxEOwrOQWvrI",
+authDomain:"car-set-u.firebaseapp.com",
+projectId:"car-set-u",
+storageBucket:"car-set-u.firebasestorage.app",
+messagingSenderId:"270679615416",
+appId:"1:270679615416:web:f22a7a71a736b52ac1914d",
+measurementId:"G-R3H6ZC8NZ5"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const storage=getStorage(app);
+
+const googleProvider=new GoogleAuthProvider();
+
+googleProvider.setCustomParameters({
+prompt:"select_account"
+});
 
 
 /* STATE */
 
-let currentBookingType="single";
-
+let selectedDriver=null;
 let selectedRental="Local";
-
 let selectedVehicle="Sedan";
 
-let selectedDriver=null;
-
-let bookingData=[];
-
-let eventData=null;
+let unsubscribeBookings=null;
+let unsubscribeCloseRequests=null;
 
 let routeMap=null;
-
 let routeLine=null;
-
 let routeMarkers=[];
 
-let mediaRecorder=null;
+let eventLiveMap=null;
+let eventMarkers={};
 
-let audioChunks=[];
+let navigationMap=null;
+let navigationLine=null;
+let navigationMarkers=[];
 
-let currentAudioBlob=null;
+let bookingInProgress=false;
 
-let currentAudioURL=null;
-
-let trackingMap=null;
-
-
-/* DEMO DRIVERS */
-
-const DEMO_DRIVERS={
-
-DC001:{
-driverId:"DC001",
-name:"Driver 001",
-vehicle:"Car 001",
-vehicleType:"Sedan",
-online:true
-},
-
-DC002:{
-driverId:"DC002",
-name:"Driver 002",
-vehicle:"Car 002",
-vehicleType:"SUV",
-online:true
-},
-
-DC003:{
-driverId:"DC003",
-name:"Driver 003",
-vehicle:"Car 003",
-vehicleType:"Sedan",
-online:true
-},
-
-DC004:{
-driverId:"DC004",
-name:"Driver 004",
-vehicle:"Car 004",
-vehicleType:"SUV",
-online:true
-},
-
-DC005:{
-driverId:"DC005",
-name:"Driver 005",
-vehicle:"Car 005",
-vehicleType:"Sedan",
-online:true
-},
-
-DC006:{
-driverId:"DC006",
-name:"Driver 006",
-vehicle:"Car 006",
-vehicleType:"SUV",
-online:true
-},
-
-DC007:{
-driverId:"DC007",
-name:"Driver 007",
-vehicle:"Car 007",
-vehicleType:"Sedan",
-online:true
-},
-
-DC008:{
-driverId:"DC008",
-name:"Driver 008",
-vehicle:"Car 008",
-vehicleType:"SUV",
-online:true
-},
-
-DC009:{
-driverId:"DC009",
-name:"Driver 009",
-vehicle:"Car 009",
-vehicleType:"Sedan",
-online:true
-},
-
-DC010:{
-driverId:"DC010",
-name:"Driver 010",
-vehicle:"Car 010",
-vehicleType:"SUV",
-online:true
-}
-
+let eventState={
+active:false,
+eventId:null,
+eventName:"",
+totalCars:0,
+currentCar:1,
+completedCars:0
 };
 
+let mediaRecorder=null;
+let audioChunks=[];
+let currentVoiceBlob=null;
+let currentVoiceUrl="";
 
-/* LOGIN */
 
-function continueWithPhone(){
+/* HELPERS */
 
-const value=
-document.getElementById("phoneNumber")
-.value
-.replace(/\D/g,"");
+function normalizePhone(value){
 
-if(value.length!==10){
+const digits=(value||"").replace(/\D/g,"");
+
+if(digits.length===10)
+return "+91"+digits;
+
+if(digits.length===12 && digits.startsWith("91"))
+return "+"+digits;
+
+return "";
+}
+
+
+function getTodayString(){
+
+const d=new Date();
+
+return d.getFullYear()+
+"-"+
+String(d.getMonth()+1).padStart(2,"0")+
+"-"+
+String(d.getDate()).padStart(2,"0");
+
+}
+
+
+function escapeHtml(value){
+
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function driverPhotoHTML(driver){
+
+const photo=
+driver?.photoURL||
+driver?.photoUrl||
+driver?.photo||
+"";
+
+if(photo){
+
+return `
+<img
+class="driver-photo"
+src="${escapeHtml(photo)}"
+alt="Driver Photo"
+onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden')">
+<div class="driver-photo-placeholder hidden">👨‍✈️</div>
+`;
+
+}
+
+return `<div class="driver-photo-placeholder">👨‍✈️</div>`;
+
+}
+
+
+/* PHONE */
+
+window.continueWithPhone=function(){
+
+const phone=normalizePhone(
+document.getElementById("phoneNumber").value
+);
+
+if(!phone){
 
 alert("Please enter a valid 10 digit mobile number.");
-
 return;
 
 }
 
-const phone="+91"+value;
+localStorage.setItem("carSetU_phone",phone);
 
-localStorage.setItem(
-"carSetU_phone",
-phone
-);
-
-document.getElementById("savedPhone")
-.textContent=phone;
+document.getElementById("savedPhone").textContent=phone;
 
 document.getElementById("phoneStep")
 .classList.add("hidden");
@@ -1300,10 +1351,10 @@ document.getElementById("phoneStep")
 document.getElementById("googleStep")
 .classList.remove("hidden");
 
-}
+};
 
 
-function changePhone(){
+window.changePhone=function(){
 
 document.getElementById("googleStep")
 .classList.add("hidden");
@@ -1311,105 +1362,214 @@ document.getElementById("googleStep")
 document.getElementById("phoneStep")
 .classList.remove("hidden");
 
-}
+const saved=
+localStorage.getItem("carSetU_phone")||"";
+
+document.getElementById("phoneNumber")
+.value=saved.replace("+91","");
+
+};
 
 
-function demoLogin(){
+/* GOOGLE LOGIN */
+
+window.loginWithGoogle=async function(){
 
 const phone=
 localStorage.getItem("carSetU_phone");
 
 if(!phone){
 
-alert("Enter mobile number first.");
-
+alert("Please enter mobile number first.");
 return;
 
 }
 
-/*
-   TEST LOGIN
-   Firebase Google Login will be connected later.
-*/
+const button=
+document.getElementById("googleLoginButton");
 
-localStorage.setItem(
-"carSetU_loggedIn",
-"yes"
+button.disabled=true;
+button.textContent="⏳ Opening Google...";
+
+try{
+
+await signInWithPopup(
+auth,
+googleProvider
 );
+
+}catch(error){
+
+console.error(error);
+
+alert(error.message||"Google login failed.");
+
+button.disabled=false;
+
+button.innerHTML=
+'<span class="google-dot">G</span> Continue with Google / Gmail';
+
+}
+
+};
+
+
+/* SAVE CUSTOMER */
+
+async function saveCustomerProfile(user){
+
+const phone=
+localStorage.getItem("carSetU_phone")||"";
+
+if(!phone)
+return false;
+
+await setDoc(
+doc(db,"customers",user.uid),
+{
+uid:user.uid,
+name:user.displayName||"",
+email:user.email||"",
+phone:phone,
+provider:"google",
+updatedAt:serverTimestamp()
+},
+{merge:true}
+);
+
+return true;
+
+}
+
+
+/* AUTH */
+
+onAuthStateChanged(auth,async user=>{
+
+if(user){
+
+try{
+
+await saveCustomerProfile(user);
 
 document.getElementById("loginScreen")
 .classList.add("hidden");
 
 document.getElementById("mainApp")
 .classList.remove("hidden");
+
+const phone=
+localStorage.getItem("carSetU_phone")||"";
+
+document.getElementById("accountPhone")
+.textContent=phone;
+
+document.getElementById("accountEmail")
+.textContent=user.email||"";
+
+document.getElementById("loginStatus")
+.textContent="✅ Google / Gmail Login Successful";
+
+document.getElementById("profileName")
+.textContent=user.displayName||"Customer";
 
 document.getElementById("profilePhone")
 .textContent=phone;
 
 document.getElementById("profileEmail")
-.textContent="customer@gmail.com";
+.textContent=user.email||"";
+
+document.getElementById("profileUid")
+.textContent=user.uid;
 
 openScreen("dashboard");
 
+loadMyBookings();
+listenForCloseRequests();
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Login हुआ लेकिन profile save नहीं हुआ.\n\n"+
+(error.message||"")
+);
+
 }
 
-
-/* LOGOUT */
-
-function logoutUser(){
-
-localStorage.removeItem("carSetU_loggedIn");
-
-document.getElementById("mainApp")
-.classList.add("hidden");
+}else{
 
 document.getElementById("loginScreen")
 .classList.remove("hidden");
 
-openScreenWithoutAuth("dashboard");
+document.getElementById("mainApp")
+.classList.add("hidden");
 
 }
 
+});
 
-/* AUTH CHECK */
 
-function isLoggedIn(){
+/* LOGOUT */
 
-return localStorage.getItem(
-"carSetU_loggedIn"
-)==="yes";
+window.logoutUser=async function(){
+
+try{
+
+if(unsubscribeBookings){
+unsubscribeBookings();
+unsubscribeBookings=null;
+}
+
+if(unsubscribeCloseRequests){
+unsubscribeCloseRequests();
+unsubscribeCloseRequests=null;
+}
+
+await signOut(auth);
+
+localStorage.removeItem("carSetU_phone");
+
+selectedDriver=null;
+
+}catch(error){
+
+console.error(error);
+alert("Logout failed.");
 
 }
+
+};
 
 
 /* SCREEN */
 
-function openScreen(screen){
+window.openScreen=function(screen){
 
-if(!isLoggedIn()){
+if(!auth.currentUser){
 
 alert(
-"Please complete Mobile Number → Google/Gmail Login first."
+"Please complete Phone Number → Google/Gmail Login first."
 );
 
 return;
 
 }
 
-openScreenWithoutAuth(screen);
-
-}
-
-
-function openScreenWithoutAuth(screen){
-
 document.getElementById("dashboardScreen")
+.classList.add("hidden");
+
+document.getElementById("bookingWorkScreen")
 .classList.add("hidden");
 
 document.getElementById("profileScreen")
 .classList.add("hidden");
 
-document.getElementById("contentScreen")
+document.getElementById("settingsScreen")
+.classList.add("hidden");
+
+document.getElementById("navigationScreen")
 .classList.add("hidden");
 
 document.getElementById("navDashboard")
@@ -1426,6 +1586,8 @@ document.getElementById("dashboardScreen")
 
 document.getElementById("navDashboard")
 .classList.add("active");
+
+loadMyBookings();
 
 }
 
@@ -1444,656 +1606,264 @@ top:0,
 behavior:"smooth"
 });
 
-}
+};
 
 
-/* BOOKING TYPE */
+/* DASHBOARD BOOKING TYPE */
 
-function openBookingType(type){
-
-currentBookingType=type;
+window.openBookingType=function(type){
 
 document.getElementById("dashboardScreen")
 .classList.add("hidden");
 
-document.getElementById("profileScreen")
-.classList.add("hidden");
-
-document.getElementById("contentScreen")
+document.getElementById("bookingWorkScreen")
 .classList.remove("hidden");
 
 document.getElementById("navDashboard")
 .classList.add("active");
-
 document.getElementById("navProfile")
 .classList.remove("active");
 
+const box=
+document.getElementById("bookingWorkContent");
 
-if(type==="single"){
+if(type==="single")
+renderSingleBooking(box);
 
-renderSingleBooking();
-
-}else{
-
-renderEventBooking();
-
-}
+if(type==="event")
+renderEventStart(box);
 
 window.scrollTo({
 top:0,
 behavior:"smooth"
 });
 
-}
+};
 
 
 /* SETTINGS */
 
-function openSettings(type){
+window.openSettings=function(type){
 
 document.getElementById("dashboardScreen")
+.classList.add("hidden");
+
+document.getElementById("bookingWorkScreen")
 .classList.add("hidden");
 
 document.getElementById("profileScreen")
 .classList.add("hidden");
 
-document.getElementById("contentScreen")
+document.getElementById("navigationScreen")
+.classList.add("hidden");
+
+document.getElementById("settingsScreen")
 .classList.remove("hidden");
 
 document.getElementById("navDashboard")
 .classList.remove("active");
-
 document.getElementById("navProfile")
 .classList.add("active");
 
+const box=
+document.getElementById("settingsContent");
 
-if(type==="bookings"){
+if(type==="bookings")
+renderMyBookingsSettings(box);
 
-renderMyBookings();
+if(type==="driver")
+renderDriverSettings(box);
 
-}
-
-if(type==="driver"){
-
-renderDriverSearch();
-
-}
-
-if(type==="tracking"){
-
-renderTracking();
-
-}
+if(type==="tracking")
+renderTrackingSettings(box);
 
 window.scrollTo({
 top:0,
 behavior:"smooth"
 });
 
-}
+};
 
 
-/* BACK */
+function settingsHeader(title){
 
-function backToProfile(){
-
-openScreenWithoutAuth("profile");
-
-}
-
-
-/* =========================================================
-   SINGLE CAB
-========================================================= */
-
-function renderSingleBooking(){
-
-const content=
-document.getElementById("content");
-
-content.innerHTML=`
-
-<button class="back-button"
-onclick="openScreenWithoutAuth('dashboard')">
-← Back to Dashboard
-</button>
-
+return `
 <div class="page-title">
-🚕 Single Cab Booking
+⚙️ Settings
 </div>
 
 <div class="card">
-
-<p class="info">
-Enter pickup, destination, date, time and select your Driver.
-</p>
-
-
-<h3>Rental Type</h3>
-
-<div class="booking-type-grid">
-
-<button
-id="singleLocal"
-class="option-btn active"
-onclick="selectRental(this,'Local')">
-📍 Local
-</button>
-
-<button
-id="singleOutstation"
-class="option-btn"
-onclick="selectRental(this,'Outstation')">
-🛣️ Outstation
-</button>
-
+<h2>${title}</h2>
 </div>
-
-
-<h3>Vehicle Type</h3>
-
-<div class="booking-type-grid">
-
-<button
-class="option-btn active"
-onclick="selectVehicle(this,'Sedan')">
-🚙 Sedan
-</button>
-
-<button
-class="option-btn"
-onclick="selectVehicle(this,'SUV')">
-🚘 SUV
-</button>
-
-</div>
-
-
-<div class="form-group"
-style="margin-top:17px">
-
-<label>📅 Pickup Date</label>
-
-<input
-id="singlePickupDate"
-type="date">
-
-</div>
-
-
-<div class="form-group">
-
-<label>⏰ Pickup Time</label>
-
-<input
-id="singlePickupTime"
-type="time">
-
-</div>
-
-
-<div class="form-group">
-
-<label>⏰ Drop Time</label>
-
-<input
-id="singleDropTime"
-type="time">
-
-</div>
-
-
-<div class="location-box">
-
-<h3>📍 Pickup Location</h3>
-
-<input
-id="singlePickup"
-placeholder="Enter Pickup Location">
-
-<div class="location-buttons">
-
-<button
-class="small-button"
-onclick="useCurrentLocation('singlePickup')">
-📍 Current Location
-</button>
-
-<button
-class="small-button"
-onclick="pasteLocation('singlePickup')">
-📋 Paste Location
-</button>
-
-</div>
-
-</div>
-
-
-<div class="location-box">
-
-<h3>🏁 Final Destination</h3>
-
-<input
-id="singleDestination"
-placeholder="Enter Final Destination">
-
-<div class="location-buttons">
-
-<button
-class="small-button"
-onclick="useCurrentLocation('singleDestination')">
-📍 Current Location
-</button>
-
-<button
-class="small-button"
-onclick="pasteLocation('singleDestination')">
-📋 Paste Location
-</button>
-
-</div>
-
-</div>
-
-
-<div class="location-box">
-
-<h3>📍 Pickup Point</h3>
-
-<input
-id="singlePickupPoint"
-placeholder="Gate, building, landmark etc.">
-
-</div>
-
-
-<button
-class="primary"
-onclick="showSingleRoute()">
-
-📍 Show Complete Route
-
-</button>
-
-
-<div
-id="singleMapStatus"
-class="map-status">
-
-Enter Pickup and Destination to see the route.
-
-</div>
-
-
-<div
-id="singleRouteMap"
-class="map-box">
-</div>
-
-
-<div
-id="singleRouteSummary"
-class="route-summary hidden">
-
-<div class="route-item">
-📏 Distance
-<strong id="singleDistance">—</strong>
-</div>
-
-<div class="route-item">
-⏱️ Time
-<strong id="singleDuration">—</strong>
-</div>
-
-</div>
-
-
-${voiceHTML("single")}
-
-
-${driverSearchHTML("single")}
-
-
-<button
-class="primary green"
-onclick="confirmSingleBooking()">
-
-🚕 Confirm Single Cab Booking
-
-</button>
-
-</div>
-
 `;
-
-setDefaultSingleDateTime();
-
-}
-
-
-/* RENTAL */
-
-function selectRental(button,value){
-
-const parent=button.parentElement;
-
-parent
-.querySelectorAll(".option-btn")
-.forEach(b=>{
-b.classList.remove("active");
-});
-
-button.classList.add("active");
-
-selectedRental=value;
-
-}
-
-
-/* VEHICLE */
-
-function selectVehicle(button,value){
-
-const parent=button.parentElement;
-
-parent
-.querySelectorAll(".option-btn")
-.forEach(b=>{
-b.classList.remove("active");
-});
-
-button.classList.add("active");
-
-selectedVehicle=value;
 
 }
 
 
 /* DATE TIME */
 
-function todayString(){
+function setDefaultDateTime(){
 
-const d=new Date();
-
-return d.getFullYear()+
-"-"+
-String(d.getMonth()+1).padStart(2,"0")+
-"-"+
-String(d.getDate()).padStart(2,"0");
-
-}
-
-
-function setDefaultSingleDateTime(){
-
-const date=
-document.getElementById("singlePickupDate");
+const date=document.getElementById("pickupDate");
 
 if(date)
-date.value=todayString();
+date.value=getTodayString();
 
 const now=new Date();
 
-let hour=now.getHours();
-
-let minute=
+const roundedMinutes=
 Math.ceil(now.getMinutes()/5)*5;
 
-if(minute>=60){
+let h=now.getHours();
+let m=roundedMinutes;
 
-minute=0;
-hour=(hour+1)%24;
-
+if(m>=60){
+h=(h+1)%24;
+m=0;
 }
 
-const pickup=
-document.getElementById("singlePickupTime");
+const pickupTime=
+document.getElementById("pickupTime");
 
-if(pickup){
-
-pickup.value=
-String(hour).padStart(2,"0")+
+if(pickupTime)
+pickupTime.value=
+String(h).padStart(2,"0")+
 ":"+
-String(minute).padStart(2,"0");
-
-}
+String(m).padStart(2,"0");
 
 const drop=
-document.getElementById("singleDropTime");
+document.getElementById("dropTime");
 
 if(drop){
 
-let d=new Date();
-
-d.setHours(hour);
-d.setMinutes(minute+60);
+let dropDate=new Date(
+now.getTime()+60*60*1000
+);
 
 drop.value=
-String(d.getHours()).padStart(2,"0")+
+String(dropDate.getHours()).padStart(2,"0")+
 ":"+
-String(d.getMinutes()).padStart(2,"0");
+String(dropDate.getMinutes()).padStart(2,"0");
 
 }
 
 }
 
 
-/* =========================================================
-   LOCATION
-========================================================= */
+/* RENTAL VEHICLE */
 
-function useCurrentLocation(inputId){
+window.selectRental=function(button,value){
 
-if(!navigator.geolocation){
+button.parentElement
+.querySelectorAll(".option-btn")
+.forEach(b=>b.classList.remove("active"));
 
-alert("Location is not supported on this device.");
+button.classList.add("active");
 
-return;
+selectedRental=value;
 
-}
-
-const input=
-document.getElementById(inputId);
-
-input.value="Getting current location...";
-
-navigator.geolocation.getCurrentPosition(
-
-position=>{
-
-const lat=
-position.coords.latitude;
-
-const lng=
-position.coords.longitude;
-
-input.value=
-lat.toFixed(6)+", "+
-lng.toFixed(6);
-
-},
-
-error=>{
-
-console.error(error);
-
-input.value="";
-
-alert(
-"Current location could not be obtained. Please allow location permission."
-);
-
-},
-
-{
-enableHighAccuracy:true,
-timeout:10000
-}
-
-);
-
-}
+};
 
 
-async function pasteLocation(inputId){
+window.selectVehicle=function(button,value){
 
-try{
+button.parentElement
+.querySelectorAll(".option-btn")
+.forEach(b=>b.classList.remove("active"));
 
-const text=
-await navigator.clipboard.readText();
+button.classList.add("active");
 
-if(!text){
+selectedVehicle=value;
 
-alert("Clipboard is empty.");
-
-return;
-
-}
-
-document.getElementById(inputId)
-.value=text;
-
-}catch(error){
-
-alert(
-"Paste permission was not available. Please paste manually."
-);
-
-}
-
-}
+};
 
 
-/* =========================================================
-   MAP / ROUTE
-========================================================= */
+/* LOCATIONS */
 
-const LOCATIONS={
+const HYDERABAD_LOCATIONS={
 
-"uppal":[17.4010,78.5591],
-
+"nampally metro station":[17.3930,78.4668],
+"nampally":[17.3930,78.4668],
 "koti":[17.3840,78.4867],
-
-"airport shamshabad":[17.2403,78.4294],
-
-"shamshabad":[17.2510,78.4294],
-
 "ameerpet":[17.4375,78.4483],
-
 "kukatpally":[17.4849,78.4138],
-
 "miyapur":[17.4969,78.3498],
-
+"uppal":[17.4010,78.5591],
 "lb nagar":[17.3457,78.5522],
-
+"airport shamshabad":[17.2403,78.4294],
+"shamshabad":[17.2510,78.4294],
 "madhapur":[17.4483,78.3915],
-
 "gachibowli":[17.4401,78.3489],
-
 "hitech city":[17.4435,78.3772],
-
 "secunderabad":[17.4399,78.4983],
-
 "banjara hills":[17.4156,78.4347],
-
 "jubilee hills":[17.4325,78.4071],
-
 "dilsukhnagar":[17.3688,78.5247],
-
 "begumpet":[17.4439,78.4623],
-
 "mehdipatnam":[17.3949,78.4313],
-
 "tolichowki":[17.3970,78.4160],
-
 "attapur":[17.3699,78.4250],
-
 "manikonda":[17.4050,78.3830]
 
 };
 
 
-async function geocode(place){
+async function geocodePlace(place){
 
-const clean=
-place.trim().toLowerCase();
+const clean=place.trim().toLowerCase();
 
-if(LOCATIONS[clean]){
+if(HYDERABAD_LOCATIONS[clean]){
+
+const p=HYDERABAD_LOCATIONS[clean];
 
 return {
-lat:LOCATIONS[clean][0],
-lon:LOCATIONS[clean][1],
+lat:p[0],
+lon:p[1],
 name:place
 };
 
 }
-
-const key=
-Object.keys(LOCATIONS)
-.find(k=>clean.includes(k));
-
-if(key){
-
-return {
-lat:LOCATIONS[key][0],
-lon:LOCATIONS[key][1],
-name:place
-};
-
-}
-
-
-/* GPS coordinate */
 
 const match=
-place.match(
-/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
+Object.keys(HYDERABAD_LOCATIONS)
+.find(k=>clean.includes(k));
 
 if(match){
 
+const p=HYDERABAD_LOCATIONS[match];
+
 return {
-lat:Number(match[1]),
-lon:Number(match[2]),
+lat:p[0],
+lon:p[1],
 name:place
 };
 
 }
 
+let search=place.trim();
 
-let query=place;
-
-if(!query.toLowerCase().includes("hyderabad")){
-
-query+=", Hyderabad, Telangana, India";
-
-}
+if(!search.toLowerCase().includes("hyderabad"))
+search+=", Hyderabad, Telangana, India";
 
 const url=
 "https://nominatim.openstreetmap.org/search"+
 "?format=jsonv2&limit=1&countrycodes=in&q="+
-encodeURIComponent(query);
+encodeURIComponent(search);
 
-const response=
-await fetch(url);
+const response=await fetch(url);
 
 if(!response.ok)
 throw new Error("Location search failed.");
 
-const data=
-await response.json();
+const data=await response.json();
 
 if(!data.length)
 throw new Error("Location not found: "+place);
 
 return {
-
 lat:Number(data[0].lat),
-
 lon:Number(data[0].lon),
-
 name:data[0].display_name
-
 };
 
 }
@@ -2102,39 +1872,132 @@ name:data[0].display_name
 async function getRoute(points){
 
 const coordinates=
-points
-.map(p=>p.lon+","+p.lat)
-.join(";");
+points.map(p=>p.lon+","+p.lat).join(";");
 
 const url=
 "https://router.project-osrm.org/route/v1/driving/"+
 coordinates+
 "?overview=full&geometries=geojson";
 
-const response=
-await fetch(url);
+const response=await fetch(url);
 
 if(!response.ok)
 throw new Error("Route service failed.");
 
-const data=
-await response.json();
+const data=await response.json();
 
-if(!data.routes ||
-!data.routes.length){
-
+if(!data.routes || !data.routes.length)
 throw new Error("Route not found.");
-
-}
 
 return data.routes[0];
 
 }
 
 
-/* SINGLE MAP */
+/* CURRENT LOCATION */
 
-function initSingleMap(){
+window.useCurrentLocation=async function(inputId){
+
+if(!navigator.geolocation){
+
+alert("Location is not supported on this device.");
+return;
+
+}
+
+const input=document.getElementById(inputId);
+
+if(!input)
+return;
+
+input.value="Getting current location...";
+
+navigator.geolocation.getCurrentPosition(
+
+async position=>{
+
+const lat=position.coords.latitude;
+const lon=position.coords.longitude;
+
+try{
+
+const url=
+"https://nominatim.openstreetmap.org/reverse"+
+"?format=jsonv2&lat="+lat+
+"&lon="+lon;
+
+const response=await fetch(url);
+
+const data=await response.json();
+
+input.value=
+data.display_name||
+(lat.toFixed(6)+", "+lon.toFixed(6));
+
+}catch(error){
+
+input.value=
+lat.toFixed(6)+", "+lon.toFixed(6);
+
+}
+
+},
+
+error=>{
+
+input.value="";
+
+alert(
+"Current location नहीं मिल पाई.\n"+
+(error.message||"Please allow location permission.")
+);
+
+},
+
+{
+enableHighAccuracy:true,
+timeout:15000,
+maximumAge:0
+}
+
+);
+
+};
+
+
+window.pasteLocation=async function(inputId){
+
+try{
+
+const text=
+await navigator.clipboard.readText();
+
+if(!text){
+
+alert("Clipboard में कोई location नहीं है.");
+return;
+
+}
+
+const input=document.getElementById(inputId);
+
+if(input)
+input.value=text;
+
+}catch(error){
+
+alert(
+"Paste permission नहीं मिली. Location manually paste करें."
+);
+
+}
+
+};
+
+
+/* MAP */
+
+function initRouteMap(){
 
 if(routeMap){
 
@@ -2148,11 +2011,8 @@ return;
 }
 
 routeMap=
-L.map("singleRouteMap")
-.setView(
-[17.3850,78.4867],
-11
-);
+L.map("routeMap")
+.setView([17.3850,78.4867],11);
 
 L.tileLayer(
 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -2165,44 +2025,36 @@ attribution:"© OpenStreetMap contributors"
 }
 
 
-async function showSingleRoute(){
+window.showRouteMap=async function(){
 
 const pickup=
-document.getElementById("singlePickup")
-.value.trim();
+document.getElementById("pickup")?.value.trim();
 
 const destination=
-document.getElementById("singleDestination")
-.value.trim();
+document.getElementById("destination")?.value.trim();
 
-if(!pickup||!destination){
+if(!pickup || !destination){
 
-alert(
-"Please enter Pickup and Final Destination."
-);
-
+alert("Please enter Pickup and Final Destination.");
 return;
 
 }
 
-initSingleMap();
+initRouteMap();
 
 const status=
-document.getElementById("singleMapStatus");
+document.getElementById("mapStatus");
 
-status.textContent=
-"Finding locations...";
+status.textContent="🔎 Finding locations...";
 
 try{
 
-const points=
-await Promise.all([
-geocode(pickup),
-geocode(destination)
+const points=await Promise.all([
+geocodePlace(pickup),
+geocodePlace(destination)
 ]);
 
-status.textContent=
-"Calculating complete route...";
+status.textContent="🛣️ Calculating route...";
 
 routeMarkers.forEach(
 m=>routeMap.removeLayer(m)
@@ -2211,23 +2063,16 @@ m=>routeMap.removeLayer(m)
 routeMarkers=[];
 
 if(routeLine){
-
 routeMap.removeLayer(routeLine);
-
 routeLine=null;
-
 }
 
-const route=
-await getRoute(points);
+const route=await getRoute(points);
 
 points.forEach((point,index)=>{
 
 const marker=
-L.marker([
-point.lat,
-point.lon
-])
+L.marker([point.lat,point.lon])
 .addTo(routeMap)
 .bindPopup(
 index===0
@@ -2238,7 +2083,6 @@ index===0
 routeMarkers.push(marker);
 
 });
-
 
 routeLine=
 L.geoJSON(
@@ -2251,576 +2095,575 @@ opacity:.85
 }
 ).addTo(routeMap);
 
-
 routeMap.fitBounds(
 routeLine.getBounds(),
-{
-padding:[25,25]
-}
+{padding:[25,25]}
 );
 
-
-const km=
-(route.distance/1000)
-.toFixed(1);
+const km=(route.distance/1000).toFixed(1);
 
 const totalMinutes=
-Math.round(
-route.duration/60
-);
+Math.round(route.duration/60);
 
 const hours=
-Math.floor(
-totalMinutes/60
-);
+Math.floor(totalMinutes/60);
 
-const minutes=
+const mins=
 totalMinutes%60;
 
 const time=
 hours>0
-?hours+" hr "+minutes+" min"
-:minutes+" min";
+?hours+" hr "+mins+" min"
+:mins+" min";
 
+document.getElementById("routeDistance")
+.textContent=km+" KM";
 
-document.getElementById("singleDistance")
-.textContent=
-km+" KM";
+document.getElementById("routeDuration")
+.textContent=time;
 
-document.getElementById("singleDuration")
-.textContent=
-time;
-
-document.getElementById("singleRouteSummary")
+document.getElementById("routeSummary")
 .classList.remove("hidden");
 
-status.textContent=
-"✅ Complete route found.";
+status.textContent="✅ Complete route found.";
+
+return {
+points,
+route,
+distance:km+" KM",
+duration:time
+};
 
 }catch(error){
 
 console.error(error);
 
-status.textContent=
-"❌ "+error.message;
-
-alert(error.message);
-
-}
-
-}
-
-
-/* =========================================================
-   VOICE
-========================================================= */
-
-function voiceHTML(prefix){
-
-return `
-
-<div class="voice-box">
-
-<h3>📝 Additional Notes</h3>
-
-<textarea
-id="${prefix}Notes"
-placeholder="Enter additional notes..."></textarea>
-
-
-<div class="voice-buttons">
-
-<button
-id="${prefix}RecordButton"
-class="voice-button"
-onclick="startVoice('${prefix}')">
-
-🎙️ Record
-
-</button>
-
-<button
-class="voice-button"
-onclick="stopVoice('${prefix}')">
-
-⏹️ Stop
-
-</button>
-
-<button
-class="voice-button"
-onclick="playVoice('${prefix}')">
-
-▶️ Play
-
-</button>
-
-</div>
-
-
-<div
-id="${prefix}VoiceStatus"
-class="voice-status">
-
-Voice Note is optional.
-
-</div>
-
-
-<audio
-id="${prefix}Audio"
-controls
-class="hidden">
-</audio>
-
-</div>
-
-`;
-
-}
-
-
-async function startVoice(prefix){
-
-if(mediaRecorder &&
-mediaRecorder.state==="recording"){
-
-return;
-
-}
-
-if(!navigator.mediaDevices ||
-!navigator.mediaDevices.getUserMedia){
+status.textContent="❌ "+error.message;
 
 alert(
-"Voice recording is not supported by this browser."
+"Route नहीं बन पाया.\n\n"+
+error.message
 );
 
-return;
-
-}
-
-try{
-
-const stream=
-await navigator.mediaDevices
-.getUserMedia({
-audio:true
-});
-
-audioChunks=[];
-
-currentAudioBlob=null;
-
-mediaRecorder=
-new MediaRecorder(stream);
-
-mediaRecorder.ondataavailable=
-event=>{
-
-if(event.data.size>0){
-
-audioChunks.push(event.data);
+return null;
 
 }
 
 };
 
-mediaRecorder.onstop=()=>{
 
-currentAudioBlob=
-new Blob(
-audioChunks,
-{
-type:"audio/webm"
-}
-);
+/* SINGLE BOOKING */
 
-if(currentAudioURL){
+function renderSingleBooking(box){
 
-URL.revokeObjectURL(
-currentAudioURL
-);
+selectedDriver=null;
 
-}
+box.innerHTML=
+`
+<div class="page-title">
+🚕 Single Cab Booking
+</div>
 
-currentAudioURL=
-URL.createObjectURL(
-currentAudioBlob
-);
+<div class="card">
 
-const audio=
-document.getElementById(
-prefix+"Audio"
-);
+<p class="info">
+Pickup, Destination, Date, Time, Car और Driver select करें।
+</p>
 
-audio.src=currentAudioURL;
+<h3>Rental Type</h3>
 
-audio.classList.remove("hidden");
+<div class="booking-type-grid">
 
-document.getElementById(
-prefix+"VoiceStatus"
-).textContent=
-"✅ Voice recorded. Press Play to listen.";
+<button class="option-btn active"
+onclick="selectRental(this,'Local')">
+📍 Local
+</button>
 
-stream
-.getTracks()
-.forEach(track=>track.stop());
+<button class="option-btn"
+onclick="selectRental(this,'Outstation')">
+🛣️ Outstation
+</button>
 
-};
-
-mediaRecorder.start();
-
-document.getElementById(
-prefix+"RecordButton"
-)
-.classList.add("recording");
-
-document.getElementById(
-prefix+"RecordButton"
-)
-.textContent=
-"🔴 Recording...";
-
-document.getElementById(
-prefix+"VoiceStatus"
-)
-.textContent=
-"Recording... Speak now.";
-
-}catch(error){
-
-console.error(error);
-
-alert(
-"Microphone permission was denied."
-);
-
-}
-
-}
+</div>
 
 
-function stopVoice(prefix){
+<h3>Vehicle Type</h3>
 
-if(!mediaRecorder){
+<div class="booking-type-grid">
 
-return;
+<button class="option-btn active"
+onclick="selectVehicle(this,'Sedan')">
+🚙 Sedan
+</button>
 
-}
+<button class="option-btn"
+onclick="selectVehicle(this,'SUV')">
+🚘 SUV
+</button>
 
-if(mediaRecorder.state==="recording"){
-
-mediaRecorder.stop();
-
-}
-
-document.getElementById(
-prefix+"RecordButton"
-)
-.classList.remove("recording");
-
-document.getElementById(
-prefix+"RecordButton"
-)
-.textContent=
-"🎙️ Record";
-
-}
+</div>
 
 
-function playVoice(prefix){
-
-const audio=
-document.getElementById(
-prefix+"Audio"
-);
-
-if(!audio.src){
-
-alert(
-"Please record a voice note first."
-);
-
-return;
-
-}
-
-audio.play();
-
-}
+<div class="form-group" style="margin-top:16px">
+<label>📅 Pickup Date</label>
+<input id="pickupDate" type="date">
+</div>
 
 
-/* =========================================================
-   DRIVER SEARCH
-========================================================= */
+<div class="form-group">
+<label>⏰ Pickup Time</label>
+<input id="pickupTime" type="time">
+</div>
 
-function driverSearchHTML(prefix){
 
-return `
+<div class="form-group">
+<label>⏰ Drop Time</label>
+<input id="dropTime" type="time">
+</div>
+
+
+<div class="stop-box">
+
+<h3>
+<span class="stop-number">1</span>
+Pickup Location
+</h3>
+
+<input
+id="pickup"
+placeholder="Enter Pickup Location">
+
+<div class="location-buttons">
+
+<button
+class="small-location-btn"
+onclick="useCurrentLocation('pickup')">
+📍 Current Location
+</button>
+
+<button
+class="small-location-btn"
+onclick="pasteLocation('pickup')">
+📋 Paste Location
+</button>
+
+</div>
+
+</div>
+
+
+<div class="stop-box">
+
+<h3>
+<span class="stop-number">2</span>
+Final Destination
+</h3>
+
+<input
+id="destination"
+placeholder="Enter Final Destination">
+
+<div class="location-buttons">
+
+<button
+class="small-location-btn"
+onclick="useCurrentLocation('destination')">
+📍 Current Location
+</button>
+
+<button
+class="small-location-btn"
+onclick="pasteLocation('destination')">
+📋 Paste Location
+</button>
+
+</div>
+
+</div>
+
+
+<button
+class="primary"
+onclick="showRouteMap()">
+📍 Show Complete Route
+</button>
+
+
+<div id="mapStatus" class="map-status">
+Pickup और Destination डालकर route देखें।
+</div>
+
+<div id="routeMap" class="map-box"></div>
+
+
+<div id="routeSummary" class="route-summary hidden">
+
+<div class="route-item">
+📏 Distance
+<strong id="routeDistance">—</strong>
+</div>
+
+<div class="route-item">
+⏱️ Time
+<strong id="routeDuration">—</strong>
+</div>
+
+</div>
+
 
 <div class="driver-search">
 
 <h3>🆔 Search Driver</h3>
 
 <p class="info">
-Enter Driver ID. Example: <b>DC001</b>
+Driver ID example: <b>DC001</b>, <b>DC002</b>
 </p>
 
 <input
-id="${prefix}DriverSearch"
-placeholder="Example: DC001"
+id="driverIdSearch"
+placeholder="Enter Driver ID e.g. DC001"
 autocomplete="off"
 style="text-transform:uppercase">
 
 <button
+id="searchDriverButton"
 class="primary"
-onclick="searchDriver('${prefix}')">
-
+onclick="searchDriver()">
 🔎 Search Driver
-
 </button>
 
-<div
-id="${prefix}DriverResult">
-</div>
+<div id="driverSearchResult" class="hidden"></div>
 
-<div
-id="${prefix}SelectedDriver"
-class="selected-driver hidden">
-</div>
+<div id="selectedDriverBox"
+class="selected-driver hidden"></div>
 
 </div>
 
+
+<button
+id="bookCabButton"
+class="primary green"
+onclick="bookCab()">
+🚕 Confirm Single Cab Booking
+</button>
+
+</div>
 `;
+
+setDefaultDateTime();
 
 }
 
 
+/* DRIVER ID */
+
 function normalizeDriverId(value){
 
-let id=
-(value||"")
+let id=(value||"")
 .trim()
 .toUpperCase()
 .replace(/\s+/g,"");
 
-if(/^DRIVER\d+$/.test(id)){
+if(/^DRIVER\d+$/.test(id))
+id="DC"+id.replace("DRIVER","");
 
-id=
-"DC"+
-id.replace("DRIVER","");
+if(/^CABDC\d+$/.test(id))
+id=id.replace("CAB","");
 
-}
-
-if(/^CABDC\d+$/.test(id)){
-
-id=
-id.replace("CAB","");
-
-}
+if(/^DR\d+$/.test(id))
+id="DC"+id.replace("DR","");
 
 return id;
 
 }
 
 
-function searchDriver(prefix){
+async function getDriverById(driverId){
+
+const q=query(
+collection(db,"drivers"),
+where("driverId","==",driverId),
+limit(1)
+);
+
+const snapshot=await getDocs(q);
+
+if(snapshot.empty)
+return null;
+
+const driverDoc=snapshot.docs[0];
+const data=driverDoc.data();
+
+const blacklisted=
+data.blacklisted===true||
+data.status==="blacklisted";
+
+if(blacklisted)
+return {
+unavailable:true,
+reason:"blacklisted"
+};
+
+const active=
+data.active!==false&&
+data.status!=="inactive";
+
+if(!active)
+return {
+unavailable:true,
+reason:"inactive"
+};
+
+return {
+
+documentId:driverDoc.id,
+
+driverId:driverId,
+
+name:
+data.name||
+data.driverName||
+"Driver",
+
+mobile:
+data.mobile||
+data.phone||
+"",
+
+vehicle:
+data.vehicleNumber||
+data.vehicle||
+data.car||
+"Vehicle",
+
+vehicleType:
+data.vehicleType||
+data.type||
+"Cab",
+
+vehicleColor:
+data.vehicleColor||
+data.color||
+"",
+
+photoURL:
+data.photoURL||
+data.photoUrl||
+data.photo||
+"",
+
+online:
+data.online===true||
+data.dutyStatus==="ON"||
+data.dutyOn===true
+
+};
+
+}
+
+
+window.searchDriver=async function(){
 
 const input=
-document.getElementById(
-prefix+"DriverSearch"
-);
+document.getElementById("driverIdSearch");
 
-const result=
-document.getElementById(
-prefix+"DriverResult"
-);
+const resultBox=
+document.getElementById("driverSearchResult");
 
-const id=
+const button=
+document.getElementById("searchDriverButton");
+
+const driverId=
 normalizeDriverId(input.value);
 
-input.value=id;
+input.value=driverId;
 
-if(!/^DC\d+$/.test(id)){
+if(!/^DC\d+$/.test(driverId)){
 
-result.innerHTML=
-`
-<div class="driver-not-found">
-
-<strong>❌ Invalid Driver ID</strong>
-
-<div style="margin-top:6px">
-Example: DC001
-</div>
-
-</div>
-`;
+alert(
+"Driver ID सही format में डालें.\nExample: DC001"
+);
 
 return;
 
 }
 
-const driver=
-DEMO_DRIVERS[id];
+selectedDriver=null;
+
+document.getElementById("selectedDriverBox")
+.classList.add("hidden");
+
+resultBox.classList.remove("hidden");
+
+resultBox.className="driver-result";
+
+resultBox.innerHTML="🔎 Searching Driver...";
+
+button.disabled=true;
+button.textContent="⏳ Searching...";
+
+try{
+
+const driver=await getDriverById(driverId);
 
 if(!driver){
 
-result.innerHTML=
-`
-<div class="driver-not-found">
+resultBox.className="driver-not-found";
 
-<strong>❌ Driver Not Found</strong>
-
-<div style="margin-top:6px">
-${escapeHtml(id)} is not available in testing data.
-</div>
-
-</div>
-`;
+resultBox.innerHTML=
+"<strong>❌ Driver Not Found</strong>"+
+"<div style='margin-top:7px'>"+
+"Driver ID <b>"+escapeHtml(driverId)+
+"</b> Firebase में नहीं मिला."+
+"</div>";
 
 return;
 
 }
 
-selectedDriver={
-...driver
-};
+if(driver.unavailable){
 
-result.innerHTML=
+resultBox.className="driver-not-found";
+
+resultBox.innerHTML=
+driver.reason==="blacklisted"
+?"<strong>🚫 Driver Unavailable</strong>"
+:"<strong>⚠️ Driver Inactive</strong>";
+
+return;
+
+}
+
+selectedDriver=driver;
+
+resultBox.className="driver-result";
+
+resultBox.innerHTML=
+
 `
+<div class="driver-profile-box">
 
-<div class="driver-result">
+${driverPhotoHTML(driver)}
 
-<div style="font-size:19px;font-weight:bold">
+<div>
+<div style="font-size:20px;font-weight:bold">
 ✅ Driver Found
 </div>
 
-<div class="booking-row">
-
-<strong>🆔 DRIVER ID</strong>
-
-${escapeHtml(driver.driverId)}
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>👨‍✈️ DRIVER</strong>
-
+<div style="margin-top:4px">
 ${escapeHtml(driver.name)}
+</div>
 
 </div>
 
+</div>
 
 <div class="booking-row">
+<strong>🆔 DRIVER ID</strong>
+${escapeHtml(driver.driverId)}
+</div>
 
-<strong>🚕 VEHICLE</strong>
-
+<div class="booking-row">
+<strong>🚕 VEHICLE NUMBER</strong>
 ${escapeHtml(driver.vehicle)}
-
 </div>
 
-
 <div class="booking-row">
-
-<strong>🚘 TYPE</strong>
-
+<strong>🚘 VEHICLE TYPE</strong>
 ${escapeHtml(driver.vehicleType)}
-
 </div>
-
 
 <div class="booking-row">
+<strong>🎨 VEHICLE COLOR</strong>
+${escapeHtml(driver.vehicleColor||"-")}
+</div>
 
+<div class="booking-row">
 <strong>🟢 STATUS</strong>
-
-${driver.online
-?"ONLINE / AVAILABLE"
-:"OFFLINE"}
-
+${driver.online?"ONLINE / AVAILABLE":"OFFLINE"}
 </div>
 
-
-<button
-class="primary green"
-onclick="selectDriver('${prefix}')">
-
+<button class="primary green"
+onclick="selectDriverForBooking()">
 ✅ Select This Driver
-
 </button>
-
-</div>
-
 `;
 
+}catch(error){
+
+console.error(error);
+
+resultBox.className="driver-not-found";
+
+resultBox.innerHTML=
+"<strong>❌ Driver Search Failed</strong>"+
+"<div style='margin-top:7px'>"+
+escapeHtml(error.message||"Please try again.")+
+"</div>";
+
+}finally{
+
+button.disabled=false;
+button.textContent="🔎 Search Driver";
+
 }
 
+};
 
-function selectDriver(prefix){
 
-if(!selectedDriver){
+window.selectDriverForBooking=function(){
 
+if(!selectedDriver)
 return;
 
-}
-
 const box=
-document.getElementById(
-prefix+"SelectedDriver"
-);
+document.getElementById("selectedDriverBox");
 
 box.classList.remove("hidden");
 
 box.innerHTML=
+
 `
+<div class="driver-profile-box">
 
-🆔 <b>${escapeHtml(
-selectedDriver.driverId
-)}</b>
+${driverPhotoHTML(selectedDriver)}
 
-<br><br>
-
-👨‍✈️ ${escapeHtml(
-selectedDriver.name
-)}
-
+<div>
+<strong>🆔 ${escapeHtml(selectedDriver.driverId)}</strong>
 <br>
-
-🚕 ${escapeHtml(
-selectedDriver.vehicle
-)}
-
+${escapeHtml(selectedDriver.name)}
 <br>
+🚕 ${escapeHtml(selectedDriver.vehicle)}
+</div>
 
-🚘 ${escapeHtml(
-selectedDriver.vehicleType
-)}
+</div>
 
-<br><br>
-
-<span style="color:#18763b">
-
-✅ This booking will be sent to this Driver.
-
-</span>
-
+<div class="notice green">
+✅ Booking इसी Driver को जाएगी।
+</div>
 `;
 
+};
+
+
+/* SINGLE BOOK */
+
+window.bookCab=async function(){
+
+if(bookingInProgress)
+return;
+
+if(!auth.currentUser){
+
+alert("Please login first.");
+return;
+
 }
-
-
-/* =========================================================
-   SINGLE BOOKING CONFIRM
-========================================================= */
-
-function confirmSingleBooking(){
 
 if(!selectedDriver){
 
 alert(
-"Please search and select a Driver first."
+"पहले Driver ID search करके Driver select करें."
 );
 
 return;
@@ -2828,185 +2671,189 @@ return;
 }
 
 const pickup=
-document.getElementById(
-"singlePickup"
-).value.trim();
+document.getElementById("pickup").value.trim();
 
 const destination=
-document.getElementById(
-"singleDestination"
-).value.trim();
+document.getElementById("destination").value.trim();
 
-const date=
-document.getElementById(
-"singlePickupDate"
-).value;
+const pickupDate=
+document.getElementById("pickupDate").value;
 
 const pickupTime=
-document.getElementById(
-"singlePickupTime"
-).value;
+document.getElementById("pickupTime").value;
 
 const dropTime=
-document.getElementById(
-"singleDropTime"
-).value;
+document.getElementById("dropTime").value;
 
 const distance=
-document.getElementById(
-"singleDistance"
-).textContent;
+document.getElementById("routeDistance").textContent.trim();
 
-const duration=
-document.getElementById(
-"singleDuration"
-).textContent;
-
-const notes=
-document.getElementById(
-"singleNotes"
-).value.trim();
-
-const pickupPoint=
-document.getElementById(
-"singlePickupPoint"
-).value.trim();
-
+const estimatedTime=
+document.getElementById("routeDuration").textContent.trim();
 
 if(
 !pickup||
 !destination||
-!date||
+!pickupDate||
 !pickupTime||
 !dropTime
 ){
 
 alert(
-"Please complete Pickup, Destination, Date and Time."
+"Pickup, Destination, Date और दोनों Time भरें."
 );
 
 return;
 
 }
 
-if(distance==="—"){
+if(distance==="—"||estimatedTime==="—"){
 
-alert(
-"Please press Show Complete Route first."
-);
-
+alert("पहले Show Complete Route दबाएँ.");
 return;
 
 }
 
+const phone=
+localStorage.getItem("carSetU_phone")||"";
+
+const user=auth.currentUser;
+
+bookingInProgress=true;
+
+const button=
+document.getElementById("bookCabButton");
+
+button.disabled=true;
+button.textContent="⏳ Saving Booking...";
+
+try{
 
 const booking={
 
-id:
-"CB-"+Date.now(),
+bookingType:"cab",
+bookingMode:"single",
 
-type:"single",
+status:"pending",
 
-status:"confirmed",
+customerUid:user.uid,
+customerName:user.displayName||"Customer",
+customerEmail:user.email||"",
+customerPhone:phone,
 
-pickup:pickup,
+pickup,
+destination,
 
-destination:destination,
-
-pickupPoint:pickupPoint,
-
-pickupDate:date,
-
-pickupTime:pickupTime,
-
-dropTime:dropTime,
+pickupDate,
+pickupTime,
+dropTime,
 
 rentalType:selectedRental,
-
 vehicleType:selectedVehicle,
 
-distance:distance,
-
-duration:duration,
+distance,
+estimatedTime,
 
 driverId:selectedDriver.driverId,
-
 driverName:selectedDriver.name,
+driverMobile:selectedDriver.mobile,
+driverPhoto:selectedDriver.photoURL,
+driverCar:selectedDriver.vehicle,
+vehicleNumber:selectedDriver.vehicle,
+driverVehicleType:selectedDriver.vehicleType,
 
-vehicle:selectedDriver.vehicle,
+driverDocumentId:selectedDriver.documentId,
 
-notes:notes,
+closeRequested:false,
+customerCloseApproved:false,
 
-voiceRecorded:
-!!currentAudioBlob,
-
-createdAt:new Date().toISOString(),
-
-customerPhone:
-localStorage.getItem(
-"carSetU_phone"
-)||""
+createdAt:serverTimestamp(),
+bookingDate:pickupDate
 
 };
 
+const ref=
+await addDoc(
+collection(db,"cabBookings"),
+booking
+);
 
-bookingData.unshift(booking);
-
-saveBookings();
-
+await updateDoc(
+doc(db,"cabBookings",ref.id),
+{
+bookingId:ref.id
+}
+);
 
 alert(
-"✅ Single Cab Booking Confirmed!\n\n"+
-"Driver: "+
-selectedDriver.driverId+
-"\nBooking ID: "+
-booking.id
+"✅ BOOKING SAVED SUCCESSFULLY!\n\n"+
+"Booking ID: "+ref.id+
+"\n\nDriver को booking भेज दी गई है."
 );
 
 selectedDriver=null;
 
-currentAudioBlob=null;
+openScreen("dashboard");
 
-renderMyBookings();
+loadMyBookings();
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"❌ Booking failed.\n\n"+
+(error.message||"Please try again.")
+);
+
+}finally{
+
+bookingInProgress=false;
+
+if(button){
+
+button.disabled=false;
+button.textContent="🚕 Confirm Single Cab Booking";
 
 }
 
+}
 
-/* =========================================================
-   EVENT BOOKING
-========================================================= */
+};
 
-function renderEventBooking(){
 
-const content=
-document.getElementById("content");
+/* EVENT START */
 
-content.innerHTML=`
+function renderEventStart(box){
 
-<button class="back-button"
-onclick="openScreenWithoutAuth('dashboard')">
-← Back to Dashboard
-</button>
+eventState={
+active:false,
+eventId:null,
+eventName:"",
+totalCars:0,
+currentCar:1,
+completedCars:0
+};
 
+box.innerHTML=
+
+`
 <div class="page-title">
 🎉 Event Booking
 </div>
 
-
 <div class="card">
 
-<div class="event-info">
+<div class="event-header">
 
 <h2>🎉 Event Booking</h2>
 
 <p class="info">
-
-Enter the Event name and total number of cars required.
-
-Each car will be booked one-by-one with its own pickup, time and Driver.
-
+एक Event के लिए जितनी Cars चाहिए उतनी संख्या डालें।
+हर Car की Pickup Location और Time अलग-अलग दे सकते हैं।
 </p>
 
+</div>
 
 <div class="form-group">
 
@@ -3029,187 +2876,167 @@ type="number"
 min="1"
 max="1000"
 value="1"
-oninput="updateEventCount()">
+oninput="updateEventCarCount()">
 
 </div>
 
-
-<div
-id="eventCount"
-class="event-count">
-
+<div id="eventCarCount"
+class="notice blue">
 🚕 1 Car
-
-</div>
-
 </div>
 
 
 <button
 class="primary"
 onclick="startEventBooking()">
-
 🎉 Start Event Booking
-
 </button>
 
 </div>
-
-
-<div
-id="eventBookingArea">
-</div>
-
 `;
 
 }
 
 
-/* EVENT COUNT */
+window.updateEventCarCount=function(){
 
-function updateEventCount(){
+const input=
+document.getElementById("eventTotalCars");
 
-let total=
-parseInt(
-document.getElementById(
-"eventTotalCars"
-).value
-)||1;
-
-if(total<1)
-total=1;
-
-if(total>1000)
-total=1000;
-
-document.getElementById(
-"eventTotalCars"
-).value=total;
-
-document.getElementById(
-"eventCount"
-).textContent=
-"🚕 "+total+
-(total===1?" Car":" Cars");
-
-}
-
-
-/* START EVENT */
-
-function startEventBooking(){
-
-const name=
-document.getElementById(
-"eventName"
-).value.trim();
-
-const total=
-parseInt(
-document.getElementById(
-"eventTotalCars"
-).value
-)||1;
-
-
-if(total<1){
-
-alert(
-"Please enter at least 1 car."
+const value=
+Math.max(
+1,
+Math.min(1000,Number(input.value||1))
 );
 
-return;
+input.value=value;
 
-}
-
-eventData={
-
-eventId:
-"EV-"+Date.now(),
-
-eventName:
-name||"Event Booking",
-
-totalCars:total,
-
-cars:[],
-
-currentCar:1,
-
-createdAt:
-new Date().toISOString()
+document.getElementById("eventCarCount")
+.textContent=
+"🚕 "+value+" Car"+(value===1?"":"s");
 
 };
 
-localStorage.setItem(
-"carSetU_currentEvent",
-JSON.stringify(eventData)
+
+window.startEventBooking=async function(){
+
+if(!auth.currentUser){
+
+alert("Please login first.");
+return;
+
+}
+
+const name=
+document.getElementById("eventName").value.trim();
+
+const total=
+Math.max(
+1,
+Math.min(
+1000,
+Number(
+document.getElementById("eventTotalCars").value||1
+)
+)
 );
 
-renderEventCar();
+try{
 
+const ref=
+await addDoc(
+collection(db,"eventBookings"),
+{
+bookingType:"event",
+status:"active",
+
+eventName:name,
+
+totalCars:total,
+
+completedCars:0,
+currentCar:1,
+
+customerUid:auth.currentUser.uid,
+customerName:auth.currentUser.displayName||"Customer",
+customerEmail:auth.currentUser.email||"",
+customerPhone:
+localStorage.getItem("carSetU_phone")||"",
+
+createdAt:serverTimestamp()
 }
-
-
-/* RENDER ONE CAR */
-
-function renderEventCar(){
-
-if(!eventData){
-
-return;
-
-}
-
-const area=
-document.getElementById(
-"eventBookingArea"
 );
 
-if(!area)
-return;
+eventState={
+active:true,
+eventId:ref.id,
+eventName:name,
+totalCars:total,
+currentCar:1,
+completedCars:0
+};
+
+renderEventCar(boxForBookingWork());
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Event start नहीं हुआ.\n\n"+
+(error.message||"")
+);
+
+}
+
+};
 
 
-if(eventData.currentCar>
-eventData.totalCars){
+function boxForBookingWork(){
 
-renderEventComplete();
-
-return;
+return document.getElementById(
+"bookingWorkContent"
+);
 
 }
 
 
-const carNumber=
-eventData.currentCar;
+/* EVENT CAR */
 
+function renderEventCar(box){
 
-area.innerHTML=`
+selectedDriver=null;
+
+const carNo=eventState.currentCar;
+
+const total=eventState.totalCars;
+
+const completed=eventState.completedCars;
+
+box.innerHTML=
+
+`
+<div class="page-title">
+🎉 Event Booking
+</div>
 
 <div class="card">
 
-<div class="event-info">
+<div class="event-progress">
+Car ${carNo} of ${total} • ${completed} Completed
+</div>
+
+<div class="event-header">
 
 <h2>
 🎉 ${escapeHtml(
-eventData.eventName
+eventState.eventName||"Event Booking"
 )}
 </h2>
 
-<div class="event-count">
-
-Car ${carNumber}
-of
-${eventData.totalCars}
-
-</div>
-
-<p class="info"
-style="margin-top:8px">
-
-Only this car is open now.
-After confirming it, the next car will open.
-
+<p class="info">
+हर Car अलग booking record के रूप में save होगी।
+एक Car save होने के बाद अगली Car खुलेगी।
 </p>
 
 </div>
@@ -3217,101 +3044,115 @@ After confirming it, the next car will open.
 
 <div class="event-car-card">
 
-<div class="event-car-header">
+<div class="car-number">
+🚕 Car ${carNo}
 
-<div class="car-title">
-
-🚕 Car ${carNumber}
-
-</div>
-
-<span class="pending">
+<span class="pending-badge">
 Pickup Pending
 </span>
-
 </div>
 
 
-<h3>📅 Pickup Date</h3>
+<div class="form-group">
+
+<label>📅 Pickup Date</label>
 
 <input
 id="eventPickupDate"
 type="date">
 
+</div>
 
-<h3>⏰ Pickup Time</h3>
+
+<div class="form-group">
+
+<label>⏰ Pickup Time</label>
 
 <input
 id="eventPickupTime"
 type="time">
 
+</div>
 
-<h3>⏰ Drop Time</h3>
+
+<div class="form-group">
+
+<label>⏰ Drop Time</label>
 
 <input
 id="eventDropTime"
 type="time">
 
+</div>
 
-<h3>📍 Pickup Location</h3>
+
+<div class="stop-box">
+
+<h3>
+📍 Pickup Location
+</h3>
 
 <input
 id="eventPickup"
-placeholder="Enter Car ${carNumber} Pickup Location">
-
+placeholder="Enter Car ${carNo} Pickup Location">
 
 <div class="location-buttons">
 
 <button
-class="small-button"
+class="small-location-btn"
 onclick="useCurrentLocation('eventPickup')">
-
 📍 Current Location
-
 </button>
 
 <button
-class="small-button"
+class="small-location-btn"
 onclick="pasteLocation('eventPickup')">
-
 📋 Paste Location
-
 </button>
 
 </div>
 
+</div>
 
-<h3>📍 Pickup Point (Optional)</h3>
+
+<div class="stop-box">
+
+<h3>
+📍 Pickup Point
+</h3>
 
 <input
 id="eventPickupPoint"
-placeholder="Gate, building, landmark etc.">
+placeholder="Gate, Building, Landmark etc.">
+
+</div>
 
 
-<h3>🏁 Drop Location</h3>
+<div class="stop-box">
+
+<h3>
+🏁 Drop Location
+</h3>
 
 <input
-id="eventDrop"
-placeholder="Enter Event Drop Location">
-
+id="eventDestination"
+placeholder="Enter Drop Location">
 
 <div class="location-buttons">
 
 <button
-class="small-button"
-onclick="useCurrentLocation('eventDrop')">
-
+class="small-location-btn"
+onclick="useCurrentLocation('eventDestination')">
 📍 Current Location
-
 </button>
 
 <button
-class="small-button"
-onclick="pasteLocation('eventDrop')">
-
+class="small-location-btn"
+onclick="pasteLocation('eventDestination')">
 📋 Paste Location
-
 </button>
+
+</div>
 
 </div>
 
@@ -3319,25 +3160,17 @@ onclick="pasteLocation('eventDrop')">
 <button
 class="primary"
 onclick="showEventRoute()">
-
 📍 Show Complete Route
-
 </button>
 
 
-<div
-id="eventMapStatus"
+<div id="eventMapStatus"
 class="map-status">
-
-Enter Pickup and Drop to see route.
-
+Route देखने के लिए Pickup और Drop डालें।
 </div>
 
-
-<div
-id="eventRouteMap"
-class="map-box">
-</div>
+<div id="eventRouteMap"
+class="map-box"></div>
 
 
 <div
@@ -3346,164 +3179,189 @@ class="route-summary hidden">
 
 <div class="route-item">
 📏 Distance
-<strong id="eventDistance">—</strong>
+<strong id="eventRouteDistance">—</strong>
 </div>
 
 <div class="route-item">
 ⏱️ Time
-<strong id="eventDuration">—</strong>
+<strong id="eventRouteDuration">—</strong>
 </div>
 
 </div>
 
 
-${voiceHTML("event")}
+<!-- VOICE ONLY -->
 
+<div class="voice-box">
+
+<h3>🎙️ Additional Notes</h3>
+
+<textarea
+id="eventNotes"
+placeholder="Additional information लिखें..."></textarea>
+
+<div class="voice-buttons">
+
+<button
+id="recordButton"
+onclick="startVoiceRecording()">
+🎙️ Record
+</button>
+
+<button
+onclick="stopVoiceRecording()">
+⏹️ Stop
+</button>
+
+<button
+onclick="playVoiceRecording()">
+▶️ Play
+</button>
+
+</div>
+
+<div id="voiceStatus"
+class="notice blue">
+Voice Note Optional
+</div>
+
+<audio
+id="voicePlayer"
+controls
+class="hidden">
+</audio>
+
+</div>
+
+
+<!-- DRIVER -->
+
+<div class="driver-search">
 
 <h3>🆔 Driver Ready / Search Driver</h3>
 
+<p class="info">
+इस Car के लिए Driver ID search करें।
+</p>
+
 <input
-id="eventDriverSearch"
+id="eventDriverId"
 placeholder="Example: DC001"
 style="text-transform:uppercase">
 
-
 <button
 class="primary"
-onclick="searchDriver('event')">
-
+onclick="searchEventDriver()">
 🔎 Search Driver
-
 </button>
 
-
 <div id="eventDriverResult"></div>
-
 
 <div
 id="eventSelectedDriver"
 class="selected-driver hidden">
 </div>
 
+</div>
+
 
 <button
 class="primary green"
-onclick="confirmEventCar()">
-
-✅ Confirm Car ${carNumber}
-
+onclick="saveEventCar()">
+🚕 Confirm & Save Car ${carNo}
 </button>
 
 </div>
 
-
 </div>
-
-
-${renderEventSavedList()}
-
-</div>
-
 `;
 
-setDefaultEventDateTime();
+setEventDefaultDateTime();
 
 }
 
 
 /* EVENT DATE */
 
-function setDefaultEventDateTime(){
+function setEventDefaultDateTime(){
 
 const date=
-document.getElementById(
-"eventPickupDate"
-);
+document.getElementById("eventPickupDate");
 
 if(date)
-date.value=todayString();
+date.value=getTodayString();
 
-const now=
-new Date();
+const now=new Date();
 
-const time=
-String(now.getHours())
-.padStart(2,"0")+
-":"+
-String(
-Math.ceil(
-now.getMinutes()/5
-)*5%60
-).padStart(2,"0");
+const rounded=
+Math.ceil(now.getMinutes()/5)*5;
+
+let h=now.getHours();
+let m=rounded;
+
+if(m>=60){
+h=(h+1)%24;
+m=0;
+}
 
 const pickup=
-document.getElementById(
-"eventPickupTime"
-);
+document.getElementById("eventPickupTime");
 
 if(pickup)
-pickup.value=time;
+pickup.value=
+String(h).padStart(2,"0")+
+":"+
+String(m).padStart(2,"0");
 
 const drop=
-document.getElementById(
-"eventDropTime"
-);
+document.getElementById("eventDropTime");
 
 if(drop){
 
-let d=
-new Date();
-
-d.setHours(
-now.getHours()
-);
-
-d.setMinutes(
-now.getMinutes()+60
-);
+const d=
+new Date(now.getTime()+60*60*1000);
 
 drop.value=
-String(
-d.getHours()
-).padStart(2,"0")+
+String(d.getHours()).padStart(2,"0")+
 ":"+
-String(
-d.getMinutes()
-).padStart(2,"0");
+String(d.getMinutes()).padStart(2,"0");
 
 }
 
 }
 
 
-/* EVENT ROUTE */
+/* EVENT MAP */
 
-let eventMap=null;
+let eventRouteMap=null;
+let eventRouteLine=null;
+let eventRouteMarkers=[];
 
-let eventLine=null;
+window.showEventRoute=async function(){
 
-let eventMarkers=[];
+const pickup=
+document.getElementById("eventPickup")?.value.trim();
 
+const destination=
+document.getElementById("eventDestination")?.value.trim();
 
-function initEventMap(){
+if(!pickup||!destination){
 
-if(eventMap){
-
-setTimeout(
-()=>eventMap.invalidateSize(),
-200
-);
-
+alert("Pickup और Drop Location भरें.");
 return;
 
 }
 
-eventMap=
+const status=
+document.getElementById("eventMapStatus");
+
+status.textContent="🔎 Finding locations...";
+
+if(!eventRouteMap){
+
+eventRouteMap=
 L.map("eventRouteMap")
-.setView(
-[17.3850,78.4867],
-11
-);
+.setView([17.3850,78.4867],11);
 
 L.tileLayer(
 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -3511,95 +3369,53 @@ L.tileLayer(
 maxZoom:19,
 attribution:"© OpenStreetMap contributors"
 }
-).addTo(eventMap);
+).addTo(eventRouteMap);
 
-}
+}else{
 
-
-async function showEventRoute(){
-
-const pickup=
-document.getElementById(
-"eventPickup"
-).value.trim();
-
-const drop=
-document.getElementById(
-"eventDrop"
-).value.trim();
-
-if(!pickup||!drop){
-
-alert(
-"Please enter Pickup and Drop Location."
+setTimeout(
+()=>eventRouteMap.invalidateSize(),
+200
 );
 
-return;
-
 }
-
-initEventMap();
-
-const status=
-document.getElementById(
-"eventMapStatus"
-);
-
-status.textContent=
-"Finding locations...";
 
 try{
 
-const points=
-await Promise.all([
-geocode(pickup),
-geocode(drop)
+const points=await Promise.all([
+geocodePlace(pickup),
+geocodePlace(destination)
 ]);
 
-eventMarkers.forEach(
-m=>eventMap.removeLayer(m)
+eventRouteMarkers.forEach(
+m=>eventRouteMap.removeLayer(m)
 );
 
-eventMarkers=[];
+eventRouteMarkers=[];
 
-if(eventLine){
-
-eventMap.removeLayer(
-eventLine
-);
-
-eventLine=null;
-
+if(eventRouteLine){
+eventRouteMap.removeLayer(eventRouteLine);
+eventRouteLine=null;
 }
 
-status.textContent=
-"Calculating route...";
+const route=await getRoute(points);
 
-const route=
-await getRoute(points);
-
-points.forEach(
-(point,index)=>{
+points.forEach((point,index)=>{
 
 const marker=
-L.marker([
-point.lat,
-point.lon
-])
-.addTo(eventMap)
+L.marker([point.lat,point.lon])
+.addTo(eventRouteMap)
 .bindPopup(
 index===0
 ?"📍 Pickup"
 :"🏁 Drop"
 );
 
-eventMarkers.push(marker);
+eventRouteMarkers.push(marker);
 
-}
-);
+});
 
-
-eventLine=
+eventRouteLine=
 L.geoJSON(
 route.geometry,
 {
@@ -3608,52 +3424,32 @@ weight:6,
 opacity:.85
 }
 }
-).addTo(eventMap);
+).addTo(eventRouteMap);
 
-
-eventMap.fitBounds(
-eventLine.getBounds(),
-{
-padding:[25,25]
-}
+eventRouteMap.fitBounds(
+eventRouteLine.getBounds(),
+{padding:[25,25]}
 );
 
+const km=
+(route.distance/1000).toFixed(1);
 
-document.getElementById(
-"eventDistance"
-).textContent=
-(route.distance/1000)
-.toFixed(1)+" KM";
+const mins=
+Math.round(route.duration/60);
 
+document.getElementById("eventRouteDistance")
+.textContent=km+" KM";
 
-const totalMinutes=
-Math.round(
-route.duration/60
-);
+document.getElementById("eventRouteDuration")
+.textContent=
+mins>=60
+?Math.floor(mins/60)+" hr "+mins%60+" min"
+:mins+" min";
 
-const h=
-Math.floor(
-totalMinutes/60
-);
+document.getElementById("eventRouteSummary")
+.classList.remove("hidden");
 
-const m=
-totalMinutes%60;
-
-document.getElementById(
-"eventDuration"
-).textContent=
-h>0
-?h+" hr "+m+" min"
-:m+" min";
-
-
-document.getElementById(
-"eventRouteSummary"
-).classList.remove("hidden");
-
-
-status.textContent=
-"✅ Complete route found.";
+status.textContent="✅ Complete route found.";
 
 }catch(error){
 
@@ -3662,810 +3458,27 @@ console.error(error);
 status.textContent=
 "❌ "+error.message;
 
-alert(error.message);
-
-}
-
-}
-
-
-/* EVENT SAVED LIST */
-
-function renderEventSavedList(){
-
-if(!eventData ||
-!eventData.cars.length){
-
-return "";
-
-}
-
-let html=
-`
-
-<div class="event-list">
-
-<h3>
-✅ Confirmed Cars
-</h3>
-
-`;
-
-eventData.cars.forEach(car=>{
-
-html+=`
-
-<div class="event-saved-card">
-
-<strong>
-🚕 Car ${car.carNumber}
-</strong>
-
-Status:
-<span style="color:#16833e">
-CONFIRMED
-</span>
-
-<br><br>
-
-📍 ${escapeHtml(
-car.pickup
-)}
-
-<br>
-
-⏰ ${escapeHtml(
-car.pickupTime
-)}
-
-<br>
-
-🆔 ${escapeHtml(
-car.driverId
-)}
-
-<br>
-
-👨‍✈️ ${escapeHtml(
-car.driverName
-)}
-
-</div>
-
-`;
-
-});
-
-html+=`</div>`;
-
-return html;
-
-}
-
-
-/* CONFIRM EVENT CAR */
-
-function confirmEventCar(){
-
-if(!eventData){
-
-return;
-
-}
-
-if(!selectedDriver){
-
 alert(
-"Please search and select Driver for this car."
+"Route नहीं बन पाया.\n\n"+
+error.message
 );
 
-return;
-
 }
-
-const pickup=
-document.getElementById(
-"eventPickup"
-).value.trim();
-
-const drop=
-document.getElementById(
-"eventDrop"
-).value.trim();
-
-const date=
-document.getElementById(
-"eventPickupDate"
-).value;
-
-const pickupTime=
-document.getElementById(
-"eventPickupTime"
-).value;
-
-const dropTime=
-document.getElementById(
-"eventDropTime"
-).value;
-
-const pickupPoint=
-document.getElementById(
-"eventPickupPoint"
-).value.trim();
-
-const distance=
-document.getElementById(
-"eventDistance"
-).textContent;
-
-const duration=
-document.getElementById(
-"eventDuration"
-).textContent;
-
-const notes=
-document.getElementById(
-"eventNotes"
-).value.trim();
-
-
-if(
-!pickup||
-!drop||
-!date||
-!pickupTime||
-!dropTime
-){
-
-alert(
-"Please complete Pickup, Drop, Date and Time."
-);
-
-return;
-
-}
-
-if(distance==="—"){
-
-alert(
-"Please press Show Complete Route first."
-);
-
-return;
-
-}
-
-
-const car={
-
-bookingId:
-"EV-"+Date.now()+"-CAR"+
-eventData.currentCar,
-
-eventId:
-eventData.eventId,
-
-eventName:
-eventData.eventName,
-
-carNumber:
-eventData.currentCar,
-
-status:"confirmed",
-
-pickup:pickup,
-
-drop:drop,
-
-pickupPoint:pickupPoint,
-
-pickupDate:date,
-
-pickupTime:pickupTime,
-
-dropTime:dropTime,
-
-distance:distance,
-
-duration:duration,
-
-driverId:
-selectedDriver.driverId,
-
-driverName:
-selectedDriver.name,
-
-vehicle:
-selectedDriver.vehicle,
-
-vehicleType:
-selectedVehicle,
-
-notes:notes,
-
-voiceRecorded:
-!!currentAudioBlob,
-
-createdAt:
-new Date().toISOString(),
-
-closeStatus:"open"
 
 };
 
 
-eventData.cars.push(car);
+/* EVENT DRIVER */
 
-bookingData.unshift({
+let eventSelectedDriver=null;
 
-...car,
-
-type:"event"
-
-});
-
-
-saveBookings();
-
-localStorage.setItem(
-"carSetU_currentEvent",
-JSON.stringify(eventData)
-);
-
-
-alert(
-
-"✅ Car "+
-car.carNumber+
-" Confirmed!\n\n"+
-"Driver: "+
-car.driverId+
-"\n\nNext Car will now open."
-
-);
-
-
-selectedDriver=null;
-
-currentAudioBlob=null;
-
-if(currentAudioURL){
-
-URL.revokeObjectURL(
-currentAudioURL
-);
-
-currentAudioURL=null;
-
-}
-
-eventData.currentCar++;
-
-localStorage.setItem(
-"carSetU_currentEvent",
-JSON.stringify(eventData)
-);
-
-renderEventCar();
-
-}
-
-
-/* EVENT COMPLETE */
-
-function renderEventComplete(){
-
-const area=
-document.getElementById(
-"eventBookingArea"
-);
-
-area.innerHTML=`
-
-<div class="card">
-
-<div class="notice green">
-
-<h2>🎉 Event Booking Complete</h2>
-
-<p style="margin-top:8px">
-
-All ${eventData.totalCars} cars have been confirmed.
-
-</p>
-
-</div>
-
-
-<div class="event-info">
-
-<strong>Event:</strong>
-${escapeHtml(eventData.eventName)}
-
-<br><br>
-
-<strong>Total Cars:</strong>
-${eventData.totalCars}
-
-<br><br>
-
-<strong>Confirmed Cars:</strong>
-${eventData.cars.length}
-
-</div>
-
-
-${renderEventSavedList()}
-
-
-<button
-class="primary"
-onclick="openSettings('bookings')">
-
-📋 View My Bookings
-
-</button>
-
-
-<button
-class="primary gray"
-onclick="openScreenWithoutAuth('dashboard')">
-
-← Back to Dashboard
-
-</button>
-
-</div>
-
-`;
-
-}
-
-
-/* =========================================================
-   MY BOOKINGS
-========================================================= */
-
-function loadBookings(){
-
-try{
-
-bookingData=
-JSON.parse(
-localStorage.getItem(
-"carSetU_bookings"
-)||"[]"
-);
-
-}catch(error){
-
-bookingData=[];
-
-}
-
-}
-
-
-function saveBookings(){
-
-localStorage.setItem(
-"carSetU_bookings",
-JSON.stringify(
-bookingData
-)
-);
-
-}
-
-
-function renderMyBookings(){
-
-loadBookings();
-
-const content=
-document.getElementById("content");
-
-content.innerHTML=`
-
-<button class="back-button"
-onclick="openScreenWithoutAuth('profile')">
-← Back to Profile
-</button>
-
-<div class="page-title">
-📋 My Bookings
-</div>
-
-<div class="card">
-
-<div id="myBookingList">
-</div>
-
-</div>
-
-`;
-
-const list=
-document.getElementById(
-"myBookingList"
-);
-
-if(!bookingData.length){
-
-list.innerHTML=
-`
-<div class="empty">
-
-No bookings yet.
-
-</div>
-`;
-
-return;
-
-}
-
-
-bookingData.forEach(
-booking=>{
-
-const card=
-document.createElement("div");
-
-card.className=
-"booking-card";
-
-let statusClass=
-"status";
-
-if(
-booking.status==="confirmed"
-)
-statusClass+=" accepted";
-
-if(
-booking.status==="close_requested"
-)
-statusClass+=" close-requested";
-
-if(
-booking.status==="completed"
-)
-statusClass+=" completed";
-
-
-card.innerHTML=`
-
-<span class="${statusClass}">
-
-${escapeHtml(
-formatStatus(
-booking.status
-)
-)}
-
-</span>
-
-
-<div class="booking-row">
-
-<strong>BOOKING ID</strong>
-
-${escapeHtml(
-booking.bookingId||
-booking.id||
-"-"
-)}
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>TYPE</strong>
-
-${booking.type==="event"
-?"🎉 Event"
-:"🚕 Single Cab"}
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>📍 PICKUP</strong>
-
-${escapeHtml(
-booking.pickup||
-"-"
-)}
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>🏁 DROP</strong>
-
-${escapeHtml(
-booking.destination||
-booking.drop||
-"-"
-)}
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>🆔 DRIVER ID</strong>
-
-${escapeHtml(
-booking.driverId||
-"-"
-)}
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>👨‍✈️ DRIVER</strong>
-
-${escapeHtml(
-booking.driverName||
-"-"
-)}
-
-</div>
-
-
-<div class="button-row">
-
-<button
-class="map-button"
-onclick="showBookingRouteFromData('${escapeHtml(booking.pickup||"")}','${escapeHtml(booking.destination||booking.drop||"")}')">
-
-📍 Map
-
-</button>
-
-
-<button
-class="details-button"
-onclick="showBookingDetails(${JSON.stringify(booking).replace(/'/g,"&#39;")})">
-
-📄 Details
-
-</button>
-
-</div>
-
-
-${booking.status==="close_requested"
-?`
-
-<div class="notice orange">
-
-⚠️ Driver has requested booking closure.
-
-<button
-class="primary green"
-onclick="approveBookingClose('${escapeHtml(booking.bookingId||booking.id)}')">
-
-✅ Approve & Close Booking
-
-</button>
-
-</div>
-
-`
-:""}
-
-`;
-
-list.appendChild(card);
-
-});
-
-}
-
-
-/* FORMAT STATUS */
-
-function formatStatus(status){
-
-if(status==="close_requested")
-return "DRIVER CLOSE REQUEST";
-
-if(status==="completed")
-return "COMPLETED";
-
-if(status==="confirmed")
-return "CONFIRMED";
-
-return String(
-status||"PENDING"
-).toUpperCase();
-
-}
-
-
-/* DETAILS */
-
-function showBookingDetails(booking){
-
-alert(
-
-"BOOKING DETAILS\n\n"+
-
-"Booking ID: "+
-(booking.bookingId||booking.id||"-")+
-
-"\n\n"+
-
-"Type: "+
-(booking.type||"-")+
-
-"\n\n"+
-
-"Pickup: "+
-(booking.pickup||"-")+
-
-"\n\n"+
-
-"Drop: "+
-(booking.destination||
-booking.drop||
-"-")+
-
-"\n\n"+
-
-"Date: "+
-(booking.pickupDate||
-"-")+
-
-"\n\n"+
-
-"Pickup Time: "+
-(booking.pickupTime||
-"-")+
-
-"\n\n"+
-
-"Drop Time: "+
-(booking.dropTime||
-"-")+
-
-"\n\n"+
-
-"Driver ID: "+
-(booking.driverId||
-"-")+
-
-"\n\n"+
-
-"Driver: "+
-(booking.driverName||
-"-")+
-
-"\n\n"+
-
-"Status: "+
-formatStatus(
-booking.status
-)
-
-);
-
-}
-
-
-/* APPROVE CLOSE */
-
-function approveBookingClose(id){
-
-loadBookings();
-
-const booking=
-bookingData.find(
-b=>
-(b.bookingId||b.id)===id
-);
-
-if(!booking){
-
-return;
-
-}
-
-booking.status="completed";
-
-booking.closeStatus=
-"customer_approved";
-
-booking.closedAt=
-new Date().toISOString();
-
-saveBookings();
-
-alert(
-"✅ Booking closed successfully."
-);
-
-renderMyBookings();
-
-}
-
-
-/* =========================================================
-   DRIVER SEARCH SETTINGS
-========================================================= */
-
-function renderDriverSearch(){
-
-const content=
-document.getElementById("content");
-
-content.innerHTML=`
-
-<button class="back-button"
-onclick="openScreenWithoutAuth('profile')">
-← Back to Profile
-</button>
-
-<div class="page-title">
-🆔 Search Driver
-</div>
-
-<div class="card">
-
-<p class="info">
-
-Search a driver using Driver ID.
-
-Example: DC001
-
-</p>
-
-
-<input
-id="settingsDriverSearch"
-placeholder="Example: DC001"
-style="text-transform:uppercase">
-
-
-<button
-class="primary"
-onclick="searchSettingsDriver()">
-
-🔎 Search Driver
-
-</button>
-
-
-<div
-id="settingsDriverResult">
-</div>
-
-</div>
-
-`;
-
-}
-
-
-function searchSettingsDriver(){
+window.searchEventDriver=async function(){
 
 const input=
-document.getElementById(
-"settingsDriverSearch"
-);
+document.getElementById("eventDriverId");
 
 const result=
-document.getElementById(
-"settingsDriverResult"
-);
+document.getElementById("eventDriverResult");
 
 const id=
 normalizeDriverId(input.value);
@@ -4475,327 +3488,1820 @@ input.value=id;
 if(!/^DC\d+$/.test(id)){
 
 result.innerHTML=
-`
-<div class="notice red">
-
-❌ Invalid Driver ID.
-
-Example: DC001
-
-</div>
-`;
+`<div class="notice red">
+❌ Invalid Driver ID. Example: DC001
+</div>`;
 
 return;
 
 }
 
+result.innerHTML=
+`<div class="notice blue">
+🔎 Searching Driver...
+</div>`;
+
+try{
+
 const driver=
-DEMO_DRIVERS[id];
+await getDriverById(id);
 
 if(!driver){
 
 result.innerHTML=
-`
-<div class="notice red">
-
-❌ Driver ${escapeHtml(id)}
-not found.
-
-</div>
-`;
+`<div class="notice red">
+❌ Driver ${escapeHtml(id)} Firebase में नहीं मिला।
+</div>`;
 
 return;
 
 }
+
+if(driver.unavailable){
 
 result.innerHTML=
-`
+`<div class="notice red">
+❌ Driver Unavailable
+</div>`;
 
+return;
+
+}
+
+eventSelectedDriver=driver;
+
+result.innerHTML=
+
+`
 <div class="driver-result">
 
-<h3>
-✅ Driver Found
-</h3>
+<div class="driver-profile-box">
+
+${driverPhotoHTML(driver)}
+
+<div>
+<strong>✅ Driver Found</strong>
+<br>
+${escapeHtml(driver.name)}
+</div>
+
+</div>
 
 <div class="booking-row">
-
 <strong>DRIVER ID</strong>
-
-${escapeHtml(
-driver.driverId
-)}
-
+${escapeHtml(driver.driverId)}
 </div>
 
 <div class="booking-row">
-
-<strong>DRIVER NAME</strong>
-
-${escapeHtml(
-driver.name
-)}
-
-</div>
-
-<div class="booking-row">
-
 <strong>VEHICLE</strong>
-
-${escapeHtml(
-driver.vehicle
-)}
-
+${escapeHtml(driver.vehicle)}
 </div>
 
-<div class="booking-row">
-
-<strong>VEHICLE TYPE</strong>
-
-${escapeHtml(
-driver.vehicleType
-)}
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-/* =========================================================
-   TRACKING
-========================================================= */
-
-function renderTracking(){
-
-const content=
-document.getElementById("content");
-
-content.innerHTML=`
-
-<button class="back-button"
-onclick="openScreenWithoutAuth('profile')">
-← Back to Profile
+<button
+class="primary green"
+onclick="selectEventDriver()">
+✅ Select This Driver
 </button>
 
-<div class="page-title">
-📍 Live Driver Tracking
 </div>
-
-<div class="card">
-
-<div class="notice blue">
-
-Live Driver Tracking will show only your active booked drivers.
-
-</div>
-
-
-<div
-id="trackingCount"
-class="live-driver-count">
-
-0 Active Drivers
-
-</div>
-
-
-<div
-id="trackingMap"
-class="live-map">
-</div>
-
-
-<div class="notice orange">
-
-📌 Firebase Driver Location will be connected later.
-
-For now this screen is ready for testing.
-
-</div>
-
-</div>
-
 `;
 
-setTimeout(
-initTrackingMap,
-100
+}catch(error){
+
+console.error(error);
+
+result.innerHTML=
+`<div class="notice red">
+❌ Driver search failed.
+</div>`;
+
+}
+
+};
+
+
+window.selectEventDriver=function(){
+
+if(!eventSelectedDriver)
+return;
+
+const box=
+document.getElementById("eventSelectedDriver");
+
+box.classList.remove("hidden");
+
+box.innerHTML=
+
+`
+<div class="driver-profile-box">
+
+${driverPhotoHTML(eventSelectedDriver)}
+
+<div>
+<strong>🆔 ${escapeHtml(
+eventSelectedDriver.driverId
+)}</strong>
+<br>
+${escapeHtml(eventSelectedDriver.name)}
+<br>
+🚕 ${escapeHtml(
+eventSelectedDriver.vehicle
+)}
+</div>
+
+</div>
+
+<div class="notice green">
+✅ This Driver will receive this Car booking.
+</div>
+`;
+
+};
+
+
+/* VOICE RECORDING */
+
+window.startVoiceRecording=async function(){
+
+if(!navigator.mediaDevices||
+!navigator.mediaDevices.getUserMedia){
+
+alert(
+"Voice recording इस browser में available नहीं है."
+);
+
+return;
+
+}
+
+try{
+
+const stream=
+await navigator.mediaDevices.getUserMedia({
+audio:true
+});
+
+audioChunks=[];
+
+mediaRecorder=
+new MediaRecorder(stream);
+
+mediaRecorder.ondataavailable=
+event=>{
+
+if(event.data.size>0)
+audioChunks.push(event.data);
+
+};
+
+mediaRecorder.onstop=()=>{
+
+currentVoiceBlob=
+new Blob(
+audioChunks,
+{type:mediaRecorder.mimeType||"audio/webm"}
+);
+
+currentVoiceUrl=
+URL.createObjectURL(currentVoiceBlob);
+
+const player=
+document.getElementById("voicePlayer");
+
+player.src=currentVoiceUrl;
+player.classList.remove("hidden");
+
+document.getElementById("voiceStatus")
+.textContent=
+"✅ Voice Note Recorded. Play करके सुन सकते हैं।";
+
+stream.getTracks().forEach(
+track=>track.stop()
+);
+
+};
+
+mediaRecorder.start();
+
+document.getElementById("recordButton")
+.classList.add("recording");
+
+document.getElementById("recordButton")
+.textContent="🔴 Recording...";
+
+document.getElementById("voiceStatus")
+.textContent=
+"🔴 Recording चालू है...";
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Microphone permission नहीं मिली.\n\n"+
+(error.message||"")
 );
 
 }
 
+};
 
-function initTrackingMap(){
 
-if(trackingMap)
+window.stopVoiceRecording=function(){
+
+if(mediaRecorder&&
+mediaRecorder.state!=="inactive"){
+
+mediaRecorder.stop();
+
+document.getElementById("recordButton")
+.classList.remove("recording");
+
+document.getElementById("recordButton")
+.textContent="🎙️ Record";
+
+}
+
+};
+
+
+window.playVoiceRecording=function(){
+
+const player=
+document.getElementById("voicePlayer");
+
+if(!player.src){
+
+alert("पहले Voice Note record करें.");
 return;
 
-const element=
-document.getElementById(
-"trackingMap"
+}
+
+player.play();
+
+};
+
+
+/* UPLOAD VOICE */
+
+async function uploadVoiceNote(eventId,carNo){
+
+if(!currentVoiceBlob)
+return "";
+
+const path=
+"voiceNotes/"+
+auth.currentUser.uid+
+"/"+
+eventId+
+"/car_"+carNo+"_"+Date.now()+".webm";
+
+const storageRef=ref(storage,path);
+
+await uploadBytes(
+storageRef,
+currentVoiceBlob
 );
 
-if(!element)
+return await getDownloadURL(storageRef);
+
+}
+
+
+/* EVENT SAVE CAR */
+
+window.saveEventCar=async function(){
+
+if(!auth.currentUser){
+
+alert("Please login first.");
 return;
 
-trackingMap=
-L.map("trackingMap")
-.setView(
-[17.3850,78.4867],
-11
+}
+
+if(!eventState.active){
+
+alert("पहले Event Start करें.");
+return;
+
+}
+
+if(!eventSelectedDriver){
+
+alert(
+"इस Car के लिए Driver select करें."
 );
 
-L.tileLayer(
-"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+return;
+
+}
+
+const pickup=
+document.getElementById("eventPickup")
+.value.trim();
+
+const pickupPoint=
+document.getElementById("eventPickupPoint")
+.value.trim();
+
+const destination=
+document.getElementById("eventDestination")
+.value.trim();
+
+const pickupDate=
+document.getElementById("eventPickupDate")
+.value;
+
+const pickupTime=
+document.getElementById("eventPickupTime")
+.value;
+
+const dropTime=
+document.getElementById("eventDropTime")
+.value;
+
+const notes=
+document.getElementById("eventNotes")
+.value.trim();
+
+const distance=
+document.getElementById("eventRouteDistance")
+.textContent.trim();
+
+const duration=
+document.getElementById("eventRouteDuration")
+.textContent.trim();
+
+if(
+!pickup||
+!destination||
+!pickupDate||
+!pickupTime||
+!dropTime
+){
+
+alert(
+"Pickup, Drop, Date और Time भरें."
+);
+
+return;
+
+}
+
+if(distance==="—"||duration==="—"){
+
+alert(
+"पहले Show Complete Route दबाएँ."
+);
+
+return;
+
+}
+
+const carNo=eventState.currentCar;
+
+const saveButton=
+document.querySelector(
+".event-car-card .primary.green"
+);
+
+if(saveButton){
+
+saveButton.disabled=true;
+saveButton.textContent=
+"⏳ Saving Car...";
+
+}
+
+try{
+
+let voiceURL="";
+
+if(currentVoiceBlob){
+
+try{
+
+voiceURL=
+await uploadVoiceNote(
+eventState.eventId,
+carNo
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Voice upload नहीं हुआ। Booking फिर भी save की जा सकती है."
+);
+
+}
+
+}
+
+const booking={
+
+bookingType:"cab",
+bookingMode:"event",
+
+eventId:eventState.eventId,
+eventName:eventState.eventName,
+
+eventTotalCars:eventState.totalCars,
+eventCarNumber:carNo,
+
+status:"pending",
+
+customerUid:auth.currentUser.uid,
+customerName:
+auth.currentUser.displayName||"Customer",
+customerEmail:
+auth.currentUser.email||"",
+customerPhone:
+localStorage.getItem("carSetU_phone")||"",
+
+pickup,
+pickupPoint,
+destination,
+
+pickupDate,
+pickupTime,
+dropTime,
+
+rentalType:"Event",
+vehicleType:"Event Vehicle",
+
+distance,
+estimatedTime:duration,
+
+notes,
+voiceNoteURL:voiceURL,
+
+driverId:eventSelectedDriver.driverId,
+driverName:eventSelectedDriver.name,
+driverMobile:eventSelectedDriver.mobile,
+driverPhoto:eventSelectedDriver.photoURL,
+
+driverCar:eventSelectedDriver.vehicle,
+vehicleNumber:eventSelectedDriver.vehicle,
+driverVehicleType:eventSelectedDriver.vehicleType,
+
+driverDocumentId:
+eventSelectedDriver.documentId,
+
+closeRequested:false,
+customerCloseApproved:false,
+
+bookingDate:pickupDate,
+
+createdAt:serverTimestamp()
+
+};
+
+const ref=
+await addDoc(
+collection(db,"cabBookings"),
+booking
+);
+
+await updateDoc(
+doc(db,"cabBookings",ref.id),
 {
-maxZoom:19,
-attribution:"© OpenStreetMap contributors"
+bookingId:ref.id
 }
-).addTo(trackingMap);
-
-
-loadBookings();
-
-const active=
-bookingData.filter(
-b=>
-b.status==="confirmed"
 );
 
 
-document.getElementById(
-"trackingCount"
-).textContent=
-active.length+
-" Active Driver"+
-(active.length===1?"":"s");
+/* UPDATE EVENT */
+
+eventState.completedCars++;
+
+if(eventState.completedCars>=
+eventState.totalCars){
+
+await updateDoc(
+doc(db,"eventBookings",eventState.eventId),
+{
+completedCars:eventState.completedCars,
+currentCar:eventState.totalCars,
+status:"completed"
+}
+);
+
+alert(
+"🎉 EVENT BOOKING COMPLETED!\n\n"+
+eventState.totalCars+
+" Cars saved successfully."
+);
+
+eventState.active=false;
+
+openScreen("dashboard");
+
+loadMyBookings();
+
+return;
+
+}
 
 
-active.forEach(
-(booking,index)=>{
+/* NEXT CAR */
 
-const demoLat=
-17.385+
-(index*0.008);
+eventState.currentCar++;
 
-const demoLng=
-78.4867+
-(index*0.008);
+await updateDoc(
+doc(db,"eventBookings",eventState.eventId),
+{
+completedCars:eventState.completedCars,
+currentCar:eventState.currentCar
+}
+);
 
-L.marker([
-demoLat,
-demoLng
-])
-.addTo(trackingMap)
-.bindPopup(
+alert(
+"✅ Car "+carNo+" saved successfully.\n\n"+
+"अब Car "+eventState.currentCar+
+" की booking खुलेगी."
+);
 
-"<b>🚕 "+
-escapeHtml(
-booking.driverId||
-"Driver"
-)+
-"</b><br>"+
-escapeHtml(
-booking.driverName||
-"Driver"
-)+
-"<br><br>"+
-"📍 Pickup: "+
-escapeHtml(
-booking.pickup||
-"-"
-)+
-"<br>"+
-"🏁 Drop: "+
-escapeHtml(
-booking.destination||
-booking.drop||
-"-"
+currentVoiceBlob=null;
+currentVoiceUrl="";
+eventSelectedDriver=null;
+
+renderEventCar(
+boxForBookingWork()
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"❌ Event Car save failed.\n\n"+
+(error.message||"")
+);
+
+}finally{
+
+if(saveButton){
+
+saveButton.disabled=false;
+saveButton.textContent=
+"🚕 Confirm & Save Car "+carNo;
+
+}
+
+}
+
+};
+
+
+/* MY BOOKINGS LIVE */
+
+function loadMyBookings(){
+
+if(!auth.currentUser)
+return;
+
+if(unsubscribeBookings){
+
+unsubscribeBookings();
+unsubscribeBookings=null;
+
+}
+
+const q=query(
+collection(db,"cabBookings"),
+where(
+"customerUid",
+"==",
+auth.currentUser.uid
 )
-
 );
+
+unsubscribeBookings=
+onSnapshot(q,snapshot=>{
+
+const bookings=[];
+
+snapshot.forEach(docSnap=>{
+
+bookings.push({
+id:docSnap.id,
+...docSnap.data()
+});
+
+});
+
+bookings.sort((a,b)=>{
+
+const at=a.createdAt?.seconds||0;
+const bt=b.createdAt?.seconds||0;
+
+return bt-at;
+
+});
+
+updateDashboard(bookings);
+
+},error=>{
+
+console.error(error);
 
 });
 
 }
 
 
-/* =========================================================
-   BOOKING ROUTE
-========================================================= */
+/* DASHBOARD UPCOMING */
 
-async function showBookingRouteFromData(
-pickup,
-drop
-){
+function updateDashboard(bookings){
 
-if(!pickup||!drop){
+const today=getTodayString();
+
+const count=
+bookings.filter(
+b=>(b.bookingDate||b.pickupDate)===today
+).length;
+
+document.getElementById("todayBookingCount")
+.textContent=count;
+
+document.getElementById("todayDate")
+.textContent=
+today.split("-").reverse().join("/");
+
+
+const box=
+document.getElementById(
+"upcomingBookingContainer"
+);
+
+const upcoming=
+bookings.find(b=>
+b.status==="accepted"||
+b.status==="running"||
+b.status==="pending"||
+b.status==="close_requested"
+);
+
+if(!upcoming){
+
+box.innerHTML=
+`
+<div class="upcoming-card">
+
+<div class="upcoming-title">
+🚕 Upcoming Booking
+</div>
+
+<div class="notice blue">
+अभी कोई Upcoming Booking नहीं है।
+</div>
+
+</div>
+`;
+
+return;
+
+}
+
+const status=
+String(
+upcoming.status||"pending"
+).toUpperCase();
+
+box.innerHTML=
+
+`
+<div class="upcoming-card">
+
+<div class="upcoming-title">
+🚕 Upcoming Booking
+</div>
+
+<span class="upcoming-status">
+${escapeHtml(status)}
+</span>
+
+<div class="booking-row">
+<strong>📍 PICKUP</strong>
+<div class="booking-value">
+${escapeHtml(upcoming.pickup||"-")}
+</div>
+</div>
+
+<div class="booking-row">
+<strong>🏁 DROP</strong>
+<div class="booking-value">
+${escapeHtml(upcoming.destination||"-")}
+</div>
+</div>
+
+<div class="booking-row">
+<strong>🆔 DRIVER</strong>
+<div class="booking-value">
+${escapeHtml(upcoming.driverId||"-")}
+</div>
+</div>
+
+<div class="booking-row">
+<strong>👨‍✈️ DRIVER</strong>
+<div class="booking-value">
+${escapeHtml(upcoming.driverName||"-")}
+</div>
+</div>
+
+${upcoming.status==="accepted"||
+upcoming.status==="running"
+?
+`
+<div class="contact-box">
+
+<strong>📞 Contact Available</strong>
+
+<a
+class="call-btn"
+href="tel:${escapeHtml(
+upcoming.driverMobile||""
+)}">
+📞 Call Driver
+</a>
+
+</div>
+`
+:""}
+
+<div class="button-row">
+
+<button
+class="map-button"
+onclick='showBookingOnMap(${JSON.stringify(
+upcoming
+).replace(/'/g,"&#39;")})'>
+📍 Map
+</button>
+
+<button
+class="details-button"
+onclick='showBookingDetails(${JSON.stringify(
+upcoming
+).replace(/'/g,"&#39;")})'>
+📄 Details
+</button>
+
+</div>
+
+</div>
+`;
+
+}
+
+
+/* BOOKINGS SETTINGS */
+
+function renderMyBookingsSettings(box){
+
+box.innerHTML=
+settingsHeader("📋 My Bookings")+
+
+`
+<div class="card">
+
+<div id="settingsBookingList">
+
+<div class="notice blue">
+Bookings loading...
+</div>
+
+</div>
+
+</div>
+`;
+
+if(!auth.currentUser)
+return;
+
+const q=query(
+collection(db,"cabBookings"),
+where(
+"customerUid",
+"==",
+auth.currentUser.uid
+)
+);
+
+getDocs(q).then(snapshot=>{
+
+const bookings=[];
+
+snapshot.forEach(d=>{
+
+bookings.push({
+id:d.id,
+...d.data()
+});
+
+});
+
+bookings.sort((a,b)=>
+(b.createdAt?.seconds||0)-
+(a.createdAt?.seconds||0)
+);
+
+const list=
+document.getElementById(
+"settingsBookingList"
+);
+
+list.innerHTML="";
+
+if(!bookings.length){
+
+list.innerHTML=
+`
+<div class="notice blue">
+अभी कोई booking नहीं है।
+</div>
+`;
+
+return;
+
+}
+
+bookings.forEach(
+booking=>{
+
+const card=
+document.createElement("div");
+
+card.className="booking-card";
+
+let cls="status";
+
+if(
+booking.status==="accepted"||
+booking.status==="running"
+)
+cls+=" accepted";
+
+if(booking.status==="rejected")
+cls+=" rejected";
+
+if(booking.status==="completed")
+cls+=" completed";
+
+if(booking.status==="close_requested")
+cls+=" close_requested";
+
+card.innerHTML=
+
+`
+<span class="${cls}">
+${escapeHtml(
+String(
+booking.status||"pending"
+).toUpperCase()
+)}
+</span>
+
+<div class="booking-row">
+<strong>BOOKING ID</strong>
+${escapeHtml(
+booking.bookingId||booking.id
+)}
+</div>
+
+${
+booking.bookingMode==="event"
+?
+`
+<div class="booking-row">
+<strong>🎉 EVENT</strong>
+${escapeHtml(
+booking.eventName||"Event"
+)}
+</div>
+
+<div class="booking-row">
+<strong>🚕 EVENT CAR</strong>
+Car ${escapeHtml(
+booking.eventCarNumber||"-"
+)}
+</div>
+`
+:""
+}
+
+<div class="booking-row">
+<strong>📍 PICKUP</strong>
+${escapeHtml(booking.pickup||"-")}
+</div>
+
+<div class="booking-row">
+<strong>🏁 DROP</strong>
+${escapeHtml(booking.destination||"-")}
+</div>
+
+<div class="booking-row">
+<strong>🆔 DRIVER</strong>
+${escapeHtml(booking.driverId||"-")}
+</div>
+
+<div class="booking-row">
+<strong>👨‍✈️ DRIVER</strong>
+${escapeHtml(booking.driverName||"-")}
+</div>
+
+${
+booking.status==="accepted"||
+booking.status==="running"
+?
+`
+<div class="contact-box">
+
+<div class="driver-profile-box">
+
+${driverPhotoHTML({
+photoURL:booking.driverPhoto
+})}
+
+<div>
+<strong>
+${escapeHtml(
+booking.driverName||"Driver"
+)}
+</strong>
+
+<br>
+🆔 ${escapeHtml(
+booking.driverId||"-"
+)}
+
+<br>
+🚕 ${escapeHtml(
+booking.vehicleNumber||
+booking.driverCar||
+"-"
+)}
+</div>
+
+</div>
+
+<a
+class="call-btn"
+href="tel:${escapeHtml(
+booking.driverMobile||""
+)}">
+📞 Call Driver
+</a>
+
+</div>
+`
+:""
+}
+
+<div class="button-row">
+
+<button class="map-button">
+📍 Map
+</button>
+
+<button class="details-button">
+📄 Details
+</button>
+
+</div>
+
+${
+booking.status==="close_requested"
+?
+`
+<div class="notice blue">
+
+<strong>🔔 Driver requested booking close.</strong>
+
+<p style="margin-top:7px">
+Booking तभी close होगी जब आप OK करेंगे।
+</p>
+
+<div class="button-row">
+
+<button
+class="primary green"
+style="margin-top:0"
+data-approve>
+✅ OK - Close Booking
+</button>
+
+<button
+class="primary gray"
+style="margin-top:0"
+data-keep>
+↩️ Keep Open
+</button>
+
+</div>
+
+</div>
+`
+:""
+}
+
+${
+booking.status==="accepted"||
+booking.status==="running"
+?
+`
+<button
+class="primary"
+style="margin-top:10px"
+data-driver-pickup>
+📍 Driver → Pickup Map
+</button>
+`
+:""
+}
+
+`;
+
+const mapBtn=
+card.querySelector(".map-button");
+
+mapBtn.onclick=()=>{
+showBookingOnMap(booking);
+};
+
+const detailsBtn=
+card.querySelector(".details-button");
+
+detailsBtn.onclick=()=>{
+showBookingDetails(booking);
+};
+
+const pickupBtn=
+card.querySelector("[data-driver-pickup]");
+
+if(pickupBtn){
+
+pickupBtn.onclick=()=>{
+openDriverPickupNavigation(booking);
+};
+
+}
+
+const approve=
+card.querySelector("[data-approve]");
+
+if(approve){
+
+approve.onclick=()=>{
+approveBookingClose(booking.id);
+};
+
+}
+
+const keep=
+card.querySelector("[data-keep]");
+
+if(keep){
+
+keep.onclick=()=>{
+keepBookingOpen(booking.id);
+};
+
+}
+
+list.appendChild(card);
+
+});
+
+}).catch(error=>{
+
+console.error(error);
+
+document.getElementById(
+"settingsBookingList"
+).innerHTML=
+`
+<div class="notice red">
+❌ Booking data load नहीं हुआ.
+</div>
+`;
+
+});
+
+}
+
+
+/* CUSTOMER CLOSE APPROVAL */
+
+window.approveBookingClose=async function(bookingId){
+
+try{
+
+await updateDoc(
+doc(db,"cabBookings",bookingId),
+{
+status:"completed",
+customerCloseApproved:true,
+closeRequested:false,
+closedBy:"customer",
+closedAt:serverTimestamp()
+}
+);
 
 alert(
-"Route information is not available."
+"✅ Booking closed successfully."
+);
+
+renderMyBookingsSettings(
+document.getElementById(
+"settingsContent"
+)
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Booking close नहीं हुई.\n\n"+
+(error.message||"")
+);
+
+}
+
+};
+
+
+window.keepBookingOpen=async function(bookingId){
+
+try{
+
+await updateDoc(
+doc(db,"cabBookings",bookingId),
+{
+status:"running",
+closeRequested:false,
+customerCloseApproved:false
+}
+);
+
+alert(
+"↩️ Booking अभी Open रखी गई है."
+);
+
+renderMyBookingsSettings(
+document.getElementById(
+"settingsContent"
+)
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Update failed.\n\n"+
+(error.message||"")
+);
+
+}
+
+};
+
+
+/* CLOSE REQUEST ALERT */
+
+function listenForCloseRequests(){
+
+if(!auth.currentUser)
+return;
+
+if(unsubscribeCloseRequests){
+
+unsubscribeCloseRequests();
+unsubscribeCloseRequests=null;
+
+}
+
+const q=query(
+collection(db,"cabBookings"),
+where(
+"customerUid",
+"==",
+auth.currentUser.uid
+),
+where(
+"closeRequested",
+"==",
+true
+)
+);
+
+unsubscribeCloseRequests=
+onSnapshot(q,snapshot=>{
+
+snapshot.docChanges().forEach(change=>{
+
+if(change.type==="added"||
+change.type==="modified"){
+
+const data=change.doc.data();
+
+if(
+data.closeRequested===true&&
+data.customerCloseApproved!==true
+){
+
+alert(
+"🔔 Driver ने Booking Close करने का request भेजा है.\n\n"+
+"Booking ID: "+
+(change.doc.id)+
+"\n\nProfile → My Bookings में जाकर OK करें।"
+);
+
+}
+
+}
+
+});
+
+});
+
+}
+
+
+/* DRIVER SETTINGS */
+
+function renderDriverSettings(box){
+
+box.innerHTML=
+settingsHeader("🆔 Search Driver")+
+
+`
+<div class="card">
+
+<p class="info">
+Driver ID डालकर Driver की जानकारी देखें।
+</p>
+
+<input
+id="settingsDriverId"
+placeholder="Example: DC001"
+style="text-transform:uppercase">
+
+<button
+class="primary"
+onclick="searchDriverFromSettings()">
+🔎 Search Driver
+</button>
+
+<div id="settingsDriverResult"></div>
+
+</div>
+`;
+
+}
+
+
+window.searchDriverFromSettings=
+async function(){
+
+const value=
+normalizeDriverId(
+document.getElementById(
+"settingsDriverId"
+).value
+);
+
+const box=
+document.getElementById(
+"settingsDriverResult"
+);
+
+if(!/^DC\d+$/.test(value)){
+
+box.innerHTML=
+`
+<div class="notice red">
+❌ सही Driver ID डालें। Example: DC001
+</div>
+`;
+
+return;
+
+}
+
+box.innerHTML=
+`
+<div class="notice blue">
+🔎 Searching Driver...
+</div>
+`;
+
+try{
+
+const driver=
+await getDriverById(value);
+
+if(!driver||driver.unavailable){
+
+box.innerHTML=
+`
+<div class="notice red">
+❌ Driver ${escapeHtml(value)}
+available नहीं है।
+</div>
+`;
+
+return;
+
+}
+
+box.innerHTML=
+
+`
+<div class="driver-result">
+
+<div class="driver-profile-box">
+
+${driverPhotoHTML(driver)}
+
+<div>
+<h3>✅ Driver Found</h3>
+${escapeHtml(driver.name)}
+</div>
+
+</div>
+
+<div class="booking-row">
+<strong>DRIVER ID</strong>
+${escapeHtml(driver.driverId)}
+</div>
+
+<div class="booking-row">
+<strong>MOBILE</strong>
+${escapeHtml(driver.mobile||"-")}
+</div>
+
+<div class="booking-row">
+<strong>VEHICLE NUMBER</strong>
+${escapeHtml(driver.vehicle||"-")}
+</div>
+
+<div class="booking-row">
+<strong>VEHICLE TYPE</strong>
+${escapeHtml(driver.vehicleType||"-")}
+</div>
+
+<div class="booking-row">
+<strong>VEHICLE COLOR</strong>
+${escapeHtml(driver.vehicleColor||"-")}
+</div>
+
+</div>
+`;
+
+}catch(error){
+
+console.error(error);
+
+box.innerHTML=
+`
+<div class="notice red">
+❌ Driver search failed.
+</div>
+`;
+
+}
+
+};
+
+
+/* TRACKING */
+
+function renderTrackingSettings(box){
+
+box.innerHTML=
+settingsHeader("📍 Live Driver Tracking")+
+
+`
+<div class="card">
+
+<p class="info">
+Accepted / Running booking के Driver की current location यहाँ दिखाई जाएगी।
+</p>
+
+<div id="liveDriverCount"
+class="live-driver-count">
+0 Active Drivers
+</div>
+
+<div id="eventLiveMap"
+class="live-map">
+</div>
+
+<div class="warning-box">
+📌 Firebase Driver Location connected होने पर यहाँ Driver की live position दिखाई जाएगी।
+</div>
+
+</div>
+`;
+
+loadTracking();
+
+}
+
+
+async function loadTracking(){
+
+if(!auth.currentUser)
+return;
+
+const q=query(
+collection(db,"cabBookings"),
+where(
+"customerUid",
+"==",
+auth.currentUser.uid
+)
+);
+
+const snapshot=
+await getDocs(q);
+
+const bookings=[];
+
+snapshot.forEach(d=>{
+
+const b={
+id:d.id,
+...d.data()
+};
+
+if(
+b.status==="accepted"||
+b.status==="running"
+)
+bookings.push(b);
+
+});
+
+const count=
+document.getElementById(
+"liveDriverCount"
+);
+
+if(!count)
+return;
+
+count.textContent=
+bookings.length+
+" Active Driver"+
+(bookings.length===1?"":"s");
+
+if(!bookings.length)
+return;
+
+if(!eventLiveMap){
+
+eventLiveMap=
+L.map("eventLiveMap")
+.setView([17.3850,78.4867],11);
+
+L.tileLayer(
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+{
+maxZoom:19,
+attribution:"© OpenStreetMap contributors"
+}
+).addTo(eventLiveMap);
+
+}
+
+setTimeout(
+()=>eventLiveMap.invalidateSize(),
+300
+);
+
+for(const booking of bookings){
+
+try{
+
+const data=
+await getDriverLocation(
+booking.driverId
+);
+
+if(
+data&&
+data.location&&
+typeof data.location.latitude==="number"
+){
+
+updateDriverMarker(
+booking,
+data.location.latitude,
+data.location.longitude
+);
+
+}
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+}
+
+
+async function getDriverLocation(driverId){
+
+const url=
+"https://car-set-u-default-rtdb.asia-southeast1.firebasedatabase.app/drivers/"+
+encodeURIComponent(driverId)+
+".json";
+
+const response=
+await fetch(url);
+
+if(!response.ok)
+throw new Error(
+"Driver location read failed"
+);
+
+return await response.json();
+
+}
+
+
+function updateDriverMarker(
+booking,
+latitude,
+longitude
+){
+
+if(!eventLiveMap)
+return;
+
+const id=booking.driverId;
+
+const popup=
+"<b>🚕 "+
+escapeHtml(id)+
+"</b><br>"+
+escapeHtml(
+booking.driverName||"Driver"
+)+
+"<br><br>"+
+"📍 Pickup: "+
+escapeHtml(
+booking.pickup||"-"
+)+
+"<br>"+
+"🏁 Destination: "+
+escapeHtml(
+booking.destination||"-"
+);
+
+if(eventMarkers[id]){
+
+eventMarkers[id]
+.setLatLng([latitude,longitude])
+.bindPopup(popup);
+
+}else{
+
+eventMarkers[id]=
+L.marker([latitude,longitude])
+.addTo(eventLiveMap)
+.bindPopup(popup);
+
+}
+
+}
+
+
+/* BOOKING MAP */
+
+window.showBookingOnMap=async function(booking){
+
+try{
+
+const pickup=
+await geocodePlace(
+booking.pickup||"Hyderabad"
+);
+
+const destination=
+await geocodePlace(
+booking.destination||"Hyderabad"
+);
+
+openNavigationScreen(
+"📍 Booking Route",
+pickup,
+destination,
+booking
+);
+
+}catch(error){
+
+alert(
+"Booking map नहीं बन पाया.\n\n"+
+(error.message||"")
+);
+
+}
+
+};
+
+
+/* DRIVER CURRENT LOCATION → PICKUP */
+
+window.openDriverPickupNavigation=
+async function(booking){
+
+if(!booking.driverId){
+
+alert("Driver ID उपलब्ध नहीं है.");
+return;
+
+}
+
+try{
+
+const data=
+await getDriverLocation(
+booking.driverId
+);
+
+if(
+!data||
+!data.location||
+typeof data.location.latitude!=="number"
+){
+
+alert(
+"इस Driver की current location अभी उपलब्ध नहीं है।"
 );
 
 return;
 
 }
 
-const content=
-document.getElementById("content");
+const driverPoint={
+lat:Number(data.location.latitude),
+lon:Number(data.location.longitude),
+name:"Driver Current Location"
+};
 
-content.innerHTML=`
+const pickup=
+await geocodePlace(
+booking.pickup
+);
 
-<button class="back-button"
-onclick="renderMyBookings()">
-← Back to My Bookings
-</button>
+openNavigationScreen(
+"📍 Driver → Pickup Navigation",
+driverPoint,
+pickup,
+booking
+);
 
+}catch(error){
+
+alert(
+"Driver location नहीं मिल पाई.\n\n"+
+(error.message||"")
+);
+
+}
+
+};
+
+
+/* NAVIGATION SCREEN */
+
+async function openNavigationScreen(
+title,
+start,
+end,
+booking
+){
+
+document.getElementById("dashboardScreen")
+.classList.add("hidden");
+
+document.getElementById("bookingWorkScreen")
+.classList.add("hidden");
+
+document.getElementById("profileScreen")
+.classList.add("hidden");
+
+document.getElementById("settingsScreen")
+.classList.add("hidden");
+
+document.getElementById("navigationScreen")
+.classList.remove("hidden");
+
+const box=
+document.getElementById(
+"navigationContent"
+);
+
+box.innerHTML=
+
+`
 <div class="page-title">
-📍 Booking Route
+${escapeHtml(title)}
 </div>
 
 <div class="card">
 
-<div class="booking-row">
+<div class="navigation-top">
 
-<strong>PICKUP</strong>
+<button
+class="back-button"
+onclick="backToDashboard()">
+← Back
+</button>
 
-${escapeHtml(pickup)}
+<strong>
+Navigation
+</strong>
 
 </div>
 
 <div class="booking-row">
+<strong>START</strong>
+${escapeHtml(start.name||"Current Location")}
+</div>
 
-<strong>DROP</strong>
-
-${escapeHtml(drop)}
-
+<div class="booking-row">
+<strong>PICKUP / DESTINATION</strong>
+${escapeHtml(end.name||"-")}
 </div>
 
 <div
-id="bookingRouteMap"
-class="map-box">
-</div>
-
-<div
-id="bookingRouteStatus"
+id="navigationStatus"
 class="map-status">
+🛣️ Calculating route...
+</div>
 
-Loading route...
+<div
+id="navigationMap"
+class="navigation-map">
+</div>
 
+<div
+id="navigationSummary"
+class="route-summary hidden">
+
+<div class="route-item">
+📏 Distance
+<strong id="navigationDistance">—</strong>
+</div>
+
+<div class="route-item">
+⏱️ Time
+<strong id="navigationDuration">—</strong>
 </div>
 
 </div>
 
+<button
+class="primary"
+onclick='openExternalNavigation(${start.lat},${start.lon},${end.lat},${end.lon})'>
+🧭 Start Navigation
+</button>
+
+<button
+class="primary gray"
+onclick="backToDashboard()">
+← Back to Dashboard
+</button>
+
+</div>
 `;
 
-const map=
-L.map("bookingRouteMap")
+setTimeout(async()=>{
+
+if(navigationMap){
+
+navigationMap.remove();
+navigationMap=null;
+
+}
+
+navigationMap=
+L.map("navigationMap")
 .setView(
-[17.3850,78.4867],
-11
+[start.lat,start.lon],
+12
 );
 
 L.tileLayer(
@@ -4804,128 +5310,183 @@ L.tileLayer(
 maxZoom:19,
 attribution:"© OpenStreetMap contributors"
 }
-).addTo(map);
+).addTo(navigationMap);
 
-
-try{
-
-const points=
-await Promise.all([
-geocode(pickup),
-geocode(drop)
-]);
+const points=[
+start,
+end
+];
 
 const route=
 await getRoute(points);
 
-const markers=[];
-
-points.forEach(
-(point,index)=>{
-
-markers.push(
-L.marker([
-point.lat,
-point.lon
-])
-.addTo(map)
-.bindPopup(
-index===0
-?"📍 Pickup"
-:"🏁 Drop"
-)
+navigationMarkers.forEach(
+m=>navigationMap.removeLayer(m)
 );
+
+navigationMarkers=[];
+
+if(navigationLine){
+
+navigationMap.removeLayer(
+navigationLine
+);
+
+navigationLine=null;
 
 }
-);
 
-const line=
+const m1=
+L.marker([start.lat,start.lon])
+.addTo(navigationMap)
+.bindPopup("📍 Driver Current Location");
+
+const m2=
+L.marker([end.lat,end.lon])
+.addTo(navigationMap)
+.bindPopup("📌 Pickup");
+
+navigationMarkers.push(m1,m2);
+
+navigationLine=
 L.geoJSON(
 route.geometry,
 {
 style:{
 weight:6,
-opacity:.85
+opacity:.9
 }
 }
-).addTo(map);
+).addTo(navigationMap);
 
-map.fitBounds(
-line.getBounds(),
-{
-padding:[25,25]
-}
+navigationMap.fitBounds(
+navigationLine.getBounds(),
+{padding:[25,25]}
 );
 
+const km=
+(route.distance/1000).toFixed(1);
+
+const mins=
+Math.round(route.duration/60);
+
 document.getElementById(
-"bookingRouteStatus"
+"navigationDistance"
 ).textContent=
-"✅ Complete route loaded.";
-
-}catch(error){
+km+" KM";
 
 document.getElementById(
-"bookingRouteStatus"
+"navigationDuration"
 ).textContent=
-"❌ "+error.message;
-
-}
-
-}
-
-
-/* =========================================================
-   ESCAPE
-========================================================= */
-
-function escapeHtml(value){
-
-return String(value??"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-loadBookings();
-
-const savedPhone=
-localStorage.getItem(
-"carSetU_phone"
-);
-
-if(savedPhone){
+mins>=60
+?Math.floor(mins/60)+" hr "+mins%60+" min"
+:mins+" min";
 
 document.getElementById(
-"phoneNumber"
-).value=
-savedPhone.replace("+91","");
-
-}
-
-if(isLoggedIn()){
-
-document.getElementById(
-"loginScreen"
-).classList.add("hidden");
-
-document.getElementById(
-"mainApp"
+"navigationSummary"
 ).classList.remove("hidden");
 
 document.getElementById(
-"profilePhone"
+"navigationStatus"
 ).textContent=
-savedPhone||"-";
+"✅ Route ready.";
+
+},300);
 
 }
+
+
+window.openExternalNavigation=
+function(lat1,lon1,lat2,lon2){
+
+const url=
+"https://www.google.com/maps/dir/?api=1"+
+"&origin="+lat1+","+lon1+
+"&destination="+lat2+","+lon2+
+"&travelmode=driving";
+
+window.open(url,"_blank");
+
+};
+
+
+window.backToDashboard=function(){
+
+openScreen("dashboard");
+
+};
+
+
+/* DETAILS */
+
+window.showBookingDetails=function(booking){
+
+const contact=
+booking.status==="accepted"||
+booking.status==="running"
+?
+"\nDriver Mobile: "+
+(booking.driverMobile||"-")
+:"";
+
+alert(
+"📄 BOOKING DETAILS\n\n"+
+"Booking ID: "+
+(booking.bookingId||booking.id)+
+"\n\n"+
+"Type: "+
+(booking.bookingMode==="event"
+?"Event Car "+booking.eventCarNumber
+:"Single Cab")+
+"\n\n"+
+"Pickup: "+
+(booking.pickup||"-")+
+"\n"+
+"Drop: "+
+(booking.destination||"-")+
+"\n\n"+
+"Driver ID: "+
+(booking.driverId||"-")+
+"\n"+
+"Driver Name: "+
+(booking.driverName||"-")+
+"\n"+
+"Vehicle: "+
+(
+booking.vehicleNumber||
+booking.driverCar||
+"-"
+)+
+"\n\n"+
+"Status: "+
+(booking.status||"-")+
+contact
+);
+
+};
+
+
+/* START */
+
+const savedPhone=
+localStorage.getItem("carSetU_phone");
+
+if(savedPhone){
+
+document.getElementById("phoneNumber")
+.value=savedPhone.replace("+91","");
+
+document.getElementById("savedPhone")
+.textContent=savedPhone;
+
+}
+
+const today=
+getTodayString();
+
+document.getElementById("todayDate")
+.textContent=
+today.split("-").reverse().join("/");
 
 </script>
 
