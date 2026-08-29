@@ -4608,3 +4608,3229 @@ document.addEventListener(
 
 </body>
 </html>
+/* =====================================================
+   CAR SET U — CUSTOMER PANEL
+   FINAL BOOKING SYSTEM
+   PART 2 / 2
+===================================================== */
+
+
+/* =====================================================
+   SINGLE BOOKING — SAVE
+===================================================== */
+
+window.confirmSingleBooking = async function () {
+
+  if (!auth.currentUser) {
+    alert("Please login first.");
+    return;
+  }
+
+  if (!selectedDriver) {
+    alert("Please search and select a Driver first.");
+    return;
+  }
+
+  const pickup =
+    document.getElementById("singlePickup")?.value.trim();
+
+  const drop =
+    document.getElementById("singleDrop")?.value.trim();
+
+  const date =
+    document.getElementById("singleDate")?.value;
+
+  const pickupTime =
+    document.getElementById("singlePickupTime")?.value;
+
+  const dropTime =
+    document.getElementById("singleDropTime")?.value;
+
+  const distance =
+    document.getElementById("singleDistance")?.textContent || "—";
+
+  const duration =
+    document.getElementById("singleDuration")?.textContent || "—";
+
+  if (!pickup || !drop || !date || !pickupTime || !dropTime) {
+    alert("Please fill Pickup, Drop, Date and Time.");
+    return;
+  }
+
+  if (distance === "—" || duration === "—") {
+    alert("Please Show Complete Route first.");
+    return;
+  }
+
+  try {
+
+    let voiceURL = "";
+
+    if (voiceBlob) {
+
+      voiceURL = await uploadVoice(
+        "voiceNotes/" +
+        auth.currentUser.uid +
+        "/single_" +
+        Date.now() +
+        ".webm"
+      );
+
+    }
+
+    const bookingId =
+      await createCustomerBookingId();
+
+    const booking = {
+
+      bookingId: bookingId,
+
+      bookingType: "single",
+
+      status: "pending",
+
+      customerUid:
+        auth.currentUser.uid,
+
+      customerName:
+        auth.currentUser.displayName ||
+        "Customer",
+
+      customerEmail:
+        auth.currentUser.email ||
+        "",
+
+      customerPhone:
+        getCustomerPhone(),
+
+      pickup: pickup,
+
+      destination: drop,
+
+      pickupDate: date,
+
+      pickupTime: pickupTime,
+
+      dropTime: dropTime,
+
+      rentalType:
+        selectedRental,
+
+      vehicleType:
+        selectedVehicle,
+
+      distance: distance,
+
+      estimatedTime: duration,
+
+      driverId:
+        selectedDriver.driverId,
+
+      driverUid:
+        selectedDriver.uid || null,
+
+      driverName:
+        selectedDriver.name,
+
+      driverMobile:
+        selectedDriver.mobile || "",
+
+      driverPhoto:
+        selectedDriver.photo || "",
+
+      vehicleNumber:
+        selectedDriver.vehicle || "",
+
+      driverDocumentId:
+        selectedDriver.documentId || "",
+
+      voiceNoteURL:
+        voiceURL,
+
+      closeRequested:
+        false,
+
+      customerCloseApproved:
+        false,
+
+      createdAt:
+        serverTimestamp(),
+
+      bookingDate:
+        date
+
+    };
+
+
+    /*
+      CUSTOMER BOOKING
+    */
+
+    const bookingRef =
+      await addDoc(
+        collection(
+          db,
+          "cabBookings"
+        ),
+        booking
+      );
+
+
+    /*
+      DRIVER-SPECIFIC BOOKING INBOX
+
+      Driver ID के हिसाब से
+      उसी Driver के Firebase record में
+      booking जाएगी।
+    */
+
+    await addDoc(
+      collection(
+        db,
+        "driverBookings"
+      ),
+      {
+
+        bookingId:
+          bookingId,
+
+        cabBookingId:
+          bookingRef.id,
+
+        driverId:
+          selectedDriver.driverId,
+
+        driverUid:
+          selectedDriver.uid || null,
+
+        customerUid:
+          auth.currentUser.uid,
+
+        customerName:
+          auth.currentUser.displayName ||
+          "Customer",
+
+        customerPhone:
+          getCustomerPhone(),
+
+        pickup:
+          pickup,
+
+        destination:
+          drop,
+
+        pickupDate:
+          date,
+
+        pickupTime:
+          pickupTime,
+
+        dropTime:
+          dropTime,
+
+        vehicleType:
+          selectedVehicle,
+
+        rentalType:
+          selectedRental,
+
+        distance:
+          distance,
+
+        estimatedTime:
+          duration,
+
+        voiceNoteURL:
+          voiceURL,
+
+        status:
+          "pending",
+
+        customerBookingId:
+          bookingId,
+
+        source:
+          "customerPanel",
+
+        createdAt:
+          serverTimestamp(),
+
+        bookingDate:
+          date
+
+      }
+    );
+
+
+    /*
+      DAILY BOOKING COUNTER
+    */
+
+    await updateDailyBookingCount(
+      date
+    );
+
+
+    voiceBlob = null;
+
+    selectedDriver = null;
+
+
+    alert(
+      "✅ Single Cab Booking Saved\n\n" +
+      "Booking ID: " +
+      bookingId
+    );
+
+
+    openScreen("bookings");
+
+
+  }
+  catch (error) {
+
+    console.error(error);
+
+    alert(
+      "❌ Booking failed\n\n" +
+      error.message
+    );
+
+  }
+
+};
+
+
+/* =====================================================
+   EVENT BOOKING — START
+===================================================== */
+
+function renderEventStart() {
+
+  const box =
+    document.getElementById(
+      "settingsContent"
+    );
+
+  if (!box) return;
+
+
+  document.getElementById(
+    "dashboardScreen"
+  )?.classList.add("hidden");
+
+  document.getElementById(
+    "profileScreen"
+  )?.classList.add("hidden");
+
+  document.getElementById(
+    "bookingsScreen"
+  )?.classList.add("hidden");
+
+  document.getElementById(
+    "settingsScreen"
+  )?.classList.remove("hidden");
+
+
+  box.innerHTML = `
+
+<div class="page-title">
+🎉 Event Booking
+</div>
+
+<div class="card">
+
+<h2>
+🎉 Event Booking
+</h2>
+
+<p class="info">
+Book multiple cabs for one event.
+Each car will get its own Booking ID.
+</p>
+
+<div class="form-group">
+
+<label>
+Event Name
+</label>
+
+<input
+id="eventName"
+placeholder="Wedding / Function / Corporate">
+
+</div>
+
+<div class="form-group">
+
+<label>
+Total Cars Required
+</label>
+
+<input
+id="eventTotalCars"
+type="number"
+min="1"
+max="100"
+value="1"
+oninput="updateEventCount()">
+
+</div>
+
+<div
+id="eventCount"
+class="info"
+style="font-size:20px;font-weight:bold;">
+
+🚕 1 Car
+
+</div>
+
+<button
+class="primary"
+onclick="startEventBooking()">
+
+🎉 Start Event Booking
+
+</button>
+
+<button
+class="primary gray"
+onclick="openScreen('dashboard')">
+
+← Back to Dashboard
+
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+   EVENT COUNT
+===================================================== */
+
+window.updateEventCount = function () {
+
+  const input =
+    document.getElementById(
+      "eventTotalCars"
+    );
+
+  let total =
+    Number(
+      input?.value || 1
+    );
+
+  total =
+    Math.max(
+      1,
+      Math.min(
+        100,
+        total
+      )
+    );
+
+  if (input) {
+    input.value = total;
+  }
+
+  const counter =
+    document.getElementById(
+      "eventCount"
+    );
+
+  if (counter) {
+
+    counter.textContent =
+      "🚕 " +
+      total +
+      (
+        total === 1
+          ? " Car"
+          : " Cars"
+      );
+
+  }
+
+};
+
+
+/* =====================================================
+   START EVENT BOOKING
+===================================================== */
+
+window.startEventBooking = function () {
+
+  if (!auth.currentUser) {
+
+    alert("Please login first.");
+
+    return;
+
+  }
+
+  const name =
+    document.getElementById(
+      "eventName"
+    )?.value.trim() || "";
+
+
+  const total =
+    Math.max(
+      1,
+      Math.min(
+        100,
+        Number(
+          document.getElementById(
+            "eventTotalCars"
+          )?.value || 1
+        )
+      )
+    );
+
+
+  eventState = {
+
+    active: true,
+
+    eventId:
+      auth.currentUser.uid +
+      "-EVT-" +
+      Date.now(),
+
+    eventName:
+      name,
+
+    totalCars:
+      total,
+
+    currentCar:
+      1,
+
+    savedCars:
+      0
+
+  };
+
+
+  selectedDriver = null;
+
+  voiceBlob = null;
+
+
+  renderEventCar();
+
+};
+
+
+/* =====================================================
+   EVENT CAR SCREEN
+===================================================== */
+
+function renderEventCar() {
+
+  const box =
+    document.getElementById(
+      "settingsContent"
+    );
+
+  if (!box) return;
+
+
+  document.getElementById(
+    "dashboardScreen"
+  )?.classList.add("hidden");
+
+  document.getElementById(
+    "profileScreen"
+  )?.classList.add("hidden");
+
+  document.getElementById(
+    "bookingsScreen"
+  )?.classList.add("hidden");
+
+  document.getElementById(
+    "settingsScreen"
+  )?.classList.remove("hidden");
+
+
+  box.innerHTML = `
+
+<div class="page-title">
+🎉 Event Booking
+</div>
+
+<div class="event-progress">
+
+<b>Event:</b>
+${escapeHtml(
+  eventState.eventName || "Event"
+)}
+
+<br><br>
+
+<b>Progress:</b>
+
+Car
+${eventState.currentCar}
+of
+${eventState.totalCars}
+
+</div>
+
+<div class="card">
+
+<h2>
+🚕 Car ${eventState.currentCar}
+</h2>
+
+<div class="form-group">
+
+<label>
+📅 Pickup Date
+</label>
+
+<input
+id="eventDate"
+type="date">
+
+</div>
+
+<div class="form-group">
+
+<label>
+⏰ Pickup Time
+</label>
+
+<input
+id="eventPickupTime"
+type="time">
+
+</div>
+
+<div class="form-group">
+
+<label>
+⏰ Drop Time
+</label>
+
+<input
+id="eventDropTime"
+type="time">
+
+</div>
+
+${locationBlock(
+  "eventPickup",
+  "1",
+  "Pickup Location"
+)}
+
+${locationBlock(
+  "eventDrop",
+  "2",
+  "Final Destination"
+)}
+
+<button
+class="primary"
+onclick="showEventRoute()">
+
+📍 Show Complete Route
+
+</button>
+
+<div
+id="eventMapStatus"
+class="map-status">
+
+Enter Pickup and Destination.
+
+</div>
+
+<div
+id="eventRouteMap"
+class="map-box">
+</div>
+
+<div
+id="eventRouteSummary"
+class="route-summary hidden">
+
+<div class="route-item">
+
+📏 Distance
+
+<strong
+id="eventDistance">
+—
+</strong>
+
+</div>
+
+<div class="route-item">
+
+⏱️ Time
+
+<strong
+id="eventDuration">
+—
+</strong>
+
+</div>
+
+</div>
+
+<div class="driver-search">
+
+<h3>
+🆔 Search Driver
+</h3>
+
+<p class="info">
+Driver ID example:
+<b>DC001, DC002</b>
+</p>
+
+<input
+id="eventDriverId"
+placeholder="ENTER DRIVER ID"
+style="text-transform:uppercase">
+
+<button
+class="primary"
+onclick="searchDriver('event')">
+
+🔎 Search Driver
+
+</button>
+
+<div
+id="eventDriverResult">
+</div>
+
+<div
+id="eventSelectedDriver"
+class="selected-driver hidden">
+</div>
+
+</div>
+
+${voiceBlock("event")}
+
+<button
+class="primary green"
+onclick="saveEventCar()">
+
+🚕 Confirm & Save Car
+${eventState.currentCar}
+
+</button>
+
+<button
+class="primary gray"
+onclick="openScreen('dashboard')">
+
+← Back to Dashboard
+
+</button>
+
+</div>
+
+`;
+
+
+  setDateDefaults(
+    "eventDate",
+    "eventPickupTime",
+    "eventDropTime"
+  );
+
+
+  initMapFor(
+    "eventRouteMap"
+  );
+
+}
+
+
+/* =====================================================
+   EVENT ROUTE
+===================================================== */
+
+window.showEventRoute = async function () {
+
+  const pickup =
+    document.getElementById(
+      "eventPickup"
+    )?.value.trim();
+
+  const drop =
+    document.getElementById(
+      "eventDrop"
+    )?.value.trim();
+
+
+  if (!pickup || !drop) {
+
+    alert(
+      "Please enter Pickup and Destination."
+    );
+
+    return;
+
+  }
+
+
+  const map =
+    initMapFor(
+      "eventRouteMap"
+    );
+
+
+  const status =
+    document.getElementById(
+      "eventMapStatus"
+    );
+
+
+  status.textContent =
+    "🔎 Finding locations...";
+
+
+  try {
+
+    const points =
+      await Promise.all([
+
+        geocodePlace(
+          pickup
+        ),
+
+        geocodePlace(
+          drop
+        )
+
+      ]);
+
+
+    status.textContent =
+      "🛣️ Calculating route...";
+
+
+    const route =
+      await getRoute(
+        points
+      );
+
+
+    map.eachLayer(
+      layer => {
+
+        if (
+          layer instanceof
+          L.GeoJSON
+        ) {
+
+          map.removeLayer(
+            layer
+          );
+
+        }
+
+      }
+    );
+
+
+    points.forEach(
+      (
+        point,
+        index
+      ) => {
+
+        L.marker([
+          point.lat,
+          point.lon
+        ])
+        .addTo(map)
+        .bindPopup(
+          index === 0
+            ? "📍 Pickup"
+            : "🏁 Destination"
+        );
+
+      }
+    );
+
+
+    const line =
+      L.geoJSON(
+        route.geometry,
+        {
+          style: {
+            weight: 6,
+            opacity: 0.85
+          }
+        }
+      )
+      .addTo(map);
+
+
+    map.fitBounds(
+      line.getBounds(),
+      {
+        padding: [25,25]
+      }
+    );
+
+
+    const km =
+      (
+        route.distance / 1000
+      ).toFixed(1);
+
+
+    const mins =
+      Math.round(
+        route.duration / 60
+      );
+
+
+    document.getElementById(
+      "eventDistance"
+    ).textContent =
+      km + " KM";
+
+
+    document.getElementById(
+      "eventDuration"
+    ).textContent =
+      mins + " min";
+
+
+    document.getElementById(
+      "eventRouteSummary"
+    ).classList.remove(
+      "hidden"
+    );
+
+
+    status.textContent =
+      "✅ Complete route found.";
+
+  }
+  catch (error) {
+
+    console.error(error);
+
+    status.textContent =
+      "❌ " +
+      error.message;
+
+    alert(
+      "Route नहीं बन पाया.\n\n" +
+      error.message
+    );
+
+  }
+
+};
+
+
+/* =====================================================
+   SAVE EVENT CAR
+===================================================== */
+
+window.saveEventCar = async function () {
+
+  if (!auth.currentUser) {
+
+    alert("Please login first.");
+
+    return;
+
+  }
+
+  if (!eventState.active) {
+
+    alert(
+      "Event booking session is not active."
+    );
+
+    return;
+
+  }
+
+  if (!selectedDriver) {
+
+    alert(
+      "Please search and select a Driver."
+    );
+
+    return;
+
+  }
+
+
+  const pickup =
+    document.getElementById(
+      "eventPickup"
+    )?.value.trim();
+
+  const drop =
+    document.getElementById(
+      "eventDrop"
+    )?.value.trim();
+
+  const date =
+    document.getElementById(
+      "eventDate"
+    )?.value;
+
+  const pickupTime =
+    document.getElementById(
+      "eventPickupTime"
+    )?.value;
+
+  const dropTime =
+    document.getElementById(
+      "eventDropTime"
+    )?.value;
+
+  const distance =
+    document.getElementById(
+      "eventDistance"
+    )?.textContent || "—";
+
+  const duration =
+    document.getElementById(
+      "eventDuration"
+    )?.textContent || "—";
+
+
+  if (
+    !pickup ||
+    !drop ||
+    !date ||
+    !pickupTime ||
+    !dropTime
+  ) {
+
+    alert(
+      "Please fill all required details."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    distance === "—" ||
+    duration === "—"
+  ) {
+
+    alert(
+      "Please Show Complete Route first."
+    );
+
+    return;
+
+  }
+
+
+  try {
+
+    let voiceURL = "";
+
+
+    if (voiceBlob) {
+
+      voiceURL =
+        await uploadVoice(
+          "voiceNotes/" +
+          auth.currentUser.uid +
+          "/" +
+          eventState.eventId +
+          "_car" +
+          eventState.currentCar +
+          "_" +
+          Date.now() +
+          ".webm"
+        );
+
+    }
+
+
+    const bookingId =
+      await createCustomerBookingId();
+
+
+    const booking = {
+
+      bookingId:
+
+        bookingId,
+
+      bookingType:
+
+        "event",
+
+      eventId:
+
+        eventState.eventId,
+
+      eventName:
+
+        eventState.eventName,
+
+      totalCars:
+
+        eventState.totalCars,
+
+      carNumber:
+
+        eventState.currentCar,
+
+      status:
+
+        "pending",
+
+      customerUid:
+
+        auth.currentUser.uid,
+
+      customerName:
+
+        auth.currentUser.displayName ||
+        "Customer",
+
+      customerEmail:
+
+        auth.currentUser.email ||
+        "",
+
+      customerPhone:
+
+        getCustomerPhone(),
+
+      pickup:
+
+        pickup,
+
+      destination:
+
+        drop,
+
+      pickupDate:
+
+        date,
+
+      pickupTime:
+
+        pickupTime,
+
+      dropTime:
+
+        dropTime,
+
+      distance:
+
+        distance,
+
+      estimatedTime:
+
+        duration,
+
+      driverId:
+
+        selectedDriver.driverId,
+
+      driverUid:
+
+        selectedDriver.uid || null,
+
+      driverName:
+
+        selectedDriver.name,
+
+      driverMobile:
+
+        selectedDriver.mobile || "",
+
+      driverPhoto:
+
+        selectedDriver.photo || "",
+
+      vehicleNumber:
+
+        selectedDriver.vehicle || "",
+
+      vehicleType:
+
+        selectedDriver.vehicleType || "",
+
+      driverDocumentId:
+
+        selectedDriver.documentId || "",
+
+      voiceNoteURL:
+
+        voiceURL,
+
+      closeRequested:
+
+        false,
+
+      customerCloseApproved:
+
+        false,
+
+      createdAt:
+
+        serverTimestamp(),
+
+      bookingDate:
+
+        date
+
+    };
+
+
+    const eventRef =
+      await addDoc(
+        collection(
+          db,
+          "eventBookings"
+        ),
+        booking
+      );
+
+
+    /*
+      DRIVER INBOX
+    */
+
+    await addDoc(
+      collection(
+        db,
+        "driverBookings"
+      ),
+      {
+
+        bookingId:
+          bookingId,
+
+        bookingDocumentId:
+          eventRef.id,
+
+        bookingType:
+          "event",
+
+        eventId:
+          eventState.eventId,
+
+        eventName:
+          eventState.eventName,
+
+        carNumber:
+          eventState.currentCar,
+
+        totalCars:
+          eventState.totalCars,
+
+        driverId:
+          selectedDriver.driverId,
+
+        driverUid:
+          selectedDriver.uid || null,
+
+        customerUid:
+          auth.currentUser.uid,
+
+        customerName:
+          auth.currentUser.displayName ||
+          "Customer",
+
+        customerPhone:
+          getCustomerPhone(),
+
+        pickup:
+          pickup,
+
+        destination:
+          drop,
+
+        pickupDate:
+          date,
+
+        pickupTime:
+          pickupTime,
+
+        dropTime:
+          dropTime,
+
+        voiceNoteURL:
+          voiceURL,
+
+        status:
+          "pending",
+
+        createdAt:
+          serverTimestamp(),
+
+        bookingDate:
+          date
+
+      }
+    );
+
+
+    await updateDailyBookingCount(
+      date
+    );
+
+
+    const savedCar =
+      eventState.currentCar;
+
+
+    eventState.savedCars++;
+
+    voiceBlob = null;
+
+    selectedDriver = null;
+
+
+    if (
+      savedCar <
+      eventState.totalCars
+    ) {
+
+      eventState.currentCar++;
+
+
+      alert(
+        "✅ Car " +
+        savedCar +
+        " saved.\n\n" +
+        "Booking ID: " +
+        bookingId +
+        "\n\n" +
+        "Now Car " +
+        eventState.currentCar +
+        " is ready."
+      );
+
+
+      renderEventCar();
+
+    }
+    else {
+
+      const totalSaved =
+        eventState.savedCars;
+
+
+      eventState.active =
+        false;
+
+
+      alert(
+        "🎉 Event Booking Completed!\n\n" +
+        "Total Cars Saved: " +
+        totalSaved
+      );
+
+
+      openScreen(
+        "bookings"
+      );
+
+    }
+
+  }
+  catch (error) {
+
+    console.error(error);
+
+    alert(
+      "❌ Event Car save failed.\n\n" +
+      error.message
+    );
+
+  }
+
+};
+
+
+/* =====================================================
+   DAILY BOOKING COUNT
+===================================================== */
+
+async function updateDailyBookingCount(
+  bookingDate
+) {
+
+  if (!auth.currentUser) {
+    return;
+  }
+
+
+  const date =
+    bookingDate ||
+    getTodayString();
+
+
+  const ref =
+    doc(
+      db,
+      "dailyBookingStats",
+      auth.currentUser.uid +
+      "_" +
+      date
+    );
+
+
+  await setDoc(
+    ref,
+    {
+
+      customerUid:
+        auth.currentUser.uid,
+
+      date:
+        date,
+
+      updatedAt:
+        serverTimestamp()
+
+    },
+    {
+      merge: true
+    }
+  );
+
+
+  /*
+    Recalculate current customer's
+    daily total from both collections.
+  */
+
+  let total = 0;
+
+
+  const singleQuery =
+    query(
+      collection(
+        db,
+        "cabBookings"
+      ),
+      where(
+        "customerUid",
+        "==",
+        auth.currentUser.uid
+      ),
+      where(
+        "bookingDate",
+        "==",
+        date
+      )
+    );
+
+
+  const singleSnap =
+    await getDocs(
+      singleQuery
+    );
+
+
+  total +=
+    singleSnap.size;
+
+
+  const eventQuery =
+    query(
+      collection(
+        db,
+        "eventBookings"
+      ),
+      where(
+        "customerUid",
+        "==",
+        auth.currentUser.uid
+      ),
+      where(
+        "bookingDate",
+        "==",
+        date
+      )
+    );
+
+
+  const eventSnap =
+    await getDocs(
+      eventQuery
+    );
+
+
+  total +=
+    eventSnap.size;
+
+
+  await updateDoc(
+    ref,
+    {
+
+      bookingCount:
+        total,
+
+      updatedAt:
+        serverTimestamp()
+
+    }
+  );
+
+
+  const countElement =
+    document.getElementById(
+      "todayBookingCount"
+    );
+
+
+  if (
+    countElement &&
+    date === getTodayString()
+  ) {
+
+    countElement.textContent =
+      total;
+
+  }
+
+}
+
+
+/* =====================================================
+   LOAD MY BOOKINGS
+===================================================== */
+
+function loadMyBookings() {
+
+  if (!auth.currentUser) {
+    return;
+  }
+
+
+  if (unsubscribeBookings) {
+
+    unsubscribeBookings();
+
+  }
+
+
+  const q =
+    query(
+      collection(
+        db,
+        "cabBookings"
+      ),
+      where(
+        "customerUid",
+        "==",
+        auth.currentUser.uid
+      )
+    );
+
+
+  unsubscribeBookings =
+    onSnapshot(
+      q,
+      snapshot => {
+
+        const bookings = [];
+
+
+        snapshot.forEach(
+          d => {
+
+            bookings.push({
+
+              id:
+                d.id,
+
+              ...d.data()
+
+            });
+
+          }
+        );
+
+
+        updateTodayCount(
+          bookings
+        );
+
+      },
+      error => {
+
+        console.error(
+          "Booking listener error:",
+          error
+        );
+
+      }
+    );
+
+}
+
+
+/* =====================================================
+   TODAY COUNT
+===================================================== */
+
+async function updateTodayCount(
+  singleBookings
+) {
+
+  if (!auth.currentUser) {
+    return;
+  }
+
+
+  const today =
+    getTodayString();
+
+
+  let eventCount = 0;
+
+
+  try {
+
+    const q =
+      query(
+        collection(
+          db,
+          "eventBookings"
+        ),
+        where(
+          "customerUid",
+          "==",
+          auth.currentUser.uid
+        ),
+        where(
+          "bookingDate",
+          "==",
+          today
+        )
+      );
+
+
+    const snap =
+      await getDocs(q);
+
+
+    eventCount =
+      snap.size;
+
+  }
+  catch (error) {
+
+    console.error(error);
+
+  }
+
+
+  const singleCount =
+    singleBookings.filter(
+      booking =>
+        (
+          booking.bookingDate ||
+          booking.pickupDate
+        ) === today
+    ).length;
+
+
+  const total =
+    singleCount +
+    eventCount;
+
+
+  const count =
+    document.getElementById(
+      "todayBookingCount"
+    );
+
+
+  if (count) {
+
+    count.textContent =
+      total;
+
+  }
+
+
+  const date =
+    document.getElementById(
+      "todayDate"
+    );
+
+
+  if (date) {
+
+    const p =
+      today.split("-");
+
+    date.textContent =
+      p[2] +
+      "/" +
+      p[1] +
+      "/" +
+      p[0];
+
+  }
+
+}
+
+
+/* =====================================================
+   MY BOOKINGS
+===================================================== */
+
+async function renderBookings() {
+
+  const list =
+    document.getElementById(
+      "bookingList"
+    );
+
+
+  if (!list) {
+    return;
+  }
+
+
+  if (!auth.currentUser) {
+
+    list.innerHTML =
+      '<div class="notice red">Please login first.</div>';
+
+    return;
+
+  }
+
+
+  list.innerHTML =
+    '<div class="notice blue">Loading bookings...</div>';
+
+
+  try {
+
+    const allBookings = [];
+
+
+    for (
+      const collectionName
+      of [
+        "cabBookings",
+        "eventBookings"
+      ]
+    ) {
+
+      const q =
+        query(
+          collection(
+            db,
+            collectionName
+          ),
+          where(
+            "customerUid",
+            "==",
+            auth.currentUser.uid
+          )
+        );
+
+
+      const snap =
+        await getDocs(q);
+
+
+      snap.forEach(
+        d => {
+
+          allBookings.push({
+
+            id:
+              d.id,
+
+            collectionName:
+              collectionName,
+
+            ...d.data()
+
+          });
+
+        }
+      );
+
+    }
+
+
+    allBookings.sort(
+      (a,b) =>
+        (
+          b.createdAt?.seconds || 0
+        ) -
+        (
+          a.createdAt?.seconds || 0
+        )
+    );
+
+
+    list.innerHTML = "";
+
+
+    if (!allBookings.length) {
+
+      list.innerHTML =
+        '<div class="notice blue">No bookings yet.</div>';
+
+      return;
+
+    }
+
+
+    allBookings.forEach(
+      booking => {
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "booking-card";
+
+
+        const status =
+          String(
+            booking.status ||
+            "pending"
+          ).toLowerCase();
+
+
+        card.innerHTML = `
+
+<div class="status">
+
+${escapeHtml(
+  status.toUpperCase()
+)}
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+BOOKING ID
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  booking.bookingId ||
+  "BC---"
+)}
+
+</div>
+
+</div>
+
+`;
+
+
+        if (
+          booking.bookingType ===
+          "event"
+        ) {
+
+          card.innerHTML += `
+
+<div class="booking-row">
+
+<strong>
+🎉 EVENT
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  booking.eventName ||
+  "Event"
+)}
+
+</div>
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+🚕 CAR
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  String(
+    booking.carNumber ||
+    "-"
+  )
+)}
+
+ /
+${escapeHtml(
+  String(
+    booking.totalCars ||
+    "-"
+  )
+)}
+
+</div>
+
+</div>
+
+`;
+
+        }
+
+
+        card.innerHTML += `
+
+<div class="booking-row">
+
+<strong>
+📍 PICKUP
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  booking.pickup ||
+  "-"
+)}
+
+</div>
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+🏁 DROP
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  booking.destination ||
+  "-"
+)}
+
+</div>
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+📅 DATE
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  booking.pickupDate ||
+  "-"
+)}
+
+</div>
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+🆔 DRIVER
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  booking.driverId ||
+  "-"
+)}
+
+</div>
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+👨‍✈️ DRIVER NAME
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  booking.driverName ||
+  "-"
+)}
+
+</div>
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+🚕 VEHICLE
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  booking.vehicleNumber ||
+  "-"
+)}
+
+</div>
+
+</div>
+
+`;
+
+
+        /*
+          Driver phone ONLY after
+          booking accepted/running/completed
+        */
+
+        if (
+          booking.driverMobile &&
+          [
+            "accepted",
+            "running",
+            "started",
+            "completed"
+          ].includes(status)
+        ) {
+
+          card.innerHTML += `
+
+<div class="booking-row">
+
+<strong>
+📞 DRIVER MOBILE
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  booking.driverMobile
+)}
+
+</div>
+
+</div>
+
+`;
+
+        }
+
+
+        /*
+          DRIVER PHOTO
+        */
+
+        if (
+          booking.driverPhoto
+        ) {
+
+          card.innerHTML += `
+
+<img
+class="driver-photo"
+src="${escapeHtml(
+  booking.driverPhoto
+)}"
+alt="Driver Photo">
+
+`;
+
+        }
+
+
+        /*
+          VOICE NOTE
+        */
+
+        if (
+          booking.voiceNoteURL
+        ) {
+
+          card.innerHTML += `
+
+<div class="voice-box">
+
+<b>
+🎙 Voice Note
+</b>
+
+<br><br>
+
+<audio
+controls
+src="${escapeHtml(
+  booking.voiceNoteURL
+)}">
+</audio>
+
+</div>
+
+`;
+
+        }
+
+
+        /*
+          CLOSE APPROVAL
+        */
+
+        if (
+          booking.closeRequested ===
+          true &&
+          booking.customerCloseApproved !==
+          true &&
+          status !== "completed"
+        ) {
+
+          card.innerHTML += `
+
+<div class="close-request">
+
+<b>
+⚠️ Driver requested booking close.
+</b>
+
+<br><br>
+
+<button
+class="primary green"
+data-approve-close="true">
+
+✅ Approve Close
+
+</button>
+
+<button
+class="primary gray"
+data-keep-open="true">
+
+❌ Keep Open
+
+</button>
+
+</div>
+
+`;
+
+
+          const approve =
+            card.querySelector(
+              "[data-approve-close]"
+            );
+
+
+          approve.onclick =
+            async () => {
+
+              try {
+
+                await updateDoc(
+                  doc(
+                    db,
+                    booking.collectionName,
+                    booking.id
+                  ),
+                  {
+
+                    status:
+                      "completed",
+
+                    customerCloseApproved:
+                      true,
+
+                    closedAt:
+                      serverTimestamp()
+
+                  }
+                );
+
+
+                alert(
+                  "✅ Booking Closed Successfully."
+                );
+
+
+                renderBookings();
+
+              }
+              catch (error) {
+
+                alert(
+                  "Close approval failed.\n" +
+                  error.message
+                );
+
+              }
+
+            };
+
+
+          const keep =
+            card.querySelector(
+              "[data-keep-open]"
+            );
+
+
+          keep.onclick =
+            async () => {
+
+              try {
+
+                await updateDoc(
+                  doc(
+                    db,
+                    booking.collectionName,
+                    booking.id
+                  ),
+                  {
+
+                    closeRequested:
+                      false
+
+                  }
+                );
+
+
+                renderBookings();
+
+              }
+              catch (error) {
+
+                alert(
+                  error.message
+                );
+
+              }
+
+            };
+
+        }
+
+
+        /*
+          LIVE MAP BUTTON
+        */
+
+        if (
+          [
+            "accepted",
+            "running",
+            "started"
+          ].includes(status)
+        ) {
+
+          const mapButton =
+            document.createElement(
+              "button"
+            );
+
+
+          mapButton.className =
+            "primary";
+
+
+          mapButton.textContent =
+            "📍 Open Live Tracking";
+
+
+          mapButton.onclick =
+            () =>
+              openLiveTracking(
+                booking
+              );
+
+
+          card.appendChild(
+            mapButton
+          );
+
+        }
+
+
+        list.appendChild(
+          card
+        );
+
+      }
+    );
+
+  }
+  catch (error) {
+
+    console.error(error);
+
+    list.innerHTML = `
+
+<div class="notice red">
+
+❌ Booking data load failed.
+
+<br><br>
+
+${escapeHtml(
+  error.message
+)}
+
+</div>
+
+`;
+
+  }
+
+}
+
+
+/* =====================================================
+   LIVE DRIVER TRACKING
+===================================================== */
+
+window.openLiveTracking =
+function (booking) {
+
+  const box =
+    document.getElementById(
+      "settingsContent"
+    );
+
+
+  if (!box) return;
+
+
+  document.getElementById(
+    "dashboardScreen"
+  )?.classList.add("hidden");
+
+  document.getElementById(
+    "profileScreen"
+  )?.classList.add("hidden");
+
+  document.getElementById(
+    "bookingsScreen"
+  )?.classList.add("hidden");
+
+  document.getElementById(
+    "settingsScreen"
+  )?.classList.remove("hidden");
+
+
+  box.innerHTML = `
+
+<div class="page-title">
+
+📍 Live Driver Tracking
+
+</div>
+
+<div class="card">
+
+<h2>
+
+🆔
+${escapeHtml(
+  booking.driverId ||
+  "-"
+)}
+
+</h2>
+
+<div class="booking-row">
+
+<strong>
+BOOKING ID
+</strong>
+
+${escapeHtml(
+  booking.bookingId ||
+  "-"
+)}
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+DRIVER
+</strong>
+
+${escapeHtml(
+  booking.driverName ||
+  "-"
+)}
+
+</div>
+
+<div
+id="liveDriverStatus"
+class="map-status">
+
+🔎 Waiting for driver's live location...
+
+</div>
+
+<div
+id="liveDriverMap"
+class="map-box">
+</div>
+
+<button
+class="primary gray"
+onclick="openScreen('bookings')">
+
+← Back to Bookings
+
+</button>
+
+</div>
+
+`;
+
+
+  const map =
+    initMapFor(
+      "liveDriverMap"
+    );
+
+
+  /*
+    Driver location path:
+
+    driverLocations / DRIVER_ID
+  */
+
+  const driverId =
+    booking.driverId;
+
+
+  if (!driverId) {
+
+    return;
+
+  }
+
+
+  const locationRef =
+    doc(
+      db,
+      "driverLocations",
+      driverId
+    );
+
+
+  onSnapshot(
+    locationRef,
+    snapshot => {
+
+      const status =
+        document.getElementById(
+          "liveDriverStatus"
+        );
+
+
+      if (!snapshot.exists()) {
+
+        if (status) {
+
+          status.textContent =
+            "📍 Driver location not available yet.";
+
+        }
+
+        return;
+
+      }
+
+
+      const data =
+        snapshot.data();
+
+
+      const lat =
+        Number(
+          data.lat
+        );
+
+
+      const lng =
+        Number(
+          data.lng
+        );
+
+
+      if (
+        !Number.isFinite(lat) ||
+        !Number.isFinite(lng)
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        window.liveDriverMarker
+      ) {
+
+        window.liveDriverMarker
+          .setLatLng([
+            lat,
+            lng
+          ]);
+
+      }
+      else {
+
+        window.liveDriverMarker =
+          L.marker([
+            lat,
+            lng
+          ])
+          .addTo(map)
+          .bindPopup(
+            "🚕 Driver " +
+            escapeHtml(
+              driverId
+            )
+          );
+
+      }
+
+
+      map.setView(
+        [
+          lat,
+          lng
+        ],
+        15
+      );
+
+
+      if (status) {
+
+        status.textContent =
+          "🟢 Live location updated.";
+
+      }
+
+    },
+    error => {
+
+      console.error(error);
+
+      const status =
+        document.getElementById(
+          "liveDriverStatus"
+        );
+
+      if (status) {
+
+        status.textContent =
+          "❌ Live location unavailable.";
+
+      }
+
+    }
+  );
+
+};
+
+
+/* =====================================================
+   ACCOUNT SETTINGS
+===================================================== */
+
+function renderAccountSettings(
+  box
+) {
+
+  const user =
+    auth.currentUser;
+
+
+  if (!user) {
+
+    box.innerHTML =
+      '<div class="notice red">Please login first.</div>';
+
+    return;
+
+  }
+
+
+  box.innerHTML = `
+
+<div class="page-title">
+
+👤 Account
+
+</div>
+
+<div class="card">
+
+<h2>
+Customer Profile
+</h2>
+
+<div class="booking-row">
+
+<strong>
+NAME
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  user.displayName ||
+  "Customer"
+)}
+
+</div>
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+MOBILE
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  getCustomerPhone()
+)}
+
+</div>
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+EMAIL
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  user.email ||
+  ""
+)}
+
+</div>
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+CUSTOMER ID
+</strong>
+
+<div class="booking-value">
+
+${escapeHtml(
+  user.uid
+)}
+
+</div>
+
+</div>
+
+<br>
+
+<button
+class="primary gray"
+onclick="logoutUser()">
+
+🚪 Logout
+
+</button>
+
+<button
+class="primary gray"
+onclick="openScreen('dashboard')">
+
+← Back to Dashboard
+
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+   TRACKING SETTINGS
+===================================================== */
+
+function renderTrackingSettings(
+  box
+) {
+
+  box.innerHTML = `
+
+<div class="page-title">
+
+📍 Live Tracking
+
+</div>
+
+<div class="card">
+
+<h2>
+📍 My Booked Cabs
+</h2>
+
+<p class="info">
+
+Only your active booked cabs will be shown here.
+
+Driver/vehicle live location is available
+during the active trip.
+
+</p>
+
+<div
+id="myBookedCabsMap"
+class="map-box">
+</div>
+
+<div
+id="myBookedCabsStatus"
+class="map-status">
+
+Loading your active bookings...
+
+</div>
+
+</div>
+
+`;
+
+
+  initMyBookedCabsMap();
+
+}
+
+
+/* =====================================================
+   MY BOOKED CABS MAP
+===================================================== */
+
+async function initMyBookedCabsMap() {
+
+  const map =
+    initMapFor(
+      "myBookedCabsMap"
+    );
+
+
+  if (!auth.currentUser) {
+    return;
+  }
+
+
+  try {
+
+    const activeStatuses = [
+      "accepted",
+      "running",
+      "started"
+    ];
+
+
+    const collections = [
+      "cabBookings",
+      "eventBookings"
+    ];
+
+
+    let activeBookings = [];
+
+
+    for (
+      const collectionName
+      of collections
+    ) {
+
+      const q =
+        query(
+          collection(
+            db,
+            collectionName
+          ),
+          where(
+            "customerUid",
+            "==",
+            auth.currentUser.uid
+          )
+        );
+
+
+      const snap =
+        await getDocs(q);
+
+
+      snap.forEach(
+        d => {
+
+          const booking =
+            d.data();
+
+
+          if (
+            activeStatuses.includes(
+              String(
+                booking.status ||
+                ""
+              ).toLowerCase()
+            )
+          ) {
+
+            activeBookings.push({
+
+              id:
+                d.id,
+
+              collectionName:
+                collectionName,
+
+              ...booking
+
+            });
+
+          }
+
+        }
+      );
+
+    }
+
+
+    const status =
+      document.getElementById(
+        "myBookedCabsStatus"
+      );
+
+
+    if (!activeBookings.length) {
+
+      if (status) {
+
+        status.textContent =
+          "No active booked cabs right now.";
+
+      }
+
+      return;
+
+    }
+
+
+    if (status) {
+
+      status.textContent =
+        activeBookings.length +
+        " active booked cab(s).";
+
+    }
+
+
+    activeBookings.forEach(
+      booking => {
+
+        if (!booking.driverId) {
+          return;
+        }
+
+
+        const locationRef =
+          doc(
+            db,
+            "driverLocations",
+            booking.driverId
+          );
+
+
+        onSnapshot(
+          locationRef,
+          snapshot => {
+
+            if (!snapshot.exists()) {
+              return;
+            }
+
+
+            const data =
+              snapshot.data();
+
+
+            const lat =
+              Number(
+                data.lat
+              );
+
+
+            const lng =
+              Number(
+                data.lng
+              );
+
+
+            if (
+              !Number.isFinite(lat) ||
+              !Number.isFinite(lng)
+            ) {
+
+              return;
+
+            }
+
+
+            const markerKey =
+              "cab_" +
+              booking.driverId;
+
+
+            if (
+              window.bookedCabMarkers?.[markerKey]
+            ) {
+
+              window.bookedCabMarkers[
+                markerKey
+              ].setLatLng([
+                lat,
+                lng
+              ]);
+
+            }
+            else {
+
+              if (
+                !window.bookedCabMarkers
+              ) {
+
+                window.bookedCabMarkers =
+                  {};
+
+              }
+
+
+              window.bookedCabMarkers[
+                markerKey
+              ] =
+                L.marker([
+                  lat,
+                  lng
+                ])
+                .addTo(map)
+                .bindPopup(
+
+                  "<b>🚕 " +
+                  escapeHtml(
+                    booking.driverId
+                  ) +
+                  "</b><br>" +
+
+                  escapeHtml(
+                    booking.driverName ||
+                    "Driver"
+                  ) +
+                  "<br>" +
+
+                  "Booking: " +
+
+                  escapeHtml(
+                    booking.bookingId ||
+                    "-"
+                  )
+
+                );
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+  }
+  catch (error) {
+
+    console.error(error);
+
+    const status =
+      document.getElementById(
+        "myBookedCabsStatus"
+      );
+
+    if (status) {
+
+      status.textContent =
+        "❌ Unable to load live bookings.";
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   DRIVER SETTINGS SEARCH
+===================================================== */
+
+window.searchSettingsDriver =
+async function () {
+
+  const input =
+    document.getElementById(
+      "settingsDriverId"
+    );
+
+
+  const result =
+    document.getElementById(
+      "settingsDriverResult"
+    );
+
+
+  const id =
+    normalizeDriverId(
+      input?.value || ""
+    );
+
+
+  if (input) {
+    input.value = id;
+  }
+
+
+  if (!/^DC\d+$/.test(id)) {
+
+    result.innerHTML = `
+
+<div class="notice red">
+
+❌ Invalid Driver ID.
+
+Example: DC001
+
+</div>
+
+`;
+
+    return;
+
+  }
+
+
+  result.innerHTML = `
+
+<div class="notice blue">
+
+🔎 Searching...
+
+</div>
+
+`;
+
+
+  try {
+
+    const q =
+      query(
+        collection(
+          db,
+          "cabDrivers"
+        ),
+        where(
+          "driverId",
+          "==",
+          id
+        ),
+        limit(1)
+      );
+
+
+    const snap =
+      await getDocs(q);
+
+
+    if (snap.empty) {
+
+      result.innerHTML = `
+
+<div class="notice red">
+
+❌ Driver
+${escapeHtml(id)}
+not found.
+
+</div>
+
+`;
+
+      return;
+
+    }
+
+
+    const data =
+      snap.docs[0].data();
+
+
+    result.innerHTML = `
+
+<div class="driver-result">
+
+<h3>
+✅ Driver Found
+</h3>
+
+<div class="booking-row">
+
+<strong>
+DRIVER ID
+</strong>
+
+${escapeHtml(
+  data.driverId ||
+  id
+)}
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+NAME
+</strong>
+
+${escapeHtml(
+  data.name ||
+  data.driverName ||
+  "Driver"
+)}
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+VEHICLE
+</strong>
+
+${escapeHtml(
+  data.vehicleNumber ||
+  data.vehicle ||
+  "-"
+)}
+
+</div>
+
+<div class="booking-row">
+
+<strong>
+STATUS
+</strong>
+
+${
+  data.online === true
+    ? "ONLINE"
+    : "OFFLINE"
+}
+
+</div>
+
+</div>
+
+`;
+
+  }
+  catch (error) {
+
+    console.error(error);
+
+    result.innerHTML = `
+
+<div class="notice red">
+
+❌ Search failed.
+
+<br><br>
+
+${escapeHtml(
+  error.message
+)}
+
+</div>
+
+`;
+
+  }
+
+};
+
+
+/* =====================================================
+   FINAL START / SAFETY CHECK
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    console.log(
+      "🚕 Car Set U Customer Panel loaded."
+    );
+
+  }
+);
+
+
+/* =====================================================
+   PART 2 END
+===================================================== */
