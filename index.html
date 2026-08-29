@@ -1,11 +1,1171 @@
-<script type="module">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1769df">
+
+<title>Car Set U - Customer Panel</title>
+
+<!-- LEAFLET MAP -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<style>
 
 /* =====================================================
    CAR SET U — CUSTOMER PANEL
-   FINAL BOOKING SYSTEM
-   PART 1 / 2
+   PART 1 FINAL
 ===================================================== */
 
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+}
+
+button,
+input,
+select,
+textarea{
+  font-family:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none !important;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:#1769df;
+  color:white;
+  padding:14px 16px;
+  box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+
+.header-inner{
+  max-width:900px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:800;
+}
+
+.logo small{
+  display:block;
+  font-size:11px;
+  font-weight:400;
+  opacity:.9;
+  margin-top:2px;
+}
+
+.header-user{
+  font-size:12px;
+  text-align:right;
+  max-width:170px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.container{
+  width:100%;
+  max-width:900px;
+  margin:auto;
+  padding:16px;
+}
+
+.page-title{
+  font-size:24px;
+  font-weight:800;
+  margin:8px 0 16px;
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+
+.card h2{
+  margin-top:0;
+}
+
+.card h3{
+  margin-bottom:10px;
+}
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+.login-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:#eef4ff;
+}
+
+.login-card{
+  width:100%;
+  max-width:460px;
+  background:white;
+  border-radius:22px;
+  padding:24px;
+  box-shadow:0 8px 30px rgba(0,0,0,.12);
+}
+
+.login-logo{
+  text-align:center;
+  font-size:32px;
+  font-weight:900;
+  color:#1769df;
+  margin-bottom:4px;
+}
+
+.login-tagline{
+  text-align:center;
+  color:#667085;
+  margin-bottom:24px;
+  font-size:14px;
+}
+
+.login-card input{
+  width:100%;
+  padding:14px;
+  border:1px solid #d5dce8;
+  border-radius:12px;
+  font-size:16px;
+  margin-bottom:12px;
+}
+
+.google-button{
+  width:100%;
+  padding:14px;
+  border:1px solid #d0d5dd;
+  background:white;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:700;
+}
+
+.google-dot{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  margin-right:6px;
+  font-weight:900;
+}
+
+.login-info{
+  margin-top:16px;
+  background:#f1f6ff;
+  padding:12px;
+  border-radius:10px;
+  font-size:13px;
+  line-height:1.5;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.primary{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:14px;
+  background:#1769df;
+  color:white;
+  font-size:16px;
+  font-weight:700;
+  margin-top:10px;
+}
+
+.primary.green{
+  background:#18864b;
+}
+
+.primary.gray{
+  background:#667085;
+}
+
+.primary.red{
+  background:#d92d20;
+}
+
+.option-btn{
+  border:1px solid #ccd5e2;
+  background:white;
+  border-radius:12px;
+  padding:13px;
+  font-weight:700;
+  font-size:15px;
+}
+
+.option-btn.active{
+  background:#1769df;
+  color:white;
+  border-color:#1769df;
+}
+
+.button-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-bottom:16px;
+}
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+.dashboard-hero{
+  background:linear-gradient(135deg,#1769df,#3e8df7);
+  color:white;
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:16px;
+}
+
+.dashboard-hero h1{
+  margin:0 0 7px;
+  font-size:27px;
+}
+
+.dashboard-hero p{
+  margin:0;
+  opacity:.95;
+}
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.dashboard-card{
+  background:white;
+  border:0;
+  border-radius:17px;
+  padding:18px;
+  text-align:left;
+  min-height:125px;
+  box-shadow:0 3px 14px rgba(0,0,0,.07);
+}
+
+.dashboard-card .icon{
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+.dashboard-card strong{
+  display:block;
+  font-size:16px;
+  margin-bottom:5px;
+}
+
+.dashboard-card span{
+  color:#667085;
+  font-size:12px;
+}
+
+/* =====================================================
+   BOOKING COUNT
+===================================================== */
+
+.count-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.count-number{
+  font-size:32px;
+  font-weight:900;
+  color:#1769df;
+}
+
+.count-label{
+  color:#667085;
+  font-size:13px;
+}
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group label{
+  display:block;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #d0d5dd;
+  border-radius:11px;
+  font-size:15px;
+  background:white;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+/* =====================================================
+   LOCATION
+===================================================== */
+
+.location-card{
+  border:1px solid #dbe2ec;
+  border-radius:15px;
+  padding:14px;
+  margin-bottom:14px;
+  background:#fafcff;
+}
+
+.location-card h3{
+  margin-top:0;
+}
+
+.location-card input{
+  width:100%;
+  padding:13px;
+  border:1px solid #ccd5e2;
+  border-radius:11px;
+  font-size:15px;
+}
+
+.location-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:9px;
+}
+
+.location-actions button{
+  border:1px solid #ccd5e2;
+  background:white;
+  padding:10px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:700;
+}
+
+/* =====================================================
+   MAP
+===================================================== */
+
+.map-box{
+  height:320px;
+  width:100%;
+  border-radius:15px;
+  overflow:hidden;
+  margin-top:12px;
+  border:1px solid #d5dce8;
+  background:#e9eef5;
+}
+
+.map-status{
+  margin-top:9px;
+  padding:10px;
+  background:#f1f5f9;
+  border-radius:10px;
+  font-size:13px;
+}
+
+.route-summary{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+.route-item{
+  background:#f5f8fc;
+  border-radius:12px;
+  padding:14px;
+  text-align:center;
+}
+
+.route-item strong{
+  display:block;
+  font-size:19px;
+  color:#1769df;
+  margin-top:5px;
+}
+
+/* =====================================================
+   DRIVER
+===================================================== */
+
+.driver-search{
+  margin-top:20px;
+  border-top:1px solid #e4e7ec;
+  padding-top:18px;
+}
+
+.driver-search input{
+  width:100%;
+  padding:14px;
+  border:1px solid #ccd5e2;
+  border-radius:11px;
+  font-size:16px;
+}
+
+.info{
+  background:#f1f6ff;
+  padding:11px;
+  border-radius:10px;
+  color:#475467;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.driver-result{
+  margin-top:12px;
+  padding:15px;
+  background:#f6fbff;
+  border:1px solid #cfe0f8;
+  border-radius:14px;
+}
+
+.driver-not-found{
+  margin-top:12px;
+  padding:14px;
+  background:#fff4f2;
+  color:#b42318;
+  border-radius:12px;
+}
+
+.driver-photo{
+  width:100px;
+  height:100px;
+  object-fit:cover;
+  border-radius:50%;
+  display:block;
+  margin:10px auto 15px;
+  border:3px solid #dbe5f2;
+}
+
+.booking-row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:10px 0;
+  border-bottom:1px solid #e8edf3;
+  font-size:14px;
+}
+
+.booking-row strong{
+  min-width:120px;
+}
+
+.booking-value{
+  text-align:right;
+  word-break:break-word;
+}
+
+/* =====================================================
+   SELECTED DRIVER
+===================================================== */
+
+.selected-driver{
+  margin-top:12px;
+  padding:14px;
+  background:#ecfdf3;
+  border:1px solid #abefc6;
+  border-radius:12px;
+}
+
+/* =====================================================
+   VOICE
+===================================================== */
+
+.voice-box{
+  margin-top:18px;
+  padding:15px;
+  background:#f8fafc;
+  border:1px solid #dbe2ec;
+  border-radius:14px;
+}
+
+.voice-actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:10px;
+}
+
+.voice-actions button{
+  border:1px solid #ccd5e2;
+  background:white;
+  padding:10px;
+  border-radius:10px;
+  font-weight:700;
+}
+
+.voice-box audio{
+  width:100%;
+  margin-top:10px;
+}
+
+/* =====================================================
+   EVENT
+===================================================== */
+
+.event-progress{
+  background:#eaf2ff;
+  color:#174ea6;
+  padding:15px;
+  border-radius:14px;
+  margin-bottom:15px;
+}
+
+.event-car-card{
+  border:1px solid #dce3ed;
+  border-radius:15px;
+  padding:14px;
+}
+
+.event-car-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
+  font-size:18px;
+  font-weight:800;
+}
+
+.pending{
+  font-size:11px;
+  background:#fff4ce;
+  color:#8a5a00;
+  padding:6px 9px;
+  border-radius:20px;
+}
+
+/* =====================================================
+   BOTTOM NAV
+===================================================== */
+
+.bottom-nav{
+  position:sticky;
+  bottom:0;
+  z-index:900;
+  background:white;
+  border-top:1px solid #dfe4eb;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  padding:7px 5px calc(7px + env(safe-area-inset-bottom));
+}
+
+.bottom-nav button{
+  border:0;
+  background:white;
+  padding:8px 4px;
+  font-size:12px;
+  color:#667085;
+}
+
+.bottom-nav button.active{
+  color:#1769df;
+  font-weight:800;
+}
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+.profile-line{
+  padding:13px 0;
+  border-bottom:1px solid #eaecf0;
+}
+
+.profile-line strong{
+  display:block;
+  font-size:12px;
+  color:#667085;
+  margin-bottom:5px;
+}
+
+.profile-line span{
+  word-break:break-word;
+}
+
+/* =====================================================
+   NOTICE
+===================================================== */
+
+.notice{
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:12px;
+}
+
+.notice.blue{
+  background:#eff6ff;
+  color:#174ea6;
+}
+
+.notice.green{
+  background:#ecfdf3;
+  color:#067647;
+}
+
+.notice.red{
+  background:#fef3f2;
+  color:#b42318;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px){
+
+  .container{
+    padding:12px;
+  }
+
+  .dashboard-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .button-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .map-box{
+    height:280px;
+  }
+
+  .booking-row{
+    flex-direction:column;
+    gap:4px;
+  }
+
+  .booking-value{
+    text-align:left;
+  }
+
+}
+
+/* =====================================================
+   DESKTOP
+===================================================== */
+
+@media(min-width:800px){
+
+  .bottom-nav{
+    max-width:900px;
+    margin:auto;
+    border-radius:15px 15px 0 0;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     LOGIN SCREEN
+===================================================== -->
+
+<section id="loginScreen" class="login-screen">
+
+  <div class="login-card">
+
+    <div class="login-logo">
+      🚕 Car Set U
+    </div>
+
+    <div class="login-tagline">
+      Buy • Sell • Rent Four-Wheelers With Driver
+    </div>
+
+    <div id="phoneStep">
+
+      <h2>Customer Login</h2>
+
+      <p class="info">
+        First enter your mobile number.
+        Then continue with Google / Gmail.
+      </p>
+
+      <input
+        id="phoneNumber"
+        type="tel"
+        inputmode="numeric"
+        maxlength="10"
+        placeholder="Enter 10 digit mobile number"
+      >
+
+      <button
+        class="primary"
+        onclick="continueWithPhone()">
+        Continue
+      </button>
+
+    </div>
+
+    <div id="googleStep" class="hidden">
+
+      <h3>Mobile Number</h3>
+
+      <div class="notice blue">
+        <b id="savedPhone"></b>
+      </div>
+
+      <button
+        class="google-button"
+        id="googleLoginButton"
+        onclick="loginWithGoogle()">
+        <span class="google-dot">G</span>
+        Continue with Google / Gmail
+      </button>
+
+      <button
+        class="primary gray"
+        onclick="changePhone()">
+        Change Mobile Number
+      </button>
+
+    </div>
+
+    <div class="login-info">
+
+      🔐 Customer Safety:<br>
+      Owner/Driver private mobile number will not be
+      publicly displayed.
+
+      <br><br>
+
+      📍 Live tracking will be enabled only during
+      active rental trips.
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     MAIN APP
+===================================================== -->
+
+<section id="mainApp" class="hidden">
+
+  <!-- HEADER -->
+
+  <header class="header">
+
+    <div class="header-inner">
+
+      <div class="logo">
+
+        🚕 Car Set U
+
+        <small>
+          Customer Panel
+        </small>
+
+      </div>
+
+      <div
+        id="headerUser"
+        class="header-user">
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <main class="container">
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================= -->
+
+    <section id="dashboardScreen">
+
+      <div class="dashboard-hero">
+
+        <h1>
+          Welcome to Car Set U
+        </h1>
+
+        <p>
+          Book four-wheelers with driver easily.
+        </p>
+
+      </div>
+
+
+      <!-- TODAY COUNT -->
+
+      <div class="card count-card">
+
+        <div>
+
+          <div class="count-label">
+            TODAY'S BOOKINGS
+          </div>
+
+          <div
+            id="todayDate"
+            class="count-label">
+            —
+          </div>
+
+        </div>
+
+        <div
+          id="todayBookingCount"
+          class="count-number">
+          0
+        </div>
+
+      </div>
+
+
+      <!-- BOOKING OPTIONS -->
+
+      <div class="dashboard-grid">
+
+        <button
+          class="dashboard-card"
+          onclick="openBookingType('single')">
+
+          <div class="icon">
+            🚕
+          </div>
+
+          <strong>
+            Single Cab
+          </strong>
+
+          <span>
+            Book one cab with driver
+          </span>
+
+        </button>
+
+
+        <button
+          class="dashboard-card"
+          onclick="openBookingType('event')">
+
+          <div class="icon">
+            🎉
+          </div>
+
+          <strong>
+            Event Booking
+          </strong>
+
+          <span>
+            Book multiple cabs for an event
+          </span>
+
+        </button>
+
+
+        <button
+          class="dashboard-card"
+          onclick="openSettings('driver')">
+
+          <div class="icon">
+            🆔
+          </div>
+
+          <strong>
+            Search Driver
+          </strong>
+
+          <span>
+            Search by Driver ID
+          </span>
+
+        </button>
+
+
+        <button
+          class="dashboard-card"
+          onclick="openSettings('tracking')">
+
+          <div class="icon">
+            📍
+          </div>
+
+          <strong>
+            Live Tracking
+          </strong>
+
+          <span>
+            Active trip tracking
+          </span>
+
+        </button>
+
+      </div>
+
+
+      <!-- SAFETY -->
+
+      <div class="card">
+
+        <h3>
+          🔐 Customer Safety
+        </h3>
+
+        <div class="notice blue">
+
+          Driver/owner private mobile number
+          will not be publicly displayed.
+
+          <br><br>
+
+          Driver details are shown according
+          to booking status.
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         BOOKINGS
+    ================================================= -->
+
+    <section
+      id="bookingsScreen"
+      class="hidden">
+
+      <div class="page-title">
+        📋 My Bookings
+      </div>
+
+      <div
+        id="bookingList">
+
+        <div class="notice blue">
+          No bookings loaded.
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         PROFILE
+    ================================================= -->
+
+    <section
+      id="profileScreen"
+      class="hidden">
+
+      <div class="page-title">
+        👤 My Profile
+      </div>
+
+      <div class="card">
+
+        <div class="profile-line">
+
+          <strong>
+            NAME
+          </strong>
+
+          <span id="profileName">
+            —
+          </span>
+
+        </div>
+
+
+        <div class="profile-line">
+
+          <strong>
+            MOBILE
+          </strong>
+
+          <span id="profilePhone">
+            —
+          </span>
+
+        </div>
+
+
+        <div class="profile-line">
+
+          <strong>
+            EMAIL
+          </strong>
+
+          <span id="profileEmail">
+            —
+          </span>
+
+        </div>
+
+
+        <div class="profile-line">
+
+          <strong>
+            CUSTOMER UID
+          </strong>
+
+          <span id="profileUid">
+            —
+          </span>
+
+        </div>
+
+
+        <button
+          class="primary red"
+          onclick="logoutUser()">
+
+          🚪 Logout
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         SETTINGS / DYNAMIC SCREEN
+    ================================================= -->
+
+    <section
+      id="settingsScreen"
+      class="hidden">
+
+      <div id="settingsContent"></div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =================================================
+       BOTTOM NAV
+  ================================================= -->
+
+  <nav class="bottom-nav">
+
+    <button
+      id="navDashboard"
+      class="active"
+      onclick="openScreen('dashboard')">
+
+      🏠<br>
+      Home
+
+    </button>
+
+
+    <button
+      id="navBookings"
+      onclick="openScreen('bookings')">
+
+      📋<br>
+      Bookings
+
+    </button>
+
+
+    <button
+      id="navProfile"
+      onclick="openScreen('profile')">
+
+      👤<br>
+      Profile
+
+    </button>
+
+  </nav>
+
+</section>
+
+
+<!-- =====================================================
+     LEAFLET
+===================================================== -->
+
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+<!-- =====================================================
+     FIREBASE + CUSTOMER PANEL JAVASCRIPT
+===================================================== -->
+
+<script type="module">
 
 /* =====================================================
    FIREBASE IMPORTS
@@ -13,8 +1173,10 @@
 
 import {
   initializeApp
-} from
+}
+from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
 
 import {
   getAuth,
@@ -22,33 +1184,24 @@ import {
   signInWithPopup,
   onAuthStateChanged,
   signOut
-} from
+}
+from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 
 import {
   getFirestore,
   doc,
   setDoc,
-  addDoc,
   collection,
-  serverTimestamp,
   query,
   where,
   limit,
   getDocs,
-  onSnapshot,
-  updateDoc,
-  runTransaction
-} from
+  serverTimestamp
+}
+from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
 
 
 /* =====================================================
@@ -81,23 +1234,33 @@ const firebaseConfig = {
 };
 
 
+/* =====================================================
+   FIREBASE START
+===================================================== */
+
 const app =
-  initializeApp(firebaseConfig);
+  initializeApp(
+    firebaseConfig
+  );
+
 
 const auth =
   getAuth(app);
 
+
 const db =
   getFirestore(app);
 
-const storage =
-  getStorage(app);
 
 const googleProvider =
   new GoogleAuthProvider();
 
+
 googleProvider.setCustomParameters({
-  prompt: "select_account"
+
+  prompt:
+  "select_account"
+
 });
 
 
@@ -105,75 +1268,55 @@ googleProvider.setCustomParameters({
    GLOBAL STATE
 ===================================================== */
 
-let unsubscribeBookings = null;
-
 let selectedDriver = null;
 
 let selectedRental = "Local";
 
 let selectedVehicle = "Sedan";
 
-let routeLine = null;
+let maps = {};
 
-let routeMarkers = [];
+let routeLines = {};
+
+let routeMarkers = {};
 
 let currentPickupCoords = null;
 
-let recorder = null;
-
-let voiceChunks = [];
-
-let voiceBlob = null;
-
-let maps = {};
-
-let eventState = {
-
-  active: false,
-
-  eventId: null,
-
-  eventName: "",
-
-  totalCars: 0,
-
-  currentCar: 1,
-
-  savedCars: 0
-
-};
-
 
 /* =====================================================
-   PHONE FUNCTIONS
+   PHONE
 ===================================================== */
 
-function normalizePhone(value) {
+function normalizePhone(value){
 
   const digits =
-    (value || "").replace(/\D/g, "");
+    String(value || "")
+      .replace(/\D/g,"");
 
-  if (digits.length === 10) {
+
+  if(digits.length === 10){
 
     return "+91" + digits;
 
   }
 
-  if (
+
+  if(
     digits.length === 12 &&
     digits.startsWith("91")
-  ) {
+  ){
 
     return "+" + digits;
 
   }
+
 
   return "";
 
 }
 
 
-function getCustomerPhone() {
+function getCustomerPhone(){
 
   return normalizePhone(
     localStorage.getItem(
@@ -185,153 +1328,44 @@ function getCustomerPhone() {
 
 
 /* =====================================================
-   CUSTOMER KEY
+   ESCAPE HTML
 ===================================================== */
 
-function getCustomerKey() {
+function escapeHtml(value){
 
-  const user =
-    auth.currentUser;
+  return String(
+    value ?? ""
+  )
 
-  const phone =
-    getCustomerPhone();
-
-  if (!user) {
-
-    return "";
-
-  }
-
-  if (!phone) {
-
-    return user.uid;
-
-  }
-
-  return (
-    user.uid +
-    "_" +
-    phone.replace(/\D/g, "")
-  );
-
-}
-
-
-function getCounterDocumentId() {
-
-  return getCustomerKey();
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
 
 }
 
 
 /* =====================================================
-   CUSTOMER BOOKING ID
-===================================================== */
-
-async function createCustomerBookingId() {
-
-  if (!auth.currentUser) {
-
-    throw new Error(
-      "Customer login required."
-    );
-
-  }
-
-  const counterId =
-    getCounterDocumentId();
-
-  if (!counterId) {
-
-    throw new Error(
-      "Customer identification missing."
-    );
-
-  }
-
-  const counterRef =
-    doc(
-      db,
-      "customerBookingCounters",
-      counterId
-    );
-
-  const bookingNumber =
-    await runTransaction(
-      db,
-      async transaction => {
-
-        const counterSnap =
-          await transaction.get(
-            counterRef
-          );
-
-        let nextNumber = 1;
-
-        if (counterSnap.exists()) {
-
-          const oldNumber =
-            Number(
-              counterSnap.data()
-                .lastNumber || 0
-            );
-
-          nextNumber =
-            oldNumber + 1;
-
-        }
-
-        transaction.set(
-          counterRef,
-          {
-
-            customerUid:
-              auth.currentUser.uid,
-
-            customerPhone:
-              getCustomerPhone(),
-
-            lastNumber:
-              nextNumber,
-
-            updatedAt:
-              serverTimestamp()
-
-          },
-          {
-            merge: true
-          }
-        );
-
-        return nextNumber;
-
-      }
-    );
-
-  return (
-    "BC" +
-    String(bookingNumber)
-      .padStart(3, "0")
-  );
-
-}
-
-
-/* =====================================================
-   PHONE LOGIN
+   PHONE STEP
 ===================================================== */
 
 window.continueWithPhone =
-function () {
+function(){
+
+  const input =
+    document.getElementById(
+      "phoneNumber"
+    );
+
 
   const phone =
     normalizePhone(
-      document.getElementById(
-        "phoneNumber"
-      ).value
+      input.value
     );
 
-  if (!phone) {
+
+  if(!phone){
 
     alert(
       "Please enter a valid 10 digit mobile number."
@@ -341,52 +1375,70 @@ function () {
 
   }
 
+
   localStorage.setItem(
     "carSetU_phone",
     phone
   );
+
 
   document.getElementById(
     "savedPhone"
   ).textContent =
     phone;
 
-  document.getElementById(
-    "phoneStep"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "googleStep"
-  ).classList.remove("hidden");
-
-};
-
-
-window.changePhone =
-function () {
-
-  document.getElementById(
-    "googleStep"
-  ).classList.add("hidden");
 
   document.getElementById(
     "phoneStep"
-  ).classList.remove("hidden");
+  ).classList.add(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "googleStep"
+  ).classList.remove(
+    "hidden"
+  );
 
 };
 
 
 /* =====================================================
-   GOOGLE / GMAIL LOGIN
+   CHANGE PHONE
+===================================================== */
+
+window.changePhone =
+function(){
+
+  document.getElementById(
+    "googleStep"
+  ).classList.add(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "phoneStep"
+  ).classList.remove(
+    "hidden"
+  );
+
+};
+
+
+/* =====================================================
+   GOOGLE LOGIN
 ===================================================== */
 
 window.loginWithGoogle =
-async function () {
+async function(){
 
   const phone =
     getCustomerPhone();
 
-  if (!phone) {
+
+  if(!phone){
 
     alert(
       "Please enter mobile number first."
@@ -396,12 +1448,14 @@ async function () {
 
   }
 
+
   const button =
     document.getElementById(
       "googleLoginButton"
     );
 
-  if (button) {
+
+  if(button){
 
     button.disabled = true;
 
@@ -410,7 +1464,8 @@ async function () {
 
   }
 
-  try {
+
+  try{
 
     await signInWithPopup(
       auth,
@@ -418,7 +1473,7 @@ async function () {
     );
 
   }
-  catch (error) {
+  catch(error){
 
     console.error(error);
 
@@ -427,12 +1482,13 @@ async function () {
       "Google login failed."
     );
 
-    if (button) {
+
+    if(button){
 
       button.disabled = false;
 
       button.innerHTML =
-        '<span class="google-dot">G</span> Continue with Google / Gmail';
+      '<span class="google-dot">G</span> Continue with Google / Gmail';
 
     }
 
@@ -442,72 +1498,81 @@ async function () {
 
 
 /* =====================================================
-   CUSTOMER PROFILE
+   SAVE CUSTOMER PROFILE
 ===================================================== */
 
-async function saveCustomerProfile(user) {
+async function saveCustomerProfile(user){
 
   const phone =
     getCustomerPhone();
 
+
   await setDoc(
+
     doc(
       db,
       "customers",
       user.uid
     ),
+
     {
 
       uid:
-        user.uid,
+      user.uid,
 
       name:
-        user.displayName ||
-        "Customer",
+      user.displayName ||
+      "Customer",
 
       email:
-        user.email ||
-        "",
+      user.email ||
+      "",
 
       phone:
-        phone,
+      phone,
 
       provider:
-        "google",
+      "google",
 
       updatedAt:
-        serverTimestamp()
+      serverTimestamp()
 
     },
+
     {
-      merge: true
+      merge:true
     }
+
   );
 
 
-  if (phone) {
+  if(phone){
 
     await setDoc(
+
       doc(
         db,
         "customerPhones",
-        phone.replace(/\D/g, "")
+        phone.replace(/\D/g,"")
       ),
+
       {
 
         uid:
-          user.uid,
+        user.uid,
 
         phone:
-          phone,
+        phone,
 
         updatedAt:
-          serverTimestamp()
+        serverTimestamp()
 
       },
+
       {
-        merge: true
+        merge:true
       }
+
     );
 
   }
@@ -523,151 +1588,114 @@ onAuthStateChanged(
   auth,
   async user => {
 
-    if (!user) {
+    if(!user){
 
       document.getElementById(
         "loginScreen"
-      ).classList.remove("hidden");
+      ).classList.remove(
+        "hidden"
+      );
+
 
       document.getElementById(
         "mainApp"
-      ).classList.add("hidden");
+      ).classList.add(
+        "hidden"
+      );
+
 
       return;
 
     }
 
-    try {
+
+    try{
 
       await saveCustomerProfile(
         user
       );
 
 
+      /*
+        IMPORTANT:
+        LOGIN CARD HIDE
+      */
+
       document.getElementById(
         "loginScreen"
-      ).classList.add("hidden");
+      ).classList.add(
+        "hidden"
+      );
+
 
       document.getElementById(
         "mainApp"
-      ).classList.remove("hidden");
+      ).classList.remove(
+        "hidden"
+      );
 
 
-      const phone =
+      document.getElementById(
+        "headerUser"
+      ).textContent =
+        user.displayName ||
+        user.email ||
+        "Customer";
+
+
+      document.getElementById(
+        "profileName"
+      ).textContent =
+        user.displayName ||
+        "Customer";
+
+
+      document.getElementById(
+        "profilePhone"
+      ).textContent =
         getCustomerPhone();
 
 
-      const accountPhone =
-        document.getElementById(
-          "accountPhone"
+      document.getElementById(
+        "profileEmail"
+      ).textContent =
+        user.email ||
+        "";
+
+
+      document.getElementById(
+        "profileUid"
+      ).textContent =
+        user.uid;
+
+
+      document.getElementById(
+        "todayDate"
+      ).textContent =
+        formatDate(
+          getTodayString()
         );
-
-      if (accountPhone) {
-
-        accountPhone.textContent =
-          phone;
-
-      }
-
-
-      const accountEmail =
-        document.getElementById(
-          "accountEmail"
-        );
-
-      if (accountEmail) {
-
-        accountEmail.textContent =
-          user.email || "";
-
-      }
-
-
-      const profileName =
-        document.getElementById(
-          "profileName"
-        );
-
-      if (profileName) {
-
-        profileName.textContent =
-          user.displayName ||
-          "Customer";
-
-      }
-
-
-      const profilePhone =
-        document.getElementById(
-          "profilePhone"
-        );
-
-      if (profilePhone) {
-
-        profilePhone.textContent =
-          phone;
-
-      }
-
-
-      const profileEmail =
-        document.getElementById(
-          "profileEmail"
-        );
-
-      if (profileEmail) {
-
-        profileEmail.textContent =
-          user.email || "";
-
-      }
-
-
-      const profileUid =
-        document.getElementById(
-          "profileUid"
-        );
-
-      if (profileUid) {
-
-        profileUid.textContent =
-          user.uid;
-
-      }
-
-
-      const loginStatus =
-        document.getElementById(
-          "loginStatus"
-        );
-
-      if (loginStatus) {
-
-        loginStatus.textContent =
-          "Google / Gmail Login Successful";
-
-      }
 
 
       /*
-        IMPORTANT FINAL RULE:
-
-        Login card hide होने के बाद
-        dashboard सीधे खुलेगा।
+        DIRECT DASHBOARD
       */
 
-      openScreen("dashboard");
+      openScreen(
+        "dashboard"
+      );
 
-      loadMyBookings();
+
+      loadTodayBookingCount();
 
     }
-    catch (error) {
+    catch(error){
 
       console.error(error);
 
       alert(
-        "Login/profile error: " +
-        (error.message || "")
+        "Login/Profile error:\n" +
+        error.message
       );
 
     }
@@ -681,18 +1709,9 @@ onAuthStateChanged(
 ===================================================== */
 
 window.logoutUser =
-async function () {
+async function(){
 
-  try {
-
-    if (unsubscribeBookings) {
-
-      unsubscribeBookings();
-
-    }
-
-    unsubscribeBookings =
-      null;
+  try{
 
     await signOut(auth);
 
@@ -701,7 +1720,7 @@ async function () {
     );
 
   }
-  catch (error) {
+  catch(error){
 
     console.error(error);
 
@@ -715,17 +1734,13 @@ async function () {
 
 
 /* =====================================================
-   SCREEN NAVIGATION
+   NAVIGATION
 ===================================================== */
 
 window.openScreen =
-function (screen) {
+function(screen){
 
-  if (!auth.currentUser) {
-
-    alert(
-      "Please complete Phone Number → Google/Gmail Login first."
-    );
+  if(!auth.currentUser){
 
     return;
 
@@ -735,116 +1750,114 @@ function (screen) {
   const screens = [
 
     "dashboardScreen",
-
+    "bookingsScreen",
     "profileScreen",
-
-    "settingsScreen",
-
-    "bookingsScreen"
+    "settingsScreen"
 
   ];
 
 
-  screens.forEach(
-    id => {
+  screens.forEach(id => {
 
-      const element =
-        document.getElementById(id);
+    const el =
+      document.getElementById(id);
 
-      if (element) {
+    if(el){
 
-        element.classList.add(
-          "hidden"
-        );
-
-      }
+      el.classList.add(
+        "hidden"
+      );
 
     }
-  );
+
+  });
 
 
   const navItems = [
 
     "navDashboard",
-
     "navBookings",
-
     "navProfile"
 
   ];
 
 
-  navItems.forEach(
-    id => {
+  navItems.forEach(id => {
 
-      const element =
-        document.getElementById(id);
+    const el =
+      document.getElementById(id);
 
-      if (element) {
+    if(el){
 
-        element.classList.remove(
-          "active"
-        );
-
-      }
+      el.classList.remove(
+        "active"
+      );
 
     }
-  );
+
+  });
 
 
-  if (screen === "dashboard") {
+  if(screen === "dashboard"){
 
     document.getElementById(
       "dashboardScreen"
-    ).classList.remove("hidden");
+    ).classList.remove(
+      "hidden"
+    );
+
 
     document.getElementById(
       "navDashboard"
-    ).classList.add("active");
+    ).classList.add(
+      "active"
+    );
 
   }
 
 
-  if (screen === "bookings") {
+  if(screen === "bookings"){
 
     document.getElementById(
       "bookingsScreen"
-    ).classList.remove("hidden");
+    ).classList.remove(
+      "hidden"
+    );
+
 
     document.getElementById(
       "navBookings"
-    ).classList.add("active");
+    ).classList.add(
+      "active"
+    );
 
-    renderBookings();
+
+    renderPart1Bookings();
 
   }
 
 
-  if (screen === "profile") {
+  if(screen === "profile"){
 
     document.getElementById(
       "profileScreen"
-    ).classList.remove("hidden");
+    ).classList.remove(
+      "hidden"
+    );
+
 
     document.getElementById(
       "navProfile"
-    ).classList.add("active");
+    ).classList.add(
+      "active"
+    );
 
   }
 
 
-  /*
-    Selected section खुलने पर
-    page top पर नहीं जाएगा अगर
-    section already dashboard के अंदर है।
-
-    केवल actual screen navigation में
-    scroll top किया जाएगा।
-  */
-
   window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+    top:0,
+    behavior:"smooth"
   });
 
 };
@@ -855,9 +1868,9 @@ function (screen) {
 ===================================================== */
 
 window.openBookingType =
-function (type) {
+function(type){
 
-  if (!auth.currentUser) {
+  if(!auth.currentUser){
 
     alert(
       "Please login first."
@@ -867,15 +1880,17 @@ function (type) {
 
   }
 
-  if (type === "single") {
+
+  if(type === "single"){
 
     renderSingleBooking();
 
   }
 
-  if (type === "event") {
 
-    renderEventStart();
+  if(type === "event"){
+
+    renderEventBooking();
 
   }
 
@@ -883,32 +1898,18 @@ function (type) {
 
 
 /* =====================================================
-   SINGLE CAB BOOKING UI
+   SINGLE BOOKING
 ===================================================== */
 
-function renderSingleBooking() {
+function renderSingleBooking(){
+
+  hideMainScreens();
+
 
   const box =
     document.getElementById(
       "settingsContent"
     );
-
-
-  document.getElementById(
-    "dashboardScreen"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "profileScreen"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "bookingsScreen"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "settingsScreen"
-  ).classList.remove("hidden");
 
 
   box.innerHTML = `
@@ -920,21 +1921,18 @@ function renderSingleBooking() {
 <div class="card">
 
 <h2>
-🚕 New Single Cab Booking
+New Single Cab Booking
 </h2>
-
 
 <div class="button-grid">
 
 <button
-id="localBtn"
 class="option-btn active"
 onclick="selectRental(this,'Local')">
 
 📍 Local
 
 </button>
-
 
 <button
 class="option-btn"
@@ -951,7 +1949,6 @@ onclick="selectRental(this,'Outstation')">
 Vehicle Type
 </h3>
 
-
 <div class="button-grid">
 
 <button
@@ -961,7 +1958,6 @@ onclick="selectVehicle(this,'Sedan')">
 🚙 Sedan
 
 </button>
-
 
 <button
 class="option-btn"
@@ -1091,11 +2087,10 @@ id="singleDuration">
 🆔 Search Driver
 </h3>
 
-
 <p class="info">
 
-Driver ID example:
-<b>DC001, DC002</b>
+Enter Driver ID like
+<b>DC001</b>, <b>DC002</b>.
 
 </p>
 
@@ -1108,7 +2103,7 @@ style="text-transform:uppercase">
 
 <button
 class="primary"
-onclick="searchDriver('single')">
+onclick="searchDriver()">
 
 🔎 Search Driver
 
@@ -1128,12 +2123,23 @@ class="selected-driver hidden">
 </div>
 
 
-${voiceBlock("single")}
+<div class="voice-box">
+
+<h3>
+📝 Additional Notes
+</h3>
+
+<textarea
+id="singleNotes"
+placeholder="Enter additional notes...">
+</textarea>
+
+</div>
 
 
 <button
 class="primary green"
-onclick="confirmSingleBooking()">
+onclick="part1BookingMessage()">
 
 🚕 Confirm Single Cab Booking
 
@@ -1147,7 +2153,6 @@ onclick="openScreen('dashboard')">
 ← Back to Dashboard
 
 </button>
-
 
 </div>
 
@@ -1174,9 +2179,9 @@ onclick="openScreen('dashboard')">
 
 function locationBlock(
   id,
-  num,
+  number,
   title
-) {
+){
 
   return `
 
@@ -1197,7 +2202,7 @@ color:white;
 margin-right:7px;
 ">
 
-${num}
+${number}
 
 </span>
 
@@ -1244,14 +2249,167 @@ class="map-status hidden">
 
 
 /* =====================================================
-   RENTAL TYPE
+   EVENT BOOKING
+===================================================== */
+
+function renderEventBooking(){
+
+  hideMainScreens();
+
+
+  const box =
+    document.getElementById(
+      "settingsContent"
+    );
+
+
+  box.innerHTML = `
+
+<div class="page-title">
+🎉 Event Booking
+</div>
+
+
+<div class="card">
+
+<h2>
+Event Booking
+</h2>
+
+
+<p class="info">
+
+Event booking में हर car के लिए
+अलग Driver ID और अलग booking details
+आगे save की जाएंगी।
+
+</p>
+
+
+<div class="form-group">
+
+<label>
+Event Name
+</label>
+
+<input
+id="eventName"
+placeholder="Wedding / Function / Corporate">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Total Cars Required
+</label>
+
+<input
+id="eventTotalCars"
+type="number"
+min="1"
+max="100"
+value="1">
+
+</div>
+
+
+<div class="notice blue">
+
+🚕 Multiple Cab Booking
+
+<br><br>
+
+Example:
+अगर 15 cars चाहिए तो
+15 अलग Driver IDs के साथ
+15 booking records बनाए जाएंगे।
+
+</div>
+
+
+<button
+class="primary"
+onclick="startEventPart1()">
+
+🎉 Start Event Booking
+
+</button>
+
+
+<button
+class="primary gray"
+onclick="openScreen('dashboard')">
+
+← Back to Dashboard
+
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+   START EVENT PART 1
+===================================================== */
+
+window.startEventPart1 =
+function(){
+
+  const name =
+    document.getElementById(
+      "eventName"
+    ).value.trim();
+
+
+  const total =
+    Number(
+      document.getElementById(
+        "eventTotalCars"
+      ).value
+    );
+
+
+  if(!total || total < 1){
+
+    alert(
+      "Please enter total cars."
+    );
+
+    return;
+
+  }
+
+
+  alert(
+
+    "Event Booking UI तैयार है.\n\n" +
+
+    "Event: " +
+    (name || "Event") +
+    "\n" +
+
+    "Cars: " +
+    total +
+    "\n\n" +
+
+    "Event save system PART 2 में जोड़ा जाएगा."
+
+  );
+
+};
+
+
+/* =====================================================
+   RENTAL
 ===================================================== */
 
 window.selectRental =
-function (
-  button,
-  value
-) {
+function(button,value){
 
   button.parentElement
     .querySelectorAll(
@@ -1268,6 +2426,7 @@ function (
   button.classList.add(
     "active"
   );
+
 
   selectedRental =
     value;
@@ -1276,14 +2435,11 @@ function (
 
 
 /* =====================================================
-   VEHICLE TYPE
+   VEHICLE
 ===================================================== */
 
 window.selectVehicle =
-function (
-  button,
-  value
-) {
+function(button,value){
 
   button.parentElement
     .querySelectorAll(
@@ -1301,6 +2457,7 @@ function (
     "active"
   );
 
+
   selectedVehicle =
     value;
 
@@ -1308,30 +2465,54 @@ function (
 
 
 /* =====================================================
-   DATE HELPERS
+   DATE
 ===================================================== */
 
-function getTodayString() {
+function getTodayString(){
 
   const d =
     new Date();
 
+
   return (
 
     d.getFullYear() +
-
     "-" +
-
     String(
-      d.getMonth() + 1
-    ).padStart(2, "0") +
-
+      d.getMonth()+1
+    ).padStart(2,"0") +
     "-" +
-
     String(
       d.getDate()
-    ).padStart(2, "0")
+    ).padStart(2,"0")
 
+  );
+
+}
+
+
+function formatDate(value){
+
+  if(!value){
+    return "—";
+  }
+
+
+  const parts =
+    value.split("-");
+
+
+  if(parts.length !== 3){
+    return value;
+  }
+
+
+  return (
+    parts[2] +
+    "/" +
+    parts[1] +
+    "/" +
+    parts[0]
   );
 
 }
@@ -1341,16 +2522,17 @@ function setDateDefaults(
   dateId,
   pickupId,
   dropId
-) {
+){
 
-  const d =
+  const date =
     document.getElementById(
       dateId
     );
 
-  if (d) {
 
-    d.value =
+  if(date){
+
+    date.value =
       getTodayString();
 
   }
@@ -1365,49 +2547,44 @@ function setDateDefaults(
       pickupId
     );
 
+
   const drop =
     document.getElementById(
       dropId
     );
 
 
-  if (pickup) {
+  if(pickup){
 
     pickup.value =
-
       String(
         now.getHours()
-      ).padStart(2, "0") +
-
+      ).padStart(2,"0") +
       ":" +
-
       String(
         now.getMinutes()
-      ).padStart(2, "0");
+      ).padStart(2,"0");
 
   }
 
 
-  if (drop) {
+  if(drop){
 
     const later =
       new Date(
         now.getTime() +
-        60 * 60000
+        60*60000
       );
 
 
     drop.value =
-
       String(
         later.getHours()
-      ).padStart(2, "0") +
-
+      ).padStart(2,"0") +
       ":" +
-
       String(
         later.getMinutes()
-      ).padStart(2, "0");
+      ).padStart(2,"0");
 
   }
 
@@ -1419,12 +2596,12 @@ function setDateDefaults(
 ===================================================== */
 
 window.useCurrentLocation =
-function (inputId) {
+function(inputId){
 
-  if (!navigator.geolocation) {
+  if(!navigator.geolocation){
 
     alert(
-      "GPS is not supported on this device."
+      "GPS is not supported."
     );
 
     return;
@@ -1438,7 +2615,7 @@ function (inputId) {
     );
 
 
-  if (status) {
+  if(status){
 
     status.classList.remove(
       "hidden"
@@ -1457,76 +2634,70 @@ function (inputId) {
       const lat =
         position.coords.latitude;
 
+
       const lon =
         position.coords.longitude;
 
 
       currentPickupCoords = {
 
-        lat:
-          lat,
-
-        lon:
-          lon,
-
-        source:
-          "gps"
+        lat:lat,
+        lon:lon
 
       };
 
 
-      document.getElementById(
-        inputId
-      ).value =
-
-        "Current Location (" +
-        lat.toFixed(6) +
-        ", " +
-        lon.toFixed(6) +
-        ")";
+      const input =
+        document.getElementById(
+          inputId
+        );
 
 
-      if (status) {
+      if(input){
+
+        input.value =
+          "Current Location (" +
+          lat.toFixed(6) +
+          ", " +
+          lon.toFixed(6) +
+          ")";
+
+      }
+
+
+      if(status){
 
         status.textContent =
-          "✅ GPS location selected.";
+          "✅ Current location selected.";
 
       }
 
     },
-
 
     error => {
 
       console.error(error);
 
 
-      if (status) {
+      if(status){
 
         status.textContent =
-          "❌ GPS location unavailable.";
+          "❌ Location unavailable.";
 
       }
 
 
       alert(
-        "Current Location नहीं मिल पाई.\n" +
         "Please allow Location permission."
       );
 
     },
 
-
     {
 
-      enableHighAccuracy:
-        true,
-
-      timeout:
-        15000,
-
-      maximumAge:
-        0
+      enableHighAccuracy:true,
+      timeout:15000,
+      maximumAge:0
 
     }
 
@@ -1536,20 +2707,19 @@ function (inputId) {
 
 
 /* =====================================================
-   PASTE LOCATION
+   PASTE
 ===================================================== */
 
 window.pasteLocation =
-async function (inputId) {
+async function(inputId){
 
-  try {
+  try{
 
     const text =
-      await navigator.clipboard
-        .readText();
+      await navigator.clipboard.readText();
 
 
-    if (!text) {
+    if(!text){
 
       alert(
         "Clipboard is empty."
@@ -1566,7 +2736,7 @@ async function (inputId) {
       text;
 
   }
-  catch (error) {
+  catch(error){
 
     alert(
       "Please paste the location manually."
@@ -1578,12 +2748,12 @@ async function (inputId) {
 
 
 /* =====================================================
-   MAP INITIALIZATION
+   MAP
 ===================================================== */
 
-function initMapFor(id) {
+function initMapFor(id){
 
-  if (maps[id]) {
+  if(maps[id]){
 
     setTimeout(
       () =>
@@ -1599,22 +2769,24 @@ function initMapFor(id) {
   const map =
     L.map(id)
       .setView(
-        [17.3850, 78.4867],
+        [17.3850,78.4867],
         11
       );
 
 
   L.tileLayer(
+
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+
     {
 
-      maxZoom:
-        19,
+      maxZoom:19,
 
       attribution:
-        "© OpenStreetMap contributors"
+      "© OpenStreetMap contributors"
 
     }
+
   ).addTo(map);
 
 
@@ -1634,51 +2806,49 @@ function initMapFor(id) {
 const knownLocations = {
 
   "uppal":
-    [17.4010, 78.5591],
+  [17.4010,78.5591],
 
   "lb nagar":
-    [17.3457, 78.5522],
+  [17.3457,78.5522],
 
   "miyapur":
-    [17.4969, 78.3498],
+  [17.4969,78.3498],
 
   "kukatpally":
-    [17.4849, 78.4138],
+  [17.4849,78.4138],
 
   "ameerpet":
-    [17.4375, 78.4483],
+  [17.4375,78.4483],
 
   "nampally":
-    [17.3930, 78.4668],
+  [17.3930,78.4668],
 
   "secunderabad":
-    [17.4399, 78.4983],
+  [17.4399,78.4983],
 
   "madhapur":
-    [17.4483, 78.3915],
+  [17.4483,78.3915],
 
   "gachibowli":
-    [17.4401, 78.3489],
+  [17.4401,78.3489],
 
   "shamshabad":
-    [17.2510, 78.4294],
+  [17.2510,78.4294],
 
   "airport shamshabad":
-    [17.2403, 78.4294]
+  [17.2403,78.4294]
 
 };
 
 
 /* =====================================================
-   GEOCODING
+   GEOCODE
 ===================================================== */
 
-async function geocodePlace(place) {
+async function geocodePlace(place){
 
   const clean =
-    place
-      .trim()
-      .toLowerCase();
+    place.trim().toLowerCase();
 
 
   const gpsMatch =
@@ -1687,95 +2857,80 @@ async function geocodePlace(place) {
     );
 
 
-  if (gpsMatch) {
+  if(gpsMatch){
 
     return {
 
       lat:
-        Number(
-          gpsMatch[1]
-        ),
+      Number(gpsMatch[1]),
 
       lon:
-        Number(
-          gpsMatch[2]
-        ),
+      Number(gpsMatch[2]),
 
       name:
-        "Current Location"
+      "Current Location"
 
     };
 
   }
 
 
-  const match =
+  const known =
     Object.keys(
       knownLocations
     ).find(
-      k =>
-        clean.includes(k)
+      key =>
+        clean.includes(key)
     );
 
 
-  if (match) {
+  if(known){
 
     return {
 
       lat:
-        knownLocations[
-          match
-        ][0],
+      knownLocations[known][0],
 
       lon:
-        knownLocations[
-          match
-        ][1],
+      knownLocations[known][1],
 
       name:
-        place
+      place
 
     };
 
   }
 
 
-  let q =
+  let search =
     place.trim();
 
 
-  if (
-    !q
-      .toLowerCase()
+  if(
+    !search.toLowerCase()
       .includes("india")
-  ) {
+  ){
 
-    q +=
+    search +=
       ", Telangana, India";
 
   }
 
 
   const url =
-
     "https://nominatim.openstreetmap.org/search" +
-
     "?format=jsonv2" +
-
     "&limit=1" +
-
     "&countrycodes=in" +
-
     "&q=" +
-
-    encodeURIComponent(q);
+    encodeURIComponent(search);
 
 
   const response =
     await fetch(url);
 
 
-  if (!response.ok) {
+  if(!response.ok){
 
     throw new Error(
       "Location search failed."
@@ -1788,7 +2943,7 @@ async function geocodePlace(place) {
     await response.json();
 
 
-  if (!data.length) {
+  if(!data.length){
 
     throw new Error(
       "Location not found: " +
@@ -1801,17 +2956,13 @@ async function geocodePlace(place) {
   return {
 
     lat:
-      Number(
-        data[0].lat
-      ),
+    Number(data[0].lat),
 
     lon:
-      Number(
-        data[0].lon
-      ),
+    Number(data[0].lon),
 
     name:
-      data[0].display_name
+    data[0].display_name
 
   };
 
@@ -1822,23 +2973,22 @@ async function geocodePlace(place) {
    ROUTE
 ===================================================== */
 
-async function getRoute(points) {
+async function getRoute(points){
 
   const coords =
     points
       .map(
         p =>
-          p.lon + "," + p.lat
+          p.lon +
+          "," +
+          p.lat
       )
       .join(";");
 
 
   const url =
-
     "https://router.project-osrm.org/route/v1/driving/" +
-
     coords +
-
     "?overview=full&geometries=geojson";
 
 
@@ -1846,7 +2996,7 @@ async function getRoute(points) {
     await fetch(url);
 
 
-  if (!response.ok) {
+  if(!response.ok){
 
     throw new Error(
       "Route service failed."
@@ -1859,10 +3009,10 @@ async function getRoute(points) {
     await response.json();
 
 
-  if (
+  if(
     !data.routes ||
     !data.routes.length
-  ) {
+  ){
 
     throw new Error(
       "Route not found."
@@ -1881,7 +3031,7 @@ async function getRoute(points) {
 ===================================================== */
 
 window.showSingleRoute =
-async function () {
+async function(){
 
   const pickup =
     document.getElementById(
@@ -1895,7 +3045,7 @@ async function () {
     ).value.trim();
 
 
-  if (!pickup || !drop) {
+  if(!pickup || !drop){
 
     alert(
       "Please enter Pickup and Final Destination."
@@ -1922,7 +3072,7 @@ async function () {
     "🔎 Finding locations...";
 
 
-  try {
+  try{
 
     const points =
       await Promise.all([
@@ -1942,24 +3092,30 @@ async function () {
       "🛣️ Calculating route...";
 
 
-    if (routeLine) {
+    if(routeLines.single){
 
       map.removeLayer(
-        routeLine
+        routeLines.single
       );
 
     }
 
 
-    routeMarkers.forEach(
-      marker =>
-        map.removeLayer(
-          marker
-        )
-    );
+    if(routeMarkers.single){
+
+      routeMarkers.single
+        .forEach(
+          marker =>
+            map.removeLayer(
+              marker
+            )
+        );
+
+    }
 
 
-    routeMarkers = [];
+    routeMarkers.single =
+      [];
 
 
     const route =
@@ -1969,41 +3125,38 @@ async function () {
 
 
     points.forEach(
-      (
-        point,
-        index
-      ) => {
+      (point,index) => {
 
         const marker =
-          L.marker(
-            [
-              point.lat,
-              point.lon
-            ]
-          )
+          L.marker([
+
+            point.lat,
+            point.lon
+
+          ])
           .addTo(map)
           .bindPopup(
 
             index === 0
 
-              ?
+            ?
 
-              "📍 Pickup<br>" +
-              escapeHtml(
-                point.name
-              )
+            "📍 Pickup<br>" +
+            escapeHtml(
+              point.name
+            )
 
-              :
+            :
 
-              "🏁 Destination<br>" +
-              escapeHtml(
-                point.name
-              )
+            "🏁 Destination<br>" +
+            escapeHtml(
+              point.name
+            )
 
           );
 
 
-        routeMarkers.push(
+        routeMarkers.single.push(
           marker
         );
 
@@ -2011,18 +3164,15 @@ async function () {
     );
 
 
-    routeLine =
+    routeLines.single =
       L.geoJSON(
         route.geometry,
         {
 
-          style: {
+          style:{
 
-            weight:
-              6,
-
-            opacity:
-              0.85
+            weight:6,
+            opacity:.85
 
           }
 
@@ -2032,10 +3182,9 @@ async function () {
 
 
     map.fitBounds(
-      routeLine.getBounds(),
+      routeLines.single.getBounds(),
       {
-        padding:
-          [25, 25]
+        padding:[25,25]
       }
     );
 
@@ -2056,34 +3205,37 @@ async function () {
 
     const hours =
       Math.floor(
-        minutes / 60
+        minutes /
+        60
       );
 
 
     const mins =
-      minutes % 60;
+      minutes %
+      60;
 
 
     const time =
       hours > 0
 
-        ?
+      ?
 
-        hours +
-        " hr " +
-        mins +
-        " min"
+      hours +
+      " hr " +
+      mins +
+      " min"
 
-        :
+      :
 
-        mins +
-        " min";
+      mins +
+      " min";
 
 
     document.getElementById(
       "singleDistance"
     ).textContent =
-      km + " KM";
+      km +
+      " KM";
 
 
     document.getElementById(
@@ -2103,9 +3255,10 @@ async function () {
       "✅ Complete route found.";
 
   }
-  catch (error) {
+  catch(error){
 
     console.error(error);
+
 
     status.textContent =
       "❌ " +
@@ -2123,21 +3276,19 @@ async function () {
 
 
 /* =====================================================
-   DRIVER ID NORMALIZATION
+   DRIVER ID NORMALIZE
 ===================================================== */
 
-function normalizeDriverId(value) {
+function normalizeDriverId(value){
 
   let id =
-    (value || "")
+    String(value || "")
       .trim()
       .toUpperCase()
-      .replace(/\s+/g, "");
+      .replace(/\s+/g,"");
 
 
-  if (
-    /^DRIVER\d+$/.test(id)
-  ) {
+  if(/^DRIVER\d+$/.test(id)){
 
     id =
       "DC" +
@@ -2159,37 +3310,17 @@ function normalizeDriverId(value) {
 ===================================================== */
 
 window.searchDriver =
-async function (mode) {
+async function(){
 
   const input =
     document.getElementById(
-
-      mode === "single"
-
-        ?
-
-        "singleDriverId"
-
-        :
-
-        "eventDriverId"
-
+      "singleDriverId"
     );
 
 
   const result =
     document.getElementById(
-
-      mode === "single"
-
-        ?
-
-        "singleDriverResult"
-
-        :
-
-        "eventDriverResult"
-
+      "singleDriverResult"
     );
 
 
@@ -2203,9 +3334,7 @@ async function (mode) {
     value;
 
 
-  if (
-    !/^DC\d+$/.test(value)
-  ) {
+  if(!/^DC\d+$/.test(value)){
 
     result.innerHTML = `
 
@@ -2213,9 +3342,10 @@ async function (mode) {
 
 ❌ Invalid Driver ID
 
-<br>
+<br><br>
 
-Example: DC001
+Example:
+<b>DC001</b>
 
 </div>
 
@@ -2237,7 +3367,7 @@ Example: DC001
 `;
 
 
-  try {
+  try{
 
     const q =
       query(
@@ -2262,14 +3392,16 @@ Example: DC001
       await getDocs(q);
 
 
-    if (snap.empty) {
+    if(snap.empty){
 
       result.innerHTML = `
 
 <div class="driver-not-found">
 
 ❌ Driver
+<b>
 ${escapeHtml(value)}
+</b>
 not found.
 
 </div>
@@ -2281,19 +3413,18 @@ not found.
     }
 
 
-    const d =
+    const driverDoc =
       snap.docs[0];
 
 
     const data =
-      d.data();
+      driverDoc.data();
 
 
-    if (
+    if(
       data.blacklisted === true ||
-      data.status ===
-        "blacklisted"
-    ) {
+      data.status === "blacklisted"
+    ){
 
       result.innerHTML = `
 
@@ -2313,49 +3444,44 @@ not found.
     selectedDriver = {
 
       documentId:
-        d.id,
+      driverDoc.id,
 
       driverId:
-        value,
+      value,
 
       uid:
-        data.uid ||
-        data.userId ||
-        data.authUid ||
-        null,
+      data.uid ||
+      data.userId ||
+      data.authUid ||
+      null,
 
       name:
-        data.name ||
-        data.driverName ||
-        "Driver",
-
-      mobile:
-        data.mobile ||
-        data.phone ||
-        "",
+      data.name ||
+      data.driverName ||
+      "Driver",
 
       vehicle:
-        data.vehicleNumber ||
-        data.vehicle ||
-        data.car ||
-        "-",
+      data.vehicleNumber ||
+      data.vehicle ||
+      data.car ||
+      "-",
 
       vehicleType:
-        data.vehicleType ||
-        data.type ||
-        "Cab",
+      data.vehicleType ||
+      data.type ||
+      "Cab",
 
       photo:
-        data.photoURL ||
-        data.photoUrl ||
-        data.photo ||
-        data.profilePhoto ||
-        "",
+      data.photoURL ||
+      data.photoUrl ||
+      data.photo ||
+      data.profilePhoto ||
+      "",
 
       online:
-        data.online === true ||
-        data.dutyStatus === "ON" ||
-        data.dutyOn === true
+      data.online === true ||
+      data.dutyStatus === "ON" ||
+      data.dutyOn === true
 
     };
 
@@ -2364,9 +3490,7 @@ not found.
       "";
 
 
-    if (
-      selectedDriver.photo
-    ) {
+    if(selectedDriver.photo){
 
       photoHtml = `
 
@@ -2388,8 +3512,7 @@ alt="Driver Photo">
 
 ${photoHtml}
 
-<h3
-style="text-align:center">
+<h3 style="text-align:center">
 
 ✅ Driver Found
 
@@ -2402,9 +3525,11 @@ style="text-align:center">
 DRIVER ID
 </strong>
 
+<span>
 ${escapeHtml(
   selectedDriver.driverId
 )}
+</span>
 
 </div>
 
@@ -2415,9 +3540,11 @@ ${escapeHtml(
 DRIVER NAME
 </strong>
 
+<span>
 ${escapeHtml(
   selectedDriver.name
 )}
+</span>
 
 </div>
 
@@ -2425,12 +3552,14 @@ ${escapeHtml(
 <div class="booking-row">
 
 <strong>
-VEHICLE NUMBER
+VEHICLE
 </strong>
 
+<span>
 ${escapeHtml(
   selectedDriver.vehicle
 )}
+</span>
 
 </div>
 
@@ -2441,9 +3570,11 @@ ${escapeHtml(
 VEHICLE TYPE
 </strong>
 
+<span>
 ${escapeHtml(
   selectedDriver.vehicleType
 )}
+</span>
 
 </div>
 
@@ -2454,11 +3585,15 @@ ${escapeHtml(
 STATUS
 </strong>
 
+<span>
+
 ${
   selectedDriver.online
-    ? "ONLINE"
-    : "OFFLINE"
+  ? "ONLINE"
+  : "OFFLINE"
 }
+
+</span>
 
 </div>
 
@@ -2476,9 +3611,10 @@ onclick="selectDriver()">
 `;
 
   }
-  catch (error) {
+  catch(error){
 
     console.error(error);
+
 
     result.innerHTML = `
 
@@ -2489,8 +3625,7 @@ onclick="selectDriver()">
 <br><br>
 
 ${escapeHtml(
-  error.message ||
-  "Please try again."
+  error.message
 )}
 
 </div>
@@ -2507,29 +3642,27 @@ ${escapeHtml(
 ===================================================== */
 
 window.selectDriver =
-function () {
+function(){
 
-  if (!selectedDriver) {
+  if(!selectedDriver){
 
     return;
 
   }
 
 
-  const single =
+  const box =
     document.getElementById(
       "singleSelectedDriver"
     );
 
 
-  if (single) {
-
-    single.classList.remove(
-      "hidden"
-    );
+  box.classList.remove(
+    "hidden"
+  );
 
 
-    single.innerHTML = `
+  box.innerHTML = `
 
 <b>
 🆔
@@ -2554,8 +3687,7 @@ ${escapeHtml(
 
 <br><br>
 
-<span
-style="color:#18763b">
+<span style="color:#18763b">
 
 ✅ Driver selected.
 
@@ -2563,444 +3695,17 @@ style="color:#18763b">
 
 `;
 
-  }
-
-
-  const event =
-    document.getElementById(
-      "eventSelectedDriver"
-    );
-
-
-  if (event) {
-
-    event.classList.remove(
-      "hidden"
-    );
-
-
-    event.innerHTML = `
-
-<b>
-🆔
-${escapeHtml(
-  selectedDriver.driverId
-)}
-</b>
-
-<br><br>
-
-👨‍✈️
-${escapeHtml(
-  selectedDriver.name
-)}
-
-<br>
-
-🚕
-${escapeHtml(
-  selectedDriver.vehicle
-)}
-
-<br><br>
-
-<span
-style="color:#18763b">
-
-✅ Driver selected for this car.
-
-</span>
-
-`;
-
-  }
-
 };
 
 
 /* =====================================================
-   VOICE NOTE UI
+   PART 1 BOOKING BUTTON
 ===================================================== */
 
-function voiceBlock(prefix) {
+window.part1BookingMessage =
+function(){
 
-  return `
-
-<div class="voice-box">
-
-<h3>
-🎙 Additional Voice Note
-</h3>
-
-
-<div class="info">
-
-Record a voice note for this booking.
-
-</div>
-
-
-<div class="voice-actions">
-
-<button
-onclick="startVoice('${prefix}')">
-
-🎙 Record
-
-</button>
-
-
-<button
-onclick="stopVoice()">
-
-⏹ Stop
-
-</button>
-
-
-<button
-onclick="playVoice()">
-
-▶ Play
-
-</button>
-
-</div>
-
-
-<audio
-id="${prefix}VoicePlayer"
-controls
-class="hidden">
-</audio>
-
-
-<div
-id="${prefix}VoiceStatus"
-class="map-status">
-
-Voice Note Optional
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-/* =====================================================
-   START VOICE RECORDING
-===================================================== */
-
-window.startVoice =
-function (prefix) {
-
-  if (
-    !navigator.mediaDevices ||
-    !navigator.mediaDevices
-      .getUserMedia
-  ) {
-
-    alert(
-      "Voice recording is not supported."
-    );
-
-    return;
-
-  }
-
-
-  navigator.mediaDevices
-    .getUserMedia({
-      audio: true
-    })
-    .then(
-      stream => {
-
-        voiceChunks = [];
-
-
-        recorder =
-          new MediaRecorder(
-            stream
-          );
-
-
-        recorder.ondataavailable =
-          event => {
-
-            if (
-              event.data.size > 0
-            ) {
-
-              voiceChunks.push(
-                event.data
-              );
-
-            }
-
-          };
-
-
-        recorder.onstop =
-          () => {
-
-            voiceBlob =
-              new Blob(
-                voiceChunks,
-                {
-                  type:
-                    "audio/webm"
-                }
-              );
-
-
-            const player =
-              document.getElementById(
-                prefix +
-                "VoicePlayer"
-              );
-
-
-            if (player) {
-
-              player.src =
-                URL.createObjectURL(
-                  voiceBlob
-                );
-
-              player.classList.remove(
-                "hidden"
-              );
-
-            }
-
-
-            const status =
-              document.getElementById(
-                prefix +
-                "VoiceStatus"
-              );
-
-
-            if (status) {
-
-              status.textContent =
-                "✅ Voice recorded.";
-
-            }
-
-
-            stream
-              .getTracks()
-              .forEach(
-                track =>
-                  track.stop()
-              );
-
-          };
-
-
-        recorder.start();
-
-
-        const status =
-          document.getElementById(
-            prefix +
-            "VoiceStatus"
-          );
-
-
-        if (status) {
-
-          status.textContent =
-            "🔴 Recording...";
-
-        }
-
-      }
-    )
-    .catch(
-      error => {
-
-        console.error(error);
-
-        alert(
-          "Microphone permission required."
-        );
-
-      }
-    );
-
-};
-
-
-/* =====================================================
-   STOP VOICE
-===================================================== */
-
-window.stopVoice =
-function () {
-
-  if (
-    recorder &&
-    recorder.state !==
-      "inactive"
-  ) {
-
-    recorder.stop();
-
-  }
-
-};
-
-
-/* =====================================================
-   PLAY VOICE
-===================================================== */
-
-window.playVoice =
-function () {
-
-  const players = [
-
-    "singleVoicePlayer",
-
-    "eventVoicePlayer"
-
-  ];
-
-
-  for (
-    const id of players
-  ) {
-
-    const player =
-      document.getElementById(
-        id
-      );
-
-
-    if (
-      player &&
-      !player.classList.contains(
-        "hidden"
-      )
-    ) {
-
-      player.play();
-
-      return;
-
-    }
-
-  }
-
-
-  alert(
-    "No voice recording available."
-  );
-
-};
-
-
-/* =====================================================
-   UPLOAD VOICE
-===================================================== */
-
-async function uploadVoice(
-  path
-) {
-
-  if (!voiceBlob) {
-
-    return "";
-
-  }
-
-
-  const voiceRef =
-    ref(
-      storage,
-      path
-    );
-
-
-  await uploadBytes(
-    voiceRef,
-    voiceBlob
-  );
-
-
-  return await getDownloadURL(
-    voiceRef
-  );
-
-}
-
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHtml(value) {
-
-  return String(
-    value ?? ""
-  )
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
-}
-
-
-/* =====================================================
-   PART 1 END
-
-   अभी यहाँ तक ही लगाइए।
-   PART 2 में:
-   - Single Booking Save
-   - Event Booking
-   - My Bookings
-   - Booking Close Approval
-   - Daily Booking Count
-   - Live Driver Map
-   - Account Settings
-   - Final Start Code
-
-===================================================== *//* =====================================================
-   SINGLE BOOKING SAVE
-===================================================== */
-
-window.confirmSingleBooking =
-async function () {
-
-  if (!auth.currentUser) {
+  if(!auth.currentUser){
 
     alert(
       "Please login first."
@@ -3011,10 +3716,10 @@ async function () {
   }
 
 
-  if (!selectedDriver) {
+  if(!selectedDriver){
 
     alert(
-      "Please search and select a Driver first."
+      "Please search and select Driver ID first."
     );
 
     return;
@@ -3034,792 +3739,7 @@ async function () {
     ).value.trim();
 
 
-  const date =
-    document.getElementById(
-      "singleDate"
-    ).value;
-
-
-  const pickupTime =
-    document.getElementById(
-      "singlePickupTime"
-    ).value;
-
-
-  const dropTime =
-    document.getElementById(
-      "singleDropTime"
-    ).value;
-
-
-  const distance =
-    document.getElementById(
-      "singleDistance"
-    ).textContent;
-
-
-  const duration =
-    document.getElementById(
-      "singleDuration"
-    ).textContent;
-
-
-  if (
-    !pickup ||
-    !drop ||
-    !date ||
-    !pickupTime ||
-    !dropTime
-  ) {
-
-    alert(
-      "Please fill Pickup, Drop, Date and Time."
-    );
-
-    return;
-
-  }
-
-
-  if (
-    distance === "—" ||
-    duration === "—"
-  ) {
-
-    alert(
-      "Please Show Complete Route first."
-    );
-
-    return;
-
-  }
-
-
-  try {
-
-    let voiceURL = "";
-
-
-    if (voiceBlob) {
-
-      voiceURL =
-        await uploadVoice(
-          "voiceNotes/" +
-          auth.currentUser.uid +
-          "/single_" +
-          Date.now() +
-          ".webm"
-        );
-
-    }
-
-
-    /*
-      Customer Booking ID
-
-      BC001
-      BC002
-      BC003
-      ...
-    */
-
-    const customerBookingId =
-      await createCustomerBookingId();
-
-
-    const booking = {
-
-      bookingId:
-        customerBookingId,
-
-      customerUid:
-        auth.currentUser.uid,
-
-      customerPhone:
-        getCustomerPhone(),
-
-      bookingType:
-        "single",
-
-      status:
-        "pending",
-
-
-      customerName:
-        auth.currentUser.displayName ||
-        "Customer",
-
-      customerEmail:
-        auth.currentUser.email ||
-        "",
-
-
-      pickup:
-        pickup,
-
-      destination:
-        drop,
-
-
-      pickupDate:
-        date,
-
-      pickupTime:
-        pickupTime,
-
-      dropTime:
-        dropTime,
-
-
-      rentalType:
-        selectedRental,
-
-      vehicleType:
-        selectedVehicle,
-
-
-      distance:
-        distance,
-
-      estimatedTime:
-        duration,
-
-
-      driverId:
-        selectedDriver.driverId,
-
-      driverUid:
-        selectedDriver.uid || null,
-
-      driverName:
-        selectedDriver.name,
-
-      /*
-        IMPORTANT:
-        Driver mobile Firebase में रहेगा,
-        लेकिन Customer UI में बाद में
-        केवल confirmed booking पर दिखाया जा सकता है।
-      */
-
-      driverMobile:
-        selectedDriver.mobile,
-
-      driverPhoto:
-        selectedDriver.photo,
-
-      driverCar:
-        selectedDriver.vehicle,
-
-      vehicleNumber:
-        selectedDriver.vehicle,
-
-      driverDocumentId:
-        selectedDriver.documentId,
-
-
-      voiceNoteURL:
-        voiceURL,
-
-
-      closeRequested:
-        false,
-
-      customerCloseApproved:
-        false,
-
-
-      createdAt:
-        serverTimestamp(),
-
-      bookingDate:
-        date
-
-    };
-
-
-    await addDoc(
-      collection(
-        db,
-        "cabBookings"
-      ),
-      booking
-    );
-
-
-    /*
-      Reset temporary voice data
-    */
-
-    voiceBlob = null;
-
-    selectedDriver = null;
-
-
-    alert(
-      "✅ Single Cab Booking Saved\n\n" +
-      "Booking ID: " +
-      customerBookingId
-    );
-
-
-    openScreen(
-      "bookings"
-    );
-
-  }
-  catch (error) {
-
-    console.error(error);
-
-    alert(
-      "❌ Booking failed\n\n" +
-      error.message
-    );
-
-  }
-
-};
-
-
-/* =====================================================
-   EVENT BOOKING START
-===================================================== */
-
-function renderEventStart() {
-
-  const box =
-    document.getElementById(
-      "settingsContent"
-    );
-
-
-  document.getElementById(
-    "dashboardScreen"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "profileScreen"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "bookingsScreen"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "settingsScreen"
-  ).classList.remove("hidden");
-
-
-  box.innerHTML = `
-
-<div class="page-title">
-🎉 Event Booking
-</div>
-
-
-<div class="card">
-
-<h2>
-🎉 Event Booking
-</h2>
-
-
-<p class="info">
-
-Enter the event name and total number
-of cars required.
-
-Each car will be booked separately.
-
-</p>
-
-
-<div class="form-group">
-
-<label>
-Event Name (Optional)
-</label>
-
-<input
-id="eventName"
-placeholder="Wedding / Function / Corporate">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-Total Cars Required
-</label>
-
-<input
-id="eventTotalCars"
-type="number"
-min="1"
-max="1000"
-value="1"
-oninput="updateEventCount()">
-
-</div>
-
-
-<div
-id="eventCount"
-style="
-font-size:22px;
-font-weight:bold;
-color:#1769df;
-padding:10px 0;">
-
-🚕 1 Car
-
-</div>
-
-
-<button
-class="primary"
-onclick="startEventBooking()">
-
-🎉 Start Event Booking
-
-</button>
-
-
-<button
-class="primary gray"
-onclick="openScreen('dashboard')">
-
-← Back to Dashboard
-
-</button>
-
-</div>
-
-`;
-
-}
-
-
-/* =====================================================
-   EVENT COUNT
-===================================================== */
-
-window.updateEventCount =
-function () {
-
-  const input =
-    document.getElementById(
-      "eventTotalCars"
-    );
-
-
-  const n =
-    Math.max(
-      1,
-      Math.min(
-        1000,
-        Number(
-          input?.value || 1
-        )
-      )
-    );
-
-
-  if (input) {
-
-    input.value = n;
-
-  }
-
-
-  document.getElementById(
-    "eventCount"
-  ).textContent =
-    "🚕 " +
-    n +
-    (n === 1
-      ? " Car"
-      : " Cars");
-
-};
-
-
-/* =====================================================
-   START EVENT
-===================================================== */
-
-window.startEventBooking =
-function () {
-
-  if (!auth.currentUser) {
-
-    alert(
-      "Please login first."
-    );
-
-    return;
-
-  }
-
-
-  const name =
-    document.getElementById(
-      "eventName"
-    ).value.trim();
-
-
-  const total =
-    Math.max(
-      1,
-      Math.min(
-        1000,
-        Number(
-          document.getElementById(
-            "eventTotalCars"
-          ).value || 1
-        )
-      )
-    );
-
-
-  eventState = {
-
-    active:
-      true,
-
-    eventId:
-      auth.currentUser.uid +
-      "-EVT-" +
-      Date.now(),
-
-    eventName:
-      name,
-
-    totalCars:
-      total,
-
-    currentCar:
-      1,
-
-    savedCars:
-      0
-
-  };
-
-
-  selectedDriver = null;
-
-  voiceBlob = null;
-
-
-  renderEventCar();
-
-};
-
-
-/* =====================================================
-   EVENT CAR UI
-===================================================== */
-
-function renderEventCar() {
-
-  const box =
-    document.getElementById(
-      "settingsContent"
-    );
-
-
-  document.getElementById(
-    "dashboardScreen"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "profileScreen"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "bookingsScreen"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "settingsScreen"
-  ).classList.remove("hidden");
-
-
-  box.innerHTML = `
-
-<div class="page-title">
-
-🎉 Event Booking
-
-</div>
-
-
-<div class="event-progress">
-
-<b>Event:</b>
-
-${escapeHtml(
-  eventState.eventName ||
-  "Event"
-)}
-
-<br><br>
-
-<b>Progress:</b>
-
-Car
-${eventState.currentCar}
-of
-${eventState.totalCars}
-
-</div>
-
-
-<div class="card">
-
-<div class="event-car-card">
-
-
-<div class="event-car-title">
-
-<span>
-
-🚕 Car
-${eventState.currentCar}
-
-</span>
-
-
-<span class="pending">
-
-Pickup Pending
-
-</span>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-📅 Pickup Date
-</label>
-
-<input
-id="eventDate"
-type="date">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-⏰ Pickup Time
-</label>
-
-<input
-id="eventPickupTime"
-type="time">
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-⏰ Drop Time
-</label>
-
-<input
-id="eventDropTime"
-type="time">
-
-</div>
-
-
-${locationBlock(
-  "eventPickup",
-  "1",
-  "Pickup Location"
-)}
-
-
-${locationBlock(
-  "eventDrop",
-  "2",
-  "Final Destination"
-)}
-
-
-<button
-class="primary"
-onclick="showEventRoute()">
-
-📍 Show Complete Route
-
-</button>
-
-
-<div
-id="eventMapStatus"
-class="map-status">
-
-Enter Pickup and Destination.
-
-</div>
-
-
-<div
-id="eventRouteMap"
-class="map-box">
-</div>
-
-
-<div
-id="eventRouteSummary"
-class="route-summary hidden">
-
-
-<div class="route-item">
-
-📏 Distance
-
-<strong
-id="eventDistance">
-
-—
-
-</strong>
-
-</div>
-
-
-<div class="route-item">
-
-⏱️ Time
-
-<strong
-id="eventDuration">
-
-—
-
-</strong>
-
-</div>
-
-
-</div>
-
-
-<div class="driver-search">
-
-<h3>
-🆔 Search Driver
-</h3>
-
-
-<p class="info">
-
-Driver ID example:
-<b>DC001, DC002</b>
-
-</p>
-
-
-<input
-id="eventDriverId"
-placeholder="Enter Driver ID"
-style="text-transform:uppercase">
-
-
-<button
-class="primary"
-onclick="searchDriver('event')">
-
-🔎 Search Driver
-
-</button>
-
-
-<div
-id="eventDriverResult">
-</div>
-
-
-<div
-id="eventSelectedDriver"
-class="selected-driver hidden">
-</div>
-
-</div>
-
-
-${voiceBlock("event")}
-
-
-<button
-class="primary green"
-onclick="saveEventCar()">
-
-🚕 Confirm & Save Car
-${eventState.currentCar}
-
-</button>
-
-
-<button
-class="primary gray"
-onclick="openScreen('dashboard')">
-
-← Back to Dashboard
-
-</button>
-
-
-</div>
-
-</div>
-
-`;
-
-
-  setDateDefaults(
-    "eventDate",
-    "eventPickupTime",
-    "eventDropTime"
-  );
-
-
-  initMapFor(
-    "eventRouteMap"
-  );
-
-}
-
-
-/* =====================================================
-   EVENT ROUTE
-===================================================== */
-
-window.showEventRoute =
-async function () {
-
-  const pickup =
-    document.getElementById(
-      "eventPickup"
-    ).value.trim();
-
-
-  const drop =
-    document.getElementById(
-      "eventDrop"
-    ).value.trim();
-
-
-  if (!pickup || !drop) {
+  if(!pickup || !drop){
 
     alert(
       "Please enter Pickup and Destination."
@@ -3830,258 +3750,13 @@ async function () {
   }
 
 
-  const map =
-    initMapFor(
-      "eventRouteMap"
-    );
-
-
-  const status =
-    document.getElementById(
-      "eventMapStatus"
-    );
-
-
-  status.textContent =
-    "🔎 Finding locations...";
-
-
-  try {
-
-    const points =
-      await Promise.all([
-
-        geocodePlace(
-          pickup
-        ),
-
-        geocodePlace(
-          drop
-        )
-
-      ]);
-
-
-    status.textContent =
-      "🛣️ Calculating route...";
-
-
-    const route =
-      await getRoute(
-        points
-      );
-
-
-    /*
-      Remove previous event route.
-    */
-
-    map.eachLayer(
-      layer => {
-
-        if (
-          layer instanceof
-          L.Polyline
-        ) {
-
-          map.removeLayer(
-            layer
-          );
-
-        }
-
-      }
-    );
-
-
-    const line =
-      L.geoJSON(
-        route.geometry,
-        {
-
-          style: {
-
-            weight:
-              6,
-
-            opacity:
-              0.85
-
-          }
-
-        }
-      )
-      .addTo(map);
-
-
-    map.fitBounds(
-      line.getBounds(),
-      {
-        padding:
-          [25, 25]
-      }
-    );
-
-
-    const km =
-      (
-        route.distance /
-        1000
-      ).toFixed(1);
-
-
-    const mins =
-      Math.round(
-        route.duration /
-        60
-      );
-
-
-    document.getElementById(
-      "eventDistance"
-    ).textContent =
-      km + " KM";
-
-
-    document.getElementById(
-      "eventDuration"
-    ).textContent =
-      mins + " min";
-
-
-    document.getElementById(
-      "eventRouteSummary"
-    ).classList.remove(
-      "hidden"
-    );
-
-
-    status.textContent =
-      "✅ Complete route found.";
-
-  }
-  catch (error) {
-
-    console.error(error);
-
-    status.textContent =
-      "❌ " +
-      error.message;
-
-
-    alert(
-      "Route नहीं बन पाया.\n\n" +
-      error.message
-    );
-
-  }
-
-};
-
-
-/* =====================================================
-   SAVE EVENT CAR
-===================================================== */
-
-window.saveEventCar =
-async function () {
-
-  if (!auth.currentUser) {
-
-    alert(
-      "Please login first."
-    );
-
-    return;
-
-  }
-
-
-  if (!eventState.active) {
-
-    alert(
-      "Event booking session is not active."
-    );
-
-    return;
-
-  }
-
-
-  if (!selectedDriver) {
-
-    alert(
-      "Please search and select a Driver."
-    );
-
-    return;
-
-  }
-
-
-  const pickup =
-    document.getElementById(
-      "eventPickup"
-    ).value.trim();
-
-
-  const drop =
-    document.getElementById(
-      "eventDrop"
-    ).value.trim();
-
-
-  const date =
-    document.getElementById(
-      "eventDate"
-    ).value;
-
-
-  const pickupTime =
-    document.getElementById(
-      "eventPickupTime"
-    ).value;
-
-
-  const dropTime =
-    document.getElementById(
-      "eventDropTime"
-    ).value;
-
-
   const distance =
     document.getElementById(
-      "eventDistance"
+      "singleDistance"
     ).textContent;
 
 
-  const duration =
-    document.getElementById(
-      "eventDuration"
-    ).textContent;
-
-
-  if (
-    !pickup ||
-    !drop ||
-    !date ||
-    !pickupTime ||
-    !dropTime
-  ) {
-
-    alert(
-      "Please fill all required details."
-    );
-
-    return;
-
-  }
-
-
-  if (
-    distance === "—" ||
-    duration === "—"
-  ) {
+  if(distance === "—"){
 
     alert(
       "Please Show Complete Route first."
@@ -4092,353 +3767,80 @@ async function () {
   }
 
 
-  try {
+  /*
+    PART 1 CHECK ONLY
 
-    let voiceURL = "";
+    Actual Firebase booking save,
+    Booking ID BC001,
+    Driver inbox,
+    Daily count,
+    Event save,
+    Close approval,
+    Live Driver Map
 
+    PART 2 में जोड़े जाएंगे।
+  */
 
-    if (voiceBlob) {
+  alert(
 
-      voiceURL =
-        await uploadVoice(
+    "✅ Booking Details Ready\n\n" +
 
-          "voiceNotes/" +
-          auth.currentUser.uid +
-          "/" +
-          eventState.eventId +
-          "_car" +
-          eventState.currentCar +
-          "_" +
-          Date.now() +
-          ".webm"
+    "Driver ID: " +
+    selectedDriver.driverId +
+    "\n" +
 
-        );
+    "Pickup: " +
+    pickup +
+    "\n" +
 
-    }
+    "Destination: " +
+    drop +
+    "\n\n" +
 
+    "Firebase final booking save PART 2 में होगा."
 
-    /*
-      Every Event Car gets
-      its own BC booking number.
-    */
-
-    const customerBookingId =
-      await createCustomerBookingId();
-
-
-    const booking = {
-
-      bookingId:
-        customerBookingId,
-
-
-      bookingType:
-        "event",
-
-
-      eventId:
-        eventState.eventId,
-
-      eventOwnerUid:
-        auth.currentUser.uid,
-
-      eventOwnerPhone:
-        getCustomerPhone(),
-
-      eventName:
-        eventState.eventName,
-
-      totalCars:
-        eventState.totalCars,
-
-      carNumber:
-        eventState.currentCar,
-
-
-      status:
-        "pending",
-
-
-      customerUid:
-        auth.currentUser.uid,
-
-      customerName:
-        auth.currentUser.displayName ||
-        "Customer",
-
-      customerEmail:
-        auth.currentUser.email ||
-        "",
-
-      customerPhone:
-        getCustomerPhone(),
-
-
-      pickup:
-        pickup,
-
-      destination:
-        drop,
-
-
-      pickupDate:
-        date,
-
-      pickupTime:
-        pickupTime,
-
-      dropTime:
-        dropTime,
-
-
-      distance:
-        distance,
-
-      estimatedTime:
-        duration,
-
-
-      driverId:
-        selectedDriver.driverId,
-
-      driverUid:
-        selectedDriver.uid || null,
-
-      driverName:
-        selectedDriver.name,
-
-      driverMobile:
-        selectedDriver.mobile,
-
-      driverPhoto:
-        selectedDriver.photo,
-
-      vehicleNumber:
-        selectedDriver.vehicle,
-
-      vehicleType:
-        selectedDriver.vehicleType,
-
-      driverDocumentId:
-        selectedDriver.documentId,
-
-
-      voiceNoteURL:
-        voiceURL,
-
-
-      closeRequested:
-        false,
-
-      customerCloseApproved:
-        false,
-
-
-      createdAt:
-        serverTimestamp(),
-
-      bookingDate:
-        date
-
-    };
-
-
-    await addDoc(
-      collection(
-        db,
-        "eventBookings"
-      ),
-      booking
-    );
-
-
-    const savedCar =
-      eventState.currentCar;
-
-
-    eventState.savedCars++;
-
-
-    voiceBlob =
-      null;
-
-
-    selectedDriver =
-      null;
-
-
-    if (
-      eventState.currentCar <
-      eventState.totalCars
-    ) {
-
-      eventState.currentCar++;
-
-
-      alert(
-        "✅ Car " +
-        savedCar +
-        " saved.\n\n" +
-
-        "Booking ID: " +
-        customerBookingId +
-        "\n\n" +
-
-        "Now Car " +
-        eventState.currentCar +
-        " booking is ready."
-      );
-
-
-      renderEventCar();
-
-    }
-    else {
-
-      alert(
-        "🎉 Event Booking Completed!\n\n" +
-
-        "Total Cars Saved: " +
-        eventState.savedCars +
-        "\n\n" +
-
-        "Last Booking ID: " +
-        customerBookingId
-      );
-
-
-      eventState.active =
-        false;
-
-
-      openScreen(
-        "bookings"
-      );
-
-    }
-
-  }
-  catch (error) {
-
-    console.error(error);
-
-    alert(
-      "❌ Event Car save failed.\n\n" +
-      error.message
-    );
-
-  }
+  );
 
 };
 
 
 /* =====================================================
-   LOAD MY BOOKINGS
+   TODAY COUNT — PART 1
 ===================================================== */
 
-function loadMyBookings() {
+async function loadTodayBookingCount(){
 
-  if (!auth.currentUser) {
+  if(!auth.currentUser){
 
     return;
 
   }
 
 
-  if (unsubscribeBookings) {
+  const countElement =
+    document.getElementById(
+      "todayBookingCount"
+    );
 
-    unsubscribeBookings();
+
+  if(!countElement){
+
+    return;
 
   }
 
 
-  const q =
-    query(
+  try{
 
-      collection(
-        db,
-        "cabBookings"
-      ),
+    let total = 0;
 
-      where(
-        "customerUid",
-        "==",
-        auth.currentUser.uid
-      )
-
-    );
-
-
-  unsubscribeBookings =
-    onSnapshot(
-
-      q,
-
-      snapshot => {
-
-        const bookings = [];
-
-
-        snapshot.forEach(
-          d => {
-
-            bookings.push({
-
-              id:
-                d.id,
-
-              ...d.data()
-
-            });
-
-          }
-        );
-
-
-        updateTodayCount(
-          bookings
-        );
-
-      },
-
-
-      error => {
-
-        console.error(
-          "Booking listener error:",
-          error
-        );
-
-      }
-
-    );
-
-}
-
-
-/* =====================================================
-   TODAY BOOKING COUNT
-===================================================== */
-
-async function updateTodayCount(
-  bookings
-) {
-
-  const today =
-    getTodayString();
-
-
-  let eventCount = 0;
-
-
-  try {
 
     const q =
       query(
 
         collection(
           db,
-          "eventBookings"
+          "cabBookings"
         ),
 
         where(
@@ -4454,84 +3856,42 @@ async function updateTodayCount(
       await getDocs(q);
 
 
+    const today =
+      getTodayString();
+
+
     snap.forEach(
       d => {
 
-        const booking =
+        const data =
           d.data();
 
 
-        if (
+        if(
           (
-            booking.bookingDate ||
-            booking.pickupDate
+            data.bookingDate ||
+            data.pickupDate
           ) === today
-        ) {
+        ){
 
-          eventCount++;
+          total++;
 
         }
 
       }
     );
 
-  }
-  catch (error) {
-
-    console.error(error);
-
-  }
-
-
-  const singleCount =
-    bookings.filter(
-
-      booking =>
-        (
-          booking.bookingDate ||
-          booking.pickupDate
-        ) === today
-
-    ).length;
-
-
-  const total =
-    singleCount +
-    eventCount;
-
-
-  const countElement =
-    document.getElementById(
-      "todayBookingCount"
-    );
-
-
-  if (countElement) {
 
     countElement.textContent =
       total;
 
   }
+  catch(error){
 
-
-  const parts =
-    today.split("-");
-
-
-  const dateElement =
-    document.getElementById(
-      "todayDate"
+    console.error(
+      "Today count:",
+      error
     );
-
-
-  if (dateElement) {
-
-    dateElement.textContent =
-      parts[2] +
-      "/" +
-      parts[1] +
-      "/" +
-      parts[0];
 
   }
 
@@ -4539,10 +3899,10 @@ async function updateTodayCount(
 
 
 /* =====================================================
-   RENDER MY BOOKINGS
+   PART 1 BOOKINGS VIEW
 ===================================================== */
 
-async function renderBookings() {
+async function renderPart1Bookings(){
 
   const list =
     document.getElementById(
@@ -4550,7 +3910,7 @@ async function renderBookings() {
     );
 
 
-  if (!list) {
+  if(!list){
 
     return;
 
@@ -4561,134 +3921,57 @@ async function renderBookings() {
 
 <div class="notice blue">
 
-Loading bookings...
+📋 Loading your bookings...
 
 </div>
 
 `;
 
 
-  if (!auth.currentUser) {
+  if(!auth.currentUser){
 
     return;
 
   }
 
 
-  try {
+  try{
 
-    const arrays = [];
+    const q =
+      query(
 
+        collection(
+          db,
+          "cabBookings"
+        ),
 
-    /*
-      IMPORTANT:
-      Only current customer bookings.
-    */
-
-    for (
-      const collectionName
-      of [
-        "cabBookings",
-        "eventBookings"
-      ]
-    ) {
-
-      const q =
-        query(
-
-          collection(
-            db,
-            collectionName
-          ),
-
-          where(
-            "customerUid",
-            "==",
-            auth.currentUser.uid
-          )
-
-        );
-
-
-      const snap =
-        await getDocs(q);
-
-
-      snap.forEach(
-        d => {
-
-          arrays.push({
-
-            id:
-              d.id,
-
-            collectionName:
-              collectionName,
-
-            ...d.data()
-
-          });
-
-        }
-      );
-
-    }
-
-
-    /*
-      Second protection:
-      Phone must match when saved.
-    */
-
-    const phone =
-      getCustomerPhone();
-
-
-    const customerArrays =
-      arrays.filter(
-        booking => {
-
-          if (
-            !booking.customerPhone
-          ) {
-
-            return true;
-
-          }
-
-
-          return (
-            normalizePhone(
-              booking.customerPhone
-            ) === phone
-          );
-
-        }
-      );
-
-
-    customerArrays.sort(
-      (a, b) =>
-        (
-          b.createdAt?.seconds || 0
-        ) -
-        (
-          a.createdAt?.seconds || 0
+        where(
+          "customerUid",
+          "==",
+          auth.currentUser.uid
         )
-    );
+
+      );
 
 
-    list.innerHTML =
-      "";
+    const snap =
+      await getDocs(q);
 
 
-    if (!customerArrays.length) {
+    list.innerHTML = "";
+
+
+    if(snap.empty){
 
       list.innerHTML = `
 
 <div class="notice blue">
 
 No bookings yet.
+
+<br><br>
+
+Your saved bookings will appear here.
 
 </div>
 
@@ -4699,8 +3982,12 @@ No bookings yet.
     }
 
 
-    customerArrays.forEach(
-      booking => {
+    snap.forEach(
+      d => {
+
+        const data =
+          d.data();
+
 
         const card =
           document.createElement(
@@ -4709,558 +3996,96 @@ No bookings yet.
 
 
         card.className =
-          "booking-card";
+          "card";
 
 
-        const status =
-          String(
-            booking.status ||
-            "pending"
-          ).toLowerCase();
+        card.innerHTML = `
 
+<div class="booking-row">
 
-        let cls =
-          "status";
+<strong>
+STATUS
+</strong>
 
-
-        if (
-          status === "accepted" ||
-          status === "running" ||
-          status === "started"
-        ) {
-
-          cls +=
-            " accepted";
-
-        }
-
-
-        if (
-          status ===
-          "completed"
-        ) {
-
-          cls +=
-            " completed";
-
-        }
-
-
-        if (
-          status ===
-          "rejected"
-        ) {
-
-          cls +=
-            " rejected";
-
-        }
-
-
-        const displayBookingId =
-          booking.bookingId ||
-          "BC---";
-
-
-        let html = `
-
-<span class="${cls}">
-
+<span>
 ${escapeHtml(
-  status.toUpperCase()
+  data.status ||
+  "pending"
 )}
 
 </span>
 
+</div>
+
 
 <div class="booking-row">
 
 <strong>
-BOOKING ID
+DRIVER ID
 </strong>
 
-<div class="booking-value">
-
+<span>
 ${escapeHtml(
-  displayBookingId
+  data.driverId ||
+  "-"
 )}
 
+</span>
+
 </div>
+
+
+<div class="booking-row">
+
+<strong>
+PICKUP
+</strong>
+
+<span>
+${escapeHtml(
+  data.pickup ||
+  "-"
+)}
+
+</span>
+
+</div>
+
+
+<div class="booking-row">
+
+<strong>
+DESTINATION
+</strong>
+
+<span>
+${escapeHtml(
+  data.destination ||
+  "-"
+)}
+
+</span>
+
+</div>
+
+
+<div class="booking-row">
+
+<strong>
+DATE
+</strong>
+
+<span>
+${escapeHtml(
+  data.pickupDate ||
+  "-"
+)}
+
+</span>
 
 </div>
 
 `;
-
-
-        /*
-          EVENT DETAILS
-        */
-
-        if (
-          booking.collectionName ===
-          "eventBookings"
-        ) {
-
-          html += `
-
-<div class="booking-row">
-
-<strong>
-EVENT
-</strong>
-
-<div class="booking-value">
-
-${escapeHtml(
-  booking.eventName ||
-  "Event"
-)}
-
-</div>
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>
-CAR
-</strong>
-
-<div class="booking-value">
-
-${escapeHtml(
-  String(
-    booking.carNumber ||
-    "-"
-  )
-)}
-
- /
-${escapeHtml(
-  String(
-    booking.totalCars ||
-    "-"
-  )
-)}
-
-</div>
-
-</div>
-
-`;
-
-        }
-
-
-        /*
-          PICKUP / DROP
-        */
-
-        html += `
-
-<div class="booking-row">
-
-<strong>
-📍 PICKUP
-</strong>
-
-<div class="booking-value">
-
-${escapeHtml(
-  booking.pickup ||
-  "-"
-)}
-
-</div>
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>
-🏁 DROP
-</strong>
-
-<div class="booking-value">
-
-${escapeHtml(
-  booking.destination ||
-  "-"
-)}
-
-</div>
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>
-📅 DATE
-</strong>
-
-<div class="booking-value">
-
-${escapeHtml(
-  booking.pickupDate ||
-  "-"
-)}
-
-</div>
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>
-⏰ TIME
-</strong>
-
-<div class="booking-value">
-
-${escapeHtml(
-  booking.pickupTime ||
-  "-"
-)}
-
-</div>
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>
-🆔 DRIVER
-</strong>
-
-<div class="booking-value">
-
-${escapeHtml(
-  booking.driverId ||
-  "-"
-)}
-
-</div>
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>
-👨‍✈️ DRIVER
-</strong>
-
-<div class="booking-value">
-
-${escapeHtml(
-  booking.driverName ||
-  "-"
-)}
-
-</div>
-
-</div>
-
-
-<div class="booking-row">
-
-<strong>
-🚕 VEHICLE
-</strong>
-
-<div class="booking-value">
-
-${escapeHtml(
-  booking.vehicleNumber ||
-  "-"
-)}
-
-</div>
-
-</div>
-
-`;
-
-
-        /*
-          DRIVER PHOTO
-        */
-
-        if (
-          booking.driverPhoto
-        ) {
-
-          html += `
-
-<img
-class="driver-photo"
-src="${escapeHtml(
-  booking.driverPhoto
-)}"
-alt="Driver Photo">
-
-`;
-
-        }
-
-
-        /*
-          DRIVER MOBILE
-        */
-
-        if (
-          booking.driverMobile &&
-          (
-            status === "accepted" ||
-            status === "running" ||
-            status === "started" ||
-            status === "completed"
-          )
-        ) {
-
-          html += `
-
-<div class="booking-row">
-
-<strong>
-📞 DRIVER MOBILE
-</strong>
-
-<div class="booking-value">
-
-${escapeHtml(
-  booking.driverMobile
-)}
-
-</div>
-
-</div>
-
-`;
-
-        }
-
-
-        /*
-          VOICE NOTE
-        */
-
-        if (
-          booking.voiceNoteURL
-        ) {
-
-          html += `
-
-<div class="voice-box">
-
-<b>
-🎙 Booking Voice Note
-</b>
-
-<br><br>
-
-<audio
-controls
-src="${escapeHtml(
-  booking.voiceNoteURL
-)}">
-</audio>
-
-</div>
-
-`;
-
-        }
-
-
-        /*
-          DRIVER CLOSE REQUEST
-        */
-
-        if (
-          booking.closeRequested === true &&
-          booking.customerCloseApproved !== true &&
-          status !== "completed"
-        ) {
-
-          html += `
-
-<div class="close-request">
-
-<b>
-⚠️ Driver requested booking close.
-</b>
-
-<br><br>
-
-
-<button
-class="primary green"
-data-close-id="${escapeHtml(
-  booking.id
-)}"
-data-close-collection="${escapeHtml(
-  booking.collectionName
-)}">
-
-✅ Approve Close
-
-</button>
-
-
-<button
-class="primary gray"
-data-keep-id="${escapeHtml(
-  booking.id
-)}"
-data-keep-collection="${escapeHtml(
-  booking.collectionName
-)}">
-
-❌ Keep Open
-
-</button>
-
-</div>
-
-`;
-
-        }
-
-
-        card.innerHTML =
-          html;
-
-
-        /*
-          APPROVE CLOSE
-        */
-
-        const approve =
-          card.querySelector(
-            "[data-close-id]"
-          );
-
-
-        if (approve) {
-
-          approve.onclick =
-            async () => {
-
-              try {
-
-                await updateDoc(
-
-                  doc(
-                    db,
-                    approve.dataset
-                      .closeCollection,
-                    approve.dataset
-                      .closeId
-                  ),
-
-                  {
-
-                    status:
-                      "completed",
-
-                    customerCloseApproved:
-                      true,
-
-                    closedAt:
-                      serverTimestamp()
-
-                  }
-
-                );
-
-
-                alert(
-                  "✅ Booking Closed Successfully."
-                );
-
-
-                renderBookings();
-
-              }
-              catch (error) {
-
-                console.error(
-                  error
-                );
-
-                alert(
-                  "Close approval failed.\n" +
-                  error.message
-                );
-
-              }
-
-            };
-
-        }
-
-
-        /*
-          KEEP OPEN
-        */
-
-        const keep =
-          card.querySelector(
-            "[data-keep-id]"
-          );
-
-
-        if (keep) {
-
-          keep.onclick =
-            async () => {
-
-              try {
-
-                await updateDoc(
-
-                  doc(
-                    db,
-                    keep.dataset
-                      .keepCollection,
-                    keep.dataset
-                      .keepId
-                  ),
-
-                  {
-
-                    closeRequested:
-                      false
-
-                  }
-
-                );
-
-
-                renderBookings();
-
-              }
-              catch (error) {
-
-                console.error(
-                  error
-                );
-
-                alert(
-                  error.message
-                );
-
-              }
-
-            };
-
-        }
 
 
         list.appendChild(
@@ -5271,7 +4096,7 @@ data-keep-collection="${escapeHtml(
     );
 
   }
-  catch (error) {
+  catch(error){
 
     console.error(error);
 
@@ -5302,23 +4127,9 @@ ${escapeHtml(
 ===================================================== */
 
 window.openSettings =
-function (type) {
+function(type){
 
-  document.getElementById(
-    "dashboardScreen"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "profileScreen"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "bookingsScreen"
-  ).classList.add("hidden");
-
-  document.getElementById(
-    "settingsScreen"
-  ).classList.remove("hidden");
+  hideMainScreens();
 
 
   const box =
@@ -5327,50 +4138,9 @@ function (type) {
     );
 
 
-  if (type === "driver") {
+  if(type === "driver"){
 
-    renderDriverSettings(
-      box
-    );
-
-  }
-
-
-  if (type === "tracking") {
-
-    renderTrackingSettings(
-      box
-    );
-
-  }
-
-
-  if (type === "account") {
-
-    renderAccountSettings(
-      box
-    );
-
-  }
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
-};
-
-
-/* =====================================================
-   DRIVER SETTINGS
-===================================================== */
-
-function renderDriverSettings(
-  box
-) {
-
-  box.innerHTML = `
+    box.innerHTML = `
 
 <div class="page-title">
 
@@ -5381,17 +4151,31 @@ function renderDriverSettings(
 
 <div class="card">
 
+<h2>
+Driver Search
+</h2>
+
 <p class="info">
 
-Enter Driver ID to search driver details.
+Driver ID format:
+<b>DC001</b>,
+<b>DC002</b>,
+<b>DC003</b>...
 
 </p>
 
 
 <input
 id="settingsDriverId"
-placeholder="Example: DC001"
-style="text-transform:uppercase">
+placeholder="Enter Driver ID"
+style="
+width:100%;
+padding:14px;
+border:1px solid #ccd5e2;
+border-radius:11px;
+font-size:16px;
+text-transform:uppercase;
+">
 
 
 <button
@@ -5407,11 +4191,91 @@ onclick="searchSettingsDriver()">
 id="settingsDriverResult">
 </div>
 
+
+<button
+class="primary gray"
+onclick="openScreen('dashboard')">
+
+← Back
+
+</button>
+
 </div>
 
 `;
 
-}
+  }
+
+
+  if(type === "tracking"){
+
+    box.innerHTML = `
+
+<div class="page-title">
+
+📍 Live Tracking
+
+</div>
+
+
+<div class="card">
+
+<h2>
+Live Driver Tracking
+</h2>
+
+
+<div class="notice blue">
+
+📍 Live location tracking will be
+available only when a booking is active.
+
+<br><br>
+
+Only your own booked cabs will be shown.
+
+<br><br>
+
+For event booking, multiple booked drivers
+can appear on the same customer map.
+
+</div>
+
+
+<div
+class="map-box"
+id="customerLiveMap">
+
+</div>
+
+
+<button
+class="primary gray"
+onclick="openScreen('dashboard')">
+
+← Back to Dashboard
+
+</button>
+
+</div>
+
+`;
+
+
+    setTimeout(
+      () => {
+
+        initMapFor(
+          "customerLiveMap"
+        );
+
+      },
+      100
+    );
+
+  }
+
+};
 
 
 /* =====================================================
@@ -5419,4 +4283,328 @@ id="settingsDriverResult">
 ===================================================== */
 
 window.searchSettingsDriver =
-async funct
+async function(){
+
+  const input =
+    document.getElementById(
+      "settingsDriverId"
+    );
+
+
+  const result =
+    document.getElementById(
+      "settingsDriverResult"
+    );
+
+
+  const value =
+    normalizeDriverId(
+      input.value
+    );
+
+
+  input.value =
+    value;
+
+
+  if(!/^DC\d+$/.test(value)){
+
+    result.innerHTML = `
+
+<div class="driver-not-found">
+
+❌ Invalid Driver ID.
+
+Example:
+<b>DC001</b>
+
+</div>
+
+`;
+
+    return;
+
+  }
+
+
+  result.innerHTML = `
+
+<div class="driver-result">
+
+🔎 Searching...
+
+</div>
+
+`;
+
+
+  try{
+
+    const q =
+      query(
+
+        collection(
+          db,
+          "cabDrivers"
+        ),
+
+        where(
+          "driverId",
+          "==",
+          value
+        ),
+
+        limit(1)
+
+      );
+
+
+    const snap =
+      await getDocs(q);
+
+
+    if(snap.empty){
+
+      result.innerHTML = `
+
+<div class="driver-not-found">
+
+❌ Driver
+<b>
+${escapeHtml(value)}
+</b>
+not found.
+
+</div>
+
+`;
+
+      return;
+
+    }
+
+
+    const data =
+      snap.docs[0].data();
+
+
+    let photo =
+
+      data.photoURL ||
+      data.photoUrl ||
+      data.photo ||
+      data.profilePhoto ||
+      "";
+
+
+    result.innerHTML = `
+
+<div class="driver-result">
+
+${
+  photo
+  ?
+
+  `<img
+  class="driver-photo"
+  src="${escapeHtml(photo)}"
+  alt="Driver Photo">`
+
+  :
+
+  ""
+}
+
+
+<h3 style="text-align:center">
+
+✅ Driver Found
+
+</h3>
+
+
+<div class="booking-row">
+
+<strong>
+DRIVER ID
+</strong>
+
+<span>
+${escapeHtml(value)}
+</span>
+
+</div>
+
+
+<div class="booking-row">
+
+<strong>
+DRIVER NAME
+</strong>
+
+<span>
+${escapeHtml(
+  data.name ||
+  data.driverName ||
+  "Driver"
+)}
+</span>
+
+</div>
+
+
+<div class="booking-row">
+
+<strong>
+VEHICLE
+</strong>
+
+<span>
+${escapeHtml(
+  data.vehicleNumber ||
+  data.vehicle ||
+  data.car ||
+  "-"
+)}
+</span>
+
+</div>
+
+
+<div class="booking-row">
+
+<strong>
+STATUS
+</strong>
+
+<span>
+
+${
+  data.online === true ||
+  data.dutyStatus === "ON" ||
+  data.dutyOn === true
+
+  ?
+
+  "ONLINE"
+
+  :
+
+  "OFFLINE"
+
+}
+
+</span>
+
+</div>
+
+</div>
+
+`;
+
+  }
+  catch(error){
+
+    console.error(error);
+
+
+    result.innerHTML = `
+
+<div class="driver-not-found">
+
+❌ Search failed.
+
+<br><br>
+
+${escapeHtml(
+  error.message
+)}
+
+</div>
+
+`;
+
+  }
+
+};
+
+
+/* =====================================================
+   HIDE MAIN SCREENS
+===================================================== */
+
+function hideMainScreens(){
+
+  [
+
+    "dashboardScreen",
+    "bookingsScreen",
+    "profileScreen"
+
+  ].forEach(id => {
+
+    const el =
+      document.getElementById(id);
+
+
+    if(el){
+
+      el.classList.add(
+        "hidden"
+      );
+
+    }
+
+  });
+
+
+  document.getElementById(
+    "settingsScreen"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =====================================================
+   INITIAL DATE
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    const today =
+      document.getElementById(
+        "todayDate"
+      );
+
+
+    if(today){
+
+      today.textContent =
+        formatDate(
+          getTodayString()
+        );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   PART 1 END
+===================================================== */
+
+</script>
+
+</body>
+</html>
