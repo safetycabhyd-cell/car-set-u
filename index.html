@@ -4931,4 +4931,302 @@ document.addEventListener(
 
   }
 );
+`);
 
+  bookedCabsMap.setView(
+    [lat,lon],
+    13
+  );
+
+}
+
+
+/* =====================================================
+   SERIAL NO. 55
+   FOCUS ONE BOOKING
+===================================================== */
+
+window.focusBookingOnMap =
+async function(
+  booking
+){
+
+  if(!bookedCabsMap){
+
+    window.initMyBookedCabsMap();
+
+    await new Promise(
+      resolve =>
+        setTimeout(
+          resolve,
+          300
+        )
+    );
+
+  }
+
+  try{
+
+    await addBookingDriverMarker(
+      booking
+    );
+
+  }
+  catch(error){
+
+    console.error(error);
+
+  }
+
+}
+
+
+/* =====================================================
+   SERIAL NO. 56
+   CUSTOMER BOOKING STATUS UPDATE
+===================================================== */
+
+window.approveBookingClosure =
+async function(
+  bookingId
+){
+
+  if(!auth.currentUser){
+
+    return;
+
+  }
+
+  const bookingRef =
+    doc(
+      db,
+      "bookings",
+      bookingId
+    );
+
+  try{
+
+    await updateDoc(
+      bookingRef,
+      {
+
+        status:
+          "COMPLETED",
+
+        customerApproved:
+          true,
+
+        activeTrip:
+          false,
+
+        completedAt:
+          serverTimestamp(),
+
+        updatedAt:
+          serverTimestamp()
+
+      }
+    );
+
+    alert(
+      "✅ Booking closed successfully."
+    );
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      "Booking closure failed:\n" +
+      error.message
+    );
+
+  }
+
+};
+
+
+/* =====================================================
+   SERIAL NO. 57
+   REFRESH BOOKING COUNT
+===================================================== */
+
+function refreshBookingData(){
+
+  if(
+    auth.currentUser &&
+    typeof window.renderBookings ===
+    "function"
+  ){
+
+    renderBookings();
+
+  }
+
+}
+
+
+/* =====================================================
+   SERIAL NO. 58
+   FIX EVENT DRIVER SEARCH STATE
+===================================================== */
+
+function resetDriverSelection(){
+
+  selectedDriver =
+    null;
+
+  const single =
+    document.getElementById(
+      "singleSelectedDriver"
+    );
+
+  const event =
+    document.getElementById(
+      "eventSelectedDriver"
+    );
+
+  if(single){
+
+    single.classList.add(
+      "hidden"
+    );
+
+    single.innerHTML =
+      "";
+
+  }
+
+  if(event){
+
+    event.classList.add(
+      "hidden"
+    );
+
+    event.innerHTML =
+      "";
+
+  }
+
+}
+
+
+/* =====================================================
+   SERIAL NO. 59
+   RESET EVENT VOICE STATE
+===================================================== */
+
+function resetEventState(){
+
+  voiceBlob =
+    null;
+
+  voiceChunks =
+    [];
+
+  if(voicePreviewURL){
+
+    URL.revokeObjectURL(
+      voicePreviewURL
+    );
+
+    voicePreviewURL =
+      "";
+
+  }
+
+}
+
+
+/* =====================================================
+   SERIAL NO. 60
+   AUTH REFRESH
+===================================================== */
+
+window.addEventListener(
+  "beforeunload",
+  () => {
+
+    if(unsubscribeBookings){
+
+      unsubscribeBookings();
+
+    }
+
+    if(voicePreviewURL){
+
+      URL.revokeObjectURL(
+        voicePreviewURL
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   SERIAL NO. 61
+   FINAL INITIALIZATION
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    console.log(
+      "🚕 Car Set U Part 2 loaded."
+    );
+
+    if(
+      auth.currentUser
+    ){
+
+      startBookingListener();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   SERIAL NO. 62
+   FINAL SAFETY CHECK
+===================================================== */
+
+window.getCarSetUBookingState =
+function(){
+
+  return {
+
+    loggedIn:
+      !!auth.currentUser,
+
+    customerUid:
+      auth.currentUser?.uid || "",
+
+    selectedDriver:
+      selectedDriver,
+
+    eventState:
+      eventState,
+
+    bookings:
+      window.currentCustomerBookings ||
+      []
+
+  };
+
+};
+
+
+/* =====================================================
+   SERIAL NO. 63
+   END OF PART 2
+===================================================== */
+
+console.log(
+  "✅ Car Set U Customer Panel FINAL PART 2 READY."
+);
