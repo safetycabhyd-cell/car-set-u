@@ -3690,8 +3690,6 @@ async function(){
   }
 
 };
-
-
 /* =====================================================
    SERIAL 30
    DRIVER ID NORMALIZE
@@ -3705,6 +3703,18 @@ function normalizeDriverId(value){
       .toUpperCase()
       .replace(/\s+/g,"");
 
+  /* DR001 → DC001 */
+  if(
+    /^DR\d+$/.test(id)
+  ){
+
+    id =
+      "DC" +
+      id.substring(2);
+
+  }
+
+  /* DRIVER001 → DC001 */
   if(
     /^DRIVER\d+$/.test(id)
   ){
@@ -3712,6 +3722,16 @@ function normalizeDriverId(value){
     id =
       "DC" +
       id.replace(
+        "DRIVER",
+        ""
+      );
+
+  }
+
+  return id;
+
+}
+  id.replace(
         "DRIVER",
         ""
       );
