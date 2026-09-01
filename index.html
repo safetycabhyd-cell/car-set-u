@@ -2277,11 +2277,6 @@ function renderSingleBooking(){
 }
 
 
-/* =====================================================
-   SERIAL 16
-   EVENT START
-===================================================== */
-
 function renderEventBookingStart(){
 
   hideMainScreens();
@@ -2290,6 +2285,12 @@ function renderEventBookingStart(){
     document.getElementById(
       "settingsContent"
     );
+
+  if(!box){
+
+    return;
+
+  }
 
   box.innerHTML = `
 
@@ -2300,14 +2301,404 @@ function renderEventBookingStart(){
     <div class="card">
 
       <h2>
-        🎉 Event Booking
+        🎉 My Events
       </h2>
 
       <p class="info">
 
-        Multiple cabs can be booked for one event.
-        Each car will receive its own Booking Serial
-        such as BC001, BC002, BC003...
+        Your existing events will appear here.
+        You can open an existing event and continue
+        booking its remaining cars.
+
+      </p>
+
+      <div
+        id="existingEventsList">
+
+        <div class="notice blue">
+
+          🔎 Loading your events...
+
+        </div>
+
+      </div>
+
+      <button
+        class="primary"
+        onclick="renderNewEventForm()">
+
+        ➕ Create New Event
+
+      </button>
+
+      <button
+        class="primary gray"
+        onclick="openScreen('dashboard')">
+
+        ← Back to Dashboard
+
+      </button>
+
+    </div>
+
+  `;
+
+  loadExistingEvents();
+
+}
+
+
+/* =====================================================
+   EXISTING EVENTS
+===================================================== */
+
+async function loadExistingEvents(){
+
+  const list =
+    document.getElementById(
+      "existingEventsList"
+    );
+
+  if(!list){
+
+    return;
+
+  }
+
+  if(!auth.currentUser){
+
+    list.innerHTML = `
+
+      <div class="notice red">
+
+        ❌ Please login first.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+  try{
+
+    const q =
+      query(
+
+        collection(
+          db,
+          "bookings"
+        ),
+
+        where(
+          "customerUid",
+          "==",
+          auth.currentUser.uid
+        ),
+
+        where(
+          "bookingType",
+          "==",
+          "event"
+        )
+
+      );
+
+    const snap =
+      await getDocs(q);
+
+    if(snap.empty){
+
+      list.innerHTML = `
+
+        <div class="notice blue">
+
+          📋 No existing events found.
+
+          <br><br>
+
+          Create your first event using
+          <b>➕ Create New Event</b>.
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+    const eventMap = {};
+
+    snap.docs.forEach(
+      item => {
+
+        const data =
+          item.data();
+
+        const eventId =
+          data.eventId ||
+          (
+            "OLD-" +
+            (
+              data.eventName ||
+              "Event"
+            )
+          );
+
+        if(!eventMap[eventId]){
+
+          eventMap[eventId] = {
+
+            eventId:
+              eventId,
+
+            eventName:
+              data.eventName ||
+              "Event",
+
+            totalCars:
+              Number(
+                data.eventTotalCars || 1
+              ),
+
+            cars:[]
+
+          };
+
+        }
+
+        eventMap[eventId].cars.push({
+
+          id:
+            item.id,
+
+          ...data
+
+        });
+
+      }
+    );
+
+
+    const events =
+      Object.values(
+        eventMap
+      );
+
+    events.sort(
+      (a,b) => {
+
+        const aTime =
+          a.cars
+            .map(
+              item =>
+                item.createdAt?.seconds ||
+                0
+            )
+            .sort(
+              (x,y) =>
+                y - x
+            )[0] || 0;
+
+        const bTime =
+          b.cars
+            .map(
+              item =>
+                item.createdAt?.seconds ||
+                0
+            )
+            .sort(
+              (x,y) =>
+                y - x
+            )[0] || 0;
+
+        return bTime - aTime;
+
+      }
+    );
+
+
+    list.innerHTML =
+      events
+        .map(
+          event => {
+
+            const savedCars =
+              event.cars.length;
+
+            const totalCars =
+              event.totalCars;
+
+            const completed =
+              savedCars >= totalCars;
+
+            return `
+
+              <div
+                class="booking-card">
+
+                <div
+                  class="notice blue">
+
+                  🎉
+                  <b>
+                    ${escapeHtml(
+                      event.eventName
+                    )}
+                  </b>
+
+                  <br><br>
+
+                  🚕
+                  ${savedCars}
+                  /
+                  ${totalCars}
+                  Cars Saved
+
+                </div>
+
+
+                <div class="booking-row">
+
+                  <strong>
+                    EVENT NAME
+                  </strong>
+
+                  <span
+                    class="booking-value">
+
+                    ${escapeHtml(
+                      event.eventName
+                    )}
+
+                  </span>
+
+                </div>
+
+
+                <div class="booking-row">
+
+                  <strong>
+                    CARS
+                  </strong>
+
+                  <span
+                    class="booking-value">
+
+                    ${savedCars}
+                    /
+                    ${totalCars}
+
+                  </span>
+
+                </div>
+
+
+                ${
+                  completed
+                    ? `
+
+                      <div
+                        class="notice green">
+
+                        ✅ Event Booking
+                        Completed
+
+                      </div>
+
+                    `
+                    : `
+
+                      <button
+                        class="primary"
+                        onclick="openExistingEvent(
+                          '${escapeHtml(
+                            event.eventId
+                          )}'
+                        )">
+
+                        🎉 Open Event
+
+                      </button>
+
+                    `
+                }
+
+              </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
+  }
+  catch(error){
+
+    console.error(
+      "Existing Events Error:",
+      error
+    );
+
+    list.innerHTML = `
+
+      <div class="notice red">
+
+        ❌ Unable to load existing events.
+
+        <br><br>
+
+        ${escapeHtml(
+          error.message
+        )}
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =====================================================
+   CREATE NEW EVENT FORM
+===================================================== */
+
+window.renderNewEventForm =
+function(){
+
+  hideMainScreens();
+
+  const box =
+    document.getElementById(
+      "settingsContent"
+    );
+
+  if(!box){
+
+    return;
+
+  }
+
+  box.innerHTML = `
+
+    <div class="page-title">
+      🎉 New Event
+    </div>
+
+    <div class="card">
+
+      <h2>
+        🎉 Create New Event
+      </h2>
+
+      <p class="info">
+
+        Create a new event and then add
+        its cars one by one.
 
       </p>
 
@@ -2355,15 +2746,15 @@ function renderEventBookingStart(){
         class="primary"
         onclick="startEventBooking()">
 
-        🎉 Start Event Booking
+        🎉 Start New Event
 
       </button>
 
       <button
         class="primary gray"
-        onclick="openScreen('dashboard')">
+        onclick="renderEventBookingStart()">
 
-        ← Back to Dashboard
+        ← Back to Events
 
       </button>
 
@@ -2371,12 +2762,169 @@ function renderEventBookingStart(){
 
   `;
 
-}
+};
+
+
+/* =====================================================
+   OPEN EXISTING EVENT
+===================================================== */
+
+window.openExistingEvent =
+async function(eventId){
+
+  if(!auth.currentUser){
+
+    alert(
+      "Please login first."
+    );
+
+    return;
+
+  }
+
+  try{
+
+    const q =
+      query(
+
+        collection(
+          db,
+          "bookings"
+        ),
+
+        where(
+          "customerUid",
+          "==",
+          auth.currentUser.uid
+        ),
+
+        where(
+          "eventId",
+          "==",
+          eventId
+        ),
+
+        where(
+          "bookingType",
+          "==",
+          "event"
+        )
+
+      );
+
+    const snap =
+      await getDocs(q);
+
+    if(snap.empty){
+
+      alert(
+        "Event not found."
+      );
+
+      return;
+
+    }
+
+    const cars =
+      snap.docs.map(
+        item => ({
+          id:
+            item.id,
+
+          ...item.data()
+
+        })
+      );
+
+
+    const first =
+      cars[0];
+
+    const totalCars =
+      Number(
+        first.eventTotalCars || 1
+      );
+
+    const savedCars =
+      cars.length;
+
+
+    if(savedCars >= totalCars){
+
+      alert(
+        "✅ This event is already completed.\n\n" +
+        "Event: " +
+        (
+          first.eventName ||
+          "Event"
+        ) +
+        "\n" +
+        "Cars: " +
+        savedCars +
+        " / " +
+        totalCars
+      );
+
+      return;
+
+    }
+
+
+    eventState = {
+
+      active:true,
+
+      eventId:
+        first.eventId,
+
+      eventName:
+        first.eventName ||
+        "Event",
+
+      totalCars:
+        totalCars,
+
+      currentCar:
+        savedCars + 1,
+
+      savedCars:
+        savedCars
+
+    };
+
+
+    selectedDriver =
+      null;
+
+    voiceBlob =
+      null;
+
+    renderEventCar();
+
+  }
+  catch(error){
+
+    console.error(
+      "Open Existing Event Error:",
+      error
+    );
+
+    alert(
+
+      "❌ Event could not be opened.\n\n" +
+      error.message
+
+    );
+
+  }
+
+};
 
 
 /* =====================================================
    SERIAL 17
    EVENT COUNT
+   EXISTING EVENT FLOW
 ===================================================== */
 
 window.updateEventCount =
@@ -2387,9 +2935,13 @@ function(){
       "eventTotalCars"
     );
 
+  if(!input){
+    return;
+  }
+
   let total =
     Number(
-      input?.value || 1
+      input.value || 1
     );
 
   total =
@@ -2401,12 +2953,8 @@ function(){
       )
     );
 
-  if(input){
-
-    input.value =
-      total;
-
-  }
+  input.value =
+    total;
 
   const counter =
     document.getElementById(
@@ -2430,12 +2978,13 @@ function(){
 
 
 /* =====================================================
-   SERIAL 18
-   START EVENT
+   EXISTING EVENT SELECTED
 ===================================================== */
 
-window.startEventBooking =
-function(){
+window.openExistingEvent =
+function(
+  eventData
+){
 
   if(!auth.currentUser){
 
@@ -2447,44 +2996,47 @@ function(){
 
   }
 
-  const name =
-    document.getElementById(
-      "eventName"
-    )?.value.trim() || "";
+  if(!eventData){
 
-  const total =
-    Math.max(
-      1,
-      Math.min(
-        100,
-        Number(
-          document.getElementById(
-            "eventTotalCars"
-          )?.value || 1
-        )
-      )
+    alert(
+      "Event data not found."
     );
+
+    return;
+
+  }
 
   eventState = {
 
     active:true,
 
     eventId:
-      auth.currentUser.uid +
-      "-EVT-" +
-      Date.now(),
+      eventData.eventId ||
+      eventData.id ||
+      "",
 
     eventName:
-      name || "Event",
+      eventData.eventName ||
+      "Event",
 
     totalCars:
-      total,
+      Number(
+        eventData.totalCars ||
+        eventData.eventTotalCars ||
+        1
+      ),
 
     currentCar:
-      1,
+      Number(
+        eventData.currentCar ||
+        1
+      ),
 
     savedCars:
-      0
+      Number(
+        eventData.savedCars ||
+        0
+      )
 
   };
 
@@ -2500,8 +3052,346 @@ function(){
 
 
 /* =====================================================
+   EVENT FLOW SAFETY
+===================================================== */
+
+window.continueExistingEvent =
+function(){
+
+  if(!eventState.active){
+
+    alert(
+      "Please select an active event first."
+    );
+
+    return;
+
+  }
+
+  renderEventCar();
+
+};
+/* =====================================================
+   SERIAL 18
+   OPEN EXISTING EVENTS
+===================================================== */
+
+window.startEventBooking =
+async function(){
+
+  if(!auth.currentUser){
+
+    alert(
+      "Please login first."
+    );
+
+    return;
+
+  }
+
+  hideMainScreens();
+
+  const box =
+    document.getElementById(
+      "settingsContent"
+    );
+
+  if(!box){
+
+    return;
+
+  }
+
+  box.innerHTML = `
+
+    <div class="page-title">
+      🎉 Event Booking
+    </div>
+
+    <div class="card">
+
+      <h2>
+        🎉 My Events
+      </h2>
+
+      <div class="notice blue">
+        यहाँ आपके चल रहे Event दिखाई देंगे।
+        किसी Event को खोलकर उसकी सभी Cars/Bookings
+        देख सकते हैं।
+      </div>
+
+      <div
+        id="existingEventList">
+
+        <div class="notice blue">
+          🔎 Loading Events...
+        </div>
+
+      </div>
+
+      <button
+        class="primary gray"
+        onclick="openScreen('dashboard')">
+
+        ← Back to Dashboard
+
+      </button>
+
+    </div>
+
+  `;
+
+  try{
+
+    const q =
+      query(
+
+        collection(
+          db,
+          "bookings"
+        ),
+
+        where(
+          "customerUid",
+          "==",
+          auth.currentUser.uid
+        ),
+
+        where(
+          "bookingType",
+          "==",
+          "event"
+        )
+
+      );
+
+    const snap =
+      await getDocs(q);
+
+    const events = {};
+
+    snap.docs.forEach(
+      docItem => {
+
+        const data =
+          docItem.data();
+
+        const eventId =
+          data.eventId ||
+          (
+            data.eventName +
+            "-" +
+            data.customerUid
+          );
+
+        if(!events[eventId]){
+
+          events[eventId] = {
+
+            eventId:
+              eventId,
+
+            eventName:
+              data.eventName ||
+              "Event",
+
+            totalCars:
+              Number(
+                data.eventTotalCars ||
+                1
+              ),
+
+            savedCars:
+              0,
+
+            latestDate:
+              data.pickupDate ||
+              "",
+
+            bookings:
+              []
+
+          };
+
+        }
+
+        events[eventId]
+          .savedCars++;
+
+        events[eventId]
+          .bookings
+          .push({
+
+            id:
+              docItem.id,
+
+            ...data
+
+          });
+
+      }
+    );
+
+
+    const eventArray =
+      Object.values(events);
+
+
+    const list =
+      document.getElementById(
+        "existingEventList"
+      );
+
+
+    if(!list){
+
+      return;
+
+    }
+
+
+    if(!eventArray.length){
+
+      list.innerHTML = `
+
+        <div class="notice blue">
+
+          📋 अभी कोई Event Booking नहीं है।
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    list.innerHTML =
+      eventArray
+        .map(
+          event => `
+
+            <div
+              class="booking-card">
+
+              <span class="status">
+
+                ACTIVE EVENT
+
+              </span>
+
+              <h3>
+
+                🎉
+                ${escapeHtml(
+                  event.eventName
+                )}
+
+              </h3>
+
+              <div class="booking-row">
+
+                <strong>
+                  TOTAL CARS
+                </strong>
+
+                <span class="booking-value">
+
+                  ${event.totalCars}
+
+                </span>
+
+              </div>
+
+              <div class="booking-row">
+
+                <strong>
+                  CARS BOOKED
+                </strong>
+
+                <span class="booking-value">
+
+                  ${event.savedCars}
+
+                </span>
+
+              </div>
+
+              <div class="booking-row">
+
+                <strong>
+                  EVENT DATE
+                </strong>
+
+                <span class="booking-value">
+
+                  ${escapeHtml(
+                    formatDate(
+                      event.latestDate
+                    )
+                  )}
+
+                </span>
+
+              </div>
+
+              <button
+                class="primary"
+                onclick='openExistingEvent(${JSON.stringify(
+                  event
+                )})'>
+
+                🎉 Open Event
+
+              </button>
+
+            </div>
+
+          `
+        )
+        .join("");
+
+  }
+  catch(error){
+
+    console.error(
+      "Existing Event Error:",
+      error
+    );
+
+    const list =
+      document.getElementById(
+        "existingEventList"
+      );
+
+    if(list){
+
+      list.innerHTML = `
+
+        <div class="notice red">
+
+          ❌ Events load नहीं हो सके।
+
+          <br><br>
+
+          ${escapeHtml(
+            error.message
+          )}
+
+        </div>
+
+      `;
+
+    }
+
+  }
+
+};
+/* =====================================================
    SERIAL 19
    EVENT CAR SCREEN
+   CONTINUE EXISTING EVENT
 ===================================================== */
 
 function renderEventCar(){
@@ -2511,10 +3401,37 @@ function renderEventCar(){
   selectedDriver =
     null;
 
+  /* Continue from next unsaved car */
+
+  if(
+    eventState.savedCars >=
+    eventState.totalCars
+  ){
+
+    eventState.currentCar =
+      eventState.totalCars;
+
+  }
+  else if(
+    eventState.currentCar <=
+    eventState.savedCars
+  ){
+
+    eventState.currentCar =
+      eventState.savedCars + 1;
+
+  }
+
   const box =
     document.getElementById(
       "settingsContent"
     );
+
+  if(!box){
+
+    return;
+
+  }
 
   box.innerHTML = `
 
@@ -2526,7 +3443,8 @@ function renderEventCar(){
 
       <b>Event:</b>
       ${escapeHtml(
-        eventState.eventName
+        eventState.eventName ||
+        "Event"
       )}
 
       <br><br>
@@ -2537,13 +3455,41 @@ function renderEventCar(){
       of
       ${eventState.totalCars}
 
+      <br><br>
+
+      <b>Cars Already Saved:</b>
+      ${eventState.savedCars}
+
     </div>
+
 
     <div class="card">
 
       <h2>
         🚕 Car ${eventState.currentCar}
       </h2>
+
+      <div class="notice blue">
+
+        🎉 Continue this Event.
+
+        <br><br>
+
+        Event:
+        <b>
+          ${escapeHtml(
+            eventState.eventName ||
+            "Event"
+          )}
+        </b>
+
+        <br><br>
+
+        Enter details for this car.
+        There is no New Event option here.
+
+      </div>
+
 
       <div class="form-group">
 
@@ -2557,6 +3503,7 @@ function renderEventCar(){
 
       </div>
 
+
       <div class="form-group">
 
         <label>
@@ -2568,6 +3515,7 @@ function renderEventCar(){
           type="time">
 
       </div>
+
 
       <div class="form-group">
 
@@ -2581,17 +3529,20 @@ function renderEventCar(){
 
       </div>
 
+
       ${locationBlock(
         "eventPickup",
         "1",
         "Pickup Location"
       )}
 
+
       ${locationBlock(
         "eventDrop",
         "2",
         "Final Destination"
       )}
+
 
       <button
         class="primary"
@@ -2601,6 +3552,7 @@ function renderEventCar(){
 
       </button>
 
+
       <div
         id="eventMapStatus"
         class="map-status">
@@ -2609,10 +3561,12 @@ function renderEventCar(){
 
       </div>
 
+
       <div
         id="eventRouteMap"
         class="map-box">
       </div>
+
 
       <div
         id="eventRouteSummary"
@@ -2629,6 +3583,7 @@ function renderEventCar(){
 
         </div>
 
+
         <div class="route-item">
 
           ⏱️ Time
@@ -2641,6 +3596,7 @@ function renderEventCar(){
         </div>
 
       </div>
+
 
       <div class="driver-search">
 
@@ -2657,9 +3613,11 @@ function renderEventCar(){
 
         </p>
 
+
         <input
           id="eventDriverId"
           placeholder="Enter Driver ID">
+
 
         <button
           class="primary"
@@ -2669,9 +3627,11 @@ function renderEventCar(){
 
         </button>
 
+
         <div
           id="eventDriverResult">
         </div>
+
 
         <div
           id="eventSelectedDriver"
@@ -2680,7 +3640,9 @@ function renderEventCar(){
 
       </div>
 
+
       ${voiceBlock("event")}
+
 
       <button
         class="primary green"
@@ -2691,11 +3653,12 @@ function renderEventCar(){
 
       </button>
 
+
       <button
         class="primary gray"
-        onclick="openScreen('dashboard')">
+        onclick="startEventBooking()">
 
-        ← Back to Dashboard
+        ← Back to My Events
 
       </button>
 
@@ -2703,19 +3666,19 @@ function renderEventCar(){
 
   `;
 
+
   setDateDefaults(
     "eventDate",
     "eventPickupTime",
     "eventDropTime"
   );
 
+
   initMapFor(
     "eventRouteMap"
   );
 
 }
-
-
 /* =====================================================
    SERIAL 20
    RENTAL / VEHICLE SELECT
