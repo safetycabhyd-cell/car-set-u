@@ -6103,14 +6103,21 @@ function startBookingListener(){
 
 }
 
-
 /* =====================================================
    SERIAL 47
-   RENDER BOOKINGS
+   RENDER BOOKINGS - FIXED
 ===================================================== */
 
 window.renderBookings =
 function(bookings){
+
+  /* Always use latest customer bookings
+     when no argument is supplied */
+
+  bookings =
+    bookings ||
+    window.customerBookings ||
+    [];
 
   const list =
     document.getElementById(
@@ -6123,10 +6130,7 @@ function(bookings){
 
   }
 
-  if(
-    !bookings ||
-    !bookings.length
-  ){
+  if(!bookings.length){
 
     list.innerHTML = `
 
@@ -6170,8 +6174,6 @@ function(bookings){
       .join("");
 
 };
-
-
 /* =====================================================
    SERIAL 48
    BOOKING CARD
