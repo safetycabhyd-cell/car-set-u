@@ -2724,7 +2724,7 @@ function(){
           id="eventTotalCars"
           type="number"
           min="1"
-          max="100"
+          max="1000"
           value="1"
           oninput="updateEventCount()">
 
@@ -2948,7 +2948,7 @@ function(){
     Math.max(
       1,
       Math.min(
-        100,
+        1000,
         total
       )
     );
@@ -7177,6 +7177,7 @@ function bookingCard(booking){
 
       </h3>
 
+
       ${
         booking.bookingType === "event"
           ? `
@@ -7298,18 +7299,33 @@ function bookingCard(booking){
       </div>
 
 
+      <!-- DRIVER PHONE IS NEVER DISPLAYED -->
+
       <div class="booking-row">
 
         <strong>
-          DRIVER PHONE
+          DRIVER CALL
         </strong>
 
         <span class="booking-value">
 
           ${
             isActive
-              ? "🔐 Available after confirmed booking"
-              : "🔒 Private"
+              ? `
+                <button
+                  class="option-btn"
+                  type="button"
+                  onclick="callBookedDriver('${escapeHtml(
+                    booking.id
+                  )}')">
+
+                  📞 Call Driver
+
+                </button>
+              `
+              : `
+                🔒 Available after confirmation
+              `
           }
 
         </span>
@@ -7327,7 +7343,9 @@ function bookingCard(booking){
 
         <button
           class="option-btn"
-          onclick="openBookingDetails('${booking.id}')">
+          onclick="openBookingDetails('${escapeHtml(
+            booking.id
+          )}')">
 
           📄 Details
 
@@ -7335,7 +7353,9 @@ function bookingCard(booking){
 
         <button
           class="option-btn"
-          onclick="openBookingMap('${booking.id}')">
+          onclick="openBookingMap('${escapeHtml(
+            booking.id
+          )}')">
 
           📍 Map
 
@@ -7354,7 +7374,9 @@ function bookingCard(booking){
 
             <button
               class="primary green"
-              onclick="approveBookingClosure('${booking.id}')">
+              onclick="approveBookingClosure('${escapeHtml(
+                booking.id
+              )}')">
 
               ✅ Approve Booking Closure
 
@@ -7368,8 +7390,6 @@ function bookingCard(booking){
   `;
 
 }
-
-
 /* =====================================================
    SERIAL 49
    BOOKING DETAILS
