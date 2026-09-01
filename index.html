@@ -3690,58 +3690,6 @@ async function(){
   }
 
 };
-/* =====================================================
-   SERIAL 30
-   DRIVER ID NORMALIZE
-===================================================== */
-
-function normalizeDriverId(value){
-
-  let id =
-    String(value || "")
-      .trim()
-      .toUpperCase()
-      .replace(/\s+/g,"");
-
-  /* DR001 → DC001 */
-  if(
-    /^DR\d+$/.test(id)
-  ){
-
-    id =
-      "DC" +
-      id.substring(2);
-
-  }
-
-  /* DRIVER001 → DC001 */
-  if(
-    /^DRIVER\d+$/.test(id)
-  ){
-
-    id =
-      "DC" +
-      id.replace(
-        "DRIVER",
-        ""
-      );
-
-  }
-
-  return id;
-
-}
-  id.replace(
-        "DRIVER",
-        ""
-      );
-
-  }
-
-  return id;
-
-}
-
 
 /* =====================================================
    SERIAL 31
