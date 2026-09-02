@@ -2623,25 +2623,19 @@ async function loadExistingEvents(){
   }
 
 }
-
-/* =====================================================
+/* =========================================================
    CREATE NEW EVENT FORM
-===================================================== */
+========================================================= */
 
-window.renderNewEventForm =
-function(){
+window.renderNewEventForm = function(){
 
   hideMainScreens();
 
   const box =
-    document.getElementById(
-      "settingsContent"
-    );
+    document.getElementById("settingsContent");
 
   if(!box){
-
     return;
-
   }
 
   box.innerHTML = `
@@ -2657,10 +2651,8 @@ function(){
       </h2>
 
       <p class="info">
-
         Create a new event and then add
         its cars one by one.
-
       </p>
 
       <div class="form-group">
@@ -2671,7 +2663,10 @@ function(){
 
         <input
           id="eventName"
-          placeholder="Wedding / Function / Corporate">
+          type="text"
+          placeholder="Wedding / Function / Corporate"
+          autocomplete="off"
+        >
 
       </div>
 
@@ -2687,7 +2682,8 @@ function(){
           min="1"
           max="1000"
           value="1"
-          oninput="updateEventCount()">
+          oninput="updateEventCount()"
+        >
 
       </div>
 
@@ -2695,94 +2691,34 @@ function(){
         id="eventCount"
         class="info"
         style="
-        font-size:20px;
-        font-weight:bold;
-        ">
-
+          font-size:20px;
+          font-weight:bold;
+        "
+      >
         🚕 1 Car
-
       </div>
 
       <button
         class="primary"
-        onclick="startEventBooking()">
-
+        onclick="startEventBooking()"
+      >
         🎉 Start New Event
-
       </button>
 
       <button
         class="primary gray"
-        onclick="renderEventBookingStart()">
-
+        onclick="renderEventBookingStart()"
+      >
         ← Back to Events
-
       </button>
 
     </div>
 
   `;
 
-};
-
-
-
-/* =====================================================
-   SERIAL 17
-   EVENT COUNT
-   EXISTING EVENT FLOW
-===================================================== */
-
-window.updateEventCount =
-function(){
-
-  const input =
-    document.getElementById(
-      "eventTotalCars"
-    );
-
-  if(!input){
-    return;
-  }
-
-  let total =
-    Number(
-      input.value || 1
-    );
-
-  total =
-    Math.max(
-      1,
-      Math.min(
-        1000,
-        total
-      )
-    );
-
-  input.value =
-    total;
-
-  const counter =
-    document.getElementById(
-      "eventCount"
-    );
-
-  if(counter){
-
-    counter.textContent =
-      "🚕 " +
-      total +
-      (
-        total === 1
-          ? " Car"
-          : " Cars"
-      );
-
-  }
+  updateEventCount();
 
 };
-
-
 /* =====================================================
    EXISTING EVENT SELECTED
 ===================================================== */
