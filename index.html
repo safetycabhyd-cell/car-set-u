@@ -3313,24 +3313,72 @@ window.startEventBooking = async function(){
    SERIAL 19
    EVENT CAR SCREEN
    CONTINUE EXISTING EVENT
-   + SUV / SEDAN
+   + SEDAN / SUV
    + EVENT CLOSING ANY TIME
+   ========================================================= */
+
+
+/* =========================================================
+   EVENT CAR SCREEN
    ========================================================= */
 
 function renderEventCar(){
 
-    const b = document.getElementById("settingsContent");
+    const b =
+        document.getElementById("settingsContent");
+
+
+    /* =====================================================
+       HIDE OTHER SCREENS
+       ===================================================== */
 
     [
         "dashboardScreen",
         "profileScreen",
         "bookingsScreen"
     ].forEach(id => {
-        const el = document.getElementById(id);
-        if(el) el.classList.add("hidden");
+
+        const el =
+            document.getElementById(id);
+
+        if(el){
+
+            el.classList.add("hidden");
+
+        }
+
     });
 
-    document.getElementById("settingsScreen").classList.remove("hidden");
+
+    const settingsScreen =
+        document.getElementById("settingsScreen");
+
+
+    if(settingsScreen){
+
+        settingsScreen.classList.remove("hidden");
+
+    }
+
+
+    if(!b){
+
+        console.error(
+            "settingsContent not found."
+        );
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       IF EVENT IS ALREADY CLOSED
+       ===================================================== */
+
+    const eventClosed =
+        eventState &&
+        eventState.closed === true;
 
 
     /* =====================================================
@@ -3340,357 +3388,546 @@ function renderEventCar(){
     b.innerHTML = `
 
         <div class="page-title">
+
             🎉 Event Booking
+
         </div>
 
+
+        <!-- =================================================
+             EVENT PROGRESS
+             ================================================= -->
 
         <div class="event-progress">
 
             <b>Event:</b>
-            ${escapeHtml(eventState.eventName || "Event")}
+
+            ${escapeHtml(
+                eventState.eventName || "Event"
+            )}
 
             <br><br>
 
             <b>Progress:</b>
-            Car ${eventState.currentCar}
+
+            Car
+            ${eventState.currentCar || 0}
             of
-            ${eventState.totalCars}
+            ${eventState.totalCars || 0}
 
             <br><br>
 
             <b>Cars Already Saved:</b>
+
             ${eventState.savedCars || 0}
 
         </div>
 
 
         <!-- =================================================
-             CLOSE EVENT BUTTON
-             THIS BUTTON ALWAYS REMAINS AVAILABLE
+             EVENT CLOSING
              ================================================= -->
 
-        <div class="card">
+        ${
+            eventClosed
 
-            <div class="notice red">
+            ?
 
-                <b>🔒 Event Closing</b>
+            `
 
-                <br><br>
+            <div class="card">
 
-                You can close this Event Booking at any time.
+                <div class="notice red">
 
-                <br><br>
+                    <b>
+                        🔒 Event Closed
+                    </b>
 
-                After closing the Event,
-                no more cars can be added.
+                    <br><br>
 
-                <br><br>
+                    This Event Booking has been closed.
 
-                Previously saved cars will remain safe.
+                    <br><br>
 
-                <br><br>
+                    No more cars can be added.
 
-                <button
-                    type="button"
-                    class="primary red"
-                    onclick="closeEventBooking()">
+                    <br><br>
 
-                    🔒 Close Event Booking
+                    Previously saved cars remain safe.
 
-                </button>
+                    <br><br>
+
+                    <b>
+                        Closed At:
+                    </b>
+
+                    ${
+                        eventState.closedAt
+                        || "Previously"
+                    }
+
+                </div>
 
             </div>
 
-        </div>
+            `
+
+            :
+
+            `
+
+            <div class="card">
+
+                <div class="notice red">
+
+                    <b>
+                        🔒 Event Closing
+                    </b>
+
+                    <br><br>
+
+                    You can close this Event Booking at any time.
+
+                    <br><br>
+
+                    After closing the Event,
+                    no more cars can be added.
+
+                    <br><br>
+
+                    Previously saved cars will remain safe.
+
+                    <br><br>
+
+                    <button
+                        type="button"
+                        class="primary red"
+                        onclick="closeEventBooking()">
+
+                        🔒 Close Event Booking
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            `
+
+        }
 
 
         <!-- =================================================
              CURRENT CAR
              ================================================= -->
 
-        <div class="card">
+        ${
+            eventClosed
 
-            <div class="event-car-card">
+            ?
 
+            `
 
-                <div class="event-car-title">
+            <div class="card">
 
-                    <span>
-                        🚕 Car ${eventState.currentCar}
-                    </span>
+                <div class="notice blue">
 
-                    <span class="pending">
-                        Pickup Pending
-                    </span>
+                    🔒 This Event is closed.
 
-                </div>
+                    <br><br>
 
+                    Car booking cannot be added anymore.
 
-                <!-- =================================================
-                     VEHICLE TYPE
-                     ================================================= -->
+                    <br><br>
 
-                <div class="form-group">
-
-                    <label>
-                        🚘 Vehicle Type
-                    </label>
-
-                    <select id="eventVehicleType">
-
-                        <option value="">
-                            Select Vehicle Type
-                        </option>
-
-                        <option value="Sedan">
-                            Sedan
-                        </option>
-
-                        <option value="SUV">
-                            SUV
-                        </option>
-
-                    </select>
+                    Previously saved Event bookings
+                    remain safe.
 
                 </div>
 
+            </div>
 
-                <!-- =================================================
-                     PICKUP DATE
-                     ================================================= -->
+            `
 
-                <div class="form-group">
+            :
 
-                    <label>
-                        📅 Pickup Date
-                    </label>
+            `
 
-                    <input
-                        id="eventDate"
-                        type="date">
+            <div class="card">
 
-                </div>
+                <div class="event-car-card">
 
 
-                <!-- =================================================
-                     PICKUP TIME
-                     ================================================= -->
+                    <!-- =====================================
+                         CAR TITLE
+                         ===================================== -->
 
-                <div class="form-group">
+                    <div class="event-car-title">
 
-                    <label>
-                        ⏰ Pickup Time
-                    </label>
+                        <span>
 
-                    <input
-                        id="eventPickupTime"
-                        type="time">
+                            🚕 Car
+                            ${eventState.currentCar}
 
-                </div>
+                        </span>
 
+                        <span class="pending">
 
-                <!-- =================================================
-                     DROP TIME
-                     ================================================= -->
+                            Pickup Pending
 
-                <div class="form-group">
-
-                    <label>
-                        ⏰ Drop Time
-                    </label>
-
-                    <input
-                        id="eventDropTime"
-                        type="time">
-
-                </div>
-
-
-                <!-- =================================================
-                     PICKUP LOCATION
-                     ================================================= -->
-
-                ${locationBlock(
-                    "eventPickup",
-                    "1",
-                    "Pickup Location"
-                )}
-
-
-                <!-- =================================================
-                     FINAL DESTINATION
-                     ================================================= -->
-
-                ${locationBlock(
-                    "eventDrop",
-                    "2",
-                    "Final Destination"
-                )}
-
-
-                <!-- =================================================
-                     ROUTE BUTTON
-                     ================================================= -->
-
-                <button
-                    class="primary"
-                    type="button"
-                    onclick="showEventRoute()">
-
-                    📍 Show Complete Route
-
-                </button>
-
-
-                <div
-                    id="eventMapStatus"
-                    class="map-status">
-
-                    Enter Pickup and Destination.
-
-                </div>
-
-
-                <div
-                    id="eventRouteMap"
-                    class="map-box">
-                </div>
-
-
-                <!-- =================================================
-                     ROUTE SUMMARY
-                     ================================================= -->
-
-                <div
-                    id="eventRouteSummary"
-                    class="route-summary hidden">
-
-                    <div class="route-item">
-
-                        📏 Distance
-
-                        <strong id="eventDistance">
-                            —
-                        </strong>
+                        </span>
 
                     </div>
 
 
-                    <div class="route-item">
+                    <!-- =====================================
+                         VEHICLE TYPE
+                         SEDAN / SUV
+                         ===================================== -->
 
-                        ⏱️ Time
+                    <div class="form-group">
 
-                        <strong id="eventDuration">
-                            —
-                        </strong>
+                        <label>
+
+                            🚘 Vehicle Type
+
+                        </label>
+
+
+                        <select
+                            id="eventVehicleType">
+
+                            <option value="">
+
+                                Select Vehicle Type
+
+                            </option>
+
+
+                            <option value="Sedan">
+
+                                Sedan
+
+                            </option>
+
+
+                            <option value="SUV">
+
+                                SUV
+
+                            </option>
+
+                        </select>
 
                     </div>
 
-                </div>
+
+                    <!-- =====================================
+                         PICKUP DATE
+                         ===================================== -->
+
+                    <div class="form-group">
+
+                        <label>
+
+                            📅 Pickup Date
+
+                        </label>
 
 
-                <!-- =================================================
-                     DRIVER SEARCH
-                     ================================================= -->
+                        <input
+                            id="eventDate"
+                            type="date">
 
-                <div class="driver-search">
-
-                    <h3>
-                        🆔 Search Driver
-                    </h3>
+                    </div>
 
 
-                    <p class="info">
+                    <!-- =====================================
+                         PICKUP TIME
+                         ===================================== -->
 
-                        Driver ID example:
+                    <div class="form-group">
 
-                        <b>
-                            DC001, DC002, DC003
-                        </b>
+                        <label>
 
-                    </p>
+                            ⏰ Pickup Time
+
+                        </label>
 
 
-                    <input
-                        id="eventDriverId"
-                        placeholder="Enter Driver ID"
-                        style="text-transform:uppercase">
+                        <input
+                            id="eventPickupTime"
+                            type="time">
 
+                    </div>
+
+
+                    <!-- =====================================
+                         DROP TIME
+                         ===================================== -->
+
+                    <div class="form-group">
+
+                        <label>
+
+                            ⏰ Drop Time
+
+                        </label>
+
+
+                        <input
+                            id="eventDropTime"
+                            type="time">
+
+                    </div>
+
+
+                    <!-- =====================================
+                         PICKUP LOCATION
+                         ===================================== -->
+
+                    ${locationBlock(
+
+                        "eventPickup",
+
+                        "1",
+
+                        "Pickup Location"
+
+                    )}
+
+
+                    <!-- =====================================
+                         FINAL DESTINATION
+                         ===================================== -->
+
+                    ${locationBlock(
+
+                        "eventDrop",
+
+                        "2",
+
+                        "Final Destination"
+
+                    )}
+
+
+                    <!-- =====================================
+                         ROUTE BUTTON
+                         ===================================== -->
 
                     <button
                         class="primary"
                         type="button"
-                        onclick="searchDriver('event')">
+                        onclick="showEventRoute()">
 
-                        🔎 Search Driver
+                        📍 Show Complete Route
 
                     </button>
 
 
+                    <!-- =====================================
+                         MAP STATUS
+                         ===================================== -->
+
                     <div
-                        id="eventDriverResult">
+                        id="eventMapStatus"
+                        class="map-status">
+
+                        Enter Pickup and Destination.
+
                     </div>
 
 
+                    <!-- =====================================
+                         MAP
+                         ===================================== -->
+
                     <div
-                        id="eventSelectedDriver"
-                        class="selected-driver hidden">
+                        id="eventRouteMap"
+                        class="map-box">
                     </div>
+
+
+                    <!-- =====================================
+                         ROUTE SUMMARY
+                         ===================================== -->
+
+                    <div
+                        id="eventRouteSummary"
+                        class="route-summary hidden">
+
+
+                        <div class="route-item">
+
+                            📏 Distance
+
+                            <strong
+                                id="eventDistance">
+
+                                —
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="route-item">
+
+                            ⏱️ Time
+
+                            <strong
+                                id="eventDuration">
+
+                                —
+
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- =====================================
+                         DRIVER SEARCH
+                         ===================================== -->
+
+                    <div class="driver-search">
+
+
+                        <h3>
+
+                            🆔 Search Driver
+
+                        </h3>
+
+
+                        <p class="info">
+
+                            Driver ID example:
+
+                            <b>
+
+                                DC001,
+                                DC002,
+                                DC003
+
+                            </b>
+
+                        </p>
+
+
+                        <input
+                            id="eventDriverId"
+                            placeholder="Enter Driver ID"
+                            style="text-transform:uppercase">
+
+
+                        <button
+                            class="primary"
+                            type="button"
+                            onclick="searchDriver('event')">
+
+                            🔎 Search Driver
+
+                        </button>
+
+
+                        <div
+                            id="eventDriverResult">
+                        </div>
+
+
+                        <div
+                            id="eventSelectedDriver"
+                            class="selected-driver hidden">
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- =====================================
+                         VOICE NOTE
+                         ===================================== -->
+
+                    ${voiceBlock("event")}
+
+
+                    <!-- =====================================
+                         SAVE CURRENT CAR
+                         ===================================== -->
+
+                    <button
+                        class="primary green"
+                        type="button"
+                        onclick="saveEventCar()">
+
+                        🚕 Confirm & Save Car
+                        ${eventState.currentCar}
+
+                    </button>
+
+
+                    <!-- =====================================
+                         BACK
+                         ===================================== -->
+
+                    <button
+                        class="primary gray"
+                        type="button"
+                        onclick="continueOrBackEvent()">
+
+                        ← Back
+
+                    </button>
+
 
                 </div>
 
-
-                <!-- =================================================
-                     VOICE NOTE
-                     ================================================= -->
-
-                ${voiceBlock("event")}
-
-
-                <!-- =================================================
-                     SAVE CURRENT CAR
-                     ================================================= -->
-
-                <button
-                    class="primary green"
-                    type="button"
-                    onclick="saveEventCar()">
-
-                    🚕 Confirm & Save Car
-                    ${eventState.currentCar}
-
-                </button>
-
-
-                <!-- =================================================
-                     BACK
-                     ================================================= -->
-
-                <button
-                    class="primary gray"
-                    type="button"
-                    onclick="continueOrBackEvent()">
-
-                    ← Back
-
-                </button>
-
-
             </div>
 
-        </div>
+            `
+
+        }
 
     `;
 
 
+    /* =====================================================
+       DO NOT INITIALIZE FORM/MAP AFTER EVENT IS CLOSED
+       ===================================================== */
+
+    if(eventClosed){
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       DATE / TIME DEFAULTS
+       ===================================================== */
+
     setDateDefaults(
+
         "eventDate",
+
         "eventPickupTime",
+
         "eventDropTime"
+
     );
 
 
-    initMapFor("eventRouteMap");
+    /* =====================================================
+       INITIALIZE EVENT MAP
+       ===================================================== */
+
+    initMapFor(
+        "eventRouteMap"
+    );
 
 }
 
@@ -3701,7 +3938,20 @@ function renderEventCar(){
 
 window.continueOrBackEvent = function(){
 
-    saveEventState();
+    /* =====================================================
+       SAVE CURRENT EVENT STATE
+       ===================================================== */
+
+    if(eventState){
+
+        saveEventState();
+
+    }
+
+
+    /* =====================================================
+       GO TO DASHBOARD
+       ===================================================== */
 
     openScreen("dashboard");
 
@@ -3715,39 +3965,90 @@ window.continueOrBackEvent = function(){
 
 window.closeEventBooking = function(){
 
-    if(!eventState || !eventState.active){
 
-        alert("No active Event Booking found.");
+    /* =====================================================
+       EVENT CHECK
+       ===================================================== */
+
+    if(
+        !eventState ||
+        !eventState.eventId
+    ){
+
+        alert(
+            "No active Event Booking found."
+        );
 
         return;
 
     }
 
 
+    /* =====================================================
+       ALREADY CLOSED CHECK
+       ===================================================== */
+
+    if(
+        eventState.closed === true
+    ){
+
+        alert(
+            "🔒 This Event Booking is already closed."
+        );
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       EVENT INFORMATION
+       ===================================================== */
+
     const eventName =
-        eventState.eventName || "Event";
+        eventState.eventName ||
+        "Event";
 
 
     const saved =
-        Number(eventState.savedCars || 0);
+        Number(
+            eventState.savedCars || 0
+        );
 
 
     const total =
-        Number(eventState.totalCars || 0);
+        Number(
+            eventState.totalCars || 0
+        );
 
+
+    /* =====================================================
+       CONFIRM CLOSING
+       ===================================================== */
 
     const ok = confirm(
 
         "🔒 Close Event Booking?\n\n" +
 
-        "Event: " + eventName + "\n\n" +
+        "Event: " +
+        eventName +
+        "\n\n" +
 
-        "Cars Saved: " + saved +
-        " of " + total + "\n\n" +
+        "Cars Saved: " +
+        saved +
+        " of " +
+        total +
+        "\n\n" +
 
-        "After closing, no more cars can be added.\n\n" +
+        "After closing:\n" +
 
-        "Previously saved bookings will remain safe."
+        "• No more cars can be added.\n" +
+
+        "• Previously saved cars will remain safe.\n" +
+
+        "• This Event cannot be continued.\n\n" +
+
+        "Do you want to close this Event?"
 
     );
 
@@ -3759,47 +4060,61 @@ window.closeEventBooking = function(){
     }
 
 
-    /*
-       Mark current event as closed locally.
-       This prevents continuing the current event.
-    */
+    /* =====================================================
+       MARK EVENT AS CLOSED
+       ===================================================== */
 
-    eventState.active = false;
+    eventState.active =
+        false;
 
-    eventState.closed = true;
+
+    eventState.closed =
+        true;
+
 
     eventState.closedAt =
         new Date().toISOString();
 
 
+    /* =====================================================
+       IMPORTANT
+       SAVE CLOSED STATE
+       DO NOT CLEAR EVENT STATE
+       ===================================================== */
+
     saveEventState();
 
 
+    /* =====================================================
+       SUCCESS MESSAGE
+       ===================================================== */
+
     alert(
 
-        "🔒 Event Booking Closed Successfully.\n\n" +
+        "🔒 Event Booking Closed Successfully!\n\n" +
 
-        "Event: " + eventName + "\n\n" +
+        "Event: " +
+        eventName +
+        "\n\n" +
 
-        "Saved Cars: " + saved +
-        " of " + total
+        "Cars Saved: " +
+        saved +
+        " of " +
+        total +
+        "\n\n" +
+
+        "Previously saved bookings are safe."
 
     );
 
 
-    /*
-       Clear the active Event state so that
-       a new car cannot be added to this Event.
-    */
+    /* =====================================================
+       OPEN BOOKINGS
+       ===================================================== */
 
-    clearEventState();
-
-
-    /*
-       Open My Bookings
-    */
-
-    openScreen("bookings");
+    openScreen(
+        "bookings"
+    );
 
 };
 
@@ -3810,24 +4125,46 @@ window.closeEventBooking = function(){
 
 window.showEventRoute = async function(){
 
+
+    /* =====================================================
+       PICKUP
+       ===================================================== */
+
     const pickupEl =
-        document.getElementById("eventPickup");
+        document.getElementById(
+            "eventPickup"
+        );
+
+
+    /* =====================================================
+       DROP
+       ===================================================== */
 
     const dropEl =
-        document.getElementById("eventDrop");
+        document.getElementById(
+            "eventDrop"
+        );
 
 
     const p =
         pickupEl
-        ? pickupEl.value.trim()
-        : "";
+        ?
+        pickupEl.value.trim()
+        :
+        "";
 
 
     const d =
         dropEl
-        ? dropEl.value.trim()
-        : "";
+        ?
+        dropEl.value.trim()
+        :
+        "";
 
+
+    /* =====================================================
+       REQUIRED LOCATION CHECK
+       ===================================================== */
 
     if(!p || !d){
 
@@ -3840,8 +4177,14 @@ window.showEventRoute = async function(){
     }
 
 
+    /* =====================================================
+       MAP
+       ===================================================== */
+
     const m =
-        initMapFor("eventRouteMap");
+        initMapFor(
+            "eventRouteMap"
+        );
 
 
     const s =
@@ -3850,11 +4193,20 @@ window.showEventRoute = async function(){
         );
 
 
-    s.textContent =
-        "🔎 Finding locations...";
+    if(s){
+
+        s.textContent =
+            "🔎 Finding locations...";
+
+    }
 
 
     try{
+
+
+        /* =================================================
+           GEOCODE BOTH LOCATIONS
+           ================================================= */
 
         const pts =
             await Promise.all([
@@ -3866,62 +4218,161 @@ window.showEventRoute = async function(){
             ]);
 
 
+        /* =================================================
+           GET ROUTE
+           ================================================= */
+
         const r =
             await getRoute(pts);
 
 
+        /* =================================================
+           DRAW ROUTE
+           ================================================= */
+
         const line =
             L.geoJSON(
+
                 r.geometry,
+
                 {
+
                     style:{
+
                         weight:6,
+
                         opacity:.85
+
                     }
+
                 }
+
             ).addTo(m);
 
 
+        /* =================================================
+           FIT MAP
+           ================================================= */
+
         m.fitBounds(
+
             line.getBounds(),
+
             {
-                padding:[25,25]
+
+                padding:[
+                    25,
+                    25
+                ]
+
             }
+
         );
 
 
-        document.getElementById(
-            "eventDistance"
-        ).textContent =
-            (r.distance / 1000).toFixed(1)
-            + " KM";
+        /* =================================================
+           DISTANCE
+           ================================================= */
+
+        const distanceEl =
+            document.getElementById(
+                "eventDistance"
+            );
 
 
-        document.getElementById(
-            "eventDuration"
-        ).textContent =
-            Math.round(
-                r.duration / 60
-            )
-            + " min";
+        if(distanceEl){
+
+            distanceEl.textContent =
+
+                (
+                    r.distance /
+                    1000
+                ).toFixed(1)
+
+                +
+
+                " KM";
+
+        }
 
 
-        document.getElementById(
-            "eventRouteSummary"
-        ).classList.remove("hidden");
+        /* =================================================
+           DURATION
+           ================================================= */
+
+        const durationEl =
+            document.getElementById(
+                "eventDuration"
+            );
 
 
-        s.textContent =
-            "✅ Complete route found.";
+        if(durationEl){
+
+            durationEl.textContent =
+
+                Math.round(
+
+                    r.duration /
+                    60
+
+                )
+
+                +
+
+                " min";
+
+        }
+
+
+        /* =================================================
+           SHOW SUMMARY
+           ================================================= */
+
+        const summary =
+            document.getElementById(
+                "eventRouteSummary"
+            );
+
+
+        if(summary){
+
+            summary.classList.remove(
+                "hidden"
+            );
+
+        }
+
+
+        /* =================================================
+           STATUS
+           ================================================= */
+
+        if(s){
+
+            s.textContent =
+                "✅ Complete route found.";
+
+        }
 
 
     }catch(e){
 
-        s.textContent =
-            "❌ " + e.message;
+
+        console.error(e);
 
 
-        alert(e.message);
+        if(s){
+
+            s.textContent =
+                "❌ " +
+                e.message;
+
+        }
+
+
+        alert(
+            e.message
+        );
 
     }
 
@@ -3930,10 +4381,37 @@ window.showEventRoute = async function(){
 
 /* =========================================================
    SAVE EVENT CAR
-   SUV / SEDAN IS SAVED WITH THIS CAR
+   SEDAN / SUV SAVED WITH THIS CAR
    ========================================================= */
 
 window.saveEventCar = async function(){
+
+
+    /* =====================================================
+       EVENT CLOSED CHECK
+       ===================================================== */
+
+    if(
+        eventState &&
+        eventState.closed === true
+    ){
+
+        alert(
+
+            "🔒 This Event Booking is closed.\n\n" +
+
+            "No more cars can be added."
+
+        );
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       LOGIN CHECK
+       ===================================================== */
 
     if(!auth.currentUser){
 
@@ -3947,7 +4425,7 @@ window.saveEventCar = async function(){
 
 
     /* =====================================================
-       VEHICLE TYPE CHECK
+       VEHICLE TYPE
        ===================================================== */
 
     const vehicleTypeEl =
@@ -3958,9 +4436,15 @@ window.saveEventCar = async function(){
 
     const vehicleType =
         vehicleTypeEl
-        ? vehicleTypeEl.value.trim()
-        : "";
+        ?
+        vehicleTypeEl.value.trim()
+        :
+        "";
 
+
+    /* =====================================================
+       VEHICLE TYPE CHECK
+       ===================================================== */
 
     if(
         vehicleType !== "Sedan" &&
@@ -3992,49 +4476,129 @@ window.saveEventCar = async function(){
 
 
     /* =====================================================
-       FORM VALUES
+       PICKUP
        ===================================================== */
 
-    const p =
+    const pickupEl =
         document.getElementById(
             "eventPickup"
-        ).value.trim();
+        );
+
+
+    const p =
+        pickupEl
+        ?
+        pickupEl.value.trim()
+        :
+        "";
+
+
+    /* =====================================================
+       DESTINATION
+       ===================================================== */
+
+    const dropEl =
+        document.getElementById(
+            "eventDrop"
+        );
 
 
     const d =
+        dropEl
+        ?
+        dropEl.value.trim()
+        :
+        "";
+
+
+    /* =====================================================
+       DATE
+       ===================================================== */
+
+    const dateEl =
         document.getElementById(
-            "eventDrop"
-        ).value.trim();
+            "eventDate"
+        );
 
 
     const date =
+        dateEl
+        ?
+        dateEl.value
+        :
+        "";
+
+
+    /* =====================================================
+       PICKUP TIME
+       ===================================================== */
+
+    const pickupTimeEl =
         document.getElementById(
-            "eventDate"
-        ).value;
+            "eventPickupTime"
+        );
 
 
     const pt =
+        pickupTimeEl
+        ?
+        pickupTimeEl.value
+        :
+        "";
+
+
+    /* =====================================================
+       DROP TIME
+       ===================================================== */
+
+    const dropTimeEl =
         document.getElementById(
-            "eventPickupTime"
-        ).value;
+            "eventDropTime"
+        );
 
 
     const dt =
+        dropTimeEl
+        ?
+        dropTimeEl.value
+        :
+        "";
+
+
+    /* =====================================================
+       DISTANCE
+       ===================================================== */
+
+    const distanceEl =
         document.getElementById(
-            "eventDropTime"
-        ).value;
+            "eventDistance"
+        );
 
 
     const dist =
+        distanceEl
+        ?
+        distanceEl.textContent
+        :
+        "—";
+
+
+    /* =====================================================
+       DURATION
+       ===================================================== */
+
+    const durationEl =
         document.getElementById(
-            "eventDistance"
-        ).textContent;
+            "eventDuration"
+        );
 
 
     const dur =
-        document.getElementById(
-            "eventDuration"
-        ).textContent;
+        durationEl
+        ?
+        durationEl.textContent
+        :
+        "—";
 
 
     /* =====================================================
@@ -4078,25 +4642,37 @@ window.saveEventCar = async function(){
 
     try{
 
+
         /* =================================================
            VOICE NOTE
            ================================================= */
 
         const voiceURL =
+
             voiceBlob
 
             ?
 
             await uploadVoice(
+
                 "voiceNotes/" +
+
                 auth.currentUser.uid +
+
                 "/" +
+
                 eventState.eventId +
+
                 "_car" +
+
                 eventState.currentCar +
+
                 "_" +
+
                 Date.now() +
+
                 ".webm"
+
             )
 
             :
@@ -4125,143 +4701,181 @@ window.saveEventCar = async function(){
 
             {
 
-                bookingId:id,
 
-                bookingType:"event",
+                /* =========================================
+                   BOOKING
+                   ========================================= */
+
+                bookingId:
+                    id,
+
+
+                bookingType:
+                    "event",
+
 
                 eventId:
                     eventState.eventId,
 
+
                 eventOwnerUid:
                     auth.currentUser.uid,
+
 
                 eventName:
                     eventState.eventName,
 
+
                 totalCars:
                     eventState.totalCars,
+
 
                 carNumber:
                     eventState.currentCar,
 
 
-                /* ==============================
+                /* =========================================
                    VEHICLE TYPE
-                   IMPORTANT
-                   ============================== */
+                   SEDAN / SUV
+                   ========================================= */
 
                 vehicleType:
                     vehicleType,
 
 
+                /* =========================================
+                   STATUS
+                   ========================================= */
+
                 status:
                     "pending",
 
 
+                /* =========================================
+                   CUSTOMER
+                   ========================================= */
+
                 customerUid:
                     auth.currentUser.uid,
 
+
                 customerName:
                     auth.currentUser.displayName
-                    || "Customer",
+                    ||
+                    "Customer",
+
 
                 customerEmail:
                     auth.currentUser.email
-                    || "",
+                    ||
+                    "",
+
 
                 customerPhone:
                     localStorage.getItem(
                         "carSetU_phone"
                     )
-                    || "",
+                    ||
+                    "",
 
 
-                /* ==============================
+                /* =========================================
                    ROUTE
-                   ============================== */
+                   ========================================= */
 
                 pickup:
                     p,
 
+
                 destination:
                     d,
+
 
                 pickupDate:
                     date,
 
+
                 pickupTime:
                     pt,
+
 
                 dropTime:
                     dt,
 
+
                 distance:
                     dist,
+
 
                 estimatedTime:
                     dur,
 
 
-                /* ==============================
+                /* =========================================
                    DRIVER
-                   ============================== */
+                   ========================================= */
 
                 driverId:
                     selectedDriver.driverId,
 
+
                 driverUid:
                     selectedDriver.uid
-                    || null,
+                    ||
+                    null,
+
 
                 driverName:
                     selectedDriver.name,
 
+
                 driverMobile:
                     selectedDriver.mobile,
 
+
                 driverPhoto:
                     selectedDriver.photo,
+
 
                 vehicleNumber:
                     selectedDriver.vehicle,
 
 
-                /*
-                   DO NOT take vehicleType
-                   from driver anymore.
-                   Customer selected Sedan/SUV.
-                */
-
+                /* =========================================
+                   DRIVER DOCUMENT
+                   ========================================= */
 
                 driverDocumentId:
                     selectedDriver.documentId,
 
 
-                /* ==============================
-                   VOICE
-                   ============================== */
+                /* =========================================
+                   VOICE NOTE
+                   ========================================= */
 
                 voiceNoteURL:
                     voiceURL,
 
 
-                /* ==============================
+                /* =========================================
                    CLOSING STATUS
-                   ============================== */
+                   ========================================= */
 
                 closeRequested:
                     false,
+
 
                 customerCloseApproved:
                     false,
 
 
-                /* ==============================
+                /* =========================================
                    TIME
-                   ============================== */
+                   ========================================= */
 
                 createdAt:
                     serverTimestamp(),
+
 
                 bookingDate:
                     date
@@ -4275,12 +4889,22 @@ window.saveEventCar = async function(){
            UPDATE EVENT PROGRESS
            ================================================= */
 
-        eventState.savedCars++;
+        eventState.savedCars =
+            Number(
+                eventState.savedCars || 0
+            ) + 1;
 
 
-        voiceBlob = null;
+        /* =================================================
+           RESET TEMPORARY VALUES
+           ================================================= */
 
-        selectedDriver = null;
+        voiceBlob =
+            null;
+
+
+        selectedDriver =
+            null;
 
 
         /* =================================================
@@ -4288,9 +4912,12 @@ window.saveEventCar = async function(){
            ================================================= */
 
         if(
+
             eventState.currentCar <
             eventState.totalCars
+
         ){
+
 
             const done =
                 eventState.currentCar;
@@ -4299,8 +4926,16 @@ window.saveEventCar = async function(){
             eventState.currentCar++;
 
 
+            /* =============================================
+               SAVE EVENT PROGRESS
+               ============================================= */
+
             saveEventState();
 
+
+            /* =============================================
+               SUCCESS
+               ============================================= */
 
             alert(
 
@@ -4319,12 +4954,18 @@ window.saveEventCar = async function(){
             );
 
 
+            /* =============================================
+               NEXT CAR
+               ============================================= */
+
             renderEventCar();
 
 
         }
 
+
         else{
+
 
             /* =============================================
                ALL CARS COMPLETED
@@ -4335,30 +4976,59 @@ window.saveEventCar = async function(){
                 "🎉 Event Booking Completed!\n\n" +
 
                 "Total Cars Saved: " +
+
                 eventState.savedCars
 
             );
 
 
-            eventState.active = false;
+            /* =============================================
+               EVENT COMPLETED
+               ============================================= */
+
+            eventState.active =
+                false;
 
 
-            clearEventState();
+            eventState.closed =
+                true;
 
 
-            openScreen("bookings");
+            eventState.closedAt =
+                new Date().toISOString();
+
+
+            /* =============================================
+               SAVE FINAL EVENT STATE
+               ============================================= */
+
+            saveEventState();
+
+
+            /* =============================================
+               DO NOT CLEAR EVENT STATE
+               ============================================= */
+
+            openScreen(
+                "bookings"
+            );
 
         }
 
 
     }catch(e){
 
-        console.error(e);
+
+        console.error(
+            "Event Car Save Error:",
+            e
+        );
 
 
         alert(
 
             "❌ Event Car save failed.\n\n" +
+
             e.message
 
         );
