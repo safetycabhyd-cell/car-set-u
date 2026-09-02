@@ -2340,71 +2340,117 @@ rd">
 
 }
 
-
-/* =====================================================
+/* =========================================================
    EXISTING EVENTS
-===================================================== */
+========================================================= */
 
 async function loadExistingEvents(){
 
   const list =
-    document.getElementById(
-      "existingEventsList"
-    );
+    document.getElementById("existingEventsList");
 
   if(!list){
-
     return;
-
   }
+
+  /* ---------- LOGIN CHECK ---------- */
 
   if(!auth.currentUser){
 
     list.innerHTML = `
-
       <div class="notice red">
-
         ❌ Please login first.
-
       </div>
-
     `;
 
     return;
-
   }
+
+  /* ---------- LOADING ---------- */
+
+  list.innerHTML = `
+    <div class="notice blue">
+      🔎 Loading your events...
+    </div>
+  `;
 
   try{
 
-    const q =
-      query(
+    /*
+      We query only by customerUid.
+      bookingType is checked below in JavaScript.
+      This avoids unnecessary Firestore compound-index problems.
+    */
 
-        collection(
-          db,
-          "bookings"
-        ),
+    const q = query(
+      collection(db,"bookings"),
+      where(
+        "customerUid",
+        "==",
+        auth.currentUser.uid
+      )
+    );
 
-        where(
-          "customerUid",
-          "==",
-          auth.currentUser.uid
-        ),
+    const snap = await getDocs(q);
 
-        where(
-          "bookingType",
-          "==",
-          "event"
-        )
+    /* ---------- EVENT MAP ---------- */
 
-      );
+    const eventMap = {};
 
-    const snap =
-      await getDocs(q);
+    snap.docs.forEach(item => {
 
-    if(snap.empty){
+      const data = item.data();
+
+      /* Only Event bookings */
+
+      if(data.bookingType !== "event"){
+        return;
+      }
+
+      const eventId =
+        data.eventId ||
+        ("OLD-" + item.id);
+
+      const eventName =
+        data.eventName ||
+        "Event";
+
+      if(!eventMap[eventId]){
+
+        eventMap[eventId] = {
+
+          eventId: eventId,
+
+          eventName: eventName,
+
+          totalCars: Number(
+            data.eventTotalCars || 1
+          ),
+
+          cars: []
+
+        };
+
+      }
+
+      eventMap[eventId].cars.push({
+
+        id: item.id,
+
+        ...data
+
+      });
+
+    });
+
+    /* ---------- NO EVENTS ---------- */
+
+    const events =
+      Object.values(eventMap);
+
+    if(events.length === 0){
 
       list.innerHTML = `
-
         <div class="notice blue">
 
           📋 No existing events found.
@@ -2415,219 +2461,141 @@ async function loadExistingEvents(){
           <b>➕ Create New Event</b>.
 
         </div>
-
       `;
 
       return;
-
     }
 
-    const eventMap = {};
+    /* ---------- SORT EVENTS ---------- */
 
-    snap.docs.forEach(
-      item => {
+    events.sort((a,b) => {
 
-        const data =
-          item.data();
+      const aTime =
+        a.cars
+          .map(item =>
+            item.createdAt?.seconds || 0
+          )
+          .sort((x,y) => y-x)[0] || 0;
 
-        const eventId =
-          data.eventId ||
-          (
-            "OLD-" +
-            (
-              data.eventName ||
-              "Event"
-            )
-          );
+      const bTime =
+        b.cars
+          .map(item =>
+            item.createdAt?.seconds || 0
+          )
+          .sort((x,y) => y-x)[0] || 0;
 
-        if(!eventMap[eventId]){
+      return bTime - aTime;
 
-          eventMap[eventId] = {
+    });
 
-            eventId:
-              eventId,
+    /* ---------- DISPLAY EVENTS ---------- */
 
-            eventName:
-              data.eventName ||
-              "Event",
+    list.innerHTML = events
+      .map(event => {
 
-            totalCars:
-              Number(
-                data.eventTotalCars || 1
-              ),
+        const savedCars =
+          event.cars.length;
 
-            cars:[]
+        const totalCars =
+          event.totalCars;
 
-          };
+        const completed =
+          savedCars >= totalCars;
 
-        }
+        return `
 
-        eventMap[eventId].cars.push({
+          <div class="booking-card">
 
-          id:
-            item.id,
+            <div class="notice blue">
 
-          ...data
+              🎉
+              <b>
+                ${escapeHtml(
+                  event.eventName
+                )}
+              </b>
 
-        });
+              <br><br>
 
-      }
-    );
+              🚕
+              <b>Cars:</b>
+              ${savedCars} / ${totalCars}
 
+            </div>
 
-    const events =
-      Object.values(
-        eventMap
-      );
+            <div class="booking-row">
 
-    events.sort(
-      (a,b) => {
+              <strong>
+                EVENT NAME
+              </strong>
 
-        const aTime =
-          a.cars
-            .map(
-              item =>
-                item.createdAt?.seconds ||
-                0
-            )
-            .sort(
-              (x,y) =>
-                y - x
-            )[0] || 0;
+              <span class="booking-value">
+                ${escapeHtml(
+                  event.eventName
+                )}
+              </span>
 
-        const bTime =
-          b.cars
-            .map(
-              item =>
-                item.createdAt?.seconds ||
-                0
-            )
-            .sort(
-              (x,y) =>
-                y - x
-            )[0] || 0;
+            </div>
 
-        return bTime - aTime;
+            <div class="booking-row">
 
-      }
-    );
+              <strong>
+                CARS
+              </strong>
 
+              <span class="booking-value">
+                ${savedCars} / ${totalCars}
+              </span>
 
-    list.innerHTML =
-      events
-        .map(
-          event => {
+            </div>
 
-            const savedCars =
-              event.cars.length;
+            ${
+              completed
 
-            const totalCars =
-              event.totalCars;
+              ? `
 
-            const completed =
-              savedCars >= totalCars;
+                <div class="notice green">
 
-            return `
+                  ✅ Event Booking
+                  Completed
 
-              <div
-                class="booking-card">
+                </div>
 
-                <div
-                  class="notice blue">
+              `
 
-                  🎉
-                  <b>
-                    ${escapeHtml(
-                      event.eventName
-                    )}
-                  </b>
+              : `
 
-                  <br><br>
+                <div class="notice blue">
 
                   🚕
-                  ${savedCars}
-                  /
-                  ${totalCars}
-                  Cars Saved
+                  ${totalCars - savedCars}
+                  car(s) remaining
+                  to complete this event.
 
                 </div>
 
+              `
+            }
 
-                <div class="booking-row">
+            <button
+              class="primary"
+              onclick="openExistingEvent(
+                '${escapeHtml(event.eventId)}'
+              )">
 
-                  <strong>
-                    EVENT NAME
-                  </strong>
+              🎉 Open Event
 
-                  <span
-                    class="booking-value">
+            </button>
 
-                    ${escapeHtml(
-                      event.eventName
-                    )}
+          </div>
 
-                  </span>
+        `;
 
-                </div>
-
-
-                <div class="booking-row">
-
-                  <strong>
-                    CARS
-                  </strong>
-
-                  <span
-                    class="booking-value">
-
-                    ${savedCars}
-                    /
-                    ${totalCars}
-
-                  </span>
-
-                </div>
-
-
-                ${
-                  completed
-                    ? `
-
-                      <div
-                        class="notice green">
-
-                        ✅ Event Booking
-                        Completed
-
-                      </div>
-
-                    `
-                    : `
-
-                      <button
-                        class="primary"
-                        onclick="openExistingEvent(
-                          '${escapeHtml(
-                            event.eventId
-                          )}'
-                        )">
-
-                        🎉 Open Event
-
-                      </button>
-
-                    `
-                }
-
-              </div>
-
-            `;
-
-          }
-        )
-        .join("");
+      })
+      .join("");
 
   }
+
   catch(error){
 
     console.error(
@@ -2644,7 +2612,8 @@ async function loadExistingEvents(){
         <br><br>
 
         ${escapeHtml(
-          error.message
+          error.message ||
+          "Unknown error"
         )}
 
       </div>
@@ -2654,7 +2623,6 @@ async function loadExistingEvents(){
   }
 
 }
-
 
 /* =====================================================
    CREATE NEW EVENT FORM
