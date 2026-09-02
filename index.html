@@ -2719,98 +2719,209 @@ window.renderNewEventForm = function(){
   updateEventCount();
 
 };
-/* =====================================================
+/* =========================================================
    EXISTING EVENT SELECTED
-===================================================== */
+========================================================= */
 
-window.openExistingEvent =
-function(
-  eventData
-){
+window.openExistingEvent = async function(eventData){
 
   if(!auth.currentUser){
 
-    alert(
-      "Please login first."
-    );
+    alert("Please login first.");
 
     return;
-
   }
 
   if(!eventData){
 
-    alert(
-      "Event data not found."
-    );
+    alert("Event data not found.");
 
     return;
-
   }
 
-  eventState = {
+  try{
 
-    active:true,
+    let eventId = "";
 
-    eventId:
-      eventData.eventId ||
-      eventData.id ||
-      "",
+    let eventName = "Event";
 
-    eventName:
-      eventData.eventName ||
-      "Event",
+    let totalCars = 1;
 
-    totalCars:
-      Number(
-        eventData.totalCars ||
-        eventData.eventTotalCars ||
-        1
+    let savedCars = 0;
+
+    /* -----------------------------------------
+       Accept both event object and event ID
+    ----------------------------------------- */
+
+    if(typeof eventData === "string"){
+
+      eventId = eventData;
+
+    }else{
+
+      eventId =
+        eventData.eventId ||
+        eventData.id ||
+        "";
+
+      eventName =
+        eventData.eventName ||
+        "Event";
+
+      totalCars =
+        Number(
+          eventData.totalCars ||
+          eventData.eventTotalCars ||
+          1
+        );
+
+      savedCars =
+        Number(
+          eventData.savedCars ||
+          0
+        );
+
+    }
+
+    if(!eventId){
+
+      alert("Event ID not found.");
+
+      return;
+    }
+
+    /* -----------------------------------------
+       Load this customer's event bookings
+    ----------------------------------------- */
+
+    const q = query(
+
+      collection(db,"bookings"),
+
+      where(
+        "customerUid",
+        "==",
+        auth.currentUser.uid
       ),
 
-    currentCar:
-      Number(
-        eventData.currentCar ||
-        1
+      where(
+        "bookingType",
+        "==",
+        "event"
       ),
 
-    savedCars:
-      Number(
-        eventData.savedCars ||
-        0
+      where(
+        "eventId",
+        "==",
+        eventId
       )
 
-  };
-
-  selectedDriver =
-    null;
-
-  voiceBlob =
-    null;
-
-  renderEventCar();
-
-};
-
-
-/* =====================================================
-   EVENT FLOW SAFETY
-===================================================== */
-
-window.continueExistingEvent =
-function(){
-
-  if(!eventState.active){
-
-    alert(
-      "Please select an active event first."
     );
 
-    return;
+    const snap =
+      await getDocs(q);
+
+    const cars = [];
+
+    snap.docs.forEach(doc => {
+
+      cars.push({
+
+        id: doc.id,
+
+        ...doc.data()
+
+      });
+
+    });
+
+    /* -----------------------------------------
+       Update saved car count
+    ----------------------------------------- */
+
+    savedCars = cars.length;
+
+    if(cars.length > 0){
+
+      const latest =
+        [...cars].sort(
+
+          (a,b) => {
+
+            const aTime =
+              a.createdAt?.seconds || 0;
+
+            const bTime =
+              b.createdAt?.seconds || 0;
+
+            return bTime - aTime;
+
+          }
+
+        )[0];
+
+      eventName =
+        latest.eventName ||
+        eventName;
+
+      totalCars =
+        Number(
+          latest.eventTotalCars ||
+          latest.totalCars ||
+          totalCars ||
+          1
+        );
+
+    }
+
+    /* -----------------------------------------
+       Save selected event state
+    ----------------------------------------- */
+
+    eventState = {
+
+      active: true,
+
+      eventId: eventId,
+
+      eventName: eventName,
+
+      totalCars: totalCars,
+
+      currentCar: savedCars + 1,
+
+      savedCars: savedCars
+
+    };
+
+    selectedDriver = null;
+
+    voiceBlob = null;
+
+    /* -----------------------------------------
+       Continue event booking
+    ----------------------------------------- */
+
+    renderEventCar();
 
   }
 
-  renderEventCar();
+  catch(error){
+
+    console.error(
+      "Open Existing Event Error:",
+      error
+    );
+
+    alert(
+      "Unable to open this event.\n\n" +
+      (
+        error.message ||
+        "Unknown error"
+      )
+    );
+
+  }
 
 };
 /* =====================================================
