@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#123d72">
+<title>Car Set U - Admin Panel FINAL</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f7fc;color:#172033;padding-bottom:82px}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.header{position:sticky;top:0;z-index:1000;background:#123d72;color:#fff;padding:14px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.logo{font-size:25px;font-weight:800}.logo small{display:block;font-size:12px;font-weight:400}
+.container{max-width:900px;margin:auto;padding:12px}
+.card{background:#fff;border-radius:20px;padding:17px;margin-bottom:14px;box-shadow:0 4px 18px #0001}
+.title{background:#123d72;color:#fff;border-radius:17px;padding:16px;font-size:22px;font-weight:bold;margin-bottom:14px}
+.field{margin:12px 0}label{display:block;font-weight:bold;margin-bottom:6px}
+input,select,textarea{width:100%;padding:13px;border:1px solid #d6dce5;border-radius:12px;background:#fff;outline:none}
+.btn{width:100%;border:0;padding:13px;border-radius:12px;background:#1769df;color:#fff;font-weight:bold;margin-top:7px}
+.green{background:#159447}.red{background:#df3535}.gray{background:#687386}.orange{background:#c87900}
+.notice{padding:12px;border-radius:12px;margin:8px 0;font-weight:bold;background:#eef4ff;color:#1769df}
+.ok{background:#e9f8ee;color:#16833e}.warn{background:#fff5dc;color:#805800}.bad{background:#fff0f0;color:#b42318}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:#eef4ff;border-radius:13px;padding:11px;text-align:center}.stat b{display:block;font-size:23px;color:#1769df}
+.item{border:1px solid #dfe4eb;border-radius:16px;padding:14px;margin:11px 0}
+.line{padding:8px 0;border-bottom:1px solid #edf0f4}.line:last-child{border:0}
+.line b{display:block;font-size:12px;color:#687386;margin-bottom:3px}
+.badge{display:inline-block;padding:7px 10px;border-radius:18px;background:#fff5dc;color:#9a6200;font-size:12px;font-weight:bold}
+.badge.green{background:#e9f8ee;color:#16833e}.badge.red{background:#fff0f0;color:#b42318}
+.photo{width:76px;height:76px;object-fit:cover;border-radius:50%;display:block;border:3px solid #1769df;margin-bottom:8px}
+.nav{position:fixed;bottom:0;left:0;right:0;height:78px;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(4,1fr);z-index:2000}
+.nav button{border:0;background:#fff;color:#687386;font-weight:bold;font-size:11px}.nav .active{color:#1769df}
+.nav span{display:block;font-size:21px;margin-bottom:2px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.actions .btn{margin:0}
+.map{height:360px;border-radius:16px;overflow:hidden;border:1px solid #dfe4eb}.carIcon{font-size:28px;line-height:34px;text-align:center;filter:drop-shadow(0 2px 2px #0004)}.leaflet-popup-content{min-width:190px}.popupTitle{font-weight:800;font-size:16px;margin-bottom:7px}.popupRow{padding:4px 0;border-bottom:1px solid #eee}.popupRow:last-child{border:0}
+.trackingHead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:#8b949e;margin-right:5px}.dot.on{background:#35a853}
+.small{font-size:12px;color:#687386}.modal{position:fixed;inset:0;background:#0007;z-index:3000;display:flex;align-items:flex-end;justify-content:center}
+.modalBox{background:#fff;width:min(900px,100%);max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px}
+.close{float:right;border:0;background:#eee;border-radius:50%;width:36px;height:36px;font-size:20px}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}.container{padding:9px}.card{padding:14px}.actions{grid-template-columns:1fr}.map{height:330px}}
+</style>
+</head>
+<body>
+<header class="header">
+ <div class="row"><div class="logo">🚕 Car Set U<small>Admin Panel</small></div><div>🔐</div></div>
+</header>
+
+<main class="container">
+<section id="login">
+ <div class="card">
+  <h2>🔐 Admin Login</h2>
+  <div class="notice">Only the authorised Admin Gmail can enter this panel.</div><div class="small">Admin Gmail: propsetu1@gmail.com</div>
+  <button id="loginBtn" class="btn" onclick="adminLogin()">Continue with Google / Gmail</button><div id="loginStatus" class="notice hidden" style="margin-top:10px"></div>
+ </div>
+</section>
+
+<div id="app" class="hidden">
+<section id="dashboard">
+ <div class="title">📊 Admin Dashboard</div>
+ <div id="adminIdentity" class="card"></div>
+ <div class="card"><div class="stats">
+  <div class="stat"><b id="sDrivers">0</b>Drivers</div>
+  <div class="stat"><b id="sCustomers">0</b>Customers</div>
+  <div class="stat"><b id="sBookings">0</b>Bookings</div>
+  <div class="stat"><b id="sOnline">0</b>Online</div>
+ </div></div>
+ <div class="card"><h2>🔔 Latest Bookings</h2><div id="latest"></div></div>
+ <div class="card"><h2>🟢 Online Drivers</h2><div id="onlineDrivers"></div></div>
+</section>
+
+<section id="drivers" class="hidden">
+ <div class="title">👨‍✈️ Driver Management</div>
+ <div class="card">
+  <h2>➕ Add / Link Driver</h2>
+  <div class="notice">Driver IDs must be DC001, DC002, DC003...</div>
+  <div class="field"><label>Driver ID</label><input id="dId" placeholder="DC001"></div>
+  <div class="field"><label>Driver Name</label><input id="dName" placeholder="Driver Name"></div>
+  <div class="field"><label>Driver Gmail</label><input id="dEmail" type="email" placeholder="driver@gmail.com"></div>
+  <div class="field"><label>Mobile Number (Admin only)</label><input id="dMobile" type="tel" maxlength="10"></div>
+  <div class="field"><label>Vehicle Number</label><input id="dVehicle" placeholder="TS00AB0000"></div>
+  <div class="field"><label>Vehicle Type</label>
+   <select id="dType"><option value="">Not specified</option><option>Sedan</option><option>SUV</option><option>Hatchback</option><option>MUV</option><option>Luxury</option><option>Tempo Traveller</option></select>
+  </div>
+  <button class="btn green" onclick="saveDriver()">💾 Save / Link Driver</button>
+ </div>
+ <div class="card"><input id="driverSearch" placeholder="Search Driver ID / name / Gmail" oninput="renderDrivers()"><div id="driverList"></div></div>
+</section>
+
+<section id="bookings" class="hidden">
+ <div class="title">📋 All Bookings</div>
+ <div class="card">
+  <select id="bookingFilter" onchange="renderBookings()">
+   <option value="all">All Bookings</option><option value="pending">Pending</option><option value="accepted">Accepted</option><option value="running">Running</option><option value="started">Started</option><option value="completed">Completed</option><option value="rejected">Rejected</option><option value="cancelled">Cancelled</option>
+  </select>
+  <input id="bookingSearch" placeholder="Search Booking ID / Driver / Customer / Pickup / Drop" oninput="renderBookings()">
+  <div id="bookingList"></div>
+ </div>
+</section>
+
+<section id="events" class="hidden">
+ <div class="title">🎉 Event Bookings</div>
+ <div class="card"><input id="eventSearch" placeholder="Search Event / Driver / Customer" oninput="renderEvents()"><div id="eventList"></div></div>
+</section>
+
+<section id="customers" class="hidden">
+ <div class="title">👥 Customers</div>
+ <div class="card"><input id="customerSearch" placeholder="Search name / Gmail / phone / UID" oninput="renderCustomers()"><div id="customerList"></div></div>
+</section>
+
+<section id="history" class="hidden">
+ <div class="title">🗂️ Booking History</div>
+ <div class="card"><div id="historyList"></div></div>
+</section>
+
+<section id="tracking" class="hidden">
+ <div class="title">📍 Live Driver Tracking</div>
+ <div class="card">
+  <div class="notice">🟢 ONLINE drivers appear as a small 🚕 car symbol. Tap a car to see Driver ID, name, Gmail, mobile and vehicle details. When Duty is OFF, its car disappears.</div>
+  <select id="trackDriver" onchange="focusDriver(this.value)"><option value="">All Online Drivers</option></select>
+  <div id="trackInfo" class="item">All online drivers are shown on the map.</div>
+  <div id="map" class="map"></div>
+ </div>
+</section>
+
+<section id="settings" class="hidden">
+ <div class="title">⚙️ Admin Settings</div>
+ <div class="card">
+  <div class="notice warn">Admin access is enforced by the Firebase Firestore rules and this panel's authorised Gmail list.</div>
+  <div class="line"><b>LOGGED-IN GMAIL</b><span id="adminEmail"></span></div>
+  <button class="btn red" onclick="logout()">Logout</button>
+ </div>
+</section>
+</div>
+</main>
+
+<nav class="nav">
+ <button id="n1" class="active" onclick="show('dashboard')"><span>🏠</span>Dashboard</button>
+ <button id="n2" onclick="show('drivers')"><span>👨‍✈️</span>Drivers</button>
+ <button id="n3" onclick="show('bookings')"><span>📋</span>Bookings</button>
+ <button id="n4" onclick="show('settings')"><span>⚙️</span>Settings</button>
+</nav>
+
+<div id="modal" class="modal hidden" onclick="if(event.target.id==='modal')closeModal()">
+ <div class="modalBox"><button class="close" onclick="closeModal()">×</button><div id="modalContent"></div></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
+import{getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,onAuthStateChanged,signOut}from'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
+import{getFirestore,collection,doc,setDoc,updateDoc,onSnapshot,serverTimestamp}from'https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js';
+import{getDatabase,ref as rref,onValue}from'https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js';
+
+const cfg={
+ apiKey:'AIzaSyDFCvXr8h-sZAxBUZNThtgNxEOwrOQWvrI',
+ authDomain:'car-set-u.firebaseapp.com',
+ projectId:'car-set-u',
+ storageBucket:'car-set-u.firebasestorage.app',
+ messagingSenderId:'270679615416',
+ appId:'1:270679615416:web:f22a7a71a736b52ac1914d',
+ measurementId:'G-R3H6ZC8NZ5',
+ databaseURL:'https://car-set-u-default-rtdb.asia-southeast1.firebasedatabase.app'
+};
+const ADMIN_EMAILS=['propsetu1@gmail.com'];
+const app=initializeApp(cfg),auth=getAuth(app),db=getFirestore(app),rtdb=getDatabase(app),gp=new GoogleAuthProvider();
+gp.setCustomParameters({prompt:'select_account'});
+
+let user=null,drivers=[],cabBookings=[],eventBookings=[],customers=[],unsubs=[];
+let map=null,trackUnsubs=new Map(),trackMarkers=new Map(),trackDriverId='';
+
+const esc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+const norm=v=>String(v??'').trim().toLowerCase();
+const st=v=>norm(v)||'pending';
+const old=v=>['completed','cancelled','rejected'].includes(st(v.status));
+const active=v=>['pending','accepted','running','started'].includes(st(v.status));
+
+window.adminLogin=async()=>{
+ const b=document.getElementById('loginBtn');
+ const s=document.getElementById('loginStatus');
+ b.disabled=true;b.textContent='Opening Google...';
+ s.classList.remove('hidden');s.className='notice';s.textContent='Opening Google / Gmail...';
+ try{
+  await signInWithPopup(auth,gp);
+ }catch(e){
+  console.warn('Popup login failed:',e);
+  s.className='notice warn';
+  s.textContent='Popup could not open. Switching to secure Google redirect login...';
+  try{
+   await signInWithRedirect(auth,gp);
+  }catch(e2){
+   console.error('Redirect login failed:',e2);
+   s.className='notice bad';
+   s.textContent='Login failed: '+(e2?.message||e?.message||'Unknown error');
+   b.disabled=false;b.textContent='Continue with Google / Gmail';
+  }
+ }
+};
+
+onAuthStateChanged(auth,async u=>{
+ const s=document.getElementById('loginStatus');
+ const b=document.getElementById('loginBtn');
+ if(!u){
+  document.getElementById('login').classList.remove('hidden');
+  document.getElementById('app').classList.add('hidden');
+  b.disabled=false;b.textContent='Continue with Google / Gmail';
+  return;
+ }
+ if(!ADMIN_EMAILS.map(norm).includes(norm(u.email))){
+  s.classList.remove('hidden');s.className='notice bad';
+  s.textContent='This Gmail is not authorised as Admin.';
+  await signOut(auth);
+  return;
+ }
+ user=u;
+ s.classList.remove('hidden');s.className='notice ok';
+ s.textContent='✅ Admin login successful.';
+ document.getElementById('login').classList.add('hidden');
+ document.getElementById('app').classList.remove('hidden');
+ document.getElementById('adminEmail').textContent=u.email||'-';
+ document.getElementById('adminIdentity').innerHTML='<div class="notice ok">🔐 Admin authorised</div><div class="line"><b>ADMIN GMAIL</b>'+esc(u.email)+'</div>';
+ startRealtime();
+ show('dashboard');
+});
+
+function startRealtime(){
+ unsubs.forEach(x=>x());unsubs=[];
+ unsubs.push(onSnapshot(collection(db,'cabDrivers'),s=>{drivers=s.docs.map(d=>({id:d.id,...d.data()}));buildCustomers();renderAll();syncLiveDriverMarkers()},e=>console.error(e)));
+ unsubs.push(onSnapshot(collection(db,'cabBookings'),s=>{cabBookings=s.docs.map(d=>({id:d.id,collectionName:'cabBookings',...d.data()}));buildCustomers();renderAll()},e=>console.error(e)));
+ unsubs.push(onSnapshot(collection(db,'eventBookings'),s=>{eventBookings=s.docs.map(d=>({id:d.id,collectionName:'eventBookings',...d.data()}));buildCustomers();renderAll()},e=>console.error(e)));
+}
+
+function buildCustomers(){
+ const m=new Map();
+ [...cabBookings,...eventBookings].forEach(b=>{
+  const uid=b.customerUid||b.uid||b.customerId||'',email=b.customerEmail||'',phone=b.customerPhone||b.phone||b.mobile||'';
+  const key=uid||email||phone||'booking:'+b.id;
+  if(!m.has(key))m.set(key,{uid,email,phone,name:b.customerName||b.name||'Customer',bookingCount:0});
+  const c=m.get(key);c.bookingCount++;if(c.name==='Customer')c.name=b.customerName||b.name||c.name;
+ });
+ customers=[...m.values()];
+}
+
+function allBooks(){return[...cabBookings,...eventBookings].sort((a,b)=>(b.createdAtMillis||0)-(a.createdAtMillis||0))}
+function badge(x){let s=st(x),cl=['accepted','running','started'].includes(s)?'badge green':['completed'].includes(s)?'badge green':['rejected','cancelled'].includes(s)?'badge red':'badge';return'<span class="'+cl+'">'+esc(s.toUpperCase())+'</span>'}
+
+function bookHtml(b){
+ const ev=b.collectionName==='eventBookings';
+ let h=badge(b.status);
+ if(ev)h+='<div class="event"><b>🎉 '+esc(b.eventName||'Event')+'</b><br>🚕 Car '+esc(b.carNumber||'-')+' / '+esc(b.totalCars||'-')+'</div>';
+ h+='<div class="line"><b>BOOKING ID</b>'+esc(b.id)+'</div>';
+ h+='<div class="line"><b>👤 CUSTOMER</b>'+esc(b.customerName||'Customer')+'</div>';
+ h+='<div class="line"><b>🆔 DRIVER ID</b>'+esc(b.driverId||'-')+'</div>';
+ h+='<div class="line"><b>👨‍✈️ DRIVER</b>'+esc(b.driverName||'-')+'</div>';
+ h+='<div class="line"><b>📍 PICKUP</b>'+esc(b.pickup||b.pickupLocation||'-')+'</div>';
+ h+='<div class="line"><b>🏁 DROP</b>'+esc(b.destination||b.drop||'-')+'</div>';
+ h+='<div class="line"><b>📅 DATE</b>'+esc(b.pickupDate||'-')+'</div>';
+ h+='<div class="line"><b>⏰ PICKUP TIME</b>'+esc(b.pickupTime||'-')+'</div>';
+ h+='<div class="line"><b>⏰ DROP TIME</b>'+esc(b.dropTime||'-')+'</div>';
+ if(b.closeRequested)h+='<div class="notice warn">🔒 Driver requested booking close</div>';
+ if(b.customerCloseApproved)h+='<div class="notice ok">✅ Customer approved booking close</div>';
+ if(b.liveTracking||['running','started'].includes(st(b.status)))h+='<div class="notice ok">📍 Live tracking active</div>';
+ h+='<div class="actions"><button class="btn gray" data-view="'+esc(b.id)+'" data-col="'+esc(b.collectionName)+'">Open Details</button>';
+ if(b.driverId)h+='<button class="btn green" data-track="'+esc(b.driverId)+'">📍 Track Driver</button>';
+ h+='</div>';
+ return'<div class="item">'+h+'</div>';
+}
+
+function renderAll(){
+ document.getElementById('sDrivers').textContent=drivers.length;
+ document.getElementById('sCustomers').textContent=customers.length;
+ document.getElementById('sBookings').textContent=cabBookings.length+eventBookings.length;
+ document.getElementById('sOnline').textContent=drivers.filter(d=>d.online===true).length;
+ renderLatest();renderOnline();renderDrivers();renderBookings();renderEvents();renderCustomers();renderHistory();fillTrackDrivers();
+}
+
+function renderLatest(){
+ const a=allBooks().slice(0,6);
+ document.getElementById('latest').innerHTML=a.length?a.map(bookHtml).join(''):'<div class="notice">No bookings yet.</div>';bindActions();
+}
+function renderOnline(){
+ const a=drivers.filter(d=>d.online===true);
+ document.getElementById('onlineDrivers').innerHTML=a.length?a.map(d=>'<div class="item"><span class="dot on"></span><b>'+esc(d.driverId||'-')+'</b> — '+esc(d.name||d.driverName||'Driver')+'<div class="small">'+esc(d.email||'')+'</div><button class="btn green" data-track="'+esc(d.driverId||'')+'">📍 Open Live Tracking</button></div>').join(''):'<div class="notice">No driver is currently ONLINE.</div>';bindActions();
+}
+function renderDrivers(){
+ const q=norm(document.getElementById('driverSearch')?.value);
+ const a=drivers.filter(d=>!q||[d.driverId,d.name,d.driverName,d.email,d.mobile,d.phone].some(x=>norm(x).includes(q)));
+ document.getElementById('driverList').innerHTML=a.length?a.map(d=>{
+  const on=d.online===true;
+  return'<div class="item">'+(d.photoURL?'<img class="photo" src="'+esc(d.photoURL)+'">':'')+
+  '<div class="line"><b>DRIVER ID</b>'+esc(d.driverId||'-')+'</div><div class="line"><b>NAME</b>'+esc(d.name||d.driverName||'-')+'</div>'+
+  '<div class="line"><b>GMAIL</b>'+esc(d.email||'-')+'</div><div class="line"><b>MOBILE</b>'+esc(d.mobile||d.phone||'-')+'</div>'+
+  '<div class="line"><b>VEHICLE</b>'+esc(d.vehicleNumber||d.vehicle||'-')+' • '+esc(d.vehicleType||d.type||'-')+'</div>'+
+  '<div class="line"><b>STATUS</b>'+(on?'🟢 ONLINE':'⚪ OFFLINE')+'</div>'+
+  '<div class="actions"><button class="btn green" data-edit-driver="'+esc(d.id)+'">Edit / Link</button><button class="btn" data-track="'+esc(d.driverId||'')+'">📍 Track</button></div>'+
+  '<button class="btn red" data-disable-driver="'+esc(d.id)+'">Disable Driver</button></div>';
+ }).join(''):'<div class="notice">No drivers found.</div>';bindActions();
+}
+function renderBookings(){
+ const f=norm(document.getElementById('bookingFilter')?.value||'all'),q=norm(document.getElementById('bookingSearch')?.value);
+ const a=allBooks().filter(b=>(f==='all'||st(b.status)===f)&&(!q||[b.id,b.driverId,b.driverName,b.customerName,b.customerEmail,b.pickup,b.destination,b.eventName].some(x=>norm(x).includes(q))));
+ document.getElementById('bookingList').innerHTML=a.length?a.map(bookHtml).join(''):'<div class="notice">No matching bookings.</div>';bindActions();
+}
+function renderEvents(){
+ const q=norm(document.getElementById('eventSearch')?.value);
+ const a=eventBookings.filter(b=>!q||[b.eventName,b.driverId,b.driverName,b.customerName,b.pickup,b.destination].some(x=>norm(x).includes(q)));
+ document.getElementById('eventList').innerHTML=a.length?a.map(bookHtml).join(''):'<div class="notice">No events found.</div>';bindActions();
+}
+function renderCustomers(){
+ const q=norm(document.getElementById('customerSearch')?.value);
+ const a=customers.filter(c=>!q||[c.name,c.email,c.phone,c.uid].some(x=>norm(x).includes(q)));
+ document.getElementById('customerList').innerHTML=a.length?a.map(c=>'<div class="item"><div class="line"><b>NAME</b>'+esc(c.name)+'</div><div class="line"><b>GMAIL</b>'+esc(c.email||'-')+'</div><div class="line"><b>PHONE</b>'+esc(c.phone||'-')+'</div><div class="line"><b>CUSTOMER UID</b>'+esc(c.uid||'-')+'</div><div class="line"><b>BOOKINGS</b>'+c.bookingCount+'</div></div>').join(''):'<div class="notice">No customers found.</div>';
+}
+function renderHistory(){
+ const a=allBooks().filter(old);document.getElementById('historyList').innerHTML=a.length?a.map(bookHtml).join(''):'<div class="notice">No old bookings yet.</div>';bindActions();
+}
+
+function bindActions(){
+ document.querySelectorAll('[data-view]').forEach(x=>x.onclick=()=>openDetails(x.dataset.col,x.dataset.view));
+ document.querySelectorAll('[data-track]').forEach(x=>x.onclick=()=>{show('tracking');document.getElementById('trackDriver').value=x.dataset.track;startTracking(x.dataset.track)});
+ document.querySelectorAll('[data-edit-driver]').forEach(x=>x.onclick=()=>{
+  const d=drivers.find(v=>v.id===x.dataset.editDriver);if(!d)return;
+  dId.value=d.driverId||'';dName.value=d.name||d.driverName||'';dEmail.value=d.email||'';dMobile.value=d.mobile||d.phone||'';dVehicle.value=d.vehicleNumber||d.vehicle||'';dType.value=d.vehicleType||d.type||'';show('drivers');scrollTo(0,0);
+ });
+ document.querySelectorAll('[data-disable-driver]').forEach(x=>x.onclick=async()=>{
+  const d=drivers.find(v=>v.id===x.dataset.disableDriver);if(!d||!confirm('Disable '+(d.driverId||'this driver')+'?'))return;
+  try{await updateDoc(doc(db,'cabDrivers',d.id),{active:false,disabled:true,disabledAt:serverTimestamp(),disabledBy:user.uid});alert('Driver disabled.')}catch(e){alert('Disable failed:\\n'+e.message)}
+ });
+}
+
+window.saveDriver=async()=>{
+ const driverId=dId.value.trim().toUpperCase(),name=dName.value.trim(),email=dEmail.value.trim().toLowerCase(),mobile=dMobile.value.trim(),vehicle=dVehicle.value.trim().toUpperCase(),type=dType.value;
+ if(!/^DC\d+$/.test(driverId))return alert('Driver ID must be like DC001.');
+ if(!name||!email)return alert('Driver Name and Gmail are required.');
+ try{
+  const existing=drivers.find(d=>norm(d.driverId)===norm(driverId)),id=existing?.id||driverId;
+  await setDoc(doc(db,'cabDrivers',id),{driverId,name,driverName:name,email,mobile,phone:mobile,vehicleNumber:vehicle,vehicleType:type,active:true,disabled:false,linkedByAdmin:true,linkedByAdminUid:user.uid,updatedAt:serverTimestamp()},{merge:true});
+  alert('✅ Driver '+driverId+' saved/linked.');['dId','dName','dEmail','dMobile','dVehicle','dType'].forEach(i=>document.getElementById(i).value='');
+ }catch(e){alert('Save Driver failed:\\n'+e.message)}
+};
+
+function openDetails(col,id){
+ const b=(col==='eventBookings'?eventBookings:cabBookings).find(x=>x.id===id);if(!b)return;
+ document.getElementById('modalContent').innerHTML='<h2>📋 Booking Details</h2>'+bookHtml(b).replace(/data-view="[^"]+"/,'').replace(/data-col="[^"]+"/,'')+
+ '<div class="notice">Admin view is realtime. Close this window to return.</div>';
+ document.getElementById('modal').classList.remove('hidden');
+}
+window.closeModal=()=>document.getElementById('modal').classList.add('hidden');
+
+function fillTrackDrivers(){
+ const el=document.getElementById('trackDriver'),cur=el.value;
+ const a=drivers.filter(d=>d.online===true||allBooks().some(b=>b.driverId===d.driverId&&['accepted','running','started'].includes(st(b.status))));
+ el.innerHTML='<option value="">All Online Drivers</option>'+a.map(d=>'<option value="'+esc(d.driverId)+'">'+esc(d.driverId)+' — '+esc(d.name||d.driverName||'Driver')+'</option>').join('');
+ if(cur&&a.some(d=>d.driverId===cur))el.value=cur;
+}
+function carIcon(){return L.divIcon({className:'',html:'<div class="carIcon" title="Live Driver">🚕</div>',iconSize:[38,38],iconAnchor:[19,19],popupAnchor:[0,-19]})}
+function driverById(id){return drivers.find(d=>norm(d.driverId)===norm(id))}
+function driverPopup(d,lat,lng){
+ const phone=d?.mobile||d?.phone||'-';
+ return '<div class="popupTitle">🚕 '+esc(d?.driverId||'-')+' — '+esc(d?.name||d?.driverName||'Driver')+'</div>'+
+ '<div class="popupRow"><b>STATUS:</b> 🟢 ONLINE</div>'+ 
+ '<div class="popupRow"><b>DRIVER ID:</b> '+esc(d?.driverId||'-')+'</div>'+ 
+ '<div class="popupRow"><b>NAME:</b> '+esc(d?.name||d?.driverName||'-')+'</div>'+ 
+ '<div class="popupRow"><b>GMAIL:</b> '+esc(d?.email||'-')+'</div>'+ 
+ '<div class="popupRow"><b>MOBILE:</b> '+esc(phone)+'</div>'+ 
+ '<div class="popupRow"><b>VEHICLE:</b> '+esc(d?.vehicleNumber||d?.vehicle||'-')+'</div>'+ 
+ '<div class="popupRow"><b>TYPE:</b> '+esc(d?.vehicleType||d?.type||'-')+'</div>'+ 
+ '<div class="popupRow"><b>LOCATION:</b> '+lat.toFixed(6)+', '+lng.toFixed(6)+'</div>';
+}
+function ensureMap(){
+ if(map)return;
+ map=L.map('map').setView([17.385,78.4867],12);
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);
+}
+function removeDriverMarker(id){
+ const u=trackUnsubs.get(id); if(u){u();trackUnsubs.delete(id)}
+ const m=trackMarkers.get(id); if(m&&map){map.removeLayer(m);trackMarkers.delete(id)}
+}
+function updateDriverMarker(id,v){
+ const d=driverById(id);
+ if(!d || d.online!==true){removeDriverMarker(id);return}
+ const lat=Number(v?.latitude??v?.lat),lng=Number(v?.longitude??v?.lng);
+ if(!Number.isFinite(lat)||!Number.isFinite(lng))return;
+ ensureMap();
+ let m=trackMarkers.get(id);
+ if(!m){
+   m=L.marker([lat,lng],{icon:carIcon(),zIndexOffset:1000}).addTo(map);
+   m.bindPopup(driverPopup(d,lat,lng));
+   m.on('click',()=>{
+    const p=m.getLatLng();
+    showDriverMapDetails(id,p.lat,p.lng);
+   });
+   trackMarkers.set(id,m);
+ }else{
+   m.setLatLng([lat,lng]);
+   m.setPopupContent(driverPopup(d,lat,lng));
+ }
+ if(trackDriverId===id){
+   map.setView([lat,lng],16);
+   document.getElementById('trackInfo').innerHTML='<div class="trackingHead"><b>🚕 '+esc(id)+' — '+esc(d.name||d.driverName||'Driver')+'</b><span class="badge green">LIVE</span></div><div class="line"><b>CURRENT LOCATION</b>'+lat.toFixed(6)+', '+lng.toFixed(6)+'</div><div class="small">Tap the car symbol for full Driver details.</div>';
+ }
+}
+function subscribeDriverLocation(id){
+ if(trackUnsubs.has(id))return;
+ const r=rref(rtdb,'drivers/'+encodeURIComponent(id)+'/location');
+ const unsub=onValue(r,s=>updateDriverMarker(id,s.val()||{}),e=>console.error('Location '+id,e));
+ trackUnsubs.set(id,unsub);
+}
+function syncLiveDriverMarkers(){
+ ensureMap();
+ const online=new Set(drivers.filter(d=>d.online===true).map(d=>String(d.driverId||'')).filter(Boolean));
+ for(const id of online)subscribeDriverLocation(id);
+ for(const id of [...trackUnsubs.keys()])if(!online.has(id))removeDriverMarker(id);
+ fillTrackDrivers();
+ const info=document.getElementById('trackInfo');
+ if(info && !trackDriverId)info.innerHTML='<b>🟢 '+online.size+' ONLINE driver(s)</b><div class="small">Tap any 🚕 car symbol to open full Driver details.</div>';
+}
+function showDriverMapDetails(id,lat,lng){
+ const d=driverById(id); if(!d)return;
+ document.getElementById('modalContent').innerHTML='<h2>🚕 Driver Details</h2>'+
+ '<div class="item">'+
+ '<div class="line"><b>DRIVER ID</b>'+esc(d.driverId||'-')+'</div>'+ 
+ '<div class="line"><b>DRIVER NAME</b>'+esc(d.name||d.driverName||'-')+'</div>'+ 
+ '<div class="line"><b>GMAIL</b>'+esc(d.email||'-')+'</div>'+ 
+ '<div class="line"><b>MOBILE NUMBER</b>'+esc(d.mobile||d.phone||'-')+'</div>'+ 
+ '<div class="line"><b>STATUS</b>🟢 ONLINE</div>'+ 
+ '<div class="line"><b>VEHICLE NUMBER</b>'+esc(d.vehicleNumber||d.vehicle||'-')+'</div>'+ 
+ '<div class="line"><b>VEHICLE TYPE</b>'+esc(d.vehicleType||d.type||'-')+'</div>'+ 
+ '<div class="line"><b>CURRENT LOCATION</b>'+lat.toFixed(6)+', '+lng.toFixed(6)+'</div>'+ 
+ '</div><div class="notice ok">📍 This is the Driver's current realtime location.</div>';
+ document.getElementById('modal').classList.remove('hidden');
+}
+function focusDriver(id){
+ trackDriverId=id||'';ensureMap();
+ if(!id){document.getElementById('trackInfo').innerHTML='<b>🟢 Online drivers</b><div class="small">Tap any 🚕 car symbol for full details.</div>';return}
+ const d=driverById(id);
+ if(!d||d.online!==true){document.getElementById('trackInfo').innerHTML='<div class="notice warn">This driver is not currently ONLINE.</div>';return}
+ const m=trackMarkers.get(id);
+ if(m){const p=m.getLatLng();map.setView(p,16);m.openPopup();showDriverMapDetails(id,p.lat,p.lng)}
+ else document.getElementById('trackInfo').innerHTML='<b>🚕 '+esc(id)+'</b><div class="small">Waiting for current GPS location...</div>';
+}
+function startTracking(id){focusDriver(id)}
+window.startTracking=startTracking;
+window.renderDrivers=renderDrivers;window.renderBookings=renderBookings;window.renderEvents=renderEvents;window.renderCustomers=renderCustomers;
+
+window.show=function(s){
+ ['dashboard','drivers','bookings','events','customers','history','tracking','settings'].forEach(x=>document.getElementById(x).classList.add('hidden'));
+ document.getElementById(s).classList.remove('hidden');
+ ['n1','n2','n3','n4'].forEach(x=>document.getElementById(x).classList.remove('active'));
+ if(s==='dashboard')n1.classList.add('active');
+ if(s==='drivers'||s==='customers')n2.classList.add('active');
+ if(s==='bookings'||s==='events'||s==='history'||s==='tracking')n3.classList.add('active');
+ if(s==='settings')n4.classList.add('active');
+ scrollTo(0,0);
+ if(s==='tracking'){
+  ensureMap();
+  syncLiveDriverMarkers();
+  setTimeout(()=>{if(map)map.invalidateSize()},150);
+ }
+};
+
+window.logout=async()=>{for(const u of trackUnsubs.values())u();trackUnsubs.clear();trackMarkers.clear();unsubs.forEach(x=>x());await signOut(auth)};
+</script>
+</body>
+</html>
