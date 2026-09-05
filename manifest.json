@@ -1,0 +1,10 @@
+{
+  "name": "Car Set U - Driver Panel",
+  "short_name": "Car Set U Driver",
+  "start_url": "./Car_Set_U_DRIVER_PANEL_FINAL.html",
+  "display": "standalone",
+  "background_color": "#f3f7fc",
+  "theme_color": "#123d72",
+  "orientation": "portrait",
+  "icons": []
+}
