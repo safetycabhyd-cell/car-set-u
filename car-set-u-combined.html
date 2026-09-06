@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b5cff">
+<title>Car Set U - Combined</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial, sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+  min-height:100vh;
+}
+
+.app{
+  width:100%;
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  background:#fff;
+}
+
+/* HEADER */
+.header{
+  padding:20px 18px;
+  background:#0b5cff;
+  color:#fff;
+  text-align:center;
+}
+
+.logo{
+  font-size:30px;
+  font-weight:800;
+}
+
+.subtitle{
+  margin-top:6px;
+  font-size:14px;
+  opacity:.9;
+}
+
+/* DASHBOARD */
+.dashboard{
+  padding:20px 16px 30px;
+}
+
+.welcome{
+  margin-bottom:18px;
+}
+
+.welcome h2{
+  font-size:23px;
+}
+
+.welcome p{
+  margin-top:5px;
+  color:#687386;
+  font-size:14px;
+}
+
+/* FOUR MAIN CARDS */
+.main-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.main-card{
+  border:0;
+  border-radius:18px;
+  min-height:165px;
+  padding:20px 14px;
+  background:#fff;
+  box-shadow:0 5px 18px rgba(0,0,0,.10);
+  cursor:pointer;
+  text-align:left;
+  transition:.15s;
+}
+
+.main-card:active{
+  transform:scale(.97);
+}
+
+.card-icon{
+  font-size:42px;
+  margin-bottom:15px;
+}
+
+.card-title{
+  font-size:18px;
+  font-weight:800;
+}
+
+.card-text{
+  margin-top:7px;
+  color:#687386;
+  font-size:13px;
+  line-height:1.35;
+}
+
+/* BOTTOM */
+.bottom-nav{
+  position:sticky;
+  bottom:0;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  background:#fff;
+  border-top:1px solid #e5e8ee;
+  padding:10px 8px;
+}
+
+.nav-btn{
+  border:0;
+  background:transparent;
+  padding:9px 5px;
+  font-size:13px;
+  font-weight:700;
+  color:#536078;
+  cursor:pointer;
+}
+
+.nav-btn span{
+  display:block;
+  font-size:21px;
+  margin-bottom:3px;
+}
+
+/* INNER SCREEN */
+.screen{
+  display:none;
+  min-height:calc(100vh - 82px);
+}
+
+.screen.active{
+  display:block;
+}
+
+.screen-head{
+  padding:18px;
+  background:#0b5cff;
+  color:#fff;
+}
+
+.screen-head h2{
+  font-size:22px;
+}
+
+.screen-head p{
+  margin-top:5px;
+  opacity:.9;
+  font-size:13px;
+}
+
+.screen-body{
+  padding:18px 16px 100px;
+}
+
+.menu-card{
+  width:100%;
+  border:0;
+  background:#fff;
+  border-radius:15px;
+  padding:18px;
+  margin-bottom:12px;
+  box-shadow:0 3px 12px rgba(0,0,0,.09);
+  text-align:left;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.menu-card small{
+  display:block;
+  margin-top:5px;
+  color:#687386;
+  font-weight:400;
+}
+
+.back-dashboard{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:15px;
+  margin-top:10px;
+  background:#172033;
+  color:#fff;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+@media(max-width:380px){
+  .main-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- MAIN DASHBOARD -->
+  <section id="dashboardScreen" class="screen active">
+
+    <div class="header">
+      <div class="logo">🚕 Car Set U</div>
+      <div class="subtitle">Four-Wheeler Booking & Sale</div>
+    </div>
+
+    <div class="dashboard">
+
+      <div class="welcome">
+        <h2>Welcome</h2>
+        <p>Choose what you want to do</p>
+      </div>
+
+      <div class="main-grid">
+
+        <button class="main-card" onclick="openScreen('singleScreen')">
+          <div class="card-icon">🚕</div>
+          <div class="card-title">Single Booking</div>
+          <div class="card-text">
+            Book one four-wheeler with driver
+          </div>
+        </button>
+
+        <button class="main-card" onclick="openScreen('eventScreen')">
+          <div class="card-icon">🎪</div>
+          <div class="card-title">Event Booking</div>
+          <div class="card-text">
+            Multiple cars and drivers for an event
+          </div>
+        </button>
+
+        <button class="main-card" onclick="openScreen('customerScreen')">
+          <div class="card-icon">👤</div>
+          <div class="card-title">Customer Booking</div>
+          <div class="card-text">
+            Manage customer bookings and tracking
+          </div>
+        </button>
+
+        <button class="main-card" onclick="openScreen('saleScreen')">
+          <div class="card-icon">🚗</div>
+          <div class="card-title">Car Sale</div>
+          <div class="card-text">
+            Four-wheelers available for sale
+          </div>
+        </button>
+
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <button class="nav-btn" onclick="goDashboard()">
+        <span>🏠</span>Home
+      </button>
+
+      <button class="nav-btn" onclick="openProfile()">
+        <span>👤</span>Profile
+      </button>
+
+      <button class="nav-btn" onclick="goDashboard()">
+        <span>↩️</span>Back to Dashboard
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- SINGLE BOOKING -->
+  <section id="singleScreen" class="screen">
+
+    <div class="screen-head">
+      <h2>🚕 Single Booking</h2>
+      <p>Book one car and driver</p>
+    </div>
+
+    <div class="screen-body">
+
+      <button class="menu-card">
+        📋 New Single Booking
+        <small>Create a new booking</small>
+      </button>
+
+      <button class="menu-card">
+        📖 My Bookings
+        <small>View active bookings</small>
+      </button>
+
+      <button class="menu-card">
+        📍 Tracking
+        <small>Track your booked cab</small>
+      </button>
+
+      <button class="menu-card">
+        🕘 Old Bookings
+        <small>View booking history</small>
+      </button>
+
+      <button class="back-dashboard" onclick="goDashboard()">
+        ↩️ Back to Dashboard
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- EVENT BOOKING -->
+  <section id="eventScreen" class="screen">
+
+    <div class="screen-head">
+      <h2>🎪 Event Booking</h2>
+      <p>Multiple cars and drivers</p>
+    </div>
+
+    <div class="screen-body">
+
+      <button class="menu-card">
+        ➕ Create Event
+        <small>Create a new event booking</small>
+      </button>
+
+      <button class="menu-card">
+        🎪 My Events
+        <small>View active events</small>
+      </button>
+
+      <button class="menu-card">
+        📜 Event History
+        <small>View completed/closed events</small>
+      </button>
+
+      <button class="menu-card">
+        📍 Event Live Map
+        <small>View booked drivers on the map</small>
+      </button>
+
+      <button class="back-dashboard" onclick="goDashboard()">
+        ↩️ Back to Dashboard
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- CUSTOMER BOOKING -->
+  <section id="customerScreen" class="screen">
+
+    <div class="screen-head">
+      <h2>👤 Customer Booking</h2>
+      <p>Customer booking management</p>
+    </div>
+
+    <div class="screen-body">
+
+      <button class="menu-card">
+        📋 Customer Bookings
+        <small>View customer bookings</small>
+      </button>
+
+      <button class="menu-card">
+        📍 Live Tracking
+        <small>Track active customer trips</small>
+      </button>
+
+      <button class="menu-card">
+        📜 Booking History
+        <small>Previous customer bookings</small>
+      </button>
+
+      <button class="back-dashboard" onclick="goDashboard()">
+        ↩️ Back to Dashboard
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- CAR SALE -->
+  <section id="saleScreen" class="screen">
+
+    <div class="screen-head">
+      <h2>🚗 Car Sale</h2>
+      <p>Four-wheelers available for sale</p>
+    </div>
+
+    <div class="screen-body">
+
+      <button class="menu-card">
+        🚗 Cars For Sale
+        <small>View available vehicles</small>
+      </button>
+
+      <button class="menu-card">
+        ➕ Sell Your Car
+        <small>Add a four-wheeler for sale</small>
+      </button>
+
+      <button class="menu-card">
+        📜 My Sale Listings
+        <small>Manage your listings</small>
+      </button>
+
+      <button class="back-dashboard" onclick="goDashboard()">
+        ↩️ Back to Dashboard
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- PROFILE -->
+  <section id="profileScreen" class="screen">
+
+    <div class="screen-head">
+      <h2>👤 Profile</h2>
+      <p>Car Set U account</p>
+    </div>
+
+    <div class="screen-body">
+
+      <button class="menu-card">
+        👤 My Profile
+        <small>View and edit profile</small>
+      </button>
+
+      <button class="menu-card">
+        🔐 Account & Security
+        <small>Account settings</small>
+      </button>
+
+      <button class="menu-card">
+        ⚙️ Settings
+        <small>App settings</small>
+      </button>
+
+      <button class="back-dashboard" onclick="goDashboard()">
+        ↩️ Back to Dashboard
+      </button>
+
+    </div>
+  </section>
+
+</div>
+
+
+<script>
+
+function hideAllScreens(){
+  document.querySelectorAll('.screen').forEach(function(screen){
+    screen.classList.remove('active');
+  });
+}
+
+function openScreen(id){
+  hideAllScreens();
+
+  const screen = document.getElementById(id);
+
+  if(screen){
+    screen.classList.add('active');
+    window.scrollTo(0,0);
+  }
+}
+
+function goDashboard(){
+  hideAllScreens();
+  document.getElementById('dashboardScreen').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function openProfile(){
+  openScreen('profileScreen');
+}
+
+</script>
+
+</body>
+</html>
