@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b5cff">
+<title>Car Set U - Combined</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+button,input,textarea{font:inherit}.top{background:#0b5cff;color:white;text-align:center;padding:28px 12px}
+.top h1{margin:4px 0;font-size:34px}.top p{margin:0;font-size:19px}
+.welcome{padding:25px 18px 8px}.welcome h2{font-size:30px;margin:0 0 8px}.welcome p{font-size:19px;color:#667085;margin:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px}
+.card{background:white;border-radius:20px;padding:24px 18px;min-height:210px;box-shadow:0 4px 18px #00000014;cursor:pointer}
+.card .icon{font-size:55px}.card h3{font-size:25px;margin:12px 0 8px}.card p{font-size:18px;color:#667085;line-height:1.35}
+.nav{display:grid;grid-template-columns:1fr 1fr 1.4fr;background:white;border-top:1px solid #ddd;padding:12px 5px}
+.nav button{border:0;background:white;font-weight:bold;color:#344054;padding:8px}.nav span{display:block;font-size:28px;margin-bottom:4px}
+#single{display:none;min-height:100vh;padding-bottom:85px}
+.head{background:#0b5cff;color:white;padding:15px;display:flex;gap:12px;align-items:center}
+.head button{border:0;background:white;color:#0b5cff;border-radius:9px;padding:10px;font-weight:bold}
+.head h2{margin:0;font-size:24px}.head p{margin:4px 0 0}
+.form{background:white;margin:18px;padding:20px;border-radius:18px;box-shadow:0 4px 18px #00000014}
+.form h3{margin:0 0 15px}.form label{display:block;font-weight:bold;margin:14px 0 6px}
+.form input,.form textarea{width:100%;padding:12px;border:1px solid #d0d5dd;border-radius:10px}
+.two,.vehicles{display:grid;grid-template-columns:1fr 1fr;gap:10px}.vehicle{padding:14px;border:2px solid #d0d5dd;background:white;border-radius:11px;font-weight:bold}.vehicle.selected{background:#0b5cff;color:white;border-color:#0b5cff}
+.find{width:100%;margin-top:18px;padding:14px;border:0;border-radius:11px;background:#16a34a;color:white;font-weight:bold}
+.msg{text-align:center;font-weight:bold;margin-top:12px;min-height:22px}.back{position:fixed;bottom:0;left:0;right:0;background:white;padding:10px;box-shadow:0 -3px 12px #0002}.back button{width:100%;padding:13px;border:0;border-radius:11px;background:#1f2937;color:white;font-weight:bold}
+@media(max-width:600px){.grid{gap:12px;padding:12px}.card{padding:18px 14px;min-height:195px}.card h3{font-size:21px}.card p{font-size:16px}.top h1{font-size:30px}}
+</style>
+</head>
+<body>
+
+<main id="dashboard">
+<header class="top"><div style="font-size:42px">🚕</div><h1>Car Set U</h1><p>Four-Wheeler Booking &amp; Sale</p></header>
+<section class="welcome"><h2>Welcome</h2><p>Choose what you want to do</p></section>
+<section class="grid">
+<article class="card" onclick="openSingle()"><div class="icon">🚕</div><h3>Single Booking</h3><p>Book one four-wheeler with driver</p></article>
+<article class="card" onclick="soon('Event Booking')"><div class="icon">🎪</div><h3>Event Booking</h3><p>Multiple cars and drivers for an event</p></article>
+<article class="card" onclick="soon('Customer Booking')"><div class="icon">👤</div><h3>Customer Booking</h3><p>Manage customer bookings and tracking</p></article>
+<article class="card" onclick="soon('Car Sale')"><div class="icon">🚗</div><h3>Car Sale</h3><p>Four-wheelers available for sale</p></article>
+</section>
+<nav class="nav">
+<button onclick="home()"><span>🏠</span>Home</button>
+<button onclick="soon('Profile')"><span>👤</span>Profile</button>
+<button onclick="home()"><span>↩️</span>Back to Dashboard</button>
+</nav>
+</main>
+
+<section id="single">
+<header class="head"><button onclick="back()">← Back</button><div><h2>🚕 Single Booking</h2><p>Book one four-wheeler with driver</p></div></header>
+<div class="form">
+<h3>📍 Trip Details</h3>
+<label>Pickup Location</label><input id="pickup" placeholder="Enter pickup location">
+<label>Drop Location</label><input id="drop" placeholder="Enter drop location">
+<div class="two"><div><label>Pickup Date</label><input id="date" type="date"></div><div><label>Pickup Time</label><input id="time" type="time"></div></div>
+<label>Vehicle</label>
+<div class="vehicles"><button class="vehicle" onclick="vehicle(this,'Sedan')">🚘 Sedan</button><button class="vehicle" onclick="vehicle(this,'SUV')">🚙 SUV</button></div>
+<input id="veh" type="hidden">
+<label>Customer Name</label><input id="name" placeholder="Enter customer name">
+<label>Customer Mobile</label><input id="mobile" type="tel" placeholder="Enter customer mobile">
+<label>Additional Notes</label><textarea id="notes" rows="4" placeholder="Any additional information..."></textarea>
+<button class="find" onclick="findDriver()">🔎 Find Available Driver</button>
+<div id="msg" class="msg"></div>
+</div>
+<div class="back"><button onclick="back()">↩️ Back to Dashboard</button></div>
+</section>
+
+<script>
+function openSingle(){dashboard.style.display='none';single.style.display='block';scrollTo(0,0)}
+function back(){single.style.display='none';dashboard.style.display='block';scrollTo(0,0)}
+function home(){back()}
+function vehicle(b,v){document.querySelectorAll('.vehicle').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');veh.value=v}
+function findDriver(){
+ if(!pickup.value.trim()||!drop.value.trim()||!date.value||!time.value||!veh.value||!name.value.trim()||!mobile.value.trim()){
+   msg.style.color='#dc2626';msg.textContent='Please fill all required booking details.';return;
+ }
+ msg.style.color='#16a34a';msg.textContent='Booking details are ready. Driver search will be connected in Step 2.';
+}
+function soon(n){alert(n+' will be added in the next step.')}
+</script>
+</body>
+</html>
